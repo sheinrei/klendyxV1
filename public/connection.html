@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendyx</title>
+    <link rel="stylesheet" href="style.css">
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section class="content">
+
+        <nav>
+            <a class="item-nav" href="/index">Acceuil</a>
+            <a class="item-nav" href="/connection">Se connecter</a>
+            <a class="item-nav" id="btnDeconnection" href="/index">Se Deconnecter</a>
+            <a class="item-nav" href="/mon-compte">Mon compte</a>
+            <a class="item-nav" href="/dashboard">Tableau de bord</a>
+            <a class="item-nav" href="/services">Services</a>
+        </nav>
+
+        <main>
+            <header>
+                <h1>Bienvenue sur Calendyx</h1>
+            </header>
+
+
+            <section class="form-connect">
+                <form id="loginForm">
+
+                    <label for="emailConnect">Email</label>
+                    <input type="text" id="emailConnect" name="emailConnect" autocomplete="email">
+
+                    <label for="mdpConnect">Mdp</label>
+                    <input type="password" id="mdpConnect" name="mdpConnect">
+
+                    <button type="submit">Se connecter</button>
+
+                </form>
+            </section>
+
+            <section class="form-New-User">
+                <form action="/api/user/create" method="POST">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" autocomplete="family-name" required />
+                    <br />
+
+                    <label for="prenom">Prénom :</label>
+                    <input type="text" id="prenom" name="prenom" autocomplete="given-name" required />
+                    <br />
+
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required />
+                    <br />
+
+                    <label for="mdp">Mot de passe :</label>
+                    <input type="password" id="mdp" name="mdp" autocomplete="new-password" required />
+                    <br />
+                    <label for="mdpConfirm">Confirmer le mot de passe :</label>
+                    <input type="password" id="mdpConfirm" name="mdpConfirm" autocomplete="new-password" required />
+                    <br />
+
+                    <label for="raisonSocial">Raison sociale :</label>
+                    <input type="text" id="raisonSocial" name="raisonSocial" autocomplete="off" />
+                    <br />
+
+                    <label for="siren">SIREN :</label>
+                    <input type="text" id="siren" name="siren" autocomplete="off" />
+                    <br />
+
+
+                    <button type="submit">Créer utilisateur</button>
+                </form>
+            </section>
+
+
+
+
+        </main>
+    </section>
+
+    <footer class="footer">
+        <p>Copyright Calendyx 2025 </p>
+        <a href="#">Politique de cofidentialité</a>
+        <a href="#">RGPD</a>
+        <a href="#">CGV</a>
+    </footer>
+
+
+
+    <!-- script de connection -->
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").on("submit", (e) => {
+                e.preventDefault();
+
+                const email = $("#emailConnect").val();
+                const mdp = $("#mdpConnect").val();
+
+                $.ajax({
+                    url: "/api/user/connect",
+                    method: "post",
+                    contentType: "application/json",
+                    data: JSON.stringify({ emailConnect: email, mdpConnect: mdp }),
+                    success: function (data) {
+                        localStorage.setItem("token", data.token);
+                        window.location.href = "/index";
+                    },
+                    error: function (xhr) {
+                        alert("Email ou mot de passe incorrect !")
+                    }
+                })
+            })
+        })
+    </script>
+    <script src="./js/deconnectUser.js"></script>
+</body>
+
+</html>

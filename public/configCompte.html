@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendyx</title>
+    <link rel="stylesheet" href="style.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section class="content">
+
+        <nav>
+            <a class="item-nav" href="/index">Acceuil</a>
+            <a class="item-nav" href="/connection">Se connecter</a>
+            <a class="item-nav" id="btnDeconnection" href="/index">Se Deconnecter</a>
+            <a class="item-nav" href="/mon-compte">Mon compte</a>
+            <a class="item-nav" href="/dashboard">Tableau de bord</a>
+            <a class="item-nav" href="/services">Services</a>
+        </nav>
+
+        <main>
+            <header>
+                <h1>Gestion du compte</h1>
+            </header>
+
+            <p id="noConnect"></p>
+            <div id="user-info"></div>
+        </main>
+    </section>
+
+    <footer class="footer">
+        <p>Copyright Calendyx 2025 </p>
+        <a href="#">Politique de cofidentialité</a>
+        <a href="#">RGPD</a>
+        <a href="#">CGV</a>
+    </footer>
+
+    <script src="./js/deconnectUser.js"></script>
+
+    <script>
+        const token = localStorage.getItem("token");
+        if (!token) {
+            $("#noConnect").text("Veuillez vous connecter pour acceder à votre espace \"Gestion du compte\"")
+        } else {
+            $.ajax({
+                url: "/api/user/data",
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (data) {
+                    $("#user-info").html(`
+          <h2>Bienvenue ${data.prenom} ${data.nom}</h2>
+          <p>Email : ${data.email}</p>
+          <p>Entreprise : ${data.raisonSocial || "N/A"}</p>
+          <p>SIREN : ${data.siren || "N/A"}</p>
+        `)
+                }
+
+            })
+        }
+    </script>
+</body>
+
+</html>
