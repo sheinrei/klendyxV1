@@ -8,6 +8,7 @@ const htmlNavbar = `
             <a class="item-nav" id="btnMonCompte" href="/mon-compte">Mon compte</a>
             <a class="item-nav" href="/dashboard">Tableau de bord</a>
             <a class="item-nav" href="/services">Services</a>
+            <a class="item-nav" href="/api/user/reset-password">Changer son mdp</a>
 </div>
 <button class="btn-navbar-slide"></button>
         </nav>

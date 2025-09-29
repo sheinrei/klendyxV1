@@ -12,4 +12,5 @@ $(document).ready(function () {
         $(this).addClass('active');
         $('#' + tabName + '-tab').addClass('active');
     });
+
 });

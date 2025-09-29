@@ -24,42 +24,47 @@
 
 
             <div id="user-info">
+                <p id="return-message"></p>
 
+                <h2>Bienvenue sur votre espace gestion de compte.</h2>
 
+                <p id="prenom">Prenom : ${data.prenom}</p>
+                <p id="nom">Nom : ${data.nom}</p>
+                <p id="email">Email : ${data.email}</p>
+                <p id="date-crea">Compte cré le : ${data.created.split("T")[0]}</p>
+
+                <div>
+                    <p>Changer son mdp</p>
+                    <form id="change-password">
+                        <label for="last-password">Votre ancien mdp</label>
+                        <input type="password" id="last-password" name="last-password">
+
+                        <label for="new-password">Votre nouveau mdp</label>
+                        <input type="password" id="new-password" name="new-password">
+
+                        <button id="submit-change-password">Valider</button>
+                    </form>
+                </div>
+
+                <p>Parti pour les pro </p>
+
+                <p id="raison-social">Entreprise : </p>
+                <p id="siren">Siren : </p>
             </div>
+
+
+
+
         </main>
     </section>
 
 
-    <script>
-        const token = localStorage.getItem("token");
-        if (!token) {
-            $("#noConnect").text("Veuillez vous connecter pour acceder à votre espace \"Gestion du compte\". Vous aller être redirigé vers la page d'acceuil dans quelques secondes.")
 
-            setTimeout(() => window.location.href = "/index", 5000)
-        } else {
-            $.ajax({
-                url: "/api/user/data",
-                method: "GET",
-                headers: {
-                    "Authorization": "Bearer " + token
-                },
-                success: function (data) {
-                    $("#user-info").html(`
-                    <h2>Bienvenue ${data.prenom} ${data.nom}</h2>
-                    <p>Email : ${data.email}</p>
-                    <p>Entreprise : ${data.raisonSocial || "N/A"}</p>
-                    <p>SIREN : ${data.siren || "N/A"}</p>
-                    `)
-                }
-
-            })
-        }
-    </script>
 
     <script src="./js/navbar.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
+    <script src="./js/logiqueCompte.js"></script>
 </body>
 
 </html>

@@ -5,6 +5,10 @@ $(document).ready(function () {
     $("#loginForm").on("submit", (e) => {
         e.preventDefault();
 
+        //reset du message d'alerte
+        $("#msg-alert").text(``)
+
+
         const email = $("#emailConnect").val();
         const mdp = $("#mdpConnect").val();
 
@@ -14,7 +18,6 @@ $(document).ready(function () {
             contentType: "application/json",
             data: JSON.stringify({ emailConnect: email, mdpConnect: mdp }),
             success: function (data) {
-                console.log(data)
                 if (data.success == true) {
                     localStorage.setItem("token", data.token);
                     window.location.href = "/index";

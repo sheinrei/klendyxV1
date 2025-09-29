@@ -28,23 +28,8 @@
     margin-bottom: 1.3rem;
 }
 
-.auth-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 0 0 0.5rem 0;
-    letter-spacing: -0.025em;
-}
 
-.auth-subtitle {
-    color: var(--text-secondary);
-    font-size: 1rem;
-    margin: 0;
-    font-weight: 400;
-}
+
 
 /* Onglets */
 .auth-tabs {
@@ -207,45 +192,6 @@
     color: var(--primary-color);
 }
 
-/* Boutons */
-.btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: var(--border-radius-small);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: var(--transition);
-    outline: none;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
-    color: white;
-    box-shadow: var(--shadow-medium);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-large);
-    background: linear-gradient(135deg, var(--primary-hover), #6d28d9);
-}
-
-.btn-primary:active {
-    transform: translateY(0);
-}
-
-.btn-icon {
-    width: 18px;
-    height: 18px;
-}
 
 /* Pied de formulaire */
 .form-footer {
@@ -254,13 +200,6 @@
     margin-top: 1rem;
 }
 
-.forgot-password {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: var(--transition);
-}
 
 .forgot-password:hover {
     text-decoration: underline;

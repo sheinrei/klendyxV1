@@ -1,12 +1,10 @@
 import user from "./../models/utilisateur.js"
 
-export default async function getUserData(req, db, res) {
+export async function getUserData(req, db, res) {
     const User = user(db);
 
     const userId = req.userId;
     const data = await User.findByPk(userId);
-    console.log(data)
-
 
          res.json({
             message: "Donnée de l'utilisateur",
@@ -16,5 +14,18 @@ export default async function getUserData(req, db, res) {
             mdp: data.mdp,
             raisonSocial: data.raisonSocial,
             siren: data.siren,
+            created: data.createdAt,
         }) 
+}
+
+export async function getIdByEmail(email, db){
+
+    const User = user(db);
+
+    const data = await User.findOne({
+        where: {email : email}
+    })
+
+    const id = data.id;
+    return id
 }

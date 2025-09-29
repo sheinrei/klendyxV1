@@ -8,8 +8,8 @@ export default async function authenticateUser(req, db, res) {
 
     const User = user(db)
     const stored = await User.findOne({ where: { email: email } })
-
     if (!stored) {
+
         res.json({ succes: false, message: "Email ou mot de passe invalide" })
         return
     }
@@ -40,6 +40,8 @@ export default async function authenticateUser(req, db, res) {
                 message: "Connextion réussis !",
                 token
             })
+        }else{
+            res.json({success:false, message:"Mot de passe incorrect"})
         }
     })
 

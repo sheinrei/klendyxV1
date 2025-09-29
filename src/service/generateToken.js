@@ -6,9 +6,6 @@ export default async function generateToken(userId, typeToken, db) {
     const instanceToken = tableToken(db)
     const token = crypto.randomBytes(32).toString("hex")
 
-    //dev
-    typeToken = "verifCreateAccount"
-
     try {
         await instanceToken.create({
             idUser: userId,
