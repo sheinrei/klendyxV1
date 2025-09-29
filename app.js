@@ -1,4 +1,6 @@
 import express from "express"
+import dotenv from "dotenv"
+dotenv.config()
 
 import createUser from "./src/route/createUser.js";
 import authenticateUser from "./src/route/authUser.js";
@@ -8,10 +10,12 @@ import sendFile from "./src/service/sendFile.js";
 import authMiddleware from "./src/service/authMiddleware.js";
 
 import getUserData from "./src/api/getUserData.js";
+import { sendVerifyAccount } from "./src/service/nodemailer.js";
+
 
 //Partage du .env
-import dotenv from "dotenv"
-dotenv.config()
+import verifyAccount from "./src/service/verifyAccount.js";
+import generateToken from "./src/service/generateToken.js";
 
 
 //setup express
@@ -21,6 +25,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.static("public"))
 
+//connection bdd
+const db = await connectDb()
 
 
 
@@ -35,11 +41,6 @@ app.get("/connection", (req, res) => {
 })
 
 app.get("/dashboard", (req, res) => {
-
-    /*     res.json({
-            message: "Données du dashboard",
-            userId: req.userId
-        }) */
     sendFile("./public/dashboard.html", res);
 })
 
@@ -60,17 +61,43 @@ app.get("/services", (req, res) => {
 
 
 //api
-const db = await connectDb()
+
 app.post("/api/user/create", async (req, res) => {
-    createUser(req, db, res)
+
+    //creer l'user dans le db
+    const user = await createUser(req, db)
+
+    //generer un token de creation
+    const token = await generateToken(user.id, "verifCreationAccount", db);
+
+    //envoyer l'email
+    const url = `http://${process.env.HOST}/user/verify/${token}/${user.id}`
+    await sendVerifyAccount(user.email, url)
 })
+
+
+app.get("/user/verify/:token/:user", async (req, res) => {
+    const token = req.params.token;
+    const user = req.params.user;
+
+    verifyAccount(token, user, res, db)
+
+})
+
 
 app.post("/api/user/connect", async (req, res) => {
     authenticateUser(req, db, res)
 })
 
-app.get("/api/user/data",authMiddleware ,  async(req, res)=>{
+
+app.get("/api/user/data", authMiddleware, async (req, res) => {
     getUserData(req, db, res)
 })
+
+
+//envoi email
+app.get("/test-mail", async (req, res) => {
+    await sendMail("l.beaute@laposte.net", req, res);
+});
 
 app.listen(port, () => console.log(`Application Node lancé sur : http://localhost:${port}`))

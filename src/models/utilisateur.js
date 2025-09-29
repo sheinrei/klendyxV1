@@ -23,6 +23,7 @@ export default (sequelize) => {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true
         },
         mdp: {
             type: DataTypes.STRING,
@@ -45,6 +46,11 @@ export default (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "utilisateur"
+        },
+        isVerified:{
+            type:DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: Boolean(false)
         }
     })
 }

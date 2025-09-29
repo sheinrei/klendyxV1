@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
-
-
+import user from './models/utilisateur.js';
+import token from "./models/token.js"
 
 /**
  * Connection à la base de donnée
@@ -25,11 +25,12 @@ export default async function connectDb() {
         console.log("Impossible de se connecter à la base de donnée", err);
     }
 
-
+    //table utilisateur
+    user(db)
+    //table des tokens
+    token(db)
     try {
-        await db.sync({ force: true })
-        console.log("DataBase syncronisée");
-
+        await db.sync()
     } catch (err) {
         console.log("Erreur lors de la syncronisation de la db : ", err);
     }
