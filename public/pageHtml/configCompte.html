@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Calendyx</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+    <script src="./js/headConstruct.js"></script>
+
+
+</head>
+
+<body>
+    <section class="content" id="content">
+
+        <main>
+            <header>
+                <h1>Gestion du compte</h1>
+            </header>
+
+            <p id="noConnect"></p>
+
+
+            <div id="user-info">
+                <p id="return-message"></p>
+
+                <h2>Bienvenue sur votre espace gestion de compte.</h2>
+
+                <p id="prenom">Prenom : ${data.prenom}</p>
+                <p id="nom">Nom : ${data.nom}</p>
+                <p id="email">Email : ${data.email}</p>
+                <p id="date-crea">Compte cré le : ${data.created.split("T")[0]}</p>
+
+                <div>
+                    <p>Changer son mdp</p>
+                    <form id="change-password">
+                        <label for="last-password">Votre ancien mdp</label>
+                        <input type="password" id="last-password" name="last-password">
+
+                        <label for="new-password">Votre nouveau mdp</label>
+                        <input type="password" id="new-password" name="new-password">
+
+                        <button id="submit-change-password">Valider</button>
+                    </form>
+                </div>
+
+                <p>Parti pour les pro </p>
+
+                <p id="raison-social">Entreprise : </p>
+                <p id="siren">Siren : </p>
+            </div>
+
+
+
+
+        </main>
+    </section>
+
+
+
+
+    <script src="./js/navbar.js"></script>
+    <script src="./js/footer.js"></script>
+    <script src="./js/deconnectUser.js"></script>
+    <script src="./js/logiqueCompte.js"></script>
+</body>
+
+</html>

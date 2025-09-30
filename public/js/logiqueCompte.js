@@ -1,8 +1,12 @@
 const token = localStorage.getItem("token");
 if (!token) {
+<<<<<<< HEAD
     $("#noConnect").text("Veuillez vous connecter pour acceder à votre espace \"Gestion du compte\". Vous aller être redirigé vers la page d'acceuil dans quelques secondes.")
 
     setTimeout(() => window.location.href = "/index", 5000)
+=======
+    window.location.href = "/index"
+>>>>>>> c15eeb1 (finish refactor structure)
 } else {
     $.ajax({
         url: "/api/user/data",

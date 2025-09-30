@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>Connexion - Calendyx</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+
+    <script src="./js/headConstruct.js"></script>
+    <link rel="stylesheet" href="./css/auth.css">
+
+</head>
+
+<body>
+    <section class="content" id="content">
+        <main class="auth-container">
+            <div class="auth-card">
+                <header class="auth-header">
+                    <h1 class="auth-title">Calendyx</h1>
+                    <p class="auth-subtitle">Gérez vos rendez-vous en toute simplicité</p>
+                    <p id="msg-alert" style='color:red'></p>
+                </header>
+
+                <!-- Onglets de navigation -->
+                <div class="auth-tabs">
+                    <button class="tab-btn active" data-tab="login">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                        </svg>
+                        Connexion
+                    </button>
+                    <button class="tab-btn" data-tab="register">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Créer un compte
+                    </button>
+                </div>
+
+                <!-- Formulaire de connexion -->
+                <div class="tab-content active" id="login-tab">
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="emailConnect" class="form-label">Adresse email</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <input type="email" id="emailConnect" name="emailConnect" autocomplete="email"
+                                    placeholder="votre@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mdpConnect" class="form-label">Mot de passe</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                    <circle cx="12" cy="16" r="1" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                <input type="password" id="mdpConnect" name="mdpConnect"
+                                    placeholder="Votre mot de passe" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                            </svg>
+                            Se connecter
+                        </button>
+
+                        <div class="form-footer">
+                            <a href="./forgotPassword.html" class="a-nav">Mot de passe oublié ?</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Formulaire de création de compte -->
+                <div class="tab-content" id="register-tab">
+                    <form id="createUserForm" class="auth-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nom" class="form-label">Nom</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                    <input type="text" id="nom" name="nom" autocomplete="family-name"
+                                        placeholder="Votre nom" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prenom" class="form-label">Prénom</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                    <input type="text" id="prenom" name="prenom" autocomplete="given-name"
+                                        placeholder="Votre prénom" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Adresse email</label>
+                            <div class="input-wrapper">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <input type="email" id="email" name="email" autocomplete="email"
+                                    placeholder="votre@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="mdp" class="form-label">Mot de passe</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <circle cx="12" cy="16" r="1" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                    <input type="password" id="mdp" name="mdp" autocomplete="new-password"
+                                        placeholder="Mot de passe" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mdpConfirm" class="form-label">Confirmer</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <circle cx="12" cy="16" r="1" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                    <input type="password" id="mdpConfirm" name="mdpConfirm" autocomplete="new-password"
+                                        placeholder="Confirmer mot de passe" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section professionnelle -->
+                        <div class="professional-section">
+                            <h3 class="section-title">
+                                <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                                    <line x1="8" y1="21" x2="16" y2="21" />
+                                    <line x1="12" y1="17" x2="12" y2="21" />
+                                </svg>
+                                Informations professionnelles (optionnel)
+                            </h3>
+
+                            <div class="form-group">
+                                <label for="raisonSocial" class="form-label">Raison sociale</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M3 21h18" />
+                                        <path d="M5 21V7l8-4v18" />
+                                        <path d="M19 21V11l-6-4" />
+                                    </svg>
+                                    <input type="text" id="raisonSocial" name="raisonSocial" autocomplete="off"
+                                        placeholder="Nom de votre entreprise">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="siren" class="form-label">SIREN</label>
+                                <div class="input-wrapper">
+                                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14,2 14,8 20,8" />
+                                        <line x1="16" y1="13" x2="8" y2="13" />
+                                        <line x1="16" y1="17" x2="8" y2="17" />
+                                        <polyline points="10,9 9,9 8,9" />
+                                    </svg>
+                                    <input type="text" id="siren" name="siren" autocomplete="off"
+                                        placeholder="123 456 789" pattern="[0-9\s]*">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input id="cgu" name="cgu" type="checkbox">
+                            <label for="cgu">Accepter les conditions générales d'utilisation</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                            Créer mon compte
+                        </button>
+                    </form>
+                </div>
+
+
+            </div>
+        </main>
+    </section>
+
+    <!-- Gen DOM -->
+    <script src="./js/navbar.js"></script>
+    <script src="./js/footer.js"></script>
+
+    <!-- Logique -->
+    <script src="./js/deconnectUser.js"></script>
+    <script src="./js/swaper.js"></script>
+    <script src="./js/connectUser.js"></script>
+    <script src="./js/createUser.js"></script>
+
+</body>
+
+</html>
