@@ -8,11 +8,7 @@ const htmlNavbar = `
             <a class="item-nav" id="btnMonCompte" href="/mon-compte">Mon compte</a>
             <a class="item-nav" href="/dashboard">Tableau de bord</a>
             <a class="item-nav" href="/services">Services</a>
-<<<<<<< HEAD
-            <a class="item-nav" href="/api/user/reset-password">Changer son mdp</a>
-=======
             <a class="item-nav" href="/event">Créer un evenement</a>
->>>>>>> c15eeb1 (finish refactor structure)
 </div>
 <button class="btn-navbar-slide"></button>
         </nav>
@@ -25,12 +21,9 @@ const isConnect = window.localStorage.getItem("token");
 
 isConnect ? $("#btnConnection").css("display", "none") : $("#btnDeconnection").css("display", "none")
 
-<<<<<<< HEAD
-=======
 if(!isConnect){
     $("#btnMonCompte").css("display", "none")
 }
->>>>>>> c15eeb1 (finish refactor structure)
 
 //slide pour retract la navbar
 let displayNavbar = true

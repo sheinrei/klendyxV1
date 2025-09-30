@@ -15,8 +15,6 @@ $(document).ready(function () {
 
         const cgu = $("#cgu").is(":checked")
 
-        const alertStyle = "style ='color:red'"
-
         if (!cgu) {
             $("#msg-alert").text(`Veuillez valider les CGU`)
             return
