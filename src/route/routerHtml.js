@@ -33,6 +33,10 @@ router.get("/event", (req, res) => {
     sendFile("./public/pageHtml/event.html", res);
 })
 
+router.get("/forgotPassword", (req, res) => {
+    sendFile("./public/pageHtml/forgotPassword.html", res);
+})
+
 
 //export à la fin du fichier
 export default router
