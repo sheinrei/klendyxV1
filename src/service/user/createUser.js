@@ -20,8 +20,7 @@ export default async function createUser(req, db) {
             siren,
 
         });
-        // deplacer cette réponse plus loin dans app
-        // res.json({ success: true, message: `Utilisateur ${user.nom} créé avec succès !` });
+
         return user;
 
     } catch (err) {

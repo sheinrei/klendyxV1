@@ -7,7 +7,7 @@ dotenv.config()
 //router
 import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
-
+import routerApiEvent from "./src/api/apiEvent.js";
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 await initDb()
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use("/", routerHtml);
 app.use("/", routerApiUser);
-
+app.use("/api/event", routerApiEvent)
 
 
 

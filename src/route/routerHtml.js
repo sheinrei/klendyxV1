@@ -37,6 +37,9 @@ router.get("/forgotPassword", (req, res) => {
     sendFile("./public/pageHtml/forgotPassword.html", res);
 })
 
+router.get("/contact", (req, res) => {
+    sendFile("./public/pageHtml/contact.html", res);
+})
 
 //export à la fin du fichier
 export default router

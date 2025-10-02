@@ -7,17 +7,7 @@ export async function getUserData(req, db, res) {
 
     const userId = req.userId;
     const data = await User.findByPk(userId);
-
-    res.json({
-        message: "Donnée de l'utilisateur",
-        nom: data.nom,
-        prenom: data.prenom,
-        email: data.email,
-        mdp: data.mdp,
-        raisonSocial: data.raisonSocial,
-        siren: data.siren,
-        created: data.createdAt,
-    })
+    return data
 }
 
 export async function getIdByEmail(email, db) {

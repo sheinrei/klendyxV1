@@ -9,6 +9,7 @@ const htmlNavbar = `
             <a class="item-nav" href="/dashboard">Tableau de bord</a>
             <a class="item-nav" href="/services">Services</a>
             <a class="item-nav" href="/event">Créer un evenement</a>
+            <a class="item-nav" href="/contact">Contact</a>
 </div>
 <button class="btn-navbar-slide"></button>
         </nav>

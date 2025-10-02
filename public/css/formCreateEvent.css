@@ -1,0 +1,48 @@
+/* mep */
+.content-event {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Formulaire de création event */
+
+.form-declanch-rdv,
+.render-sending {
+    border-radius: 25px;
+    background-color: var(--card-background);
+
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    box-shadow: var(--shadow-large);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.form-declanch-rdv {
+    max-width: 60%;
+}
+
+.form-declanch-rdv p{
+    margin:5px;
+    font-weight: 600;
+    color: var(--primary-color)
+}
+
+.form-detail-client,
+.form-detail-envoi,
+.form-detail-rdv{
+    width: 100%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px
+}
+
+
+
+/* Frame rendu de l'envoie */

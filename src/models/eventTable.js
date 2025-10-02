@@ -12,30 +12,59 @@ export function eventTable(sequelize) {
             primaryKey: true,
             autoIncrement: true,
         },
-        idUser: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        type: {
+        plateformSender: {
             type: DataTypes.STRING, //sms ou mail
             allowNull: false
         },
-        recipient: {
-            type: DataTypes.STRING,//phone ou email
-            allowNull: false
-        },
-        content: {
+        recipientName: {
             type: DataTypes.STRING,//corp de l'objet
             allowNull: false
         },
+        recipientContactEmail: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        recipientContactSms: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        titleEvent: {
+            type: DataTypes.STRING,//corp de l'objet
+            allowNull: false
+        },
+        messageEvent: {
+            type: DataTypes.STRING,//corp de l'objet
+            allowNull: false
+        },
+        dateDebut: {
+            type: DataTypes.DATE,//timestamps
+            allowNull: false,
+        },
+        dateFin: {
+            type: DataTypes.DATE,//timestamps
+            allowNull: false,
+        },
+        messageReturn: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         state: {
             type: DataTypes.STRING,// Etat de l'envois et réponse -> message envoyé, reponse ok|| nok
-            allowNull: false
-        }
+            allowNull: false,
+            defaultValue: "Initialisation"
+        },
+        response: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
     },
         {
             timestamps: true,
-            paranoid: true, // au instance.destroys() ne vas pas detruire mais remplir ce champs
+            paranoid: true, // quand instance.destroys() ne vas pas detruire mais remplir ce champs
         }
     )
 }

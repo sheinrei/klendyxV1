@@ -1,0 +1,78 @@
+// Logique du formulaire de création d'un event avec l'affiche du render
+
+$("#btn-submit-form-create-event").on("click", function (e) {
+    e.preventDefault();
+    const htmlMessageAlert = $("#message-alert")
+    $(htmlMessageAlert).text("");
+
+
+    const checkedEmail = $("#type-email").is(":checked")
+    const checkedSms = $("#type-sms").is(":checked")
+
+    const recipientContactEmail = $("#client-email").val();
+    const recipientContactSms = $("#client-phone").val()
+
+    const dateDebut = $("#date-debut").val();
+    const dateFin = $("#date-fin").val();
+
+    const recipientName = $("#client-nom").val() + " " + $("#client-prenom").val();
+
+
+
+    const titleEvent = $("#title-event").val();
+    const messageEvent = $("#message-event").val();
+
+    let plateformSender = [];
+
+    if (!checkedEmail && !checkedSms) {
+        $(htmlMessageAlert).text("Veuillez saisir au moins une methode d'envoie.")
+        return
+    }
+
+    if (dateDebut > dateFin) {
+        $(htmlMessageAlert).text("La date du début du rendez-vous ne pas être après la fin de celle-ci")
+        return
+    }
+
+    if (checkedEmail) {
+        plateformSender.push("email")
+    }
+    if (checkedSms) {
+        plateformSender.push("sms")
+    }
+
+
+    //fetch notre api
+    const token = localStorage.getItem("token");
+
+    $.ajax({
+        url: "/api/event/create",
+        method: "post",
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Content-type": "application/json"
+        },
+
+        contentType: "application/json",
+        data: JSON.stringify({
+            recipientName,
+            plateformSender,
+            recipientContactEmail,
+            recipientContactSms,
+            dateDebut,
+            dateFin,
+            titleEvent,
+            messageEvent,
+        }),
+
+        success: function (res) {
+            $("#form-declanch-rdv").find("input, select").val("");
+            $("#form-declanch-rdv").find("input[type=checkbox]").prop("checked", false);
+            $("#message-alert").text(`${res.message}`)
+        },
+
+        error: function () {
+            $("#message-alert").text(`Erreur survenu avec le serveur.`)
+        }
+    })
+})

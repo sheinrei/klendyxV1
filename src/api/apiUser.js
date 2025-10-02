@@ -1,33 +1,21 @@
 import express from "express";
 const routerApiUser = express.Router()
-
 //user
 import createUser from "./../service/user/createUser.js";
 import authenticateUser from "./../service/user/authUser.js";
 import { resetPassword, confirmTokenResetPassword, changePassword } from "./../service/user/resetPassword.js";
 import { getUserData, getIdByEmail } from "./../service/user/getUserData.js";
 import verifyAccount from "./../service/user/verifyAccount.js";
-
 //securité
 import authMiddleware from "./../middleware/authMiddleware.js";
-
 //token
 import { deleteToken } from "./../service/token/deleteToken.js";
-import generateToken from "./../service/token/generateToken.js";
-
+import generateToken from "./../service/token/generateToken.js"
 //NodeMailer
 import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "./../service/nodemailer.js";
-
 //instance bdd
 import db from "./../sequelize.js"
-
-
-
-
-
-
-
-
+import { frontConfirmationCreateUser } from "../../public/js/frontConfirmationCreateUser.js";
 
 
 //creation d'un nouvel utilisateur
@@ -42,6 +30,8 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     //envoyer l'email
     const url = `http://${process.env.HOST}/user/verify/${token}/${user.id}`;
     await sendVerifyAccount(user.email, url);
+
+    res.json({ succes: true, message: "Bienvenue chez Calendyx ;), merci de confirmer votre compte avec l'email qui vous a été envoyé." })
 })
 
 
@@ -80,8 +70,6 @@ routerApiUser.post("/api/user/email/new-password", async function (req, res) {
     //envoyer un email
     const url = `http://${process.env.HOST}/api/user/resetpassword/${token}/${id}`;
     await sendForgotPassword(email, url);
-
-
 
     res.json({ success: true, message: `Un email a été envoyé si cette adresse existe` });
 })
@@ -128,12 +116,16 @@ routerApiUser.post("/api/user/resetpassword/:token/:id", async (req, res) => {
 
 
 //verfication de compte lors de la creation 
-routerApiUser.get("/user/verify/:token/:user", async (req, res) => {
+routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
     const token = req.params.token;
-    const user = req.params.user;
+    const id = req.params.id;
 
-    verifyAccount(token, user, res, db)
+    verifyAccount(token, id, res, db)
 
+    const loginUrl = `http://${process.env.HOST}/connection`;
+    const contactUrl = `http://${process.env.HOST}/contact`
+    const html = frontConfirmationCreateUser(loginUrl, contactUrl)
+    res.send(html)
 })
 
 //Auth utilisateur
@@ -144,7 +136,17 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
 
 //get data d'un user
 routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
-    getUserData(req, db, res)
+    const data = getUserData(req, db, res)
+    res.json({
+        message: "Donnée de l'utilisateur",
+        nom: data.nom,
+        prenom: data.prenom,
+        email: data.email,
+        mdp: data.mdp,
+        raisonSocial: data.raisonSocial,
+        siren: data.siren,
+        created: data.createdAt,
+    })
 })
 
 

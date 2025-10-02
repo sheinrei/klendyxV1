@@ -9,7 +9,7 @@
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="./js/headConstruct.js"></script>
-
+    <link rel="stylesheet" href="./../css/formCreateEvent.css">
 
 </head>
 
@@ -22,8 +22,89 @@
             <header>
                 <h1>Créer votre evenement</h1>
             </header>
+            <section class="content-event">
+
+                <section >
+                    
+                    <form class="form-declanch-rdv" id="form-declanch-rdv">
+                        
+                        <header>
+                            <p class="title">Déclancher un rdv</p>
+                            <p class="subtitle">Saisissez votre contacte et la methode d'envoie et declancher un
+                                rendez-vous en toute simplicité</p>
+                            <p id="message-alert"></p>
+                        </header>
 
 
+                        <div class="form-detail-client">
+                            <p>Client :</p>
+
+                            <div>
+                                <label for="client-nom">Nom</label>
+                                <input type="text" name="client-nom" id="client-nom">
+                            </div>
+
+                            <div>
+                                <label for="client-prenom">Prenom</label>
+                                <input type="text" name="client-prenom" id="client-prenom">
+                            </div>
+                        </div>
+
+
+                        <div class="form-detail-envoi">
+                            <p>Methode de contact</p>
+                            <div>
+                                <input type="checkbox" id="type-email" name="type-email">
+                                <label for="type-email">Envoyer par email</label>
+                                <br>
+                                <input type="email" id="client-email" name="client-email"
+                                    placeholder="exemple@domaine.com">
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="type-sms" name="type-sms">
+                                <label for="type-sms">Envoyer par sms</label>
+                                <br>
+                                <input type="text" placeholder="06 XX XX XX XX" id="client-phone" name="client-phone">
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-detail-rdv">
+                            <p>Detail du rendez-vous</p>
+
+                            <label for="date-debut">Date de debut</label>
+                            <input type="datetime-local" name="date-debut" id="date-debut">
+
+                            <label for="date-fin">date de fin</label>
+                            <input type="datetime-local" name="date-fin" id="date-fin">
+
+
+                            <label for="title-event">Motif du rdv</label>
+                            <input type="text" placeholder="Rappel rdv coiffeur" name="title-event" id="title-event">
+
+                            <label for="message-event">Ajouter un message</label>
+                            <input type="text" placeholder="Message complémentaire" name="message-event"
+                                id="message-event">
+                        </div>
+
+                        <button type="button" id="btn-submit-form-create-event">Créer le rdv et envoyer</button>
+
+                    </form>
+                </section>
+
+                <section class="render-sending">
+                    <header>
+                        <p>Prévisulisation</p>
+
+                        <p>Message envoyé à x destinataire</p>
+                        <p>Methode d'envois : sms / email</p>
+
+                        <p>Envoyé à :</p>
+                    </header>
+                </section>
+            </section>
         </main>
     </section>
 
@@ -31,6 +112,7 @@
     <script src="./js/navbar.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
+    <script src="./js/logiqueFormCreateEvent.js"></script>
 </body>
 
 </html>

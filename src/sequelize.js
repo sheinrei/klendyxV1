@@ -23,10 +23,12 @@ export async function initDb() {
     tokenTable(db);
     eventTable(db);
 
+    let force = process.env.SEQUELIZE_FORCE
+    force === "true" ? (force=true , console.log("🗑️  Sequelize remise à zero de la db")) : force=false
     try {
         await db.authenticate();
         console.log("✅ Connection à la DB réussie");
-        await db.sync();
+        await db.sync({force:force});
         console.log("✅ DB synchronisée");
     } catch (err) {
         console.error("❌ Impossible de se connecter à la DB", err);

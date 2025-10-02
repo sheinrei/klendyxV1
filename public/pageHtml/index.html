@@ -13,6 +13,204 @@
         <script src="./js/footer.js" defer></script>
         <script src="./js/deconnectUser.js" defer></script>
         
+
+        <style>
+                   /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .secondary-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-small);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .secondary-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .hero-visual {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-large);
+            min-height: 400px;
+        }
+
+        .hero-visual-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-small);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .visual-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: var(--border-radius-small);
+            margin-bottom: 1rem;
+        }
+
+        .visual-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--card-background);
+            padding: 5rem 2rem;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--background-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border-radius: var(--border-radius-small);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 3rem 1.5rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+        </style>
 </head>
 
 
@@ -26,46 +224,88 @@
                 <h1>Bienvenue sur Calendyx</h1>
             </header>
             
+                <section class="hero">
+        <div class="hero-content">
+            <h1>Planifiez vos rendez-vous en toute simplicité</h1>
+            <p>Calendyx vous permet d'envoyer des invitations par email et SMS pour organiser vos rendez-vous professionnels en quelques clics. Gagnez du temps et optimisez votre agenda.</p>
+            <div class="hero-buttons">
+                <a href="#" class="cta-button">Essayer gratuitement</a>
+                <a href="#features" class="secondary-button">En savoir plus</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-visual-content">
+                <div class="visual-item">
+                    <div class="visual-icon">✉️</div>
+                    <div>
+                        <strong>Email</strong><br>
+                        <small>Invitations personnalisées</small>
+                    </div>
+                </div>
+                <div class="visual-item">
+                    <div class="visual-icon">📱</div>
+                    <div>
+                        <strong>SMS</strong><br>
+                        <small>Notifications instantanées</small>
+                    </div>
+                </div>
+                <div class="visual-item">
+                    <div class="visual-icon">📅</div>
+                    <div>
+                        <strong>Calendrier</strong><br>
+                        <small>Synchronisation automatique</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-container">
+            <h2 class="section-title">Pourquoi choisir Calendyx ?</h2>
+            <p class="section-subtitle">Une solution complète pour gérer tous vos rendez-vous professionnels</p>
             
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📧</div>
+                    <h3>Invitations par email</h3>
+                    <p>Envoyez des invitations professionnelles personnalisées à vos contacts. Créez des templates réutilisables et suivez les confirmations en temps réel.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Notifications SMS</h3>
+                    <p>Assurez-vous que vos contacts ne manquent jamais un rendez-vous grâce aux rappels SMS automatiques. Taux d'ouverture de 98% garanti.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Planification rapide</h3>
+                    <p>Organisez vos rendez-vous en quelques secondes. Interface intuitive qui vous fait gagner un temps précieux au quotidien.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Synchronisation automatique</h3>
+                    <p>Vos rendez-vous se synchronisent automatiquement avec votre calendrier préféré. Google Calendar, Outlook et iCal supportés.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Suivi et statistiques</h3>
+                    <p>Visualisez vos rendez-vous confirmés, en attente ou annulés. Obtenez des insights précieux sur votre activité.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Sécurisé et confidentiel</h3>
+                    <p>Vos données sont chiffrées et sécurisées. Conformité RGPD garantie pour protéger votre vie privée et celle de vos contacts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
             
-            <section class="form-declanch-rdv">
-                <form action="">
-                    <p>Déclancher un rdv</p>
-                    
-                    
-                    <label for="">Jour</label>
-                    <select name="pets" id="pet-select">
-                        <option value="">--Choisir un jour--</option>
-                        <option value="lundi">Lundi</option>
-                        <option value="mardi">Mardi</option>
-                        <option value="mercredi">Mercredi</option>
-                        <option value="jeudi">Jeudi</option>
-                        <option value="vendredi">Vendredi</option>
-                        <option value="samedi">Samedi</option>
-                        <option value="dimanche">Dimanche</option>
-                    </select>
-                    
-                    <label for="hourStart">Heure début</label>
-                    <input type="text" placeholder="Heure de début">
-                    
-                    <label for="hourEnd">Durée</label>
-                    <input type="text" placeholder="Durée">
-                    
-                    <p>Client :</p>
-                    
-                    <label for="">Email du client</label>
-                    <input type="text">
-                    
-                    <label for="">Mobile</label>
-                    <input type="text" placeholder="06 XX XX XX XX">
-                    
-                    <label for="">Nom</label>
-                    <input type="text">
-                    
-                    <label for="">Prenom</label>
-                    <input type="text">
-                </form>
-            </section>
+          
             
         </main>
     </section>
