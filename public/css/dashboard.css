@@ -1,0 +1,16 @@
+#credit, #event{
+    border:1px solid black;
+    display: flex;
+    gap:10px;
+}
+
+.cards-credit{
+    border:1px solid black;
+    gap:5px;
+    text-align: center;
+}
+
+.cards-event{
+    border:1px solid black;
+    background-color: var(--main-bg);
+}

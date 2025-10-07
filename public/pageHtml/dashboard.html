@@ -10,7 +10,7 @@
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="./js/headConstruct.js"></script>
-
+    <link rel="stylesheet" href="./../css/dashboard.css">
 </head>
 
 
@@ -25,17 +25,39 @@
             </header>
 
 
-            <div>
+            <section id="credit">
+                <p>Recap de vos crédits</p>
 
-            </div>
+                <div class="cards-credit">
+                    <p>Temps avant rechargement</p>
+                    <p id="date-rechargement"></p>
+                </div>
 
+                <div class="cards-credit">
+                    <p>Envois d'email restant </p>
+                    <p id="credit-email"></p>
+                </div>
+
+                <div class="cards-credit">
+                    <p>Envois de sms restant </p>
+                    <p id="credit-sms"></p>
+                </div>
+            </section>
+
+
+            <section id="event">
+                <p>Progression de vos evenement ! </p>
+            </section>
         </main>
     </section>
+
 
 
     <script src="./js/navbar.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
+    <script src="./js/tools.js"></script>
+    <script src="./js/dashboardGet.js"></script>  
 </body>
 
 </html>

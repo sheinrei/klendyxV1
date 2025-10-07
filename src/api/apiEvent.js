@@ -13,6 +13,8 @@ import { createEvent } from "./../service/event/createEvent.js";
 import { sendNewEvent } from "./../service/mailer/sendNewEvent.js";
 import generateToken from "./../service/token/generateToken.js";
 import { updateEvent } from "./../service/event/updateEvent.js";
+import { getEvent } from "../service/event/getEvent.js";
+import { decrementMail } from "../service/credit/decrementMail.js";
 
 
 // Les routes :
@@ -36,7 +38,10 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
         const email = req.body.recipientContactEmail;
         const token = await generateToken(id, "validationEventEmail", db);
         const url = `http://${process.env.HOST}/api/event/valid/${token}/${id}/${idEvent}`;
-        const send = sendNewEvent(req, url, email, res)
+        const send = await sendNewEvent(req, url, email, res);
+        if(send.success){
+            decrementMail(db, req)
+        }
     }
 
     //Route a faire pour la gestion par sms
@@ -62,6 +67,15 @@ routerApiEvent.post("/update", async (req, res) => {
 
     if (update.success == true) {
         res.json({ success: true, message: update.message })
+    }
+})
+
+
+routerApiEvent.get("/get", authMiddleware , async (req, res)=>{
+    const event = await getEvent(db, req);
+
+    if(event.success == true){
+        res.json({success:true, event})
     }
 })
 

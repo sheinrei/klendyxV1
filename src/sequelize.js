@@ -6,11 +6,13 @@ import { Sequelize } from "sequelize";
 import userTable from "./models/utilisateurTable.js";
 import tokenTable from "./models/tokenTable.js";
 import { eventTable } from "./models/eventTable.js";
+import { creditTable } from "./models/creditTable.js";
+
 
 const db = new Sequelize("calendyx", process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
-    dialectOptions: { timezone: "Etc/GMT-2" },
+    timezone: '+02:00',
     logging: false,
 });
 
@@ -22,13 +24,13 @@ export async function initDb() {
     userTable(db);
     tokenTable(db);
     eventTable(db);
-
+    creditTable(db);
     let force = process.env.SEQUELIZE_FORCE
-    force === "true" ? (force=true , console.log("🗑️  Sequelize remise à zero de la db")) : force=false
+    force === "true" ? (force = true, console.log("🗑️  Sequelize remise à zero de la db")) : force = false
     try {
         await db.authenticate();
         console.log("✅ Connection à la DB réussie");
-        await db.sync({force:force});
+        await db.sync({ force: force });
         console.log("✅ DB synchronisée");
     } catch (err) {
         console.error("❌ Impossible de se connecter à la DB", err);

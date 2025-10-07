@@ -1,6 +1,6 @@
 import tableToken from "./../../models/tokenTable.js"
 import tableUser from "./../../models/utilisateurTable.js";
-
+import { initCreditUser } from "../credit/initCreditUser.js";
 
 export default async function verifyAccount(token, id, res, db) {
 
@@ -18,5 +18,6 @@ export default async function verifyAccount(token, id, res, db) {
             { isVerified: Boolean(true) },
             { where: { id: idUser } }
         )
+        initCreditUser(db, idUser)
     }
 }
