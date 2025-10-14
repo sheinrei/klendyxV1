@@ -1,0 +1,147 @@
+{
+  "ursaaf": 24.6,
+  "sms_unitaire": 0.055,
+  "weeks_per_month": 4.345,
+  "plans": {
+    "free": {
+      "emails_par_semaine": 40,
+      "sms_par_semaine": 5,
+      "tarif_par_mois_eur": 0.0,
+      "calculs": {
+        "100%": {
+          "sms_count": 21.72,
+          "cout_sms_eur": 1.19,
+          "revenue_apres_ursaaf_eur": 0.0,
+          "benef_eur": -1.19,
+          "benef_pct": null
+        },
+        "50%": {
+          "sms_count": 10.86,
+          "cout_sms_eur": 0.6,
+          "revenue_apres_ursaaf_eur": 0.0,
+          "benef_eur": -0.6,
+          "benef_pct": null
+        },
+        "33%": {
+          "sms_count": 7.17,
+          "cout_sms_eur": 0.39,
+          "revenue_apres_ursaaf_eur": 0.0,
+          "benef_eur": -0.39,
+          "benef_pct": null
+        }
+      }
+    },
+    "starter": {
+      "emails_par_semaine": 120,
+      "sms_par_semaine": 10,
+      "tarif_par_mois_eur": 10.0,
+      "calculs": {
+        "100%": {
+          "sms_count": 43.45,
+          "cout_sms_eur": 2.39,
+          "revenue_apres_ursaaf_eur": 7.54,
+          "benef_eur": 5.15,
+          "benef_pct": 51.5
+        },
+        "50%": {
+          "sms_count": 21.73,
+          "cout_sms_eur": 1.2,
+          "revenue_apres_ursaaf_eur": 7.54,
+          "benef_eur": 6.34,
+          "benef_pct": 63.4
+        },
+        "33%": {
+          "sms_count": 14.34,
+          "cout_sms_eur": 0.79,
+          "revenue_apres_ursaaf_eur": 7.54,
+          "benef_eur": 6.75,
+          "benef_pct": 67.5
+        }
+      }
+    },
+    "normal": {
+      "emails_par_semaine": 250,
+      "sms_par_semaine": 25,
+      "tarif_par_mois_eur": 20.0,
+      "calculs": {
+        "100%": {
+          "sms_count": 108.62,
+          "cout_sms_eur": 5.97,
+          "revenue_apres_ursaaf_eur": 15.07,
+          "benef_eur": 9.1,
+          "benef_pct": 45.5
+        },
+        "50%": {
+          "sms_count": 54.31,
+          "cout_sms_eur": 2.99,
+          "revenue_apres_ursaaf_eur": 15.07,
+          "benef_eur": 12.08,
+          "benef_pct": 60.4
+        },
+        "33%": {
+          "sms_count": 35.74,
+          "cout_sms_eur": 1.97,
+          "revenue_apres_ursaaf_eur": 15.07,
+          "benef_eur": 13.1,
+          "benef_pct": 65.5
+        }
+      }
+    },
+    "medium": {
+      "emails_par_semaine": 600,
+      "sms_par_semaine": 50,
+      "tarif_par_mois_eur": 35.0,
+      "calculs": {
+        "100%": {
+          "sms_count": 217.25,
+          "cout_sms_eur": 11.95,
+          "revenue_apres_ursaaf_eur": 26.42,
+          "benef_eur": 14.47,
+          "benef_pct": 41.34
+        },
+        "50%": {
+          "sms_count": 108.62,
+          "cout_sms_eur": 5.97,
+          "revenue_apres_ursaaf_eur": 26.42,
+          "benef_eur": 20.45,
+          "benef_pct": 58.43
+        },
+        "33%": {
+          "sms_count": 71.69,
+          "cout_sms_eur": 3.94,
+          "revenue_apres_ursaaf_eur": 26.42,
+          "benef_eur": 22.48,
+          "benef_pct": 64.23
+        }
+      }
+    },
+    "enterprise": {
+      "emails_par_semaine": "illimité",
+      "sms_par_semaine": 100,
+      "tarif_par_mois_eur": 65.0,
+      "calculs": {
+        "100%": {
+          "sms_count": 434.5,
+          "cout_sms_eur": 23.9,
+          "revenue_apres_ursaaf_eur": 49.01,
+          "benef_eur": 25.11,
+          "benef_pct": 38.63
+        },
+        "50%": {
+          "sms_count": 217.25,
+          "cout_sms_eur": 11.95,
+          "revenue_apres_ursaaf_eur": 49.01,
+          "benef_eur": 37.06,
+          "benef_pct": 57.02
+        },
+        "33%": {
+          "sms_count": 143.39,
+          "cout_sms_eur": 7.89,
+          "revenue_apres_ursaaf_eur": 49.01,
+          "benef_eur": 41.12,
+          "benef_pct": 63.27
+        }
+      }
+    }
+  }
+}

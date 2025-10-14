@@ -43,14 +43,13 @@ $("#submit-change-password").on("click", function (e) {
         }),
         success: function (data) {
             if (data.success == true) {
-                $("#return-message").text(`${data.message}`)
+                $("#message-alert-password").text(`${data.message}`)
             } else {
-                $("#return-message").text(`${data.message}`)
+                $("#message-alert-password").text(`${data.message}`)
             }
         },
         error: function (err) {
-            console.log(err)
-            $("#return-message").text(`Une erreur est survenu et nous n'avons pas pu modifier votre mot de passe, veuillez essayer plus tard.`)
+            $("#message-alert-password").text(`Une erreur est survenu et nous n'avons pas pu modifier votre mot de passe, veuillez essayer plus tard.`)
         }
     })
 })

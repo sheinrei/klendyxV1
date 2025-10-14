@@ -14,7 +14,9 @@ import { sendNewEvent } from "./../service/mailer/sendNewEvent.js";
 import generateToken from "./../service/token/generateToken.js";
 import { updateEvent } from "./../service/event/updateEvent.js";
 import { getEvent } from "../service/event/getEvent.js";
-import { decrementMail } from "../service/credit/decrementMail.js";
+import { decrementCredit } from "../service/credit/decrementCredit.js";
+import { deleteEvent } from "../service/event/deleteEvent.js";
+import { sendSMS } from "../service/sms/sendSms.js";
 
 
 // Les routes :
@@ -23,30 +25,46 @@ import { decrementMail } from "../service/credit/decrementMail.js";
 routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
 
     const id = req.userId
-    //créer l'event de la bdd
     const create = await createEvent(db, req);
     const idEvent = create.create.id;
+
     if (!create) {
         return res.json({ success: false, message: create.message })
-    } else {
-        res.json({ success: true, message: create.message })
     }
 
-    const [plateformeEmail, plateformeSms] = req.body.plateformSender;
+    const plateforme = req.body.plateformSender;
+    let plateformeSms;
+    let plateformeEmail;
+
+    if (plateforme.includes("sms")) {
+        plateformeSms = true
+    }
+    if (plateforme.includes("email")) {
+        plateformeEmail = true
+    }
 
     if (plateformeEmail) {
         const email = req.body.recipientContactEmail;
         const token = await generateToken(id, "validationEventEmail", db);
         const url = `http://${process.env.HOST}/api/event/valid/${token}/${id}/${idEvent}`;
         const send = await sendNewEvent(req, url, email, res);
-        if(send.success){
-            decrementMail(db, req)
+        if (send.success) {
+            await decrementCredit(db, req, "mail")
+            return res.json({ success: true, message: send.message })
         }
     }
 
     //Route a faire pour la gestion par sms
     if (plateformeSms) {
-        console.log("set up par sms")
+
+        const sendSms = await sendSMS(req.body.recipientContactSms, `${req.body.titleEvent}.\n${req.body.messageEvent}`);
+
+        console.log(sendSMS)
+        if (!sendSms.success) {
+            await decrementCredit(db, req, "sms")
+            return res.json({ success: false, message: sendSms.message })
+        }
+        return res.json({ success: true, message: sendSms.message })
     }
 }))
 
@@ -54,9 +72,6 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
 
 //formulaire d'acceptation du receveur
 routerApiEvent.get("/valid/:token/:id/:idEvent", (req, res) => {
-    const token = req.params.token;
-    const id = req.params.id
-
 
     sendFile("/public/pageHtml/formValidEvent.html", res)
 })
@@ -70,13 +85,21 @@ routerApiEvent.post("/update", async (req, res) => {
     }
 })
 
-
-routerApiEvent.get("/get", authMiddleware , async (req, res)=>{
+//get tout les events de l'user
+routerApiEvent.get("/get", authMiddleware, async (req, res) => {
     const event = await getEvent(db, req);
 
-    if(event.success == true){
-        res.json({success:true, event})
+    if (event.success == true) {
+        res.json({ success: true, event })
     }
 })
 
+//supprimer un event (paranoid:true)
+routerApiEvent.post("/delete", authMiddleware, async (req, res) => {
+
+    const deleteE = await deleteEvent(db, req)
+    if (deleteE) {
+        res.json({ success: true, message: "Evenement archivé" })
+    }
+})
 export default routerApiEvent

@@ -38,9 +38,9 @@ export async function sendNewEvent(req, url, email, res) {
         const info = await transporter.sendMail(mailOptions);
         console.log(info)
         if (info.messageId) {
-            return { success: true }
+            return { success: true, message:`Email envoyé au destinataire ${email}` }
         }
     } catch (err) {
-        console.log("Échec de l'envoi, erreur :", err);
+        return {success: false, message: "Erreur survenue avec le serveur."}
     }
 }

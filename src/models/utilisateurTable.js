@@ -38,17 +38,17 @@ export default (sequelize) => {
             allowNull: true,
         },
         abonnement: {
-            type: DataTypes.BOOLEAN,
+            type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: false
+            defaultValue: "Free",
         },
         role: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "utilisateur"
         },
-        isVerified:{
-            type:DataTypes.BOOLEAN,
+        isVerified: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: Boolean(false)
         }

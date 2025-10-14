@@ -21,32 +21,90 @@
 
         <main>
             <header>
-                <h1>Dashboard</h1>
+                <h1 class="title">Dashboard</h1>
             </header>
 
 
             <section id="credit">
-                <p>Recap de vos crédits</p>
+                <h2>Recap de vos crédits</h2>
+                <ul>
+                    <li>Note pour plus tard :</li>
+                    <li>new graph, faire un graph en cercle : eventEnvoyé : EventValidé/EventRefusé/EventEnAttente</li>
+                    <li>Temps avant rechargemet faire un time compteur</li>
+                    <li>Survole des barGraph afficher la valeur</li>
+                </ul>
+                <div class="frame-cards-credit">
+                    <div class="cards-credit">
+                        <p>Vous avez le plan</p>
+                        <p class="credit-data" id="user-plan"></p>
+                    </div>
 
-                <div class="cards-credit">
-                    <p>Temps avant rechargement</p>
-                    <p id="date-rechargement"></p>
-                </div>
+                    <div class="cards-credit">
+                        <p>Temps avant rechargement</p>
+                        <p class="credit-data" id="date-rechargement"></p>
+                    </div>
 
-                <div class="cards-credit">
-                    <p>Envois d'email restant </p>
-                    <p id="credit-email"></p>
-                </div>
+                    <div class="cards-credit">
+                        <p>Envois d'email restant </p>
+                        <p class="credit-data" id="credit-email"></p>
+                    </div>
 
-                <div class="cards-credit">
-                    <p>Envois de sms restant </p>
-                    <p id="credit-sms"></p>
+                    <div class="cards-credit">
+                        <p>Envois de sms restant </p>
+                        <p class="credit-data" id="credit-sms"></p>
+                    </div>
                 </div>
             </section>
 
+            <section class="frame-graph" id="graph">
+
+                <header class="graph-header">
+                    <p>Messages envoyés : <span style="background-color:black; color: white; padding:3px">Mail</span>  <span style="background-color:blue; color: white; padding:3px">Sms</span></p>
+
+                    <select name="" id="graph-select">
+                        <option value="jours">jours</option>
+                        <option value="semaine">semaine</option>
+                        <option value="mois">mois</option>
+                        <option value="années">années</option>
+                    </select>
+                </header>
+
+                <div>
+                    <div class="graph-row">
+                        <p class="legend-y">20</p>
+                    </div>
+
+                    <div class="graph-row">
+                        <p class="legend-y">15</p>
+                    </div>
+
+                    <div class="graph-row">
+                        <p class="legend-y">10</p>
+                    </div>
+
+                    <div class="graph-row">
+                        <p class="legend-y">5</p>
+                    </div>
+
+                    <div class="graph-row">
+                        <p class="legend-y">0</p>
+                    </div>
+                </div>
+
+                <footer class="graph-footer">
+                </footer>
+            </section>
 
             <section id="event">
-                <p>Progression de vos evenement ! </p>
+                <header>
+                    <h2 class="title-event">Mes events</h2>
+                    <p class="subtitle-event">Ici vous retrouvez tout les évenements que vous avez déclanché et qui ne sont pas archivé</p>
+                </header>
+
+                <div class="frame-append-event">
+                    <!-- append cards event here-->
+                </div>
+
             </section>
         </main>
     </section>
@@ -57,7 +115,9 @@
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
     <script src="./js/tools.js"></script>
-    <script src="./js/dashboardGet.js"></script>  
+    <script src="./js/dashboard/dashboardGet.js"></script>
+    <script src="./js/dashboard/dashboardGraph.js"></script>
+    <script src="./js/dashboard/dashboardLogique.js"></script>
 </body>
 
 </html>

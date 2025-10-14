@@ -31,7 +31,7 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     const url = `http://${process.env.HOST}/user/verify/${token}/${user.id}`;
     await sendVerifyAccount(user.email, url);
 
-    res.json({ succes: true, message: "Bienvenue chez Calendyx ;), merci de confirmer votre compte avec l'email qui vous a été envoyé." })
+    res.json({ succes: true, message: "Bienvenue chez Calendyx, merci de confirmer votre compte avec l'email qui vous a été envoyé." })
 })
 
 
@@ -130,13 +130,12 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
 
 //Auth utilisateur
 routerApiUser.post("/api/user/connect", async (req, res) => {
-    console.log("route connect")
     authenticateUser(req, db, res)
 })
 
 //get data d'un user
 routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
-    const data = getUserData(req, db, res)
+    const data = await getUserData(req, db, res)
     res.json({
         message: "Donnée de l'utilisateur",
         nom: data.nom,

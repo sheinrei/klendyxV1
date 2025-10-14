@@ -2,8 +2,9 @@ nav {
     min-height: 100vh;
     background: var(--background-color);
     display: flex;
-
+    position:fixed;
     border: 2px solid var(--border-color);
+    z-index:10;
 }
 
 .list-nav {

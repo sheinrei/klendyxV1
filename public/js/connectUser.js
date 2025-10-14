@@ -20,7 +20,7 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.success == true) {
                     localStorage.setItem("token", data.token);
-                    window.location.href = "/index";
+                    window.location.href = "/dashboard";
                 } else {
                     $("#msg-alert").text(`${data.message}`)
                 }

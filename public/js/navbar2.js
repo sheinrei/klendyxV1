@@ -1,5 +1,5 @@
 const htmlNavbar = `
-    <nav class="navbar" data-position="left">
+    <nav class="navbar">
         <div class="navbar-header">
             <div class="navbar-brand">
                 <svg class="navbar-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -91,17 +91,7 @@ const htmlNavbar = `
             </div>
         </div>
 
-        <div class="navbar-footer">
-            <button class="navbar-position-toggle" title="Changer la position">
-                <svg class="navbar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="17 1 21 5 17 9"></polyline>
-                    <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
-                    <polyline points="7 23 3 19 7 15"></polyline>
-                    <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
-                </svg>
-                <span class="navbar-text">Position</span>
-            </button>
-        </div>
+    
     </nav>
     <div class="navbar-overlay"></div>
 `;
@@ -120,13 +110,10 @@ if (isConnect) {
 
 // État de la navbar
 let isExpanded = true;
-let currentPosition = localStorage.getItem("navbarPosition") || "left";
-$(".navbar").attr("data-position", currentPosition);
 
-// Toggle navbar (rétraction/expansion) - uniquement pour sidebar
+// Toggle navbar (rétraction/expansion)
 $(".navbar-toggle").on("click", function() {
     const navbar = $(".navbar");
-    const position = navbar.attr("data-position");
     
     // Sur mobile, gère l'ouverture du menu
     if (window.innerWidth <= 768) {
@@ -135,39 +122,12 @@ $(".navbar-toggle").on("click", function() {
         return;
     }
     
-    // En position top, le toggle ne fait rien (sauf mobile)
-    if (position === "top") {
-        return;
-    }
-    
-    // Toggle collapse pour sidebar seulement
+    // Toggle collapse pour desktop
     isExpanded = !isExpanded;
     if (isExpanded) {
         navbar.removeClass("navbar-collapsed");
     } else {
         navbar.addClass("navbar-collapsed");
-    }
-});
-
-// Toggle position (gauche/droite/haut)
-$(".navbar-position-toggle").on("click", function() {
-    const positions = ["left", "right", "top"];
-    const currentIndex = positions.indexOf(currentPosition);
-    const nextIndex = (currentIndex + 1) % positions.length;
-    currentPosition = positions[nextIndex];
-    
-    const navbar = $(".navbar");
-    navbar.attr("data-position", currentPosition);
-    localStorage.setItem("navbarPosition", currentPosition);
-    
-    // Toujours expand la navbar lors du changement de position
-    isExpanded = true;
-    navbar.removeClass("navbar-collapsed");
-    
-    // Fermer le menu mobile lors du changement de position
-    if (window.innerWidth <= 768) {
-        navbar.removeClass("navbar-mobile-open");
-        $(".navbar-overlay").removeClass("active");
     }
 });
 

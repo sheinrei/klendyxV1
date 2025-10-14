@@ -10,6 +10,7 @@ const htmlNavbar = `
             <a class="item-nav" href="/services">Services</a>
             <a class="item-nav" href="/event">Créer un evenement</a>
             <a class="item-nav" href="/contact">Contact</a>
+            <a class="item-nav" id="btnAgenda" href="/agenda">Agenda</a>
 </div>
 <button class="btn-navbar-slide"></button>
         </nav>
@@ -23,7 +24,8 @@ const isConnect = window.localStorage.getItem("token");
 isConnect ? $("#btnConnection").css("display", "none") : $("#btnDeconnection").css("display", "none")
 
 if(!isConnect){
-    $("#btnMonCompte").css("display", "none")
+    $("#btnMonCompte").css("display", "none");
+    $("#btnAgenda").css("display", "none");
 }
 
 //slide pour retract la navbar

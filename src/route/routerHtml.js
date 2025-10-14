@@ -41,5 +41,9 @@ router.get("/contact", (req, res) => {
     sendFile("./public/pageHtml/contact.html", res);
 })
 
+router.get("/agenda", (req,res)=>{
+    sendFile("./public/pageHtml/agenda.html", res);
+})
+
 //export à la fin du fichier
 export default router

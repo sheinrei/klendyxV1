@@ -36,6 +36,10 @@ li {
     padding: 0
 }
 
+p {
+    cursor: default;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -85,6 +89,18 @@ main {
     letter-spacing: -0.025em;
 
     text-align: center;
+}
+
+.title-2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    letter-spacing: -0.025em;
+    
 }
 
 .subtitle {
@@ -166,6 +182,7 @@ footer {
     background: linear-gradient(135deg, var(--primary-color), #7c3aed);
     color: white;
     box-shadow: var(--shadow-medium);
+
 }
 
 .btn-primary:hover {
@@ -184,6 +201,6 @@ footer {
 }
 
 /* input */
-input{
+input {
     cursor: pointer;
 }

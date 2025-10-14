@@ -9,6 +9,7 @@ import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
 import routerApiEvent from "./src/api/apiEvent.js";
 import routerApiCredit from "./src/api/apiCredit.js";
+import routerApiCalendar from "./src/api/apiCalendar.js";
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 await initDb()
@@ -25,7 +26,7 @@ app.use("/", routerHtml);
 app.use("/", routerApiUser);
 app.use("/api/event", routerApiEvent)
 app.use("/api/credit", routerApiCredit)
-
+app.use("/api/calendar", routerApiCalendar)
 
 
 app.listen(port, () => console.log(`Application Node lancé sur : http://localhost:${port}/index`))

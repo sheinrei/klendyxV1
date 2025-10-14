@@ -8,7 +8,7 @@
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="./js/headConstruct.js"></script>
-
+    <link rel="stylesheet" href="./../css/compteConfig.css">
 
 </head>
 
@@ -26,23 +26,35 @@
             <div id="user-info">
                 <p id="return-message"></p>
 
-                <h2>Bienvenue sur votre espace gestion de compte.</h2>
+                <h2 class="title">Bienvenue sur votre espace gestion de compte.</h2>
 
                 <p id="prenom">Prenom : ${data.prenom}</p>
                 <p id="nom">Nom : ${data.nom}</p>
                 <p id="email">Email : ${data.email}</p>
                 <p id="date-crea">Compte cré le : ${data.created.split("T")[0]}</p>
 
-                <div>
-                    <p>Changer son mdp</p>
+                <div class="form-change-mdp">
+                    <header>
+                        <p class="title-2">Changer son mdp</p>
+                        <p class="subtitle">Vous pouvez changer votre mot de passe, un email vous sera envoyé en cas de
+                            réussite.</p>
+                    </header>
+                    <p id="message-alert-password"></p>
                     <form id="change-password">
-                        <label for="last-password">Votre ancien mdp</label>
-                        <input type="password" id="last-password" name="last-password">
+                        <div class="input-mdp">
+                            <label for="last-password">Votre ancien mdp</label>
+                            <input type="password" id="last-password" name="last-password">
 
-                        <label for="new-password">Votre nouveau mdp</label>
-                        <input type="password" id="new-password" name="new-password">
 
-                        <button id="submit-change-password">Valider</button>
+                            <label for="new-password">Nouveau mot de passe</label>
+                            <input type="password" id="new-password" name="new-password">
+
+                            <label for="new-password-confirm">Confirmer le mot de passe</label>
+                            <input type="password" id="new-password-confirm" name="new-password-confirm">
+                        </div>
+                        <progress max="100" value="0" id="strength-bar"></progress>
+
+                        <button id="submit-change-password" class="btn-primary btn-compte">Valider</button>
                     </form>
                 </div>
 
@@ -65,6 +77,7 @@
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
     <script src="./js/logiqueCompte.js"></script>
+    <script src="./js/password/forcePassword.js"></script>
 </body>
 
 </html>
