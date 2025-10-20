@@ -9,7 +9,10 @@
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="./js/headConstruct.js"></script>
+    <link rel="stylesheet" href="./../css/calendar.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.css" rel="stylesheet" />
 
 </head>
 
@@ -22,16 +25,23 @@
             <header>
                 <h1>Retrouvez tout les services proposé par Calendyx</h1>
             </header>
-            <iframe src="https://calendar.google.com/calendar/embed?src=beaute.laurent.dev%40gmail.com&ctz=UTC"
-                style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+
+            <div id="calendar" style="width: 50%; background-color:white;"></div>
 
         </main>
     </section>
 
 
-    <script src="./js/navbar.js"></script>
-    <script src="./js/footer.js"></script>
-    <script src="./js/deconnectUser.js"></script>
 </body>
+
+
+
+<script src="./js/navbar.js"></script>
+<script src="./js/footer.js"></script>
+<script src="./js/deconnectUser.js"></script>
+<script src="./js/calendar/implemente.js"></script>
+<script src="./js/calendar/modaleDetailEvent.js"></script>
+
 
 </html>

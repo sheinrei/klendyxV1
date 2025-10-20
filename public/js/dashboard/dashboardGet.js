@@ -42,7 +42,6 @@ const getEvent = async () => {
             e.response = "En attente de réponse."
         }
         const arrPlateform = JSON.parse(e.plateformSender);
-        let styleResponse;
         e.response === ""
         const html = `<div class="cards-event" data-event-id="${e.id}">
                 <button class="delete-event-btn" aria-label="Supprimer l'événement" title="Archiver">
@@ -69,3 +68,4 @@ const getEvent = async () => {
 }
 getcredit()
 getEvent()
+

@@ -19,3 +19,4 @@ export default async function generateToken(userId, typeToken, db) {
         return ("Erreur lors de la création du token", err)
     }
 }
+

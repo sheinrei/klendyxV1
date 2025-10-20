@@ -53,3 +53,13 @@ $("#submit-change-password").on("click", function (e) {
         }
     })
 })
+
+//synchroniser les calendar
+
+$("#btn-sync-google").on('click', async function (e) {
+    e.preventDefault();
+
+    const jwt = window.localStorage.getItem("token")
+    window.location.href = `/api/calendar/auth/${jwt}`
+
+})

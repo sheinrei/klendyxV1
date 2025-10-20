@@ -21,7 +21,7 @@ export default (sequelize) => {
             allowNull: false,
         },
         token: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         }
 

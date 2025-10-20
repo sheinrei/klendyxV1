@@ -16,7 +16,7 @@ async function updatingEvent(responseUser, message) {
     const res = await fetch(`http://localhost:3000/api/event/update`, {
         method: 'POST',
         headers: {
-            'Content-type': 'Application/json'
+            'Content-type': 'application/json'
         },
         body: JSON.stringify({
             responseUser,
