@@ -12,7 +12,7 @@ import db from "./../sequelize.js";
 import { createEvent } from "./../service/event/createEvent.js";
 import { sendNewEvent } from "./../service/mailer/sendNewEvent.js";
 import generateToken from "./../service/token/generateToken.js";
-import { updateEvent } from "./../service/event/updateEvent.js";
+import { updateEvent, updateStateEvent } from "./../service/event/updateEvent.js";
 import { getEvent } from "../service/event/getEvent.js";
 import { decrementCredit } from "../service/credit/decrementCredit.js";
 import { deleteEvent } from "../service/event/deleteEvent.js";
@@ -50,6 +50,7 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
         const send = await sendNewEvent(req, url, email, res);
         if (send.success) {
             await decrementCredit(db, req, "mail")
+            await updateStateEvent(id,idEvent, db, "Email envoyé, en attente de reponse.")
             return res.json({ success: true, message: send.message })
         }
     }
@@ -62,6 +63,7 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
         console.log(sendSMS)
         if (!sendSms.success) {
             await decrementCredit(db, req, "sms")
+            await updateStateEvent(id, db,idEvent, "Sms envoyé, en attente de reponse.")
             return res.json({ success: false, message: sendSms.message })
         }
         return res.json({ success: true, message: sendSms.message })
@@ -99,7 +101,9 @@ routerApiEvent.post("/delete", authMiddleware, async (req, res) => {
 
     const deleteE = await deleteEvent(db, req)
     if (deleteE) {
-        res.json({ success: true, message: "Evenement archivé" })
+        return res.json({ success: true, message: "Evenement archivé" })
     }
+
+    return res.json({success:false, message: "Echec survenue avec le serveur, nous n'avons pas pu supprimer cet evenement."})
 })
 export default routerApiEvent

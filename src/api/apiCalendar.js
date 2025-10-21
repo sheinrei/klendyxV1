@@ -17,7 +17,7 @@ const oauth2Client = new google.auth.OAuth2(
     process.env.O2AUTH_CLIENT_SECRET,
     "http://localhost:3000/api/calendar/oauth2callback" // callback URL
 );
-const scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
+const scopes = ["https://www.googleapis.com/auth/calendar"];
 
 
 // 🔹 Étape 1 — Rediriger vers Google pour autorisation
@@ -56,7 +56,7 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
         saveToken(userId, "RefreshTokenGoogle", tokens, db)
 
 
-        res.send("Connexion réussie ! Tu peux fermer cette fenêtre.");
+        res.redirect(`http://${process.env.HOST}/agenda`);
     } catch (err) {
         console.error("Erreur lors du callback:", err);
         res.status(500).send("Erreur d’authentification");
@@ -66,22 +66,25 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
 
 
 // 🔹 Étape 3 — Exemple d’accès au calendrier
-routerApiCalendar.get("/get", authMiddleware, async (req, res) => {
-
+routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
 
     try {
-        const token = await getToken("RefreshTokenGoogle", req.userId, db);
-        console.log(token)
-        if (!token) return res.status(401).send("Non autorisé");
+        const token = await getToken("RefreshTokenGoogle", req.userId, db)
+        if (!token) return res.status(401).send("Non autorisé")
 
-        oauth2Client.setCredentials(token);
+        oauth2Client.setCredentials(token)
 
         const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
+        const now = new Date();
+        const lastMounth = new Date(now);
+        lastMounth.setDate(now.getDate() - 30);
+
         const events = await calendar.events.list({
             calendarId: "primary",
-            timeMin: new Date().toISOString(),
-            maxResults: 2500,
+            timeMin: lastMounth.toISOString(),
+            fields: "items(id,summary,start,end, description)",
+            maxResults: 400,
             singleEvents: true,
             orderBy: "startTime",
         });
@@ -94,11 +97,78 @@ routerApiCalendar.get("/get", authMiddleware, async (req, res) => {
 });
 
 
+//create un event google
+routerApiCalendar.post("/google/create", authMiddleware, async (req, res) => {
 
+    const token = await getToken("RefreshTokenGoogle", req.userId, db);
+    oauth2Client.setCredentials(token);
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
+    const event = {
+        summary: req.body.summary,
+        location: 'Google Meet',
+        description: req.body.description,
+        start: {
+            dateTime: req.body.dateStart,
+            timeZone: 'Europe/Paris',
+        },
+        end: {
+            dateTime: req.body.dateEnd,
+            timeZone: 'Europe/Paris',
+        },
+    };
 
+    calendar.events.insert({
+        calendarId: 'primary',
+        resource: event,
+    }, (err, eventRes) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false });
+        }
+        const googleEventId = eventRes.data.id;
+        res.json({ success: true, data: eventRes.data, id: googleEventId });
+    });
+})
 
+//udate un event google
+routerApiCalendar.post("/google/update", async (req, res) => {
 
+    const token = await getToken("RefreshTokenGoogle", req.userId, db);
+    oauth2Client.setCredentials(token);
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+
+    calendar.events.update({
+        calendarId: 'primary',
+        eventId: 'ID_DE_L_EVENT',
+        resource: { summary: 'Titre modifié' },
+    });
+})
+
+//supprimer un event google
+routerApiCalendar.post("/google/delete", authMiddleware, async (req, res) => {
+
+    const eventId = req.body.eventId
+
+    const token = await getToken("RefreshTokenGoogle", req.userId, db);
+    oauth2Client.setCredentials(token);
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+
+    try {
+        const deleted = await calendar.events.delete({
+            calendarId: 'primary',
+            eventId,
+        });
+
+        if (deleted) {
+            res.json({ success: true, message: "Evenement effacé de votre agenda" })
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+
+})
 
 
 

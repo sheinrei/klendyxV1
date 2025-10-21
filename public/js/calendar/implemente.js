@@ -4,7 +4,7 @@ $(document).ready(async () => {
 
     //======  fetch des données  =======
     async function getGoogleCalendar() {
-        const res = await fetch("http://localhost:3000/api/calendar/get", {
+        const res = await fetch("http://localhost:3000/api/calendar/google/get", {
             method: 'GET',
             headers: {
                 'Authorization': "Bearer " + token,
@@ -27,18 +27,33 @@ $(document).ready(async () => {
 
     // ====== Init du calendrier ======
     const calendarEl = document.getElementById('calendar');
+    const containerEl = document.getElementById("external-events")
+
+    // Rend les éléments "draggables"
+    new FullCalendar.Draggable(containerEl, {
+        itemSelector: '.fc-event',
+        eventData: function (eventEl) {
+            return {
+                title: eventEl.innerText.trim()
+            }
+        }
+    });
 
     //Constructeur calendar
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+    window.calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        dayMaxEvents: 3,
         locale: 'fr',
+        contentHeight: "auto",
         headerToolbar: {
             left: 'prev next',
-            center: 'title today',
+            center: 'title',
             right: "dayGridWeek,dayGridMonth"
         },
         buttonText: {
-            today: "Aujourd'hui"
+            today: "Aujourd'hui",
+            week: "Semaine",
+            month: "Mois",
         },
         firstDay: 1,
         editable: false,
@@ -46,6 +61,14 @@ $(document).ready(async () => {
         eventClick: (info) => {
             info.jsEvent.preventDefault()
             createModale(info)
+        },
+
+        drop: (info)=>{
+            console.log(info)
+        },
+        
+        dateClick: (info)=>{
+            console.log(info)
         }
     });
 
@@ -56,59 +79,60 @@ $(document).ready(async () => {
     const eventCalendyx = await getCalendyxEvents()
 
     let turn = 0;
-    //calendyx
-    eventCalendyx.event.data.map((element) => {
-        calendar.addEvent({
-            allDay: true,
-            start: element.dateDebut,
-            end: element.dateFin,
 
-            title: element.titleEvent,
+    window.calendar.batchRendering(() => {
+        //calendyx
+        eventCalendyx.event.data.map((element) => {
+            window.calendar.addEvent({
+                start: element.dateDebut,
+                end: element.dateFin,
 
-            extendedProps: {
-                data: element,
-                description: element.messageEvent
-            },
+                title: element.titleEvent,
+                id: element.id,
 
-            className: "css class",
+                extendedProps: {
+                    data: element,
+                    description: element.messageEvent,
+                    origin: "calendyx",
+                },
 
-            color: "white",
-            borderColor: "pink",
-            backgroundColor: "grey",
-            textColor: "white",
-
-            editable: false,
-            order: turn,
+                backgroundColor: "#3788d8",
+                textColor: "white",
+                borderColor: "pink",
+                editable: false,
+                order: turn,
+            })
+            turn++
         })
-        turn++
+
+        //google
+        eventDataGoogle.events.data.items.map((element) => {
+            window.calendar.addEvent({
+                allDay: !!element.start.date,
+                start: element.start.dateTime || element.start.date,
+                end: element.end.dateTime || element.end.date,
+
+                id: element.id,
+                title: element.summary,
+                extendedProps: {
+                    data: element,
+                    origin: "google",
+                },
+
+                color: "white",
+                backgroundColor: "#3788d8",
+                textColor: "white",
+
+                editable: false,
+                order: turn,
+            })
+            turn++
+        })
     })
 
-    //google
-    eventDataGoogle.events.data.items.map((element) => {
-        calendar.addEvent({
-            allDay: true,
-            start: element.start.dateTime,
-            end: element.end.dateTime,
 
-            title: element.summary,
-            extendedProps: {
-                data: element,
-            },
 
-            className: "css class",
-
-            color: "white",
-            borderColor: "pink",
-            backgroundColor: "grey",
-            textColor: "white",
-
-            editable: false,
-            order: turn,
-        })
-        turn++
-    })
-
-    calendar.render();
+    window.calendar.render();
 
 })
 

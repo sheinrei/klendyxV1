@@ -1,18 +1,39 @@
-
-
 function createModale(infos) {
-
+    //remove si modale déjà présente
+    $(".event-modale").remove()
     const def = infos.event._def
-    const range = infos.event._instance.range
+    const extProps = def.extendedProps;
+    const origin = extProps.origin
 
-    const title = def.title
-    const start = range.start
-    const end = range.end
-    const duree = end - start;
+    let start;
+    let end;
+    let title;
+    let description;
+    let id = extProps.data.id;
 
-    console.log(def.extendedProps.description)
-    let description = def.extendedProps.description ? def.extendedProps.description : "Aucune description."
+    console.log(extProps)
 
+    switch (origin) {
+        case "google": {
+            start = extProps.data.start.dateTime;
+            end = extProps.data.end.dateTime;
+            title = def.title
+            description = extProps.data.description ?? "Aucune description"
+            break
+        }
+        case "calendyx": {
+            start = extProps.data.dateDebut
+            end = extProps.data.dateFin
+            title = extProps.data.titleEvent
+            description = def.extendedProps.description
+            break
+        }
+    }
+
+    let duree = (new Date(end) - new Date(start)) / 3600000;
+
+
+    duree = parsingHours(duree)
 
     const htmlModale = `<div class="event-modale">
 
@@ -20,11 +41,26 @@ function createModale(infos) {
                 <div class="modal-title-section">
                     <h2 class="event-title" id="eventTitle">${title}</h2>
                 </div>
-                <button class="close-modale">&times;</button>
+                <button class="close-modale" id="btn-close-modale">&times;</button>
             </div>
 
             <div class="modal-body">
                 <div class="event-info-grid">
+
+                    <input type="hidden" id="event-id" value='${id}'>
+                    <input type="hidden" id="origin-event" value="${origin}">
+                    <input type="hidden" id="fc-event-id" value="${infos.event.id}">
+
+
+                    <div class="info-item">
+                        <img width="20" height="20" src="https://img.icons8.com/ios/50/calendar--v1.png" alt="calendar--v1"/>
+                        <div class="info-content">
+                            <div class="info-label">Origine de l'evenement</div>
+                            <div class="info-value" id="eventStart">Agenda ${origin}</div>
+                        </div>
+                    </div>
+
+
 
                     <div class="info-item">
                         <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +68,7 @@ function createModale(infos) {
                         </svg>
                         <div class="info-content">
                             <div class="info-label">Date de début</div>
-                            <div class="info-value" id="eventStart">${start}</div>
+                            <div class="info-value" id="eventStart">${start ? parsingDate(start) : "Pas de date"}</div>
                         </div>
                     </div>
 
@@ -42,7 +78,7 @@ function createModale(infos) {
                         </svg>
                         <div class="info-content">
                             <div class="info-label">Date de fin</div>
-                            <div class="info-value" id="eventEnd">${end}</div>
+                            <div class="info-value" id="eventEnd">${end ? parsingDate(end) : "Pas de date"}</div>
                         </div>
                     </div>
 
@@ -52,43 +88,37 @@ function createModale(infos) {
                         </svg>
                         <div class="info-content">
                             <div class="info-label">Durée</div>
-                            <div class="info-value" id="eventDuration">${duree / 3600}H</div>
+                            <div class="info-value" id="eventDuration">${duree ? duree : "Toute la journée."}</div>
                         </div>
                     </div>
 
-                    <div class="info-item">
+
+                    <div class="info-item" style="${origin === "calendyx" ? "dispay:flex" : "display:none"}">
                         <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                         <div class="info-content">
-                            <div class="info-label">Lieu</div>
-                            <div class="info-value" id="eventLocation">Salle de conférence A</div>
+                            <div class="info-label">Etat du rendez-vous</div>
+                            <div class="info-value" id="calendyx-state-rdv">${extProps.data.state}</div>
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-                        </svg>
+                    <div class="info-item" style="${origin === "calendyx" && extProps.data.response ? "dispay:flex" : "display:none"}">
+                        <img width="20" height="20" src="https://img.icons8.com/ios/50/email-open.png" alt="email-open"/>   
                         <div class="info-content">
-                            <div class="info-label">Lien</div>
-                            <div class="info-value" id="eventUrl">
-                                <a href="#" style="color: #3b82f6; text-decoration: none;">https://meet.example.com/abc-def</a>
+                            <div class="info-label">Réponse </div>
+                            <div class="info-value" id="calendyx-state-rdv" 
+                            style="padding:4px; border:1px solid black;width:fit-content; color:white; border-radius:5px;background-color:${extProps.data.response === "Refusé" ? "red" : "green"}">
+                            ${extProps.data.response}</div>
+
+                            <div class="info-value" id="calendyx-state-rdv"
+                                style="${extProps.data.messageReturn ? "dispay:flex" : "display:none"}">
+                            Message retourné :<br>${extProps.data.messageReturn}
                             </div>
+
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                        </svg>
-                        <div class="info-content">
-                            <div class="info-label">Organisateur</div>
-                            <div class="info-value" id="eventOrganizer">Marie Dupont</div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="event-description">
                     <div class="info-label" style="margin-bottom: 8px;">Description</div>
@@ -97,21 +127,45 @@ function createModale(infos) {
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
-                <button class="btn btn-primary" onclick="editEvent()">Modifier</button>
-                <button class="btn btn-danger" onclick="deleteEvent()">Supprimer</button>
+                <button id="btn-update-event" class="btn btn-primary">Modifier</button>
+                <button id="btn-delete-event" class="btn btn-danger">Supprimer</button>
             </div>
         </div>
 
     </div>`
 
 
-
-
     $("body").append(htmlModale)
 }
 
 $(document).on("click", ".close-modale", () => {
-    console.log("clicked")
     $(".close-modale").closest(".event-modale").remove()
+})
+
+
+
+
+$(document).on("click", '.event-modale', (e) => {
+    const modal = $(".event-modale")[0];
+    let offsetX = 0, offsetY = 0;
+    let isDragging = false;
+
+    $(modal).on("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - modal.offsetLeft;
+        offsetY = e.clientY - modal.offsetTop;
+
+        document.body.style.userSelect = 'none'
+    })
+
+    $(modal).on('mousemove', (e) => {
+        if (!isDragging) return;
+        modal.style.left = e.clientX - offsetX + 'px';
+        modal.style.top = e.clientY - offsetY + 'px';
+    });
+
+    $(modal).on('mouseup', () => {
+        isDragging = false;
+        document.body.style.userSelect = 'auto';
+    });
 })

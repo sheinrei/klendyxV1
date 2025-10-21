@@ -33,19 +33,19 @@ export function eventTable(sequelize) {
             allowNull: true
         },
         titleEvent: {
-            type: DataTypes.STRING,//corp de l'objet
+            type: DataTypes.STRING,
             allowNull: false
         },
         messageEvent: {
-            type: DataTypes.STRING,//corp de l'objet
+            type: DataTypes.STRING,
             allowNull: false
         },
         dateDebut: {
-            type: DataTypes.DATE,//timestamps
+            type: DataTypes.DATE,
             allowNull: false,
         },
         dateFin: {
-            type: DataTypes.DATE,//timestamps
+            type: DataTypes.DATE,
             allowNull: false,
         },
         messageReturn: {

@@ -2,6 +2,7 @@ import { eventTable } from "../../models/eventTable.js";
 
 
 export async function deleteEvent(db, req) {
+
     const Event = eventTable(db);
     const userId = req.userId;
     const idEvent = req.body.eventId;
@@ -16,4 +17,5 @@ export async function deleteEvent(db, req) {
     if (deletedEvent) {
         return { success: true, message: "Event archivé" }
     }
+
 }

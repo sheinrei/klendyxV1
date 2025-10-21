@@ -13,11 +13,31 @@ export async function updateEvent(req, db) {
     const update = await Table.update({
         response: responseUser,
         messageReturn: message,
-        state: "reponse saisi par le destinataire."
+        state: "Repondu"
     },
         { where: { userId: id, id: idEvent } }
     )
 
+
+    if (!update) {
+        return { success: false, message: "Erreur Serveur, merci de réessayer plus tard." }
+    }
+
+    return { success: true, message: "Notification prise en compte." }
+}
+
+
+
+export async function updateStateEvent(userId, idEvent, db, state) {
+    
+    const Table = eventTable(db);
+
+    const update = Table.update({
+        state: state,
+    },
+        {
+            where: { userId: userId, id: idEvent }
+        })
 
     if (!update) {
         return { success: false, message: "Erreur Serveur, merci de réessayer plus tard." }

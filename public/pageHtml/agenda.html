@@ -11,9 +11,8 @@
     <script src="./js/headConstruct.js"></script>
     <link rel="stylesheet" href="./../css/calendar.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.css" rel="stylesheet" />
-
+    <!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script> -->
+    <script src="./js/cdnFullCalendar.js"></script>
 </head>
 
 
@@ -27,8 +26,48 @@
             </header>
 
 
-            <div id="calendar" style="width: 50%; background-color:white;"></div>
+            <div class="frame-calendar">
+                <div id="calendar"></div>
 
+
+                <div class="calendar-tools">
+                    <div id="external-events">
+                        <p><strong>Événements prédéfinis</strong></p>
+                        <div class="fc-event">Réunion</div>
+                        <div class="fc-event">Pause café</div>
+                        <div class="fc-event">Appel client</div>
+                        <div>
+                            <input type="checkbox" id="drop-remove" />
+                            <label for="drop-remove">Supprimer après drop</label>
+                        </div>
+                    </div>
+
+
+                    <div id="create-event">
+                        <form action="">
+                            <p>Ajouter un evenmeent dans votre Agenda</p>
+                            <label for="title-event">Titre</label>
+                            <input type="text" id="title-event" name="title-event">
+
+                            <label for="description">Description</label>
+                            <input type="text" name="description" id="description">
+
+
+                            <label for="start-time">Date de début</label>
+                            <input type="datetime-local" name="start-time" id="start-time">
+
+                            <label for="end-time">Date de fin</label>
+                            <input type="datetime-local" name="end-time" id="end-time">
+
+                            <button id="submit-create-event">Créer l'evenement</button>
+                        </form>
+
+                    </div>
+                </div>
+
+
+
+            </div>
         </main>
     </section>
 
@@ -37,11 +76,14 @@
 
 
 
+<script src="./js/tools.js"></script>
 <script src="./js/navbar.js"></script>
 <script src="./js/footer.js"></script>
 <script src="./js/deconnectUser.js"></script>
 <script src="./js/calendar/implemente.js"></script>
 <script src="./js/calendar/modaleDetailEvent.js"></script>
+<script src="./js/calendar/createEvent.js"></script>
+<script src="./js/calendar/deleteEvent.js"></script>
 
 
 </html>
