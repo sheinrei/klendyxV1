@@ -1,9 +1,15 @@
 import express from "express"
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
 
 //Partage du .env
 import dotenv from "dotenv"
 dotenv.config()
 
+// Définir __dirname pour les modules ES
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //router
 import routerHtml from "./src/route/routerHtml.js";
@@ -16,14 +22,52 @@ import routerApiCalendar from "./src/api/apiCalendar.js";
 import { initDb } from "./src/sequelize.js"
 await initDb()
 
+import { exec } from "child_process";
 
+const app = express();
 
+app.post(`/webhook/:token`, (req, res) => {
 
+    const secret = process.env.WEBHOOK_SECRET
+    const params = req.params.token
 
+    if (secret === params) {
+        const logFile = path.join(__dirname, 'deploy.log');
+        const timestamp = new Date().toISOString();
 
+        const log = (message) => {
+            const logMessage = `[${timestamp}] ${message}\n`;
+            fs.appendFileSync(logFile, logMessage);
+        };
+
+        log("=== Déclenchement du déploiement ===");
+
+        const commands = [
+            "cd /home/buyu3307/calendyx.beaute-laurent.fr/Admin",
+            "git pull origin production",
+            "mkdir -p tmp",
+            "touch tmp/restart.txt"
+        ].join(" && ");
+
+        exec(commands, (err, stdout, stderr) => {
+            if (err) {
+                log(`ERREUR: ${err.message}`);
+                log(`stderr: ${stderr}`);
+                return res.status(500).send("Erreur lors du déploiement");
+            }
+
+            log(`Git pull: ${stdout}`);
+            if (stderr) log(`stderr: ${stderr}`);
+            log("=== Déploiement terminé ===\n");
+
+            res.send("Déploiement réussi !");
+        });
+    } else {
+        res.status(403).send("Token invalide");
+    }
+});
 
 //setup express
-const app = express();
 const port = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,8 +79,8 @@ app.use("/api/event", routerApiEvent)
 app.use("/api/credit", routerApiCredit)
 app.use("/api/calendar", routerApiCalendar)
 
-app.get("/config", (req,res)=>{
-    res.json({host:process.env.HOST})
+app.get("/config", (req, res) => {
+    res.json({ host: process.env.HOST })
 })
 
 app.listen(port, () => console.log(`Application Node lancé sur : http://localhost:${port}/index`))

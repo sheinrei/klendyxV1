@@ -3,8 +3,7 @@ import sendFile from "./../service/sendFile.js";
 
 const router = express.Router()
 
-
-router.get("/", (req,res)=>{
+router.get("/", (req, res) => {
     res.redirect("/index")
 })
 
@@ -43,7 +42,7 @@ router.get("/contact", (req, res) => {
     sendFile("./public/pageHtml/contact.html", res);
 })
 
-router.get("/agenda", (req,res)=>{
+router.get("/agenda", (req, res) => {
     sendFile("./public/pageHtml/agenda.html", res);
 })
 

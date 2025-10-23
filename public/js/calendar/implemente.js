@@ -74,7 +74,7 @@ $(document).ready(async () => {
         }
     });
 
-
+    window.calendar.render()
 
     // ====== Rempli le canlendar avec la data
     const eventDataGoogle = await getGoogleCalendar()
