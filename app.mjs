@@ -43,7 +43,7 @@ app.post(`/webhook/:token`, (req, res) => {
         log("=== Déclenchement du déploiement ===");
 
         const commands = [
-            "cd /home/buyu3307/calendyx.beaute-laurent.fr/Admin",
+            "cd /home/buyu3307/calendyx.beaute-laurent.fr/production",
             "git pull origin production",
             "mkdir -p tmp",
             "touch tmp/restart.txt"
