@@ -4,6 +4,10 @@ import express from "express"
 import dotenv from "dotenv"
 dotenv.config()
 
+//preparation pour mise en prod
+
+
+
 //router
 import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
@@ -13,6 +17,9 @@ import routerApiCalendar from "./src/api/apiCalendar.js";
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 await initDb()
+
+
+
 
 
 //setup express
