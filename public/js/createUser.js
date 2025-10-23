@@ -1,7 +1,7 @@
 
 //Controle des champs et fetch vers api
-$(document).ready(function () {
-    $("#createUserForm").on("submit", function (e) {
+$(document).ready(()=> {
+    $("#createUserForm").on("submit", async function (e) {
         e.preventDefault()
 
         const nom = $("#nom").val()
@@ -12,7 +12,6 @@ $(document).ready(function () {
 
         const raisonSocial = $("#raisonSocial").val()
         const siren = $("#siren").val()
-
         const cgu = $("#cgu").is(":checked")
 
         if (!cgu) {
@@ -27,9 +26,11 @@ $(document).ready(function () {
             return
         }
 
+        const config = await getConfig()
+        const host = config.host
 
         $.ajax({
-            url: "/api/user/create",
+            url: `${host}/api/user/create`,
             method: "post",
             contentType: "application/json",
             data: JSON.stringify({

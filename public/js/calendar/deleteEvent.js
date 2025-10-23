@@ -1,6 +1,9 @@
 
 async function calendyxDeleteEvent(token, idEvent) {
-    const res = await fetch(`http://localhost:3000/api/event/delete`, {
+    const config = await getConfig()
+    const host = config.host
+
+    const res = await fetch(`${host}/api/event/delete`, {
         method: "POST",
         headers: {
             "Authorization": "Bearer " + token,
@@ -16,7 +19,11 @@ async function calendyxDeleteEvent(token, idEvent) {
 }
 
 async function googleDeleteEvent(token, idEvent) {
-    const res = await fetch(`http://localhost:3000/api/calendar/google/delete`, {
+    const config = await getConfig()
+    const host = config.host
+
+    
+    const res = await fetch(`${host}/api/calendar/google/delete`, {
         method: "POST",
         headers: {
             "Authorization": "Bearer " + token,

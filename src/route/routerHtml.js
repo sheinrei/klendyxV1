@@ -4,7 +4,9 @@ import sendFile from "./../service/sendFile.js";
 const router = express.Router()
 
 
-
+router.get("/", (req,res)=>{
+    res.redirect("/index")
+})
 
 
 //Router page html

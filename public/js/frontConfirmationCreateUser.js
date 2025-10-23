@@ -8,6 +8,7 @@ export function frontConfirmationCreateUser(loginUrl,contactUrl) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription confirmée</title>
+
     <style>
       :root {
             --main-color: grey;

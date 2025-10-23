@@ -6,12 +6,15 @@ $(function () {
     $("#submit-create-event").on("click", async function (e) {
         e.preventDefault();
 
+        const config = await getConfig()
+        const host = config.host
+
         const summary = $("#title-event").val();
         const description = $("#description").val();
         const dateStart = formatDateRfc3339($("#start-time").val());
         const dateEnd = formatDateRfc3339($("#end-time").val());
 
-        const res = await fetch("/api/calendar/google/create", {
+        const res = await fetch(`${host}/api/calendar/google/create`, {
             method: "POST",
 
             headers: {
@@ -32,16 +35,16 @@ $(function () {
         const eventFC = {
             start: dateStart,
             end: dateEnd,
-            id : data.googleEventId,
+            id: data.googleEventId,
             title: summary,
             extendedProps: {
                 origin: "google",
-                data : {
-                    data:data,
-                    dateTime:dateStart,
-                    start:{dateTime:dateStart, timeZone:"Europe/Paris"},
-                    end:{dateTime:dateEnd, timeZone:"Europe/Paris"},
-                    title:summary,
+                data: {
+                    data: data,
+                    dateTime: dateStart,
+                    start: { dateTime: dateStart, timeZone: "Europe/Paris" },
+                    end: { dateTime: dateEnd, timeZone: "Europe/Paris" },
+                    title: summary,
                     description,
                 }
             },

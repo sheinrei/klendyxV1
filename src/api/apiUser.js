@@ -28,7 +28,7 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     const token = await generateToken(user.id, "verifCreateAccount", db);
 
     //envoyer l'email
-    const url = `http://${process.env.HOST}/user/verify/${token}/${user.id}`;
+    const url = `${process.env.HOST}/user/verify/${token}/${user.id}`;
     await sendVerifyAccount(user.email, url);
 
     res.json({ succes: true, message: "Bienvenue chez Calendyx, merci de confirmer votre compte avec l'email qui vous a été envoyé." })

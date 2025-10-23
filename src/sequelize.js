@@ -9,7 +9,7 @@ import { eventTable } from "./models/eventTable.js";
 import { creditTable } from "./models/creditTable.js";
 
 
-const db = new Sequelize("calendyx", process.env.DB_USER, process.env.DB_PASSWORD, {
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
     timezone: '+02:00',

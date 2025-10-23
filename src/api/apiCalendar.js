@@ -15,7 +15,7 @@ import { getToken } from "../service/token/getToken.js";
 const oauth2Client = new google.auth.OAuth2(
     process.env.O2AUTH_ID_CLIENT,
     process.env.O2AUTH_CLIENT_SECRET,
-    "http://localhost:3000/api/calendar/oauth2callback" // callback URL
+    `${process.env.HOST}/api/calendar/oauth2callback` // callback URL
 );
 const scopes = ["https://www.googleapis.com/auth/calendar"];
 
@@ -56,7 +56,7 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
         saveToken(userId, "RefreshTokenGoogle", tokens, db)
 
 
-        res.redirect(`http://${process.env.HOST}/agenda`);
+        res.redirect(`${process.env.HOST}/agenda`);
     } catch (err) {
         console.error("Erreur lors du callback:", err);
         res.status(500).send("Erreur d’authentification");

@@ -1,9 +1,12 @@
 // Gestion de la connexion
 $(document).ready(function () {
 
-
-    $("#loginForm").on("submit", (e) => {
+    
+    $("#loginForm").on("submit", async(e) => {
         e.preventDefault();
+        
+        const config = await getConfig()
+        const host = config.host
 
         //reset du message d'alerte
         $("#msg-alert").text(``)
@@ -13,7 +16,7 @@ $(document).ready(function () {
         const mdp = $("#mdpConnect").val();
 
         $.ajax({
-            url: "/api/user/connect",
+            url: `${host}/api/user/connect`,
             method: "post",
             contentType: "application/json",
             data: JSON.stringify({ emailConnect: email, mdpConnect: mdp }),

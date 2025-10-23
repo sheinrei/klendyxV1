@@ -1,7 +1,5 @@
 // Logique du formulaire de création d'un event avec l'affiche du render
-
-
-$("#btn-submit-form-create-event").on("click", function (e) {
+$("#btn-submit-form-create-event").on("click", async function (e) {
     e.preventDefault();
     const htmlMessageAlert = $("#message-alert")
     $(htmlMessageAlert).text("");
@@ -35,7 +33,7 @@ $("#btn-submit-form-create-event").on("click", function (e) {
 
 
 
-    
+
     if (checkedEmail) {
         plateformSender.push("email")
     }
@@ -52,9 +50,11 @@ $("#btn-submit-form-create-event").on("click", function (e) {
 
     //fetch notre api
     const token = localStorage.getItem("token");
-
+    
+    const config = await getConfig()
+    const host = config.host
     $.ajax({
-        url: "/api/event/create",
+        url: `${host}/api/event/create`,
         method: "post",
         headers: {
             "Authorization": "Bearer " + token,
@@ -104,3 +104,6 @@ function parseSmsNumber(phone) {
 
     return { success: true, message: "Numero tel au bon format", phone: result }
 }
+
+
+

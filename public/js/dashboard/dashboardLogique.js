@@ -5,7 +5,10 @@ $(document).on("click", ".delete-event-btn", async function (e) {
     const parent = $(this).closest(".cards-event");
     const eventId = parent.data("event-id");
 
-    const res = await fetch("http://localhost:3000/api/event/delete", {
+    const config = await getConfig()
+    const host = config.host
+
+    const res = await fetch(`${host}/api/event/delete`, {
         method: "POST",
         headers: {
             "Content-type": "Application/json",

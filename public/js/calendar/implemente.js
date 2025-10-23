@@ -2,9 +2,11 @@
 $(document).ready(async () => {
     let token = window.localStorage.getItem("token")
 
+    let config = await getConfig()
+    let host = config.host
     //======  fetch des données  =======
     async function getGoogleCalendar() {
-        const res = await fetch("http://localhost:3000/api/calendar/google/get", {
+        const res = await fetch(`${host}/api/calendar/google/get`, {
             method: 'GET',
             headers: {
                 'Authorization': "Bearer " + token,
@@ -14,7 +16,7 @@ $(document).ready(async () => {
         return data
     }
     async function getCalendyxEvents() {
-        const res = await fetch("http://localhost:3000/api/event/get", {
+        const res = await fetch(`${host}/api/event/get`, {
             method: 'GET',
             headers: {
                 'Authorization': "Bearer " + token,
@@ -63,11 +65,11 @@ $(document).ready(async () => {
             createModale(info)
         },
 
-        drop: (info)=>{
+        drop: (info) => {
             console.log(info)
         },
-        
-        dateClick: (info)=>{
+
+        dateClick: (info) => {
             console.log(info)
         }
     });

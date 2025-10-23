@@ -46,7 +46,7 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
     if (plateformeEmail) {
         const email = req.body.recipientContactEmail;
         const token = await generateToken(id, "validationEventEmail", db);
-        const url = `http://${process.env.HOST}/api/event/valid/${token}/${id}/${idEvent}`;
+        const url = `${process.env.HOST}/api/event/valid/${token}/${id}/${idEvent}`;
         const send = await sendNewEvent(req, url, email, res);
         if (send.success) {
             await decrementCredit(db, req, "mail")

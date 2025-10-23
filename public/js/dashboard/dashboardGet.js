@@ -4,7 +4,10 @@
 const token = window.localStorage.getItem("token")
 
 const getcredit = async () => {
-    const res = await fetch("http://localhost:3000/api/credit/get", {
+    const config = await getConfig()
+    const host = config.host
+
+    const res = await fetch(`${host}/api/credit/get`, {
         method: "GET",
         headers: {
             "Content-type": "Application/json",
@@ -23,7 +26,10 @@ const getcredit = async () => {
 
 
 const getEvent = async () => {
-    const res = await fetch("http://localhost:3000/api/event/get", {
+    const config = await getConfig()
+    const host = config.host
+
+    const res = await fetch(`${host}/api/event/get`, {
         method: "GET",
         headers: {
             "Content-type": "Application/json",
@@ -33,7 +39,7 @@ const getEvent = async () => {
     const data = await res.json()
     const events = data.event.data
 
-    if(events.length == 0){
+    if (events.length == 0) {
         $(".frame-append-event").append("<p style='margin:10px; font-weight:500'>Vous n'avez pas d'évenement en cours.</p>")
     }
 

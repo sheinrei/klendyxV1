@@ -4,10 +4,10 @@
   "description": "gestion de rdv online",
   "license": "ISC",
   "author": "Laurent",
-  "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js,"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

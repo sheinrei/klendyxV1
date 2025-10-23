@@ -7,13 +7,20 @@ const messageAlert = document.getElementById("message-alert")
 
 let lock = false;
 
+
+
 async function updatingEvent(responseUser, message) {
+
+    const config = await getConfig()
+    const host = config.host
+    
+
     const params = window.location.pathname.split("/");
     const token = params[4];
     const id = params[5];
     const idEvent = params[6];
 
-    const res = await fetch(`http://localhost:3000/api/event/update`, {
+    const res = await fetch(`${host}/api/event/update`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'

@@ -3,7 +3,11 @@ const count = Math.floor(widthRow / 150);
 const today = new Date();
 
 const setGraph = async () => {
-  const res = await fetch("http://localhost:3000/api/event/get", {
+
+  const config = await getConfig()
+  const host = config.host
+
+  const res = await fetch(`${host}/api/event/get`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
@@ -55,7 +59,7 @@ const setGraph = async () => {
     const heightSms = nbSms * 10;
 
     const html = `<p class="graph-date" id="graph-date-${i}">${label}</p>`;
-    
+
     const styleMail = document.createElement("style");
     const styleSms = document.createElement("style");
 
