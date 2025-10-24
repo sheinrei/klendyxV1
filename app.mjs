@@ -32,13 +32,25 @@ app.post(`/webhook/:token`, (req, res) => {
     const params = req.params.token
 
     if (secret === params) {
+
+
+        //Ecrire dans le fichier deploy log tout les webhook de github
         const logFile = path.join(__dirname, 'deploy.log');
         const timestamp = new Date().toISOString();
-
         const log = (message) => {
             const logMessage = `[${timestamp}] ${message}\n`;
             fs.appendFileSync(logFile, logMessage);
         };
+
+
+
+        //verif si c'est bien la branch production
+        const branch = req.body.ref.replace('refs/heads/', '')
+        if (branch !== 'production') {
+            log("=== Pas la branch production on return");
+            return 
+        }
+
 
         log("=== Déclenchement du déploiement ===");
 
