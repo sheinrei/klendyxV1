@@ -1,12 +1,14 @@
-node_modules
+# Fichiers sensibles
 .env
+client_secret_*.json
 
-package.json
-
-
-simulation
-
-client_secret_1078050113663-p6vqt1ml6urn023fdu887v7krickd6o7.apps.googleusercontent.com.json
+# Logs et temporaires
+deploy.log
+tmp/
 sandbox.js
-plan.json
 todo.mk
+plan.json
+
+# Dépendances
+node_modules/
+
