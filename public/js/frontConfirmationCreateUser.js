@@ -218,6 +218,10 @@ export function frontConfirmationCreateUser(loginUrl,contactUrl) {
         }
     </style>
 </head>
+
+
+
+
 <body>
     <div class="container">
         <div class="checkmark">

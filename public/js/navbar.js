@@ -2,8 +2,8 @@
 const htmlNavbar = `
         <nav>
 <div class="list-nav">
-            <a class="item-nav" href="/index">Acceuil</a>
-            <a class="item-nav" id="btnConnection" href="/connection">Se connecter</a>
+            <a class="item-nav" href="/index">Accueil</a>
+            <a class="item-nav" id="btnConnection" href="/connexion">Se connecter</a>
             <a class="item-nav" id="btnDeconnection" href="/index">Se Deconnecter</a>
             <a class="item-nav" id="btnMonCompte" href="/mon-compte">Mon compte</a>
             <a class="item-nav" href="/dashboard">Tableau de bord</a>

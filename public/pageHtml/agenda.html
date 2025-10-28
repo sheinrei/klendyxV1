@@ -9,7 +9,8 @@
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <script src="./js/headConstruct.js"></script>
-    <link rel="stylesheet" href="./../css/calendar.css">
+    <link rel="stylesheet" href="./../css/calendar/calendar.css">
+    <link rel="stylesheet" href="./../css/calendar/modaleCalendar.css">
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script> -->
     <script src="./js/cdnFullCalendar.js"></script>
@@ -22,7 +23,13 @@
 
         <main>
             <header>
-                <h1>Retrouvez tout les services proposé par Calendyx</h1>
+                <h1>Planifiez et Suivez vos Rendez-vous</h1>
+
+                <p>Si ce n'est pas déjà fait vous pouvez synchroniser vos agenda google et apple sur votre <a href="/mon-compte#frame-sync-calendar">gestion de compte</a></p>
+
+                <div id="message-alert">
+
+                </div>
             </header>
 
 
@@ -33,9 +40,9 @@
                 <div class="calendar-tools">
                     <div id="external-events">
                         <p><strong>Événements prédéfinis</strong></p>
-                        <div class="fc-event">Réunion</div>
-                        <div class="fc-event">Pause café</div>
-                        <div class="fc-event">Appel client</div>
+                        <div class="fc-event" id="summary-reunion" value="Réunion">Réunion</div>
+                        <div class="fc-event" id="summary-pauseCafe" value="Pause café">Pause café</div>
+                        <div class="fc-event" id="summary-appelClient" value="Appel client">Appel client</div>
                         <div>
                             <input type="checkbox" id="drop-remove" />
                             <label for="drop-remove">Supprimer après drop</label>
@@ -85,6 +92,7 @@
 <script src="./js/calendar/modaleDetailEvent.js"></script>
 <script src="./js/calendar/createEvent.js"></script>
 <script src="./js/calendar/deleteEvent.js"></script>
+<script src="./js/modale/fcModale.js"></script>
 
 
 </html>

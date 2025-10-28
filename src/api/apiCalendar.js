@@ -7,6 +7,7 @@ import { saveToken } from "../service/token/saveToken.js";
 import jwt from "jsonwebtoken";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { getToken } from "../service/token/getToken.js";
+import { deleteToken } from "../service/token/deleteToken.js";
 
 
 
@@ -67,9 +68,9 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
 
 // 🔹 Étape 3 — Exemple d’accès au calendrier
 routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
+    let token = await getToken("RefreshTokenGoogle", req.userId, db)
 
     try {
-        const token = await getToken("RefreshTokenGoogle", req.userId, db)
         if (!token) return res.status(401).send("Non autorisé")
 
         oauth2Client.setCredentials(token)
@@ -90,9 +91,16 @@ routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
         });
 
         res.json({ success: true, events })
+
     } catch (err) {
-        console.error("Erreur lors de la récupération des événements :", err);
-        res.status(500).send("Erreur lors de la récupération des événements");
+        if(err == "Error: No access, refresh token, API key or refresh handler callback is set."){
+            return res.json({success: false, message : "Vous n'avez pas acces à votre agenda google, merci de vous authentifier"})
+        }
+        if (err.response.data.error_description === 'Token has been expired or revoked.') {
+            await deleteToken(token, db)
+            return res.json({ success: false, err: "droit acces", message: `Vos droits d'accès à votre agenda Google ont été modifié, merci de resynchroniser votre agenda Google en cliquant` })
+        }
+        res.json({ success: false, message: err });
     }
 });
 
@@ -118,6 +126,14 @@ routerApiCalendar.post("/google/create", authMiddleware, async (req, res) => {
         },
     };
 
+    let repeat = req.body.repeat || false
+    const recurence = [
+        `RRULE:FREQ=WEEKLY;INTERVAL=X;COUNT=X;UNTIL=20110701T170000Z;BYDAY=X`,
+    ]
+    if (repeat) {
+        event.push(recurence)
+    }
+
     calendar.events.insert({
         calendarId: 'primary',
         resource: event,
@@ -130,6 +146,7 @@ routerApiCalendar.post("/google/create", authMiddleware, async (req, res) => {
         res.json({ success: true, data: eventRes.data, id: googleEventId });
     });
 })
+
 
 //udate un event google
 routerApiCalendar.post("/google/update", async (req, res) => {
@@ -144,6 +161,7 @@ routerApiCalendar.post("/google/update", async (req, res) => {
         resource: { summary: 'Titre modifié' },
     });
 })
+
 
 //supprimer un event google
 routerApiCalendar.post("/google/delete", authMiddleware, async (req, res) => {

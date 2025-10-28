@@ -16,6 +16,7 @@ import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "./..
 //instance bdd
 import db from "./../sequelize.js"
 import { frontConfirmationCreateUser } from "../../public/js/frontConfirmationCreateUser.js";
+import sendFile from "./../service/sendFile.js";
 
 
 //creation d'un nouvel utilisateur
@@ -24,6 +25,10 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     //creer l'user dans le db
     const user = await createUser(req, db);
 
+    console.log(user)
+    if (!user.success) {
+        return res.json({ sucess: user.success, message: user.message })
+    }
     //generer un token de creation
     const token = await generateToken(user.id, "verifCreateAccount", db);
 
@@ -31,7 +36,7 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     const url = `${process.env.HOST}/user/verify/${token}/${user.id}`;
     await sendVerifyAccount(user.email, url);
 
-    res.json({ succes: true, message: "Bienvenue chez Calendyx, merci de confirmer votre compte avec l'email qui vous a été envoyé." })
+    res.json({ success: true, message: "Bienvenue chez Calendyx, votre compte a été créé avec succes. \n Pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
 })
 
 
@@ -68,7 +73,7 @@ routerApiUser.post("/api/user/email/new-password", async function (req, res) {
     const token = await generateToken(id, "forgotPassword", db);
 
     //envoyer un email
-    const url = `http://${process.env.HOST}/api/user/resetpassword/${token}/${id}`;
+    const url = `${process.env.HOST}/api/user/resetpassword/${token}/${id}`;
     await sendForgotPassword(email, url);
 
     res.json({ success: true, message: `Un email a été envoyé si cette adresse existe` });
@@ -86,12 +91,7 @@ routerApiUser.get("/api/user/resetpassword/:token/:id", async function (req, res
         res.redirect("/index");
         return
     } else {
-        res.send(`
-                    <form method="POST" action="/api/user/resetpassword/${token}/${id}">
-            <input type="password" name="password" placeholder="Nouveau mot de passe" required />
-            <button type="submit">Valider</button>
-        </form>
-            `);
+        sendFile("./public/pageHtml/newPassword.html", res);
 
     }
 })
@@ -106,12 +106,16 @@ routerApiUser.post("/api/user/resetpassword/:token/:id", async (req, res) => {
     if (!valid) return res.status(400).send("Token invalide ou expiré");
 
     // Hash et update du mot de passe
-    await changePassword(id, password, db);
+    const passwordChange = await changePassword(id, password, db);
+
+    if(passwordChange.success === false){
+        return res.json({success:false, message : passwordChange.message})
+    }
 
     // Supprimer le token après usage
     await deleteToken(token, db);
 
-    res.send("Mot de passe modifié avec succès ! <a href='/connection'>Revenir à l'écran de connection</a>.");
+    res.json({success:true, message: `<p id="message-alert-password">Mot de passe modifié avec succès ! <br>Vous allez être redirigé vers votre espace de connexion dans quelques instants.</p>`});
 });
 
 
@@ -122,8 +126,8 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
 
     verifyAccount(token, id, res, db)
 
-    const loginUrl = `http://${process.env.HOST}/connection`;
-    const contactUrl = `http://${process.env.HOST}/contact`
+    const loginUrl = `${process.env.HOST}/connection`;
+    const contactUrl = `${process.env.HOST}/contact`
     const html = frontConfirmationCreateUser(loginUrl, contactUrl)
     res.send(html)
 })

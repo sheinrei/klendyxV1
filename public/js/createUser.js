@@ -1,8 +1,14 @@
 
 //Controle des champs et fetch vers api
-$(document).ready(()=> {
+$(document).ready(() => {
     $("#createUserForm").on("submit", async function (e) {
         e.preventDefault()
+
+
+        const scrollTo = () => window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
         const nom = $("#nom").val()
         const prenom = $("#prenom").val()
@@ -16,6 +22,7 @@ $(document).ready(()=> {
 
         if (!cgu) {
             $("#msg-alert").text(`Veuillez valider les CGU`)
+            scrollTo()
             return
         }
 
@@ -23,6 +30,7 @@ $(document).ready(()=> {
             $("#mdp").css("border", "1px solid var(--error-color)")
             $("#mdpConfirm").css("border", "1px solid var(--error-color)")
             $("#msg-alert").text(`Veuillez faire correspondre les deux mots de passes !`)
+            scrollTo()
             return
         }
 
@@ -44,11 +52,24 @@ $(document).ready(()=> {
             }),
 
             success: function (res) {
-                if (res.success) {
-                    //faire redirection plus confirmation par email page d'attente
-                    $(".auth-subtitle").append(`<p style="color:green">Votre compte a été créé avec succes.</p>`)
+                console.log(res)
+                if (res.success === true) {
+                    $("#msg-alert").css("color", "green")
+                    const message = res.message.replace(/\n/g, "<br>")
+                    $("#msg-alert").html(`<p>${message}</p>`)
+                    scrollTo()
+                    $("#nom").val("")
+                    $("#prenom").val("")
+                    $("#email").val("")
+                    $("#mdp").val("")
+                    $("#mdpConfirm").val("")
+
+                    $("#raisonSocial").val("")
+                    $("#siren").val("")
+                    $('#cgu').prop('checked', false);
                 } else {
                     $("#msg-alert").text(`${res.message}`)
+                    scrollTo()
                 }
             },
 

@@ -58,16 +58,24 @@ export async function confirmTokenResetPassword(tokenUrl, id, db) {
 
 export async function changePassword(id, password, db) {
 
-    if (!id || !password) return
+    if (!id || !password) return {success:false, message:"Id ou password inexistant", data:{id, password}}
 
 
     const User = user(db);
     const mdpHashed = await bcrypt.hash(password, 10);
 
-    const change = await User.update(
-        { mdp: mdpHashed },
-        {
-            where: { id }
-        }
-    )
+    try {
+        const change = await User.update(
+            { mdp: mdpHashed },
+            {
+                where: { id }
+            })
+
+        if (change) return { success: true, message: "Changement du mot de passe effectué." }
+
+    }catch (err) {
+    return { success: false, message: "Erreur lors du changement de mot de passe, veuillez ressayer plus tard." }
+}
+
+
 }

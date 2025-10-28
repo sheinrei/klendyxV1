@@ -7,49 +7,34 @@ const newPasswordConfirm = $("#new-password-confirm").val()
 const alert = $("#message-alert-password")
 
 
-$("#new-password").keypress(function () {
-    checkpassword($("#new-password").val())
-})
+$("#new-password").on("input", function () {
+    checkPassword($(this).val());
+});
+
+function checkPassword(password) {
+    alert.text(""); 
 
 
-
-
-function checkpassword(password) {
-    $(alert).text("")
     let strength = 0;
+    let message = "";
 
-    password.length < 8 ?
-        strength += 1 : $(alert).text("Vous devez saisir au moins 8 caracteres");
+    const rules = [
+        { test: /.{8,}/, message: "Vous devez saisir au moins 8 caractères" },
+        { test: /[A-Z]/, message: "Vous devez saisir au moins une majuscule" },
+        { test: /[0-9]/, message: "Vous devez saisir au moins un chiffre" },
+        { test: /[?$@#&!]/, message: "Vous devez saisir au moins un caractère spécial (?$@#&!)" },
+    ];
 
-    password.match(/[A-Z]+/) ?
-        strength += 1 : $(alert).text("Vous devez saisir au moins une majuscule");
-
-    password.match(/[0-9]+/) ?
-        strength += 1 : $(alert).text("Vous devez saisir au moins un chiffre");
-
-    password.match(/[?$@#&!]+/) ?
-        strength += 1 : $(alert).text("Vous devez saisir au moins un caractère sépcial (?$@#&!)");
-
-
-    switch (strength) {
-        case 0:
-            $("#strength-bar").prop('value', 0);
-            break;
-
-        case 1:
-            $("#strength-bar").prop('value', 25);
-            break;
-
-        case 2:
-            $("#strength-bar").prop('value', 50);
-            break;
-
-        case 3:
-            $("#strength-bar").prop('value', 75);
-            break;
-
-        case 4:
-            $("#strength-bar").prop('value', 100);
-            break;
+    // check les regles
+    for (const rule of rules) {
+        if (!rule.test.test(password)) {
+            message = rule.message;
+            break; 
+        }
+        strength++;
     }
+
+    // Met à jour le message et la barre
+    alert.text(message);
+    $("#strength-bar").prop("value", strength * 25);
 }

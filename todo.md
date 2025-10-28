@@ -1,12 +1,6 @@
+<h1>Liste des Todo !</h1>
 
 -Connect :
-	->Remonter la page sur msg-alert quand submit new account
-	->Controlle de la couleurs selon succes false/true
-	->Ajouter système force password C/V dans config compte
-
-	->Forgot password :
-		->Faire le front
-		->Ajouter les double verfi et le systeme de force
 
 -Token : 
 	->Quand Token jwt expiré deconnecter automatiquement;
@@ -26,21 +20,13 @@
 	->Sms Url pour redirect user vallidation event trop long voir pour le racourcir avec un token auth 16?
 
 	->Email faire un jolie html pour chaque email avec les code couleurs de Calendyx
+
+
 -Agenda : 
-	->Dans config compte lancer la sync agenda?
-	->Detecter quel est l'agenda à config?
+	->Afficher la liste des calendrier sync (google/google-apple)
 
-	->Sync agenda google (OK):
-		->Passer de readonly en write
-		->Save le Refresh token? 
-		->Check le Access token sinon relancer le auth? <- Quelle durée configurable?
-
-	->Sync agenda apple
+	->Sync agenda apple => calDav
 	->Sync agenda outlootk
-
-
-	->Build un front agenda, quel lib? FullCalendar?
-	->Modale pour declancher un event depuis espace agenda?
 
 
 -Dashboard :
@@ -62,7 +48,7 @@
 
 ->Page de contacte et support :
 	->Mis en place du formulaire :
-		->Faire des catégorie -> User non connect?
+	->Faire des catégorie -> User non connect?
 	->Faire la table pour la db?
 
 -Page confidentialité :

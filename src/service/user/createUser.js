@@ -21,7 +21,7 @@ export default async function createUser(req, db) {
 
         });
 
-        return user;
+        return {success: true, message:"Compte créé avec succes", user};
 
     } catch (err) {
         if (err.name === "SequelizeUniqueConstraintError") {

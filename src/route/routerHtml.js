@@ -14,8 +14,8 @@ router.get("/index", (req, res) => {
 })
 
 
-router.get("/connection", (req, res) => {
-    sendFile("./public/pageHtml/connection.html", res);
+router.get("/connexion", (req, res) => {
+    sendFile("./public/pageHtml/connexion.html", res);
 })
 
 router.get("/dashboard", (req, res) => {

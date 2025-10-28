@@ -4,6 +4,7 @@ $(document).ready(async () => {
 
     let config = await getConfig()
     let host = config.host
+
     //======  fetch des données  =======
     async function getGoogleCalendar() {
         const res = await fetch(`${host}/api/calendar/google/get`, {
@@ -13,8 +14,13 @@ $(document).ready(async () => {
             },
         });
         const data = await res.json();
+        if (!data.success && data.err === "droit acces") {
+            $("#message-alert").append(`<p>${data.message} <a href="${host}/api/calendar/auth/${window.localStorage.getItem("token")}">ici</a></p>`)
+            return
+        }
         return data
     }
+
     async function getCalendyxEvents() {
         const res = await fetch(`${host}/api/event/get`, {
             method: 'GET',
@@ -66,11 +72,11 @@ $(document).ready(async () => {
         },
 
         drop: (info) => {
-            console.log(info)
+            createFcDayModale(info)
         },
 
         dateClick: (info) => {
-            console.log(info)
+            createFcDayModale(info)
         }
     });
 
@@ -84,52 +90,56 @@ $(document).ready(async () => {
 
     window.calendar.batchRendering(() => {
         //calendyx
-        eventCalendyx.event.data.map((element) => {
-            window.calendar.addEvent({
-                start: element.dateDebut,
-                end: element.dateFin,
+        if (eventCalendyx.event) {
+            eventCalendyx.event.data.map((element) => {
+                window.calendar.addEvent({
+                    start: element.dateDebut,
+                    end: element.dateFin,
 
-                title: element.titleEvent,
-                id: element.id,
+                    title: element.titleEvent,
+                    id: element.id,
 
-                extendedProps: {
-                    data: element,
-                    description: element.messageEvent,
-                    origin: "calendyx",
-                },
+                    extendedProps: {
+                        data: element,
+                        description: element.messageEvent,
+                        origin: "calendyx",
+                    },
 
-                backgroundColor: "#3788d8",
-                textColor: "white",
-                borderColor: "pink",
-                editable: false,
-                order: turn,
+                    backgroundColor: "#3788d8",
+                    textColor: "white",
+                    borderColor: "pink",
+                    editable: false,
+                    order: turn,
+                })
+                turn++
             })
-            turn++
-        })
+        }
 
         //google
-        eventDataGoogle.events.data.items.map((element) => {
-            window.calendar.addEvent({
-                allDay: !!element.start.date,
-                start: element.start.dateTime || element.start.date,
-                end: element.end.dateTime || element.end.date,
+        if (eventDataGoogle.events) {
+            eventDataGoogle.events.data.items.map((element) => {
+                window.calendar.addEvent({
+                    allDay: !!element.start.date,
+                    start: element.start.dateTime || element.start.date,
+                    end: element.end.dateTime || element.end.date,
 
-                id: element.id,
-                title: element.summary,
-                extendedProps: {
-                    data: element,
-                    origin: "google",
-                },
+                    id: element.id,
+                    title: element.summary,
+                    extendedProps: {
+                        data: element,
+                        origin: "google",
+                    },
 
-                color: "white",
-                backgroundColor: "#3788d8",
-                textColor: "white",
+                    color: "white",
+                    backgroundColor: "#3788d8",
+                    textColor: "white",
 
-                editable: false,
-                order: turn,
+                    editable: false,
+                    order: turn,
+                })
+                turn++
             })
-            turn++
-        })
+        }
     })
 
 
