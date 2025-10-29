@@ -17,7 +17,8 @@ import routerApiUser from "./src/api/apiUser.js";
 import routerApiEvent from "./src/api/apiEvent.js";
 import routerApiCredit from "./src/api/apiCredit.js";
 import routerApiCalendar from "./src/api/apiCalendar.js";
-
+import routerApiComment from "./src/api/apiComment.js"
+import routerApiContactFav from "./src/api/apiContactFav.js"
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 await initDb()
@@ -48,7 +49,7 @@ app.post(`/webhook/:token`, (req, res) => {
         const branch = req.body.ref.replace('refs/heads/', '')
         if (branch !== 'production') {
             log("=== Pas la branch production on return");
-            return 
+            return
         }
 
 
@@ -90,9 +91,65 @@ app.use("/", routerApiUser);
 app.use("/api/event", routerApiEvent)
 app.use("/api/credit", routerApiCredit)
 app.use("/api/calendar", routerApiCalendar)
+app.use("/api/comment", routerApiComment)
+app.use("/api/contact-favori", routerApiContactFav)
+
 
 app.get("/config", (req, res) => {
     res.json({ host: process.env.HOST })
 })
+
+app.post(`/webhook/:token`, (req, res) => {
+
+    const secret = process.env.WEBHOOK_SECRET
+    const params = req.params.token
+
+    if (secret === params) {
+
+
+        //Ecrire dans le fichier deploy log tout les webhook de github
+        const logFile = path.join(__dirname, 'deploy.log');
+        const timestamp = new Date().toISOString();
+        const log = (message) => {
+            const logMessage = `[${timestamp}] ${message}\n`;
+            fs.appendFileSync(logFile, logMessage);
+        };
+
+
+
+        //verif si c'est bien la branch production
+        const branch = req.body.ref.replace('refs/heads/', '')
+        if (branch !== 'production') {
+            log("=== Pas la branch production on return");
+            return
+        }
+
+
+        log("=== Déclenchement du déploiement ===");
+
+        const commands = [
+            "cd /home/buyu3307/calendyx.beaute-laurent.fr/production",
+            "git pull origin production",
+            "mkdir -p tmp",
+            "touch tmp/restart.txt"
+        ].join(" && ");
+
+        exec(commands, (err, stdout, stderr) => {
+            if (err) {
+                log(`ERREUR: ${err.message}`);
+                log(`stderr: ${stderr}`);
+                return res.status(500).send("Erreur lors du déploiement");
+            }
+
+            log(`Git pull: ${stdout}`);
+            if (stderr) log(`stderr: ${stderr}`);
+            log("=== Déploiement terminé ===\n");
+
+            res.send("Déploiement réussi !");
+        });
+    } else {
+        res.status(403).send("Token invalide");
+    }
+});
 
 app.listen(port, () => console.log(`Application Node lancé sur : http://localhost:${port}/index`))

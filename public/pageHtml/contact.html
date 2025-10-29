@@ -10,6 +10,8 @@
 
     <script src="./js/headConstruct.js"></script>
 
+    <link rel="stylesheet" href="./../css/contact.css">
+    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
 
 </head>
 
@@ -20,24 +22,56 @@
 
         <main>
             <header>
-                <h1 class="title">Retrouvez tout les services proposé par Calendyx</h1>
             </header>
+            <section class="content" id="content">
+                <main>
+                    <header>
+                        <h1 class="title">Contactez-nous - Calendyx</h1>
+                    </header>
 
-            <section>
-                <p>Pour acceder à cette fonctionalité vous devez être connecté.</p>
-                <p>Vous avez des questions vous pouvez nous déposer un commentaire, notre équipe vous répondra dans le
-                    plus brief délais.</p>
-                <form action="">
-                    <select name="" id="">
-                        <option value="">Assistance</option>
-                        <option value="">Commentaire</option>
-                        <option value="">Devis</option>
-                        <option value="">Demande de Feature</option>
+                    <section>
+                        <p>Bienvenue sur notre page de contact ! Chez Calendyx, nous mettons un point d'honneur à rester
+                            à l'écoute de nos utilisateurs. Que vous ayez besoin d'assistance technique, que vous
+                            souhaitiez partager vos impressions sur nos services, ou que vous ayez des suggestions pour
+                            améliorer notre plateforme, nous sommes là pour vous.</p>
 
-                        <label for="comment">Commentaire :</label>
-                        <input name="comment" id="comment"></input>
-                    </select>
-                </form>
+                        <p>Notre équipe dédiée s'engage à traiter chaque demande avec attention et professionnalisme.
+                            Nous comprenons l'importance d'une communication efficace et nous nous efforçons de répondre
+                            à toutes vos sollicitations dans les plus brefs délais, généralement sous 24 à 48 heures
+                            ouvrées.</p>
+
+
+                        <p>N'hésitez pas à être aussi précis que possible dans votre message. Plus vous nous fournirez
+                            d'informations sur votre demande, plus nous pourrons vous apporter une réponse adaptée et
+                            personnalisée. Nous sommes impatients d'échanger avec vous et de continuer à faire évoluer
+                            Calendyx selon vos besoins.</p>
+
+                        <form id="contact-form">
+                            <label for="nom">Nom <span class="required">*</span></label>
+                            <input type="text" name="nom" id="nom" required>
+
+                            <label for="prenom">Prénom <span class="required">*</span></label>
+                            <input type="text" name="prenom" id="prenom" required>
+
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" name="email" id="email" required>
+
+                            <label for="sujet">Sujet <span class="required">*</span></label>
+                            <select name="sujet" id="sujet" required>
+                                <option value="">-- Sélectionnez un sujet --</option>
+                                <option value="assistance">Assistance</option>
+                                <option value="commentaire">Commentaire</option>
+                                <option value="devis">Devis</option>
+                                <option value="feature">Demande de Feature</option>
+                            </select>
+
+                            <label for="message">Message <span class="required">*</span></label>
+                            <textarea name="message" id="message" required></textarea>
+
+                            <button id="btn-submit">Envoyer le message</button>
+                        </form>
+                    </section>
+                </main>
             </section>
         </main>
     </section>
@@ -46,6 +80,60 @@
     <script src="./js/navbar2.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
+    <script src="./js/modale/classiqueModale.js"></script>
+
+    <script>
+
+
+
+        $("#btn-submit").on("click", async (e) => {
+            e.preventDefault()
+            const config = await getConfig()
+            const host = config.host
+
+            const nom = $("#nom").val();
+            const prenom = $("#prenom").val();
+            const email = $("#email").val();
+
+            const categorie = $("#sujet").val();
+            const message = $("#message").val()
+
+            console.log({
+                nom,
+                prenom,
+                email,
+                categorie,
+                message
+            })
+
+            const array = [nom, prenom, email, categorie, message];
+
+            if (!array.every((current) => current.length > 0)) {
+                createClassiqueModale("Veuillez remplir tout les champs pour soumettre votre commentaire.")
+                return
+            }
+
+            const res = await fetch(`${host}/api/comment/post`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json",
+                },
+                body: JSON.stringify({
+                    nom,
+                    prenom,
+                    email,
+                    categorie,
+                    commentaire: message,
+                })
+            })
+            const data = await res.json()
+            if (data.success) {
+                createClassiqueModale(data.message)
+                document.getElementById("contact-form").reset()
+            }
+
+        })
+    </script>
 </body>
 
 </html>

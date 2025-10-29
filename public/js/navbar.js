@@ -11,6 +11,7 @@ const htmlNavbar = `
             <a class="item-nav" href="/event">Créer un evenement</a>
             <a class="item-nav" href="/contact">Contact</a>
             <a class="item-nav" id="btnAgenda" href="/agenda">Agenda</a>
+            <a class="item-nav" id="btnAgenda" href="/contact-favori">Contact Favori</a>
 </div>
 <button class="btn-navbar-slide"></button>
         </nav>

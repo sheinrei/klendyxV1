@@ -1,7 +1,3 @@
-<h1>Liste des Todo !</h1>
-
--Connect :
-
 -Token : 
 	->Quand Token jwt expiré deconnecter automatiquement;
 
@@ -20,6 +16,9 @@
 	->Sms Url pour redirect user vallidation event trop long voir pour le racourcir avec un token auth 16?
 
 	->Email faire un jolie html pour chaque email avec les code couleurs de Calendyx
+
+
+	faire le scrollTo quand forlm submit
 
 
 -Agenda : 
@@ -44,16 +43,6 @@
 	->Faire le front formulaire ajout Contact
 	->Lancer un event depuis un contacte directe et saisi auto des données.
 
-
-
-->Page de contacte et support :
-	->Mis en place du formulaire :
-	->Faire des catégorie -> User non connect?
-	->Faire la table pour la db?
-
--Page confidentialité :
-	->A definir
-	->Pregen par IA le texte
 
 -Page CGV :
 	->A définir

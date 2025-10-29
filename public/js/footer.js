@@ -71,4 +71,5 @@ const htmlFooter = `
     </footer>
 `;
 
+
 $("body").append(htmlFooter);

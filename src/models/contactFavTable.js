@@ -1,11 +1,15 @@
 import DataTypes from "sequelize"
 
-export function commentTable(sequelize) {
-    return sequelize.define("comment", {
+export function contactFavTable(sequelize) {
+    return sequelize.define("contactFavori", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
+        },
+        idUser: {
+            type: DataTypes.INTEGER,
+            allowNull:false,
         },
         nom: {
             type: DataTypes.STRING,
@@ -19,14 +23,10 @@ export function commentTable(sequelize) {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        categorie: {
+        phone: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
-        commentaire: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        }
     }, {
         timestamps: false
     })

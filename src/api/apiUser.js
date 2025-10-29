@@ -25,16 +25,16 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     //creer l'user dans le db
     const user = await createUser(req, db);
 
-    console.log(user)
     if (!user.success) {
         return res.json({ sucess: user.success, message: user.message })
     }
     //generer un token de creation
-    const token = await generateToken(user.id, "verifCreateAccount", db);
+    const id = user.user.id
+    const token = await generateToken(id, "verifCreateAccount", db);
 
     //envoyer l'email
-    const url = `${process.env.HOST}/user/verify/${token}/${user.id}`;
-    await sendVerifyAccount(user.email, url);
+    const url = `${process.env.HOST}/user/verify/${token}/${id}`;
+    await sendVerifyAccount(user.user.email, url);
 
     res.json({ success: true, message: "Bienvenue chez Calendyx, votre compte a été créé avec succes. \n Pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
 })
@@ -126,7 +126,7 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
 
     verifyAccount(token, id, res, db)
 
-    const loginUrl = `${process.env.HOST}/connection`;
+    const loginUrl = `${process.env.HOST}/connexion`;
     const contactUrl = `${process.env.HOST}/contact`
     const html = frontConfirmationCreateUser(loginUrl, contactUrl)
     res.send(html)
