@@ -15,6 +15,7 @@ export async function createContactFav(db, req) {
     })
 
     if (create){
-        return {success:true, message : "Contact créé avec succes !"}
+        return {success:true, message : "Contact créé avec succes !", data: create}
     }
+    return {success: false, message: "Echec lors de la création du nouveau contact"}
 }

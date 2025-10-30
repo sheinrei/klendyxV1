@@ -12,6 +12,7 @@
     <script src="./js/config.js"></script>
 
     <link rel="stylesheet" href="./../css/contactFav.css">
+    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
 
 </head>
 
@@ -43,6 +44,8 @@
 
                     <label for="nom">Phone :</label>
                     <input type="text" id="phone" name="phone">
+
+                    <button id="btn-create-submit">Ajouter</button>
                 </form>
 
 
@@ -50,6 +53,29 @@
 
             <section>
                 <p>Liste de tout vos contacts</p>
+                <div>
+                    <span>Nombre de contact à afficher : </span>
+                    <select name="nombre-contact-affichage" id="nombre-contact-affichage">
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+
+                <label for="search-contact">Rechercher dans vos contact</label>
+                <input type="text" id="search-contact" name="search-contact">
+
+                <div id="frame-list-contact">
+                    <div class="contact-row-header">
+                        <p>Nom</p>
+                        <p>Prenom</p>
+                        <p>Email</p>
+                        <p>Phone</p>
+                        <p>Action</p>
+                    </div>
+
+                </div>
             </section>
 
 
@@ -57,19 +83,20 @@
         </main>
     </section>
 
-
+    <script src="./js/config.js"></script>
     <script src="./js/navbar.js"></script>
     <script src="./js/footer.js"></script>
     <script src="./js/deconnectUser.js"></script>
 
 
-    <script>
 
-        $("#nom").val()
-        $("#nom").val()
-        $("#nom").val()
-        $("#nom").val()
-    </script>
+
+    <script src="./js/contactFav/createContact.js"></script>
+    <script src="./js/contactFav/getContact.js"></script>
+    <script src="./js/contactFav/deleteContact.js"></script>
+    <script src="./js/contactFav/updateContact.js"></script>
+    <script src="./js/modale/classiqueModale.js"></script>
+
 </body>
 
 </html>

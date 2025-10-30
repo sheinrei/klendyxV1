@@ -27,6 +27,7 @@
 	->Sync agenda apple => calDav
 	->Sync agenda outlootk
 
+	->ajouter la modale validation new event
 
 -Dashboard :
 	->Card event en cours;
@@ -36,12 +37,6 @@
 -Système de notification :
 	->Mettre en place le systeme
 	->Alerte quand un event à été modififé
-
--Models Contact : 
-	->Créer la table;
-		-> Besoin des data pour declancher un event
-	->Faire le front formulaire ajout Contact
-	->Lancer un event depuis un contacte directe et saisi auto des données.
 
 
 -Page CGV :

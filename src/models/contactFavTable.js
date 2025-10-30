@@ -26,6 +26,7 @@ export function contactFavTable(sequelize) {
         phone: {
             type: DataTypes.STRING,
             allowNull: true,
+            defaultValue:"Non renseigné"
         },
     }, {
         timestamps: false

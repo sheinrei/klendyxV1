@@ -14,3 +14,15 @@
     display: flex;
     flex-direction: column;
 }
+
+
+.contact-row, .contact-row-header {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    gap:25px;
+    justify-content: space-between;
+
+    width: 600px;
+
+}
