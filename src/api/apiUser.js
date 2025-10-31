@@ -7,7 +7,7 @@ import { resetPassword, confirmTokenResetPassword, changePassword } from "./../s
 import { getUserData, getIdByEmail } from "./../service/user/getUserData.js";
 import verifyAccount from "./../service/user/verifyAccount.js";
 //securité
-import authMiddleware from "./../middleware/authMiddleware.js";
+import authMiddleware, { authMiddlewareOptional } from "./../middleware/authMiddleware.js";
 //token
 import { deleteToken } from "./../service/token/deleteToken.js";
 import generateToken from "./../service/token/generateToken.js"
@@ -17,6 +17,9 @@ import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "./..
 import db from "./../sequelize.js"
 import { frontConfirmationCreateUser } from "../../public/js/frontConfirmationCreateUser.js";
 import sendFile from "./../service/sendFile.js";
+import { deleteUserSession } from "../service/userSession/deleteUserSession.js";
+import { createUserSession } from "../service/userSession/createUserSession.js";
+import { getUserSession } from "../service/userSession/getUserSession.js";
 
 
 //creation d'un nouvel utilisateur
@@ -38,7 +41,6 @@ routerApiUser.post("/api/user/create", async (req, res) => {
 
     res.json({ success: true, message: "Bienvenue chez Calendyx, votre compte a été créé avec succes. \n Pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
 })
-
 
 //user connected change password
 routerApiUser.post("/api/user/connected/reset-password", authMiddleware, async (req, res) => {
@@ -108,14 +110,14 @@ routerApiUser.post("/api/user/resetpassword/:token/:id", async (req, res) => {
     // Hash et update du mot de passe
     const passwordChange = await changePassword(id, password, db);
 
-    if(passwordChange.success === false){
-        return res.json({success:false, message : passwordChange.message})
+    if (passwordChange.success === false) {
+        return res.json({ success: false, message: passwordChange.message })
     }
 
     // Supprimer le token après usage
     await deleteToken(token, db);
 
-    res.json({success:true, message: `<p id="message-alert-password">Mot de passe modifié avec succès ! <br>Vous allez être redirigé vers votre espace de connexion dans quelques instants.</p>`});
+    res.json({ success: true, message: `<p id="message-alert-password">Mot de passe modifié avec succès ! <br>Vous allez être redirigé vers votre espace de connexion dans quelques instants.</p>` });
 });
 
 
@@ -134,22 +136,76 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
 
 //Auth utilisateur
 routerApiUser.post("/api/user/connect", async (req, res) => {
-    authenticateUser(req, db, res)
+    const auth = await authenticateUser(req, db);
+
+    if (!auth.success) {
+        return res.json({ success: false, message: auth.message })
+    }
+
+    await createUserSession(db, auth.idUser)
+
+    if (auth.success) {
+        res.cookie("token", auth.token, {
+            httpOnly: true,
+            secure: process.env.ENV === "production",
+            sameSite: "strict",
+            path: "/",
+            maxAge: 1000 * 60 * 60 * 2 // ms * s * m * h
+        })
+        return res.json({ success: true, message: auth.message, token: auth.token })
+    }
+
 })
+
+
+//Logout user
+routerApiUser.post("/api/user/logout", authMiddleware, async (req, res) => {
+    res.cookie("token", "", {
+        httpOnly: true,
+        secure: process.env.ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 0
+    })
+
+    await deleteUserSession(db, req)
+
+    res.json({ message: "Utilisateur deconnecté" })
+})
+
 
 //get data d'un user
 routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
-    const data = await getUserData(req, db, res)
-    res.json({
-        message: "Donnée de l'utilisateur",
-        nom: data.nom,
-        prenom: data.prenom,
-        email: data.email,
-        mdp: data.mdp,
-        raisonSocial: data.raisonSocial,
-        siren: data.siren,
-        created: data.createdAt,
-    })
+    try {
+        const data = await getUserData(req, db, res)
+        res.json({
+            message: "Donnée de l'utilisateur",
+            nom: data.nom,
+            prenom: data.prenom,
+            email: data.email,
+            raisonSocial: data.raisonSocial,
+            siren: data.siren,
+            created: data.createdAt,
+        })
+
+    } catch (err) {
+        console.log("erreur sur /api/user/data : ", err)
+    }
+})
+
+
+routerApiUser.get("/api/user/session",authMiddlewareOptional, async (req, res) => {
+
+    if (!req.userId) {
+        return res.json({logged:false})
+    }
+
+    const session = await getUserSession(db, req)
+
+    return session.logged
+        ? res.json({ logged: true })
+        : res.json({ logged: false })
+
 })
 
 

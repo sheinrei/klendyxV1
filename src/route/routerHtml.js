@@ -1,5 +1,6 @@
 import express from "express"
 import sendFile from "./../service/sendFile.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router()
 
@@ -18,40 +19,51 @@ router.get("/connexion", (req, res) => {
     sendFile("./public/pageHtml/connexion.html", res);
 })
 
+
 router.get("/dashboard", (req, res) => {
     sendFile("./public/pageHtml/dashboard.html", res);
 })
 
-router.get("/mon-compte", (req, res) => {
-    sendFile("./public/pageHtml/configCompte.html", res);
-})
 
 router.get("/services", (req, res) => {
     sendFile("./public/pageHtml/services.html", res);
 })
 
-router.get("/event", (req, res) => {
-    sendFile("./public/pageHtml/event.html", res);
-})
 
 router.get("/forgotPassword", (req, res) => {
     sendFile("./public/pageHtml/forgotPassword.html", res);
 })
 
-router.get("/contact", (req, res) => {
-    sendFile("./public/pageHtml/contact.html", res);
-})
-
-router.get("/agenda", (req, res) => {
-    sendFile("./public/pageHtml/agenda.html", res);
-})
 
 router.get("/confidentialite", (req, res) => {
     sendFile("./public/pageHtml/confidentialite.html", res);
 })
 
+
+router.get("/contact", (req, res) => {
+    sendFile("./public/pageHtml/contact.html", res);
+})
+
+
+router.get("/event", (req, res) => {
+    sendFile("./public/pageHtml/event.html", res);
+})
+
+
+router.get("/agenda", (req, res) => {
+    sendFile("./public/pageHtml/agenda.html", res);
+})
+
+
+router.get("/mon-compte", (req, res) => {
+    sendFile("./public/pageHtml/configCompte.html", res);
+})
+
+
 router.get("/contact-favori", (req, res) => {
     sendFile("./public/pageHtml/contactFavori.html", res);
 })
+
+
 //export à la fin du fichier
 export default router

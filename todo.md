@@ -1,11 +1,4 @@
--Token : 
-	->Quand Token jwt expiré deconnecter automatiquement;
-
--Api : 
-	->Empêcher les utilisateurs de visiter les page d'api? Redirect Authorization? 
-
-
--Event : 
+Event Calendyx: 
 	->Ajouter la possibilité d'envoyer plusieurs contacte à la fois
 	->Methode contacte : faire un front plus propre selon la selection de sms ou email
 
@@ -17,8 +10,7 @@
 
 	->Email faire un jolie html pour chaque email avec les code couleurs de Calendyx
 
-
-	faire le scrollTo quand forlm submit
+	faire le scrollTo quand form submit
 
 
 -Agenda : 
@@ -47,3 +39,19 @@
 -Feature :
 	Superposer deux utilisateurs pour définir d'dun rdv
 	match user par session calendyx
+
+
+
+===============
+
+Juste for fun compte les lignes du projet
+
+$exts=@(".js",".css",".html");$totalFiles=0;$totalLines=0;foreach($e in $exts){$files=Get-ChildItem -Recurse | Where-Object { $_.Extension -eq $e -and $_.FullName -notmatch "node_modules" };$lines=($files | Get-Content | Measure-Object -Line).Lines;Write-Host "$($e.Substring(1).ToUpper()) : $($files.Count) fichiers / $lines lignes";$totalFiles+=$files.Count;$totalLines+=$lines};Write-Host "`nTotal fichiers : $totalFiles";Write-Host "Total lignes : $totalLines"
+
+30/10/2025 => 
+JS : 75 fichiers / 3215 lignes
+CSS : 15 fichiers / 1926 lignes
+HTML : 13 fichiers / 1477 lignes
+
+Total fichiers : 103
+Total lignes : 6618

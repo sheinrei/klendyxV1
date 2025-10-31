@@ -22,12 +22,9 @@ const scopes = ["https://www.googleapis.com/auth/calendar"];
 
 
 // 🔹 Étape 1 — Rediriger vers Google pour autorisation
-routerApiCalendar.get("/auth/:jwt", (req, res) => {
+routerApiCalendar.get("/auth",authMiddleware, (req, res) => {
 
-
-    const jwtToken = req.params.jwt
-    const payload = jwt.verify(jwtToken, process.env.JWT_SECRET)
-    const userId = payload.userId;
+    const userId = req.userId;
 
 
     const authUrl = oauth2Client.generateAuthUrl({

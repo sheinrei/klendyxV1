@@ -9,6 +9,7 @@ import { eventTable } from "./models/eventTable.js";
 import { creditTable } from "./models/creditTable.js";
 import { commentTable } from "./models/commentTable.js";
 import { contactFavTable } from "./models/contactFavTable.js";
+import { userSessionTable } from "./models/userSessionTable.js";
 
 
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -29,7 +30,7 @@ export async function initDb() {
     creditTable(db);
     commentTable(db);
     contactFavTable(db);
-
+    userSessionTable(db)
 
     let force = process.env.SEQUELIZE_FORCE
     force === "true" ? (force = true, console.log("🗑️  Sequelize remise à zero de la db")) : force = false

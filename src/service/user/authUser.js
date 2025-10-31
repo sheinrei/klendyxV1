@@ -1,51 +1,32 @@
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import user from "./../../models/utilisateurTable.js";
 
-export default async function authenticateUser(req, db, res) {
-
+export default async function authenticateUser(req, db) {
     const { emailConnect: email, mdpConnect: userInputPassword } = req.body;
 
-    const User = user(db)
-    const stored = await User.findOne({ where: { email: email } })
+    const User = user(db);
+    const stored = await User.findOne({ where: { email } });
+
     if (!stored) {
-
-        res.json({ succes: false, message: "Email ou mot de passe invalide" })
-        return
+        return { success: false, message: "Email ou mot de passe invalide" };
     }
 
-    const storedPassword = stored.mdp
-    const verified = stored.isVerified
-
-    if (verified === false) {
-        res.json({ success: false, message: "Votre compte n'a pas été activé, merci de le valider en cliquant sur le liens que vous avez reçu dans votre email de bienvenue." })
-        return
+    if (!stored.isVerified) {
+        return { success: false, message: "Votre compte n’a pas encore été activé. Veuillez cliquer sur le lien de validation envoyé à votre adresse e-mail." };
     }
 
-    bcrypt.compare(userInputPassword, storedPassword, (err, result) => {
-        if (err) {
-            res.json({ success: false, message: "Erreur survenue lors de la connection" })
-            return
-        }
+    const passwordMatch = await bcrypt.compare(userInputPassword, stored.mdp);
 
-        if (result) {
-            const token = jwt.sign(
-                { userId: stored.id },
-                process.env.JWT_SECRET,
-                { expiresIn: "4h" }
-            )
+    if (!passwordMatch) {
+        return { success: false, message: "Email ou mot de passe invalide" };
+    }
 
-            res.json({
-                success: true,
-                message: "Connextion réussis !",
-                token
-            })
-        } else {
-            res.json({ success: false, message: "Email ou mot de passe invalide" })
-        }
-    })
+    const token = jwt.sign(
+        { userId: stored.id },
+        process.env.JWT_SECRET,
+        { expiresIn: "2h" }
+    );
 
-
-
-
+    return { success: true, message: "Connexion réussie !", token, idUser: stored.id };
 }

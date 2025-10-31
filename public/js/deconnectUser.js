@@ -1,8 +1,17 @@
+$(function () {
+    const btn = document.getElementById("btnDeconnection")
 
+    btn.addEventListener("click", async function (e) {
+        e.preventDefault(e)
 
-const btn = document.getElementById("btnDeconnection")
+        console.log("deconnected")
+        const config = await getConfig()
+        const host = config.host
 
-btn.addEventListener("click", function (e) {
-    localStorage.removeItem("token");
-    window.location.href = "/connection";
+        await fetch(`${host}/api/user/logout`, {
+            method: "POST"
+        })
+        window.location.href = "/connexion";
+    })
+
 })

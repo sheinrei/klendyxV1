@@ -158,7 +158,7 @@ $(document).on("click", '.event-modale', (e) => {
         document.body.style.userSelect = 'none'
     })
 
-    $(modal).on('mousemove', (e) => {
+    $(document).on('mousemove', (e) => {
         if (!isDragging) return;
         modal.style.left = e.clientX - offsetX + 'px';
         modal.style.top = e.clientY - offsetY + 'px';

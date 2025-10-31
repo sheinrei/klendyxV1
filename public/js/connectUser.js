@@ -22,7 +22,6 @@ $(document).ready(function () {
             data: JSON.stringify({ emailConnect: email, mdpConnect: mdp }),
             success: function (data) {
                 if (data.success == true) {
-                    localStorage.setItem("token", data.token);
                     window.location.href = "/dashboard";
                 } else {
                     $("#msg-alert").text(`${data.message}`)
