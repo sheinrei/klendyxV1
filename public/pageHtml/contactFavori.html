@@ -1,18 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 
 
 <head>
-    <title>Calendyx</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Titre & Description -->
+    <title>Calendyx – Contacts favoris</title>
+    <meta name="description"
+        content="Organisez vos contacts favoris sur Calendyx pour accélérer la création d’événements et profiter d’une saisie automatique optimisée. Ajoutez, modifiez et retrouvez vos contacts facilement.">
+    <meta name="keywords"
+        content="contacts favoris, gestion de contacts, agenda, création rapide d’événements, Calendyx, saisie automatique">
+    <meta name="author" content="Sheinrei">
+
+    <!-- Robots -->
+    <meta name="robots" content="noindex, follow">
+    <meta name="googlebot" content="noindex, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://calendyx/contacts-favoris">
+
+    <!-- Extras -->
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Calendyx – Contacts favoris">
+    <meta property="og:description"
+        content="Organisez vos contacts favoris sur Calendyx pour accélérer la création d’événements et profiter d’une saisie automatique optimisée.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://calendyx/contacts-favoris">
+    <meta property="og:image" content="https://www.example.com/image-contacts-favoris.jpg">
+    <meta property="og:site_name" content="Calendyx">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calendyx – Contacts favoris">
+    <meta name="twitter:description"
+        content="Organisez vos contacts favoris sur Calendyx pour accélérer la création d’événements et profiter d’une saisie automatique optimisée.">
+    <meta name="twitter:image" content="https://www.example.com/image-contacts-favoris.jpg">
+    <meta name="twitter:site" content="@Sheinrei">
+
+
+    <!-- css -->
+    <link rel="stylesheet" href="./css/contactFav.css">
+    <link rel="stylesheet" href="./css/modale/classiqueModale.css">
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+
+    <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
-    <script src="./js/headConstruct.js"></script>
-    <script src="./js/config.js"></script>
-
-    <link rel="stylesheet" href="./../css/contactFav.css">
-    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="./js/config.js" defer></script>
+    <script src="./js/navbar.js" defer></script>
+    <script src="./js/footer.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/modale/classiqueModale.js" defer></script>
+    <script src="./js/contactFav/createContact.js" defer></script>
+    <script src="./js/contactFav/getContact.js" defer></script>
+    <script src="./js/contactFav/deleteContact.js" defer></script>
+    <script src="./js/contactFav/updateContact.js" defer></script>
+    <script src="./js/sessionExpire.js" defer></script>
 
 </head>
 
@@ -82,19 +137,6 @@
 
         </main>
     </section>
-
-    <!-- Script -->
-    <script src="./js/config.js"></script>
-    <script src="./js/navbar.js"></script>
-    <script src="./js/footer.js"></script>
-    <script src="./js/deconnectUser.js"></script>
-
-    <script src="./js/contactFav/createContact.js"></script>
-    <script src="./js/contactFav/getContact.js"></script>
-    <script src="./js/contactFav/deleteContact.js"></script>
-    <script src="./js/contactFav/updateContact.js"></script>
-    <script src="./js/modale/classiqueModale.js"></script>
-
 </body>
 
 </html>

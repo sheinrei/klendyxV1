@@ -1,21 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
-    
-    <head>
-        <title>Calendyx</title>       
-        <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-        
+<html lang="fr">
 
-        <script src="./js/headConstruct.js"></script>
-        
-        <script src="./js/navbar.js" defer></script>
-        <script src="./js/footer.js" defer></script>
-        <script src="./js/deconnectUser.js" defer></script>
-        <script src="./js/config.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <style>
-                   /* Hero Section */
+    <!-- Titre & Description (SEO classique) -->
+    <title>Calendyx – Gérez vos rendez-vous et votre emploi du temps facilement</title>
+    <meta name="description"
+        content="Calendyx vous permet de gérer facilement votre emploi du temps : synchronisez vos agendas Google, Apple ou Outlook, planifiez des rendez-vous, envoyez des notifications à vos clients et suivez l'avancement de vos événements en quelques clics.">
+
+    <meta name="keywords" content="callendar, agenda, rendez-vous">
+    <meta name="author" content="Sheinrei">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://calendyx/index">
+
+    <!-- Extras utiles -->
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph (pour le partage sur réseaux sociaux) -->
+    <meta property="og:title" content="Calendyx – Gérez vos rendez-vous et votre emploi du temps facilement">
+    <meta property="og:description"
+        content="Calendyx vous permet de gérer facilement votre emploi du temps : synchronisez vos agendas Google, Apple ou Outlook, planifiez des rendez-vous, envoyez des notifications à vos clients et suivez l'avancement de vos événements en quelques clics.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://calendyx/">
+    <meta property="og:image" content="https://www.example.com/image-de-la-page.jpg">
+    <meta property="og:site_name" content="Calendyx">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Titre de la page - mot-clé principal">
+    <meta name="twitter:description" content="Description de la page pour Twitter.">
+    <meta name="twitter:image" content="https://www.example.com/image-de-la-page.jpg">
+    <meta name="twitter:site" content="@Sheinrei">
+
+
+
+    <!-- css -->
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
+
+
+    <!-- script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="./js/config.js" defer></script>
+    <script src="./js/navbar.js" defer></script>
+    <script src="./js/footer.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/modale/classiqueModale.js" defer></script>
+
+
+    <style>
+        /* Hero Section */
         .hero {
             max-width: 1200px;
             margin: 0 auto;
@@ -210,7 +259,7 @@
                 display: none;
             }
         }
-        </style>
+    </style>
 </head>
 
 
@@ -218,100 +267,106 @@
 
 <body>
     <section class="content" id="content">
-        
+
         <main>
             <header>
                 <h1>Bienvenue sur Calendyx</h1>
-                <p>Teste à 10h19</p>
             </header>
-            
-                <section class="hero">
-        <div class="hero-content">
-            <h1>Planifiez vos rendez-vous en toute simplicité</h1>
-            <p>Calendyx vous permet d'envoyer des invitations par email et SMS pour organiser vos rendez-vous professionnels en quelques clics. Gagnez du temps et optimisez votre agenda.</p>
-            <div class="hero-buttons">
-                <a href="#" class="cta-button">Essayer gratuitement</a>
-                <a href="#features" class="secondary-button">En savoir plus</a>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <div class="hero-visual-content">
-                <div class="visual-item">
-                    <div class="visual-icon">✉️</div>
-                    <div>
-                        <strong>Email</strong><br>
-                        <small>Invitations personnalisées</small>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Planifiez vos rendez-vous en toute simplicité</h1>
+                    <p>Calendyx vous permet d'envoyer des invitations par email et SMS pour organiser vos rendez-vous
+                        professionnels en quelques clics. Gagnez du temps et optimisez votre agenda.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="cta-button">Essayer gratuitement</a>
+                        <a href="#features" class="secondary-button">En savoir plus</a>
                     </div>
                 </div>
-                <div class="visual-item">
-                    <div class="visual-icon">📱</div>
-                    <div>
-                        <strong>SMS</strong><br>
-                        <small>Notifications instantanées</small>
+                <div class="hero-visual">
+                    <div class="hero-visual-content">
+                        <div class="visual-item">
+                            <div class="visual-icon">✉️</div>
+                            <div>
+                                <strong>Email</strong><br>
+                                <small>Invitations personnalisées</small>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-icon">📱</div>
+                            <div>
+                                <strong>SMS</strong><br>
+                                <small>Notifications instantanées</small>
+                            </div>
+                        </div>
+                        <div class="visual-item">
+                            <div class="visual-icon">📅</div>
+                            <div>
+                                <strong>Calendrier</strong><br>
+                                <small>Synchronisation automatique</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="visual-item">
-                    <div class="visual-icon">📅</div>
-                    <div>
-                        <strong>Calendrier</strong><br>
-                        <small>Synchronisation automatique</small>
+            </section>
+
+            <section class="features" id="features">
+                <div class="features-container">
+                    <h2 class="section-title">Pourquoi choisir Calendyx ?</h2>
+                    <p class="section-subtitle">Une solution complète pour gérer tous vos rendez-vous professionnels</p>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">📧</div>
+                            <h3>Invitations par email</h3>
+                            <p>Envoyez des invitations professionnelles personnalisées à vos contacts. Créez des
+                                templates réutilisables et suivez les confirmations en temps réel.</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">💬</div>
+                            <h3>Notifications SMS</h3>
+                            <p>Assurez-vous que vos contacts ne manquent jamais un rendez-vous grâce aux rappels SMS
+                                automatiques. Taux d'ouverture de 98% garanti.</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Planification rapide</h3>
+                            <p>Organisez vos rendez-vous en quelques secondes. Interface intuitive qui vous fait gagner
+                                un temps précieux au quotidien.</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🔄</div>
+                            <h3>Synchronisation automatique</h3>
+                            <p>Vos rendez-vous se synchronisent automatiquement avec votre calendrier préféré. Google
+                                Calendar, Outlook et iCal supportés.</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Suivi et statistiques</h3>
+                            <p>Visualisez vos rendez-vous confirmés, en attente ou annulés. Obtenez des insights
+                                précieux sur votre activité.</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Sécurisé et confidentiel</h3>
+                            <p>Vos données sont chiffrées et sécurisées. Conformité RGPD garantie pour protéger votre
+                                vie privée et celle de vos contacts.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <section class="features" id="features">
-        <div class="features-container">
-            <h2 class="section-title">Pourquoi choisir Calendyx ?</h2>
-            <p class="section-subtitle">Une solution complète pour gérer tous vos rendez-vous professionnels</p>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📧</div>
-                    <h3>Invitations par email</h3>
-                    <p>Envoyez des invitations professionnelles personnalisées à vos contacts. Créez des templates réutilisables et suivez les confirmations en temps réel.</p>
-                </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
-                    <h3>Notifications SMS</h3>
-                    <p>Assurez-vous que vos contacts ne manquent jamais un rendez-vous grâce aux rappels SMS automatiques. Taux d'ouverture de 98% garanti.</p>
-                </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Planification rapide</h3>
-                    <p>Organisez vos rendez-vous en quelques secondes. Interface intuitive qui vous fait gagner un temps précieux au quotidien.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
-                    <h3>Synchronisation automatique</h3>
-                    <p>Vos rendez-vous se synchronisent automatiquement avec votre calendrier préféré. Google Calendar, Outlook et iCal supportés.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Suivi et statistiques</h3>
-                    <p>Visualisez vos rendez-vous confirmés, en attente ou annulés. Obtenez des insights précieux sur votre activité.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Sécurisé et confidentiel</h3>
-                    <p>Vos données sont chiffrées et sécurisées. Conformité RGPD garantie pour protéger votre vie privée et celle de vos contacts.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-            
-          
-            
         </main>
     </section>
 
-    
+
 </body>
 
 </html>

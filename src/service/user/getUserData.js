@@ -1,6 +1,6 @@
 import user from "../../models/utilisateurTable.js"
 
-export async function getUserData(req, db, res) {
+export async function getUserData(req, db) {
 
 
     const User = user(db);

@@ -17,6 +17,8 @@ import { getEvent } from "../service/event/getEvent.js";
 import { decrementCredit } from "../service/credit/decrementCredit.js";
 import { deleteEvent } from "../service/event/deleteEvent.js";
 import { sendSMS } from "../service/sms/sendSms.js";
+import { createMatchingEvent } from "../service/event/createMatchingEvent.js";
+import { sendMatchingEvent } from "../service/mailer/sendMatchingEvent.js";
 
 
 // Les routes :
@@ -50,7 +52,7 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
         const send = await sendNewEvent(req, url, email, res);
         if (send.success) {
             await decrementCredit(db, req, "mail")
-            await updateStateEvent(id,idEvent, db, "Email envoyé, en attente de reponse.")
+            await updateStateEvent(id, idEvent, db, "Email envoyé, en attente de reponse.")
             return res.json({ success: true, message: send.message })
         }
     }
@@ -63,7 +65,7 @@ routerApiEvent.post("/create", authMiddleware, (async (req, res) => {
         console.log(sendSMS)
         if (!sendSms.success) {
             await decrementCredit(db, req, "sms")
-            await updateStateEvent(id, db,idEvent, "Sms envoyé, en attente de reponse.")
+            await updateStateEvent(id, db, idEvent, "Sms envoyé, en attente de reponse.")
             return res.json({ success: false, message: sendSms.message })
         }
         return res.json({ success: true, message: sendSms.message })
@@ -104,6 +106,31 @@ routerApiEvent.post("/delete", authMiddleware, async (req, res) => {
         return res.json({ success: true, message: "Evenement archivé" })
     }
 
-    return res.json({success:false, message: "Echec survenue avec le serveur, nous n'avons pas pu supprimer cet evenement."})
+    return res.json({ success: false, message: "Echec survenue avec le serveur, nous n'avons pas pu supprimer cet evenement." })
 })
+
+
+
+// matching Event
+
+routerApiEvent.post("/matching-event", authMiddleware, async (req, res) => {
+
+    console.log("BODY :", req.body.undisponibility)
+    const create = await createMatchingEvent(db, req)
+    if (!create.success) {
+        return res.json({ success: false, message: create.message })
+    }
+
+    const url = `${process.env.HOST}/index`
+
+    const mailer = await sendMatchingEvent(req, url, "l.beaute@laposte.net")
+
+    console.log(mailer)
+    return res.json({ success: true, message: "notification envoyé" })
+
+})
+
+
+
+
 export default routerApiEvent

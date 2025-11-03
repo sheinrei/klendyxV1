@@ -1,3 +1,6 @@
+event validatoin par client cassé!
+
+
 Event Calendyx: 
 	->Ajouter la possibilité d'envoyer plusieurs contacte à la fois
 	->Methode contacte : faire un front plus propre selon la selection de sms ou email
@@ -21,6 +24,7 @@ Event Calendyx:
 
 	->ajouter la modale validation new event
 
+
 -Dashboard :
 	->Card event en cours;
 	->Graph des envoies sms/email
@@ -36,12 +40,18 @@ Event Calendyx:
 	->Pregen par IA
 
 
+->debounce pour eviter refresh champs de recherche dynamique
+->throttling
+->Ou lib lodash
+
+
 -Feature :
 	Superposer deux utilisateurs pour définir d'dun rdv
 	match user par session calendyx
 
 
-
+-Param compte
+	clic tn revoker google
 ===============
 
 Juste for fun compte les lignes du projet
@@ -55,3 +65,11 @@ HTML : 13 fichiers / 1477 lignes
 
 Total fichiers : 103
 Total lignes : 6618
+
+31/10/2025 =>
+JS : 78 fichiers / 3316 lignes
+CSS : 15 fichiers / 1926 lignes
+HTML : 13 fichiers / 1845 lignes
+
+Total fichiers : 106
+Total lignes : 7087

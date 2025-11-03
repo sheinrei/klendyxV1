@@ -28,6 +28,6 @@ export default (sequelize) => {
     }, {
         sequelize,
         timestamps: true,
-        updateAt: false,
+        updatedAt: false,
     })
 }

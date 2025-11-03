@@ -2,13 +2,69 @@
 <html lang="fr">
 
 <head>
-    <title>Connexion - Calendyx</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Titre & Description -->
+    <title>Calendyx – Connexion</title>
+    <meta name="description"
+        content="Connectez-vous à votre compte Calendyx et accédez à votre agenda, vos rendez-vous et vos paramètres en toute simplicité.">
+    <meta name="keywords" content="connexion, login, accès compte, agenda, rendez-vous, Calendyx">
+    <meta name="author" content="Sheinrei">
+
+    <!-- Robots -->
+    <meta name="robots" content="noindex, follow">
+    <meta name="googlebot" content="noindex, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://calendyx/connexion">
+
+    <!-- Extras -->
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph (optionnel) -->
+    <meta property="og:title" content="Calendyx – Connexion">
+    <meta property="og:description"
+        content="Connectez-vous à votre compte Calendyx et accédez à votre agenda, vos rendez-vous et vos paramètres en toute simplicité.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://calendyx/connexion">
+    <meta property="og:image" content="https://www.example.com/image-connexion.jpg">
+    <meta property="og:site_name" content="Calendyx">
+
+    <!-- Twitter Card (optionnel) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calendyx – Connexion">
+    <meta name="twitter:description"
+        content="Connectez-vous à votre compte Calendyx et accédez à votre agenda, vos rendez-vous et vos paramètres en toute simplicité.">
+    <meta name="twitter:image" content="https://www.example.com/image-connexion.jpg">
+    <meta name="twitter:site" content="@Sheinrei">
 
 
-    <script src="./js/headConstruct.js"></script>
+    <!-- css -->
     <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+
+
+    <!-- script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="./js/navbar.js" defer></script>
+    <script src="./js/footer.js" defer></script>
+    <script src="./js/config.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/swaper.js" defer></script>
+    <script src="./js/connectUser.js" defer></script>
+    <script src="./js/createUser.js" defer></script>
+    <script src="./js/sessionExpire.js" defer></script>
+
+
 
 </head>
 
@@ -19,7 +75,8 @@
                 <header class="auth-header">
                     <h1 class="title">Calendyx</h1>
                     <p class="subtitle">Gérez vos rendez-vous en toute simplicité</p>
-                    <p id="msg-alert" style='  color: #e63946; border-radius: 6px;padding: 0.75em 1em; font-weight: 500;'></p>
+                    <p id="msg-alert"
+                        style='  color: #e63946; border-radius: 6px;padding: 0.75em 1em; font-weight: 500;'></p>
                 </header>
 
                 <!-- Onglets de navigation -->
@@ -224,18 +281,6 @@
             </div>
         </main>
     </section>
-
-    <!-- Gen DOM -->
-    <script src="./js/navbar.js"></script>
-    <script src="./js/footer.js"></script>
-
-    <!-- Logique -->
-    <script src="./js/config.js"></script>
-    <script src="./js/deconnectUser.js"></script>
-    <script src="./js/swaper.js"></script>
-    <script src="./js/connectUser.js"></script>
-    <script src="./js/createUser.js"></script>
-
 </body>
 
 </html>

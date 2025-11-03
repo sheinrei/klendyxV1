@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 
 
 <head>
-
+    <meta charset="UTF-8">
     <title>Calendyx</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
-    <script src="./js/headConstruct.js"></script>
+
+    <!-- css -->
     <link rel="stylesheet" href="./../css/dashboard.css">
+    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+
+
+    <!-- script -->
+    <script src="./js/config.js"></script>
+    <script src="./js/navbar.js" defer></script>
+    <script src="./js/footer.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/tools.js"></script>
+    <script src="./js/dashboard/dashboardGet.js" defer></script>
+    <script src="./js/dashboard/dashboardGraph.js" defer></script>
+    <script src="./js/dashboard/dashboardLogique.js" defer></script>
+    <script src="./js/modale/classiqueModale.js" defer></script>
+    <script src="./js/sessionExpire.js" defer></script>
+
+
 </head>
 
 
@@ -59,7 +79,9 @@
             <section class="frame-graph" id="graph">
 
                 <header class="graph-header">
-                    <p>Messages envoyés : <span style="background-color:black; color: white; padding:3px">Mail</span>  <span style="background-color:blue; color: white; padding:3px">Sms</span></p>
+                    <p>Messages envoyés : <span style="background-color:black; color: white; padding:3px">Mail</span>
+                        <span style="background-color:blue; color: white; padding:3px">Sms</span>
+                    </p>
 
                     <select name="" id="graph-select">
                         <option value="jours">jours</option>
@@ -98,7 +120,8 @@
             <section id="event">
                 <header>
                     <h2 class="title-event">Mes events</h2>
-                    <p class="subtitle-event">Ici vous retrouvez tout les évenements que vous avez déclanché et qui ne sont pas archivé</p>
+                    <p class="subtitle-event">Ici vous retrouvez tout les évenements que vous avez déclanché et qui ne
+                        sont pas archivé</p>
                 </header>
 
                 <div class="frame-append-event">
@@ -108,16 +131,6 @@
             </section>
         </main>
     </section>
-
-
-<script src="./js/config.js"></script>
-    <script src="./js/navbar.js"></script>
-    <script src="./js/footer.js"></script>
-    <script src="./js/deconnectUser.js"></script>
-    <script src="./js/tools.js"></script>
-    <script src="./js/dashboard/dashboardGet.js"></script>
-    <script src="./js/dashboard/dashboardGraph.js"></script>
-    <script src="./js/dashboard/dashboardLogique.js"></script>
 </body>
 
 </html>

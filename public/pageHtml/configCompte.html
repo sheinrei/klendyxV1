@@ -1,14 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
+    <meta charset="UTF-8">
+    <title>Calendyx – Paramètres de votre compte</title>
+    <meta name="description"
+        content="Gérez vos informations personnelles, modifiez vos préférences et sécurisez votre compte Calendyx depuis la page de paramètres.">
+    <meta name="keywords"
+        content="paramètres compte, gestion compte, profil utilisateur, sécurité compte, préférences utilisateur">
+    <meta name="author" content="Sheinrei">
 
-    <title>Calendyx</title>
+    <!-- Robots -->
+    <meta name="robots" content="noindex, follow">
+    <meta name="googlebot" content="noindex, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://calendyx/mon-compte">
+
+    <!-- Extras -->
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph (optionnel pour partage) -->
+    <meta property="og:title" content="Calendyx – Paramètres de votre compte">
+    <meta property="og:description"
+        content="Gérez vos informations personnelles, modifiez vos préférences et sécurisez votre compte Calendyx depuis la page de paramètres.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://calendyx/compte/parametres">
+    <meta property="og:image" content="https://www.example.com/image-parametres.jpg">
+    <meta property="og:site_name" content="Calendyx">
+
+    <!-- Twitter Card (optionnel) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Calendyx – Paramètres de votre compte">
+    <meta name="twitter:description"
+        content="Gérez vos informations personnelles, modifiez vos préférences et sécurisez votre compte Calendyx depuis la page de paramètres.">
+    <meta name="twitter:image" content="https://www.example.com/image-parametres.jpg">
+    <meta name="twitter:site" content="@Sheinrei">
+
+    <!-- css -->
+    <link rel="stylesheet" href="./css/compteConfig.css">
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/modale/classiqueModale.css">
+
+    <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="./js/config.js" defer></script>
+    <script src="./js/navbar.js" defer></script>
+    <script src="./js/footer.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/logiqueCompte.js" defer></script>
+    <script src="./js/password/forcePassword.js" defer></script>
+    <script src="./js/modale/classiqueModale.js" defer></script>
+    <script src="./js/sessionExpire.js" defer></script>
 
-    <script src="./js/headConstruct.js"></script>
-    <link rel="stylesheet" href="./../css/compteConfig.css">
 
 </head>
 
@@ -66,26 +118,19 @@
 
 
             <section class="frame-sync-calendar" id="frame-sync-calendar">
-                <p>Pour syncroniser vos agenda avec Calendyx vous devez autoriser celui-ci à acceder à vos informations.</p>
+                <p>Pour syncroniser vos agenda avec Calendyx vous devez autoriser celui-ci à acceder à vos informations.
+                </p>
                 <div>
                     <p>synchroniser votre compte <button id="btn-sync-google">Google</button></p>
-                    <p>synchroniser votre compte <button id="btn-sync-google">Apple</button>(innactif, en cours de dev)</p>
+                    <p>synchroniser votre compte <button id="btn-sync-google">Apple</button>(innactif, en cours de dev)
+                    </p>
                 </div>
-                <p>Calendyx ne conserve aucune informations sur vos agenda en savoir plus sur <a href="#">notre politique de confidentialitée</a></p>
+                <p>Calendyx ne conserve aucune informations sur vos agenda en savoir plus sur <a href="#">notre
+                        politique de confidentialitée</a></p>
             </section>
 
         </main>
     </section>
-
-
-
-    
-    <script src="./js/config.js"></script>
-    <script src="./js/navbar.js"></script>
-    <script src="./js/footer.js"></script>
-    <script src="./js/deconnectUser.js"></script>
-    <script src="./js/logiqueCompte.js"></script>
-    <script src="./js/password/forcePassword.js"></script>
 </body>
 
 </html>

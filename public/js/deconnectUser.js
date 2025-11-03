@@ -4,7 +4,6 @@ $(function () {
     btn.addEventListener("click", async function (e) {
         e.preventDefault(e)
 
-        console.log("deconnected")
         const config = await getConfig()
         const host = config.host
 

@@ -4,7 +4,6 @@ import db from "./../sequelize.js";
 
 import { google } from "googleapis";
 import { saveToken } from "../service/token/saveToken.js";
-import jwt from "jsonwebtoken";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { getToken } from "../service/token/getToken.js";
 import { deleteToken } from "../service/token/deleteToken.js";
@@ -22,7 +21,7 @@ const scopes = ["https://www.googleapis.com/auth/calendar"];
 
 
 // 🔹 Étape 1 — Rediriger vers Google pour autorisation
-routerApiCalendar.get("/auth",authMiddleware, (req, res) => {
+routerApiCalendar.get("/auth", authMiddleware, (req, res) => {
 
     const userId = req.userId;
 
@@ -34,7 +33,6 @@ routerApiCalendar.get("/auth",authMiddleware, (req, res) => {
         state: JSON.stringify({ userId })
     });
 
-    console.log("Autorise l’app en visitant :", authUrl);
     res.redirect(authUrl);
 });
 
@@ -63,9 +61,11 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
 
 
 
-// 🔹 Étape 3 — Exemple d’accès au calendrier
+// 🔹 Étape 3 — Get all calendar
 routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
     let token = await getToken("RefreshTokenGoogle", req.userId, db)
+    const { rangeMin, rangeMax } = req.query
+
 
     try {
         if (!token) return res.status(401).send("Non autorisé")
@@ -78,20 +78,23 @@ routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
         const lastMounth = new Date(now);
         lastMounth.setDate(now.getDate() - 30);
 
-        const events = await calendar.events.list({
+        const option = {
             calendarId: "primary",
-            timeMin: lastMounth.toISOString(),
+            timeMin: rangeMin ? new Date(rangeMin).toISOString() : lastMounth.toISOString(),
+            timeMax: rangeMax ? new Date(rangeMax).toISOString() : undefined,
             fields: "items(id,summary,start,end, description)",
             maxResults: 400,
             singleEvents: true,
             orderBy: "startTime",
-        });
+        }
+
+        const events = await calendar.events.list(option);
 
         res.json({ success: true, events })
 
     } catch (err) {
-        if(err == "Error: No access, refresh token, API key or refresh handler callback is set."){
-            return res.json({success: false, message : "Vous n'avez pas acces à votre agenda google, merci de vous authentifier"})
+        if (err == "Error: No access, refresh token, API key or refresh handler callback is set.") {
+            return res.json({ success: false, message: "Vous n'avez pas acces à votre agenda google, merci de vous authentifier" })
         }
         if (err.response.data.error_description === 'Token has been expired or revoked.') {
             await deleteToken(token, db)
