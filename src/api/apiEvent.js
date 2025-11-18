@@ -19,6 +19,15 @@ import { deleteEvent } from "../service/event/deleteEvent.js";
 import { sendSMS } from "../service/sms/sendSms.js";
 import { createMatchingEvent } from "../service/event/createMatchingEvent.js";
 import { sendMatchingEvent } from "../service/mailer/sendMatchingEvent.js";
+import { getMatchingEvent } from "../service/event/getMatchingEvent.js";
+import { addRevolveMatchingEvent, updateMatchingEvent } from "../service/event/updateMatchingEvent.js";
+import { resolveMatchingEvent } from "../service/event/resolveMatchingEvent.js";
+import { sendResolvMatching } from "../service/mailer/sendResolvMatching.js";
+import { getUserData } from "../service/user/getUserData.js";
+import { addNewEventGoogle } from "../service/google/addnewEvent.js";
+import { getToken } from "../service/token/getToken.js";
+import { deleteMatchingEvent } from "../service/event/deleteMatchingEvent.js";
+import { sendValidationMatching } from "../service/mailer/sendValidationMatching.js";
 
 
 // Les routes :
@@ -111,26 +120,102 @@ routerApiEvent.post("/delete", authMiddleware, async (req, res) => {
 
 
 
+
 // matching Event
-
-routerApiEvent.post("/matching-event", authMiddleware, async (req, res) => {
-
-    console.log("BODY :", req.body.undisponibility)
-    const create = await createMatchingEvent(db, req)
-    if (!create.success) {
-        return res.json({ success: false, message: create.message })
+routerApiEvent.post("/matching-event/create", authMiddleware, async (req, res) => {
+    try {
+        const contacts = req.body.contact
+        const create = await createMatchingEvent(db, req)
+        if (!create.success) {
+            return res.json({ success: false, message: create.message })
+        }
+        for (const contact of contacts) {
+            const url = `${process.env.HOST}/matching-rdv/${create.token}/${contact}`
+            const send = await sendMatchingEvent(req, url, contact)
+            console.log(send)
+        }
+    } catch (err) {
+        console.log(err)
+        return res.json({ success: false, message: "Erreur survenu", err })
     }
-
-    const url = `${process.env.HOST}/index`
-
-    const mailer = await sendMatchingEvent(req, url, "l.beaute@laposte.net")
-
-    console.log(mailer)
     return res.json({ success: true, message: "notification envoyé" })
-
 })
 
+routerApiEvent.get("/matching-event/get", async (req, res) => {
+    const { token } = req.query
+    const event = await getMatchingEvent(db, token);
+    if (!event.success) {
+        return res.json({ success: false, message: event.message })
+    }
+    return res.json({ success: true, event })
+})
+
+routerApiEvent.post("/matching-event/update", async (req, res) => {
+    const updated = await updateMatchingEvent(db, req)
+    if (!updated.success) {
+        return res.json({ success: false, message: updated.message })
+    }
+    const undisponibility = updated.data.undisponibility
+    const allValidate = Object.values(undisponibility).every(objet => objet.validate === true)
+    let idUserOrigin = updated.data.idUser
 
 
+    //Lancement process si tout le monde a répondu à rempli ses dispos
+    if (allValidate) {
+        const { contact, rangeStart, rangeEnd, durationEvent, rangeHoursStart, rangeHoursEnd } = updated.data
+        const matching = resolveMatchingEvent(contact, undisponibility, rangeStart, rangeEnd, durationEvent, rangeHoursStart, rangeHoursEnd);
+
+        const update = await addRevolveMatchingEvent(db, matching, req)
+
+        if (update.success) {
+            const userOrigin = await getUserData(req, db, idUserOrigin)
+            const email = userOrigin.email
+            const url = `${process.env.HOST}/matching-rdv/validate?token=${updated.data.token}`
+            const title = updated.eventTitle
+            const sending = await sendResolvMatching(email, title, url);
+        }
+    }
+    return res.json({ success: true, message: updated.message, })
+})
+
+routerApiEvent.post("/matching-event/final", async (req, res) => {
+
+    const { token, addGoogle, titleEvent, dateEventString, hoursStartString, hoursEndString } = req.body
+    const dataEvent = await getMatchingEvent(db, token)
+    if (!dataEvent) {
+        return res.json({ success: false, message: "Cet evenement est déjà cloturé ou n'existe pas." })
+    }
+
+    //Enregistrer l'event dans le calendar google de l'initialisateur
+    const idUser = dataEvent.data.idUser
+
+    let eventGoogle = null;
+
+    if (addGoogle) {
+        const tokenGoogle = await getToken("RefreshTokenGoogle", idUser, db);
+        if (tokenGoogle.success) {
+            eventGoogle = await addNewEventGoogle(tokenGoogle, dataEvent, req);
+        }
+    }
+
+    //delete l'event qui est fini
+    const deletedEvent = deleteMatchingEvent(db, token)
+    if(!deletedEvent.successs){
+        console.log("erreur dans la suppression de l'eventMatching")
+    }
+
+    const contactSendSuccess = []
+    //send email à tout les participants
+    dataEvent.data.contact.forEach((email)=>{
+        const send = sendValidationMatching(email, idUser, titleEvent, dateEventString, hoursStartString, hoursEndString)
+        .then(()=>contactSendSuccess.push(send.success))
+    })
+
+    return res.json({
+        success:true,
+        google : eventGoogle.success,
+        contactSending : contactSendSuccess
+    })
+})
 
 export default routerApiEvent

@@ -50,13 +50,18 @@
 
     <!-- css -->
     <link rel="stylesheet" href="./../css/calendar/calendar.css">
-    <link rel="stylesheet" href="./css/calendar/formulaire.css">
     <link rel="stylesheet" href="./../css/calendar/modaleCalendar.css">
     <link rel="stylesheet" href="./../css/contactFav.css">
     <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
-    <link rel="stylesheet" href="./css/generic.css">
-    <link rel="stylesheet" href="./css/navbar.css">
-    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./../css/generic.css">
+    <link rel="stylesheet" href="./../css/navbar.css">
+    <link rel="stylesheet" href="./../css/footer.css">
+    <link rel="stylesheet" href="./../css/matchingEvent/formCreateMatchingEvent.css">
+    
+    <link rel="stylesheet" href="./../css/agenda/fullCalendar.css">
+    <link rel="stylesheet" href="./../css/agenda/header.css">
+    <link rel="stylesheet" href="./../css/agenda/externalEvent.css">
+
 
     <!-- script -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script> -->
@@ -75,7 +80,8 @@
     <script src="./js/calendar/deleteEvent.js" defer></script>
     <script src="./js/modale/fcModale.js" defer></script>
     <script src="./js/modale/classiqueModale.js" defer></script>
-    <script src="./js/calendar/matchingEvent.js" defer></script>
+    <script src="./js/calendar/createMatchingEvent.js" defer></script>
+    <script src="./js/calendar/redirectInvite.js" defer></script>
 </head>
 
 
@@ -85,22 +91,19 @@
 
         <main>
             <header>
-                <h1>Planifiez et Suivez vos Rendez-vous</h1>
-
-                <p>Si ce n'est pas déjà fait vous pouvez synchroniser vos agenda google et apple sur votre <a
-                        href="/mon-compte#frame-sync-calendar">gestion de compte</a></p>
-
-                <div id="message-alert">
-
-                </div>
+                    <div class="header-logo">
+                        <img src="https://img.icons8.com/?size=100&id=UpnwZDa50fGv&format=png&color=000000" alt="logo d'un calendrier">
+                    </div>
+                    <div class="header-content">
+                        <h1 class="header-title">Agenda</h1>
+                        <p class="header-subtitle">Gérez vos événements et rendez-vous</p>
+                    </div>
             </header>
 
-
             <div class="frame-calendar">
-                <div id="calendar"></div>
 
+                <div class="frame-left">
 
-                <div class="calendar-tools">
                     <div id="external-events">
                         <p><strong>Événements prédéfinis</strong></p>
                         <div class="fc-event" id="summary-reunion" value="Réunion">Réunion</div>
@@ -111,7 +114,6 @@
                             <label for="drop-remove">Supprimer après drop</label>
                         </div>
                     </div>
-
 
                     <div id="create-event">
                         <form action="">
@@ -131,55 +133,136 @@
 
                             <button id="submit-create-event">Créer l'evenement</button>
                         </form>
-
                     </div>
 
-                    <div id="match-event">
-                        <!--                         <p>
-                            Définir un rdv integligeant. Donner vos disponibilité et la liste de contact et Calendyx se chargera de 
-                            trouver le meilleur moment pour vous synchroniser
-                        </p> -->
-                        <form action="">
-
-                            <label for="event-title">Titre du rdv</label>
-                            <input type="text" id="event-title" name="event-title">
-
-                            <label for="event-adress">Lieux du rdv</label>
-                            <input type="text" id="event-adress" name="event-adress">
-
-                            <label for="event-describe">Description</label>
-                            <input type="text" id="event-describe" name="event-describe"
-                                placeholder="Valider le devis de Mr-Jean">
-
-
-                            <label for="">Destinataire (email)</label>
-                            <input type="email" id="input-email-contact" required>
-                            <button id="btn-add-contact">Ajouter le destinataire</button>
-
-                            <ul id="list-contact-send">Liste des destinataires :
-                            </ul>
-
-                            <label for="event-duration">Duré du rdv</label>
-                            <div class="form-block">
-                                <input type="number" id="event-duration" name="event-duration">
-                                <span>heure</span>
-                            </div>
-
-
-                            <label for="">Selectionner vos dates dispo</label>
-
-                            <label for="range-min">date debut</label>
-                            <input type="date" id="range-min" name="range-min">
-
-                            <label for="range-max">date de fin</label>
-                            <input type="date" id="range-max" name="range-max">
-
-                            <button id="btn-submit-matching-event">Valider</button>
-                        </form>
-                    </div>
                 </div>
 
 
+                <div id="calendar"></div>
+
+
+                <div class="calendar-tools">
+
+
+
+
+
+
+                    <div id="match-event">
+                        <div class="form-header">
+                            <h2 class="title-2">Créer un rendez-vous</h2>
+                            <p class="subtitle">Organisez votre rencontre en quelques clics</p>
+                        </div>
+
+                        <form>
+                            <!-- Informations générales -->
+                            <div class="form-section">
+                                <h3 class="section-title">📋 Informations générales</h3>
+
+                                <div class="form-group">
+                                    <label for="event-title">Titre du rendez-vous</label>
+                                    <input type="text" id="event-title" name="event-title"
+                                        placeholder="Ex: Réunion trimestrielle">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-adress">Lieu du rendez-vous</label>
+                                    <input type="text" id="event-adress" name="event-adress"
+                                        placeholder="Ex: Salle de conférence A">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-describe">Description</label>
+                                    <textarea id="event-describe" name="event-describe" rows="3"
+                                        placeholder="Ex: Valider le devis de Mr Jean et discuter du planning"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Participants -->
+                            <div class="form-section">
+                                <h3 class="section-title">👥 Participants</h3>
+
+                                <div class="form-group">
+                                    <label for="input-email-contact">Email du destinataire</label>
+                                    <div class="input-with-button">
+                                        <input type="email" id="input-email-contact" placeholder="exemple@email.com"
+                                            required>
+                                        <button type="button" id="btn-add-contact" class="btn-add">
+                                            <span>+</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="contacts-list">
+                                    <p class="list-label">Destinataires ajoutés :</p>
+                                    <ul id="list-contact-send" class="contact-chips">
+                                        <!-- Les contacts seront ajoutés ici dynamiquement -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Disponibilités -->
+                            <div class="form-section">
+                                <h3 class="section-title">📅 Disponibilités</h3>
+
+                                <div class="form-group">
+                                    <label for="event-duration">Durée du rendez-vous</label>
+                                    <div class="duration-input">
+                                        <input type="number" id="event-duration" name="event-duration" min="0.5"
+                                            step="0.5" value="1">
+                                        <span class="duration-unit">heure(s)</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Plage horaire</label>
+                                    <div class="time-range">
+                                        <div class="time-input-group">
+                                            <span class="time-label">Début</span>
+                                            <input type="number" id="range-hours-min" name="range-hours-min" min="0"
+                                                max="23" value="9" placeholder="9">
+                                            <span class="time-unit">h</span>
+                                        </div>
+                                        <span class="range-separator">—</span>
+                                        <div class="time-input-group">
+                                            <span class="time-label">Fin</span>
+                                            <input type="number" id="range-hours-max" name="range-hours-max" min="0"
+                                                max="23" value="18" placeholder="18">
+                                            <span class="time-unit">h</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Période de recherche</label>
+                                    <div class="date-range">
+                                        <div class="date-input-group">
+                                            <span class="date-label">Du</span>
+                                            <input type="date" id="range-min" name="range-min">
+                                        </div>
+                                        <div class="date-input-group">
+                                            <span class="date-label">Au</span>
+                                            <input type="date" id="range-max" name="range-max">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bouton de soumission -->
+                            <button type="submit" id="btn-submit-matching-event" class="btn btn-primary">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Créer le rendez-vous
+                            </button>
+                        </form>
+                    </div>
+
+
+
+
+                </div>
 
             </div>
         </main>

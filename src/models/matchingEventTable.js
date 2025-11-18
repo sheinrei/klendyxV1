@@ -1,4 +1,4 @@
-import { DataTypes, UniqueConstraintError } from "sequelize"
+import { DataTypes } from "sequelize"
 
 
 export function matchingEventTable(sequelize) {
@@ -38,6 +38,17 @@ export function matchingEventTable(sequelize) {
             type: DataTypes.DATE,
             allowNull: false,
         },
+        
+        rangeHoursStart: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        rangeHoursEnd: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+
+
         durationEvent: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -52,6 +63,10 @@ export function matchingEventTable(sequelize) {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+        },
+        resolve : {
+            type : DataTypes.JSON,
+            allowNull : true,
         }
 
 

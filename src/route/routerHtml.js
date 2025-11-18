@@ -64,6 +64,13 @@ router.get("/contact-favori", (req, res) => {
     sendFile("./public/pageHtml/contactFavori.html", res);
 })
 
+router.get("/matching-rdv/:token/:origin", (req, res) => {
+    sendFile("./public/pageHtml/matchingEvent.html", res);
+})
+
+router.get("/matching-rdv/validate", (req,res)=>{
+    sendFile("./public/pageHtml/matchingEventValidate.html", res)
+})
 
 //export à la fin du fichier
 export default router

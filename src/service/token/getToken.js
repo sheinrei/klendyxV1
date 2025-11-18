@@ -12,6 +12,7 @@ export async function getToken(type, userId, db) {
     const tokenData = JSON.parse(saved.dataValues.token);
 
     return {
+        success: true,
         access_token: tokenData.access_token,
         refresh_token: tokenData.refresh_token
     };

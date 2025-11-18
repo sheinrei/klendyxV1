@@ -1,0 +1,11 @@
+.external-events {
+    background-color: red;
+    border-radius: 12px;
+    width: 500px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+
+    margin-bottom:50px !important;
+    display:flex;
+    gap:40px;
+}

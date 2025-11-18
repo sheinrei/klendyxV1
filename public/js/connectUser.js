@@ -1,10 +1,10 @@
 // Gestion de la connexion
 $(document).ready(function () {
 
-    
-    $("#loginForm").on("submit", async(e) => {
+
+    $("#loginForm").on("submit", async (e) => {
         e.preventDefault();
-        
+
         const config = await getConfig()
         const host = config.host
 
@@ -22,7 +22,13 @@ $(document).ready(function () {
             data: JSON.stringify({ emailConnect: email, mdpConnect: mdp }),
             success: function (data) {
                 if (data.success == true) {
-                    window.location.href = "/dashboard";
+                    const redirect = window.localStorage.getItem("redirect")
+                    if (redirect) {
+                        window.location.href = redirect
+                        localStorage.removeItem("redirect")
+                    } else {
+                        window.location.href = "/dashboard"
+                    }
                 } else {
                     $("#msg-alert").text(`${data.message}`)
                 }

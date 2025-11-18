@@ -27,7 +27,7 @@ $(async function () {
             createClassiqueModale("Session expirée. <br> Vous allez être redirigé vers la page de connexion dans quelques instants.")
             setTimeout(()=>{
                 window.location.href = `${host}/connexion`
-            },5000)
+            },2500)
         }
     }
 })

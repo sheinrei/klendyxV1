@@ -3,13 +3,12 @@ import { createOption } from "./createMailOption.js";
 import { getUserData } from "../user/getUserData.js";
 import db from "../../sequelize.js";
 
-export async function sendMatchingEvent(req, url, email) {
+export async function sendValidationMatching(email, id, titleEvent, dateEvent, hoursStart, hoursEnd) {
 
     const transporter = createTransporter()
-    const dataInitialisateur = await getUserData(req, db)
+    const dataInitialisateur = await getUserData(null, db, id)
+
     const initialisateur = dataInitialisateur.nom + " " + dataInitialisateur.prenom
-
-
 
 
     const html = `
@@ -23,7 +22,7 @@ export async function sendMatchingEvent(req, url, email) {
                         <tr>
                             <td style="background-color: #716af9;padding: 40px 30px;text-align: center;border-radius:20px">
                                 <h1 style="color: #ffffff;font-size: 28px;font-weight: 700;margin: 0;line-height: 1.3;">
-                                    CALENDYX - Demande de Rendez-Vous
+                                    CALENDYX - Nouveau Rendez-vous
                                 </h1>
                             </td>
                         </tr>
@@ -38,35 +37,19 @@ export async function sendMatchingEvent(req, url, email) {
                                 
                                 <!-- PARAGRAPHE PRINCIPAL -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    ${initialisateur} vous a fait une demande de rendez-vous.
+                                    Votre rendez-vous avec ${initialisateur} a été confirmé.
                                 </p>
                                 
                                 <!-- PARAGRAPHE SECONDAIRE (optionnel) -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    Afin de convenir d'une disponibilité mutuelle merci de cliquer sur le liens qui vous dirigera sur une instance Calendyx.
+                                    Votre rdv : ${titleEvent}<br>
+                                    Date :  ${dateEvent} de ${hoursStart} à ${hoursEnd}
                                 </p>
                                 
-                                <!-- CALL TO ACTION -->
-                                <div style="text-align: center;margin: 35px 0; hover : background-color: #5247c7;">
-                                    <a href="${url}" style="display: inline-block; padding: 14px 32px; background-color: #716af9; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; transition: background-color 0.3s ease;">
-                                        Convenir d'une date de rendez-vous.
-                                    </a>
-                                </div>
-                                
-                                <!-- BOÎTE D'INFORMATION (optionnelle) -->
-                                <div style="background-color: #f8fafc;border-left: 4px solid #716af9;padding: 20px;margin: 25px 0;border-radius: 8px;">
-                                    <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 10px 0;">
-                                        <strong>💡 Détails du rendez-vous sont les suivants :</strong><br>    
-                                        -Titre : ${req.body.eventTitle}<br>
-                                        -Adresse : ${req.body.eventAddress ?? "Non renseignée"}<br>
-                                        -Description : ${req.body.description ?? "Non renseignée"}<br>
-                                        -Durée : ${req.body.durationEvent}H<br>
-                                        ${req.body.contact.length > 1 ? `-Nombre de participants : ${req.body.contact.length}` : ""}
-                                    </p>
-                                </div>
+
                                 
                                 <!-- DIVIDER -->
-                                <div style="height: 1px;background-color: #e5e7eb;margin: 30px 0;"></div>
+                                <div style="height: 2px;background-color: #e5e7eb;margin: 20px 0;"></div>
                                 
                                 <!-- TEXTE DE CLÔTURE -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
@@ -88,7 +71,7 @@ export async function sendMatchingEvent(req, url, email) {
     `;
 
 
-    const mailOptions = createOption(email, initialisateur, html, req.body.eventTitle)
+    const mailOptions = createOption(email, initialisateur, html, titleEvent)
 
     try {
         const info = await transporter.sendMail(mailOptions);

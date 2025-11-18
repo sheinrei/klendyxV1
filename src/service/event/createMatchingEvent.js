@@ -19,6 +19,9 @@ export async function createMatchingEvent(db, req) {
 
         rangeStart: req.body.rangeStart,
         rangeEnd: req.body.rangeEnd,
+
+        rangeHoursStart: req.body.rangeHoursStart,
+        rangeHoursEnd: req.body.rangeHoursEnd,
         durationEvent: req.body.durationEvent,
         undisponibility: req.body.undisponibility,
         token: token
@@ -28,5 +31,5 @@ export async function createMatchingEvent(db, req) {
         return { success: false, message: "Une erreur est survnu impossible de créer l'event" }
     }
 
-    return { success: true, message: "Evenement créé avec succès." }
+    return { success: true, message: "Evenement créé avec succès.", token }
 }

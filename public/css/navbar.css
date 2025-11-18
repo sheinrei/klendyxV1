@@ -4,7 +4,6 @@ nav {
     display: flex;
     border: 2px solid var(--border-color);
     z-index:10;
-    margin-right:50px;
 }
 
 .list-nav {

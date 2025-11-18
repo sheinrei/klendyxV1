@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendyx - Matching rendez-vous</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="./../../css/generic.css">
+    <link rel="stylesheet" href="./../../css/footer.css">
+    <link rel="stylesheet" href="./../../css/calendar/calendar.css">
+    <link rel="stylesheet" href="./../../css/modale/classiqueModale.css">
+    <link rel="stylesheet" href="./../../css/matchingEvent/header.css">
+    <link rel="stylesheet" href="./../../css/matchingEvent/calendarAndTools.css">
+
+
+    <!-- script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/config.js" defer></script>
+    <script src="/js/footer.js" defer></script>
+    <script src="/js/sessionExpire.js" defer></script>
+
+    <script src="/js/cdnFullCalendar.js" defer></script>
+    <script src="/js/modale/classiqueModale.js" defer></script>
+    <script src="/js/calendarMatchingEvent/userUpdateMatchingEvent.js" defer></script>
+
+</head>
+
+<body>
+    <section class="content" id="content">
+
+        <div>
+            <header class="main-header">
+                <div class="header-container">
+                    <div class="header-content">
+                        <h1 class="header-title">Trouvons le créneau parfait !</h1>
+                        <p class="header-description">
+                            Vous avez reçu une demande de rendez-vous. Pour trouver une date qui convient à tous,
+                            indiquez simplement vos indisponibilités et Calendyx se charge du reste.
+                        </p>
+                    </div>
+
+
+                    <div class="sync-section">
+                        <div class="row-title-sync-google">
+                            <h2 class="sync-title">Synchronisation Google Calendar</h2>
+                            <img id="retract-sync-google" width="40" height="40"
+                                src="https://img.icons8.com/fluency/48/circled-chevron-up.png"
+                                alt="circled-chevron-up" />
+                        </div>
+
+
+                        <div class="sync-content">
+                            <p class="sync-description">
+                                Connectez votre agenda Google pour que vos événements existants soient automatiquement
+                                pris en compte.<br>
+                                Calendyx n’enregistre aucune de vos données.
+                            </p>
+
+                            <button id="sync-google" class="google-btn">
+                                <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                        fill="#4285F4" />
+                                    <path
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                        fill="#34A853" />
+                                    <path
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                                        fill="#FBBC05" />
+                                    <path
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                        fill="#EA4335" />
+                                </svg>
+                                Connecter Google Calendar
+                            </button>
+                            <p class="privacy-note">
+                                <svg class="lock-icon" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 2C9.243 2 7 4.243 7 7v3H6c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2v-8c0-1.103-.897-2-2-2h-1V7c0-2.757-2.243-5-5-5zm3 8V7c0-1.654-1.346-3-3-3S9 5.346 9 7v3h6z"
+                                        fill="currentColor" />
+                                </svg>
+                                Vos données restent privées.
+                                <a href="https://calendyx.beaute-laurent.fr/confidentialite"
+                                    class="privacy-link">Politique de confidentialité</a>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <p id="message-alert"></p>
+
+            <section class="frame-calendar">
+                <div id="calendar">
+
+                    <button id="btn-submit-matching" class="btn-primary"
+                        style="margin-top:5px;width:fit-content">Valider mes disponibilités</button>
+                </div>
+
+                <section class="calendar-tools">
+                    <div id="external-events">
+                        <span class="title-tools"><strong>Événements à la journée</strong></span>
+                        <div class="fc-event" id="drag-disponible" value="disponible">Disponible</div>
+                        <div class="fc-event" id="drag-preference" value="drag-preference">Date de préférence</div>
+                        <div class="fc-event" id="drag-indisponible" value="drag-indisponible">Indisponible</div>
+                    </div>
+
+                    <section class="frame-calendar-tool">
+                        <span class="title-tools">Gestion des indisponibilitées</span>
+                        <div>
+                            <p>Selectionner les jours où vous n'êtes pas disponible</p>
+
+                            <div class="frame-label-day">
+                                <label for="lundi" class="day-select" id="label-lundi">Lu</label>
+                                <input style="display:none" type="checkbox" name="lundi" id="lundi">
+
+                                <label for="mardi" class="day-select" id="label-mardi">Ma</label>
+                                <input style="display:none" type="checkbox" name="mardi" id="mardi">
+
+                                <label for="mercredi" class="day-select" id="label-mercredi">Me</label>
+                                <input style="display:none" type="checkbox" name="mercredi" id="mercredi">
+
+                                <label for="jeudi" class="day-select" id="label-jeudi">Je</label>
+                                <input style="display:none" type="checkbox" name="jeudi" id="jeudi">
+
+                                <label for="vendredi" class="day-select" id="label-vendredi">Ve</label>
+                                <input style="display:none" type="checkbox" name="vendredi" id="vendredi">
+
+                                <label for="samedi" class="day-select" id="label-samedi">Sa</label>
+                                <input style="display:none" type="checkbox" name="samedi" id="samedi">
+
+                                <label for="dimanche" class="day-select" id="label-dimanche">Di</label>
+                                <input style="display:none" type="checkbox" name="dimanche" id="dimanche">
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                    <section class="frame-calendar-tool">
+                        <div>
+                            <span class="title-tools">Définir une plage d'horraire</span>
+                            <div>
+                                <div class="radio-group no-select">
+                                    <label>
+                                        <input type="radio" name="plage-horraire-setup" value="indispo"
+                                            id="plage-horraire-setup-indisponible">
+                                        <span>Indisponible</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="plage-horraire-setup" value="dispo"
+                                            id="plage-horraire-setup-disponible">
+                                        <span>Disponible</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="plage-horraire-setup" value="dispoPref"
+                                            id="plage-horraire-setup-preference">
+                                        <span>Préférence</span>
+                                    </label>
+                                </div>
+
+
+
+                                <div class="frame-label-day">
+                                    <label for="horraire-lundi" class="day-select" id="label-horraire-lundi">Lu</label>
+                                    <input style="display:none" type="checkbox" name="horraire-lundi"
+                                        id="horraire-lundi">
+
+                                    <label for="horraire-mardi" class="day-select" id="label-horraire-mardi">Ma</label>
+                                    <input style="display:none" type="checkbox" name="horraire-mardi"
+                                        id="horraire-mardi">
+
+                                    <label for="horraire-mercredi" class="day-select"
+                                        id="label-horraire-mercredi">Me</label>
+                                    <input style="display:none" type="checkbox" name="horraire-mercredi"
+                                        id="horraire-mercredi">
+
+                                    <label for="horraire-jeudi" class="day-select" id="label-horraire-jeudi">Je</label>
+                                    <input style="display:none" type="checkbox" name="horraire-jeudi"
+                                        id="horraire-jeudi">
+
+                                    <label for="horraire-vendredi" class="day-select"
+                                        id="label-horraire-vendredi">Ve</label>
+                                    <input style="display:none" type="checkbox" name="horraire-vendredi"
+                                        id="horraire-vendredi">
+
+                                    <label for="horraire-samedi" class="day-select"
+                                        id="label-horraire-samedi">Sa</label>
+                                    <input style="display:none" type="checkbox" name="horraire-samedi"
+                                        id="horraire-samedi">
+
+                                    <label for="horraire-dimanche" class="day-select"
+                                        id="label-horraire-dimanche">Di</label>
+                                    <input style="display:none" type="checkbox" name="horraire-dimanche"
+                                        id="horraire-dimanche">
+                                </div>
+
+                                <div class="row-input-time">
+                                    <label for="horraire-time-start">Disponible de </label>
+                                    <input type="time" value="08:00" id="horraire-time-start"
+                                        name="horraire-time-start">
+                                    <label for="horraire-time-end">à</label>
+                                    <input type="time" value="12:00" id="horraire-time-end" name="horraire-time-end">
+                                </div>
+                            </div>
+
+                            <button id="btn-submit-horraire" class="btn-primary">Ajouter</button>
+                        </div>
+
+                        <div id="collection-horraire">
+
+                        </div>
+
+                    </section>
+                </section>
+            </section>
+
+        </div>
+    </section>
+</body>
+
+</html>

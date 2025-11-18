@@ -24,7 +24,6 @@ export function authMiddlewareOptional(req, res, next) {
         req.userId = null;
         return next();     
     }
-
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         req.userId = payload.userId;

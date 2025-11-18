@@ -1,0 +1,31 @@
+header {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    background-color: rgb(255, 255, 255);
+
+    margin-bottom: 30px;
+
+    border-bottom: 2px solid rgb(236, 235, 235)
+}
+
+.header-logo {
+    margin-left: 20px
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header-title {
+    font-size: 18px;
+    margin: 0
+}
+
+.header-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin: 0;
+}
