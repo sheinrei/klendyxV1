@@ -67,10 +67,9 @@ app.post(`/webhook/:token`, (req, res) => {
         fs.appendFileSync(logFile, logMessage);
     };
 
-    log("Enté dans la route de deploy")
+    log("*===== Ping de la route =====*")
 
     if (secret === params) {
-
         //verif si c'est bien la branch production
         const branch = req.body.ref.replace('refs/heads/', '')
         if (branch !== 'production') {
@@ -78,30 +77,37 @@ app.post(`/webhook/:token`, (req, res) => {
             return
         }
 
-
         log("=== Déclenchement du déploiement ===");
 
         const commands = [
             "cd /home/buyu3307/calendyx.beaute-laurent.fr/production",
-            "git pull origin production",
+            "git fetch origin",
+            "git reset --hard origin/production",
             "mkdir -p tmp",
             "touch tmp/restart.txt"
         ].join(" && ");
 
-        exec(commands, (err, stdout, stderr) => {
-            if (err) {
-                log(`ERREUR: ${err.message}`);
-                log(`stderr: ${stderr}`);
-                return res.status(500).send("Erreur lors du déploiement");
-            }
+        try {
+            exec(commands, (err, stdout, stderr) => {
+                if (err) {
+                    log(`ERREUR: ${err.message}`);
+                    log(`stderr: ${stderr}`);
+                    return res.status(500).send("Erreur lors du déploiement");
+                }
 
-            log(`Git pull: ${stdout}`);
-            if (stderr) log(`stderr: ${stderr}`);
-            log("=== Déploiement terminé ===\n");
+                log(`Git pull: ${stdout}`);
+                if (stderr) log(`stderr: ${stderr}`);
+                log("=== Déploiement terminé ===\n");
 
-            res.send("Déploiement réussi !");
-        });
+                res.send("Déploiement réussi !");
+            });
+        } catch (err) {
+            log(`Erreur ! Erreur ! Erreur ! ${err}`)
+        }
+
+
     } else {
+        log("*===== Tentative de route sans le bon Token ! =====*")
         res.status(403).send("Token invalide");
     }
 });
