@@ -13,6 +13,7 @@ router.get("/index", (req, res) => {
     sendFile("./public/pageHtml/index.html", res);
 })
 
+
 router.get("/connexion", (req, res) => {
     sendFile("./public/pageHtml/connexion.html", res);
 })
@@ -29,9 +30,6 @@ router.get("/forgotPassword", (req, res) => {
 })
 
 
-router.get("/confidentialite", (req, res) => {
-    sendFile("./public/pageHtml/confidentialite.html", res);
-})
 
 
 router.get("/contact", (req, res) => {
@@ -62,9 +60,16 @@ router.get("/matching-rdv/:token/:origin", (req, res) => {
     sendFile("./public/pageHtml/matchingEvent.html", res);
 })
 
-router.get("/matching-rdv/validate", (req,res)=>{
+router.get("/matching-rdv/validate", (req, res) => {
     sendFile("./public/pageHtml/matchingEventValidate.html", res)
 })
 
+router.get("/confidentialite", (req, res) => {
+    sendFile("./public/pageHtml/confidentialite.html", res);
+})
+
+router.get("/condition-utilisation", (req, res) => {
+    sendFile("./public/pageHtml/conditionUtilisation.html", res);
+})
 //export à la fin du fichier
 export default router
