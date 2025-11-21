@@ -49,230 +49,380 @@
 
 
     <!-- css -->
-    <link rel="stylesheet" href="./../css/calendar/calendar.css">
-    <link rel="stylesheet" href="./../css/calendar/modaleCalendar.css">
-    <link rel="stylesheet" href="./../css/contactFav.css">
-    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
-    <link rel="stylesheet" href="./../css/generic.css">
-    <link rel="stylesheet" href="./../css/navbar.css">
-    <link rel="stylesheet" href="./../css/footer.css">
-    <link rel="stylesheet" href="./../css/matchingEvent/formCreateMatchingEvent.css">
-    
-    <link rel="stylesheet" href="./../css/agenda/fullCalendar.css">
-    <link rel="stylesheet" href="./../css/agenda/header.css">
-    <link rel="stylesheet" href="./../css/agenda/externalEvent.css">
+    <link rel="stylesheet" href="/css/generic.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/pageHeader.css">
+
+    <link rel="stylesheet" href="/css/modale/classiqueModale.css">
+    <link rel="stylesheet" href="/css/modale/modaleCalendar.css">
+    <link rel="stylesheet" href="/css/agenda/layout.css">
+    <link rel="stylesheet" href="/css/agenda/formCreateMatchingEvent.css">
+    <link rel="stylesheet" href="/css/calendar/calendar.css">
+    <link rel="stylesheet" href="/css/agenda/fullCalendar.css">
+    <link rel="stylesheet" href="/css/agenda/externalEvent.css">
+    <link rel="stylesheet" href="/css/agenda/calendarSync.css">
 
 
     <!-- script -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
-    <script src="./js/cdnFullCalendar.js" defer></script>
-    <script src="./js/tools.js" defer></script>
-    <script src="./js/sessionExpire.js" defer></script>
-    <script src="./js/config.js" defer></script>
-    <script src="./js/navbar.js" defer></script>
-    <script src="./js/footer.js" defer></script>
-    <script src="./js/deconnectUser.js" defer></script>
-    <script src="./js/calendar/implemente.js" defer></script>
-    <script src="./js/calendar/modaleDetailEvent.js" defer></script>
-    <script src="./js/calendar/createEvent.js" defer></script>
-    <script src="./js/calendar/deleteEvent.js" defer></script>
-    <script src="./js/modale/fcModale.js" defer></script>
-    <script src="./js/modale/classiqueModale.js" defer></script>
-    <script src="./js/calendar/createMatchingEvent.js" defer></script>
-    <script src="./js/calendar/redirectInvite.js" defer></script>
+    <script src="/js/cdnFullCalendar.js" defer></script>
+    <script src="/js/navbar.js" defer></script>
+    <script src="/js/tools.js" defer></script>
+    <script src="/js/sessionExpire.js" defer></script>
+    <script src="/js/config.js" defer></script>
+    <script src="/js/footer.js" defer></script>
+    <script src="/js/deconnectUser.js" defer></script>
+    <script src="/js/agenda/redirectInvite.js" defer></script>
+
+    <script src="/js/modale/modaleDetailEvent.js" defer></script>
+    <script src="/js/modale/fcModale.js" defer></script>
+    <script src="/js/modale/classiqueModale.js" defer></script>
+    <script src="/js/modale/moveModale.js" defer></script>
+
+    <script src="/js/agenda/fcConstructor.js" defer></script>
+    <script src="/js/agenda/deleteEvent.js" defer></script>
+    <script src="/js/agenda/createMatchingEvent.js" defer></script>
+    <script src="/js/agenda/externalEvent.js" defer></script>
+    <script src="/js/agenda/swapperForm.js" defer></script>
+    <script src="/js/agenda/frameAgendaSync.js" defer></script>
+
+
 </head>
 
 
 
 <body>
     <section class="content" id="content">
-
         <main>
+
             <header>
-                    <div class="header-logo">
-                        <img src="https://img.icons8.com/?size=100&id=UpnwZDa50fGv&format=png&color=000000" alt="logo d'un calendrier">
-                    </div>
-                    <div class="header-content">
-                        <h1 class="header-title">Agenda</h1>
-                        <p class="header-subtitle">Gérez vos événements et rendez-vous</p>
-                    </div>
+                <div class="header-logo">
+                    <img src="https://img.icons8.com/?size=100&id=UpnwZDa50fGv&format=png&color=000000"
+                        alt="logo d'un calendrier">
+                </div>
+                <div class="header-content">
+                    <h1 class="header-title">Agenda</h1>
+                    <p class="header-subtitle">Gérez vos événements et rendez-vous</p>
+                </div>
             </header>
 
-            <div class="frame-calendar">
+            <p id="message-alert-information"></p>
+            <p id="message-alert-warning"></p>
+            <p id="message-alert-success"></p>
 
-                <div class="frame-left">
+            <section class="container-frame-calendar-sync">
+                <div id="frame-calendar-sync">
+                    <header>
+                        <p class="title-sync-calendar">Vos Agendas Synchronisés</p>
+                        <img id="retract-frame-calendar-sync"
+                            src="https://img.icons8.com/color/50/circled-chevron-down.png" />
+                    </header>
 
-                    <div id="external-events">
-                        <p><strong>Événements prédéfinis</strong></p>
-                        <div class="fc-event" id="summary-reunion" value="Réunion">Réunion</div>
-                        <div class="fc-event" id="summary-pauseCafe" value="Pause café">Pause café</div>
-                        <div class="fc-event" id="summary-appelClient" value="Appel client">Appel client</div>
-                        <div>
-                            <input type="checkbox" id="drop-remove" />
-                            <label for="drop-remove">Supprimer après drop</label>
-                        </div>
-                    </div>
+                    <div class="frame-item-calendar-sync">
 
-                    <div id="create-event">
-                        <form action="">
-                            <p>Ajouter un evenmeent dans votre Agenda</p>
-                            <label for="title-event">Titre</label>
-                            <input type="text" id="title-event" name="title-event">
-
-                            <label for="description">Description</label>
-                            <input type="text" name="description" id="description">
-
-
-                            <label for="start-time">Date de début</label>
-                            <input type="datetime-local" name="start-time" id="start-time">
-
-                            <label for="end-time">Date de fin</label>
-                            <input type="datetime-local" name="end-time" id="end-time">
-
-                            <button id="submit-create-event">Créer l'evenement</button>
-                        </form>
-                    </div>
-
-                </div>
-
-
-                <div id="calendar"></div>
-
-
-                <div class="calendar-tools">
-
-
-
-
-
-
-                    <div id="match-event">
-                        <div class="form-header">
-                            <h2 class="title-2">Créer un rendez-vous</h2>
-                            <p class="subtitle">Organisez votre rencontre en quelques clics</p>
+                        <div class="items-calendar-sync" >Google Calendar
+                            <div id="items-calendar-sync-google"><span id="sync-google"></span></div>
                         </div>
 
-                        <form>
-                            <!-- Informations générales -->
-                            <div class="form-section">
-                                <h3 class="section-title">📋 Informations générales</h3>
+                        <div class="items-calendar-sync">Apple Calendar
+                            <div id="items-calendar-sync-apple"><span id="sync-apple"></span></div>
+                        </div>
 
-                                <div class="form-group">
-                                    <label for="event-title">Titre du rendez-vous</label>
-                                    <input type="text" id="event-title" name="event-title"
-                                        placeholder="Ex: Réunion trimestrielle">
-                                </div>
+                        <div class="items-calendar-sync">Outlook Calendar
+                            <div id="items-calendar-sync-outlook"><span id="sync-outlook"></span></div>
+                        </div>
 
-                                <div class="form-group">
-                                    <label for="event-adress">Lieu du rendez-vous</label>
-                                    <input type="text" id="event-adress" name="event-adress"
-                                        placeholder="Ex: Salle de conférence A">
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="event-describe">Description</label>
-                                    <textarea id="event-describe" name="event-describe" rows="3"
-                                        placeholder="Ex: Valider le devis de Mr Jean et discuter du planning"></textarea>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+            </section>
 
-                            <!-- Participants -->
-                            <div class="form-section">
-                                <h3 class="section-title">👥 Participants</h3>
-
-                                <div class="form-group">
-                                    <label for="input-email-contact">Email du destinataire</label>
-                                    <div class="input-with-button">
-                                        <input type="email" id="input-email-contact" placeholder="exemple@email.com"
-                                            required>
-                                        <button type="button" id="btn-add-contact" class="btn-add">
-                                            <span>+</span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="contacts-list">
-                                    <p class="list-label">Destinataires ajoutés :</p>
-                                    <ul id="list-contact-send" class="contact-chips">
-                                        <!-- Les contacts seront ajoutés ici dynamiquement -->
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Disponibilités -->
-                            <div class="form-section">
-                                <h3 class="section-title">📅 Disponibilités</h3>
-
-                                <div class="form-group">
-                                    <label for="event-duration">Durée du rendez-vous</label>
-                                    <div class="duration-input">
-                                        <input type="number" id="event-duration" name="event-duration" min="0.5"
-                                            step="0.5" value="1">
-                                        <span class="duration-unit">heure(s)</span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Plage horaire</label>
-                                    <div class="time-range">
-                                        <div class="time-input-group">
-                                            <span class="time-label">Début</span>
-                                            <input type="number" id="range-hours-min" name="range-hours-min" min="0"
-                                                max="23" value="9" placeholder="9">
-                                            <span class="time-unit">h</span>
-                                        </div>
-                                        <span class="range-separator">—</span>
-                                        <div class="time-input-group">
-                                            <span class="time-label">Fin</span>
-                                            <input type="number" id="range-hours-max" name="range-hours-max" min="0"
-                                                max="23" value="18" placeholder="18">
-                                            <span class="time-unit">h</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Période de recherche</label>
-                                    <div class="date-range">
-                                        <div class="date-input-group">
-                                            <span class="date-label">Du</span>
-                                            <input type="date" id="range-min" name="range-min">
-                                        </div>
-                                        <div class="date-input-group">
-                                            <span class="date-label">Au</span>
-                                            <input type="date" id="range-max" name="range-max">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Bouton de soumission -->
-                            <button type="submit" id="btn-submit-matching-event" class="btn btn-primary">
-                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                Créer le rendez-vous
-                            </button>
-                        </form>
+            <div>
+                <section class="frame-calendar">
+                    <!-- le FC calendar -->
+                    <div id="calendar">
                     </div>
 
+                    <!-- formulaire sur la droite-->
+                    <section class="calendar-tools">
+                        <header class="swapper-calendar-tool">
+                            <p class="swapper-title swapper-activ" id="swapper-title-drag">Ajout rapide</p>
+                            <p class="swapper-title" id="swapper-title-matching">Matching RDV</p>
+                        </header>
+
+                        <div id="match-event">
+                            <header class="form-header">
+                                <h2>
+                                    <img width="50" height="50" style="margin-right:6px"
+                                        src="https://img.icons8.com/external-parzival-1997-outline-color-parzival-1997/50/external-partner-digital-globalization-parzival-1997-outline-color-parzival-1997.png"
+                                        alt="external-partner-digital-globalization-parzival-1997-outline-color-parzival-1997" />
+                                    <strong>Créer un matching</strong>
+
+                                </h2>
+                                <p>Organisez votre rencontre selon les disponibilités des participants</p>
+                            </header>
+
+                            <form>
+                                <!-- Informations générales -->
+                                <div class="form-section">
+                                    <h3 class="section-title">📋 Informations générales</h3>
+
+                                    <div class="form-group">
+                                        <label for="event-title">Titre du rendez-vous</label>
+                                        <input type="text" id="event-title" name="event-title"
+                                            placeholder="Ex: Réunion trimestrielle">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="event-adress">Lieu du rendez-vous</label>
+                                        <input type="text" id="event-adress" name="event-adress"
+                                            placeholder="Ex: Salle de conférence A">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="event-describe">Description</label>
+                                        <textarea id="event-describe" name="event-describe" rows="3"
+                                            placeholder="Ex: Valider le devis de Mr Jean et discuter du planning"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Participants -->
+                                <div class="form-section">
+                                    <h3 class="section-title">👥 Participants</h3>
+
+                                    <div class="form-group">
+                                        <label for="input-email-contact">Email du destinataire</label>
+                                        <div class="input-with-button">
+                                            <input type="email" id="input-email-contact" placeholder="exemple@email.com"
+                                                required>
+                                            <button type="button" id="btn-add-contact" class="btn-add">
+                                                <span>+</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="contacts-list">
+                                        <p class="list-label">Destinataires ajoutés :</p>
+                                        <div id="list-contact-send" class="contact-chips">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Disponibilités -->
+                                <div class="form-section">
+                                    <h3 class="section-title">📅 Disponibilités</h3>
+
+                                    <div class="form-group">
+                                        <label for="event-duration">Durée du rendez-vous</label>
+                                        <div class="duration-input">
+                                            <input type="number" id="event-duration" name="event-duration" min="0.5"
+                                                step="0.5" value="1" max="24">
+                                            <span class="duration-unit">heure(s)</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Plage horaire</label>
+                                        <div class="time-range">
+                                            <div class="time-input-group">
+                                                <span class="time-label">Début</span>
+                                                <input type="number" id="range-hours-min" name="range-hours-min" min="0"
+                                                    max="23" value="9" placeholder="9">
+                                                <span class="time-unit">h</span>
+                                            </div>
+                                            <span class="range-separator">—</span>
+                                            <div class="time-input-group">
+                                                <span class="time-label">Fin</span>
+                                                <input type="number" id="range-hours-max" name="range-hours-max" min="0"
+                                                    max="23" value="18" placeholder="18">
+                                                <span class="time-unit">h</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Période de recherche</label>
+                                        <div class="date-range">
+                                            <div class="date-input-group">
+                                                <span class="date-label">Du</span>
+                                                <input type="date" id="range-min" name="range-min">
+                                            </div>
+                                            <div class="date-input-group">
+                                                <span class="date-label">Au</span>
+                                                <input type="date" id="range-max" name="range-max">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bouton de soumission -->
+                                <button type="submit" id="btn-submit-matching-event" class="btn btn-primary">
+                                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Créer le rendez-vous
+                                </button>
+                            </form>
+                        </div>
+
+                        <div id="external-events">
+                            <h2><strong><img width="38" height="38"
+                                        src="https://img.icons8.com/fluency/48/windows-calendar.png"
+                                        alt="windows-calendar" />Ajouter un événement</strong></h2>
+                            <p class="external-events-subtitle">Glisser un evenement dans le calendrier</p>
+
+                            <div class="frame-external-fc">
+
+                                <div class="external-element-fav">
+                                    <div class="fc-event" id="summary-reunion" data-title="Réunion" data-describe=""
+                                        data-start="12:00" data-end="13:00"
+                                        data-calendarsave='{"calendyx":true, "google":false, "apple":false, "outlook":false}'
+                                        data-image='{"src":"https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png", "alt":"external-meeting-time-management-xnimrodx-lineal-color-xnimrodx"}'>
+                                        <img width="38" height="38"
+                                            src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png"
+                                            alt="external-meeting-time-management-xnimrodx-lineal-color-xnimrodx" />
+
+                                        <span>Réunion</span>
+                                    </div>
+                                    <span class="external-event-delete" title="supprimer des favoris"><img
+                                            src="https://img.icons8.com/?size=100&id=tC7FD0dyIjSg&format=png&color=000000"
+                                            alt="trash" /></span>
+                                </div>
+
+                                <div class="external-element-fav">
+                                    <div class="fc-event" id="summary-reunion" data-title="Passer un appel"
+                                        data-describe="" data-start="12:00" data-end="13:00"
+                                        data-calendarsave='{"calendyx":true, "google":false, "apple":false, "outlook":false}'
+                                        data-image='{"src":"https://img.icons8.com/doodle/48/apple-phone.png", "alt":"apple-phone"}'>
+                                        <img width="38" height="38"
+                                            src="https://img.icons8.com/doodle/48/apple-phone.png" alt="apple-phone" />
+
+                                        <span>Passer un appel</span>
+                                    </div>
+                                    <span class="external-event-delete" title="supprimer des favoris"><img
+                                            src="https://img.icons8.com/?size=100&id=tC7FD0dyIjSg&format=png&color=000000"
+                                            alt="trash" /></span>
+                                </div>
+                            </div>
+
+                            <span class="divider"></span>
+
+                            <div>
+                                <h3>Créer son raccourci</h3>
+                                <div class="external-form-group">
+                                    <label for="external-title">Titre</label>
+                                    <input type="text" id="external-title" name="external-title"
+                                        placeholder="Ex: Valider le devis">
+                                </div>
+
+                                <div>
+                                    <label for="img">Choisir une image</label>
+                                    <div class="external-img-select">
+                                        <button class="btn-add" id="external-add-img">+</button>
+                                        <img src="" alt="" id="external-img-choice" style="display:none">
+                                    </div>
+                                    <p id="icons-container"></p>
+                                </div>
+
+                            </div>
+
+                            <!-- External escription -->
+                            <div class="external-form-group">
+                                <label for="external-description">Description</label>
+                                <textarea id="external-description" name="externat-description" rows="3"
+                                    placeholder="Ex: Prendre le document Ax34br" res></textarea>
+                            </div>
+
+                            <span class="divider"></span>
+
+                            <!-- External horraire-->
+                            <div class="external-form">
+                                <h3>Horaire</h3>
+                                <div class="external-input-row">
+                                    <div class="external-horraire-block">
+                                        <label for="external-horraire-start">Début</label>
+                                        <input type="time" value="12:00" id="external-horraire-start"
+                                            name="external-horraire-start">
+                                    </div>
+
+                                    <div class="external-horraire-block">
+                                        <label for="external-horraire-end">Fin</label>
+                                        <input type="time" value="13:00" id="external-horraire-end"
+                                            name="external-horraire-end">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="divider"></span>
+
+                            <!-- External select calendar-->
+                            <div class="external-form-group">
+                                <h3>Enregistrer sur le calendrier</h3>
+                                <div class="external-form-group-calendar">
+
+                                    <div class="external-input-row" id="external-calendar-save-calendyx">
+                                        <input type="checkbox" id="external-calendyx" name="external-calendyx"
+                                            style="display:none">
+                                        <label class="external-label-calendar" for="external-calendyx" title="Calendyx">
+                                            <img width="38" height="38" src="./../images/litleLogo.png"
+                                                alt="google-logo" />
+                                            <span class="badge">✔️</span>
+                                        </label>
+                                    </div>
 
 
+                                    <div class="external-input-row" id="external-calendar-save-google">
+                                        <input type="checkbox" id="external-google" name="external-google"
+                                            style="display:none">
+                                        <label class="external-label-calendar" for="external-google" title="Google">
+                                            <img width="38" height="38"
+                                                src="https://img.icons8.com/fluency/48/google-logo.png"
+                                                alt="google-logo" />
+                                            <span class="badge">✔️</span>
+                                        </label>
+                                    </div>
 
-                </div>
 
+                                    <div class="external-input-row" id="external-calendar-save-apple">
+                                        <input type="checkbox" id="external-apple" name="external-apple"
+                                            style="display:none">
+                                        <label class="external-label-calendar" for="external-apple" title="Apple">
+                                            <img width="38" height="38"
+                                                src="https://img.icons8.com/fluency/50/mac-os.png" alt="mac-os" />
+                                            <span class="badge">✔️</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="external-input-row" id="external-calendar-save-outlook">
+                                        <input type="checkbox" id="external-outlook" name="external-outlook"
+                                            style="display:none">
+                                        <label class="external-label-calendar" for="external-outlook" title="Outlook">
+                                            <img width="38" height="38"
+                                                src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
+                                                alt="microsoft-outlook-2019" />
+                                            <span class="badge">✔️</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- External submit -->
+                            <button style="width:70%; margin:auto; margin-top:15px" class="btn-primary"
+                                id="submit-add-new-external">Ajouter le raccourci</button>
+                        </div>
             </div>
-        </main>
     </section>
 
+    </section>
+
+    </div>
+
+    </main>
+    </section>
 
 </body>
-
-
-
-
 
 </html>

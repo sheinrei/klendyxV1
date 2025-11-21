@@ -1,0 +1,85 @@
+.frame-calendar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px
+}
+
+#calendar {
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    width: 70%;
+    max-width: 1200px;
+    background-color: white;
+    height: fit-content;
+}
+
+.calendar-tools {
+    display: flex;
+    flex-direction: column;
+    width: 27%;
+    max-width: 400px;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
+    height: fit-content;
+}
+
+/* === main frame === */
+/* Formulaire Match Event */
+#match-event {
+    background: var(--card-background);
+    box-sizing: border-box;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    padding: 15px
+}
+
+/*formulaire External drag */
+#external-events {
+    background-color: var(--card-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding:15px
+}
+
+/*=== swaper de formulaire ===*/
+.swapper-calendar-tool {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background-color: #FFFFFF;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.swapper-title {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background-color: #E2EBF3;
+    width: 40%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    font-size: larger;
+    font-weight: 600;
+    font-family: "Anton";
+}
+
+.swapper-title:hover{
+    background-color: #b1ceed;
+    transform: translateY(-2px);
+}
+
+.swapper-activ {
+    border: 2px solid rgb(202, 202, 202) !important;
+    background-color: #b1ceed;
+}

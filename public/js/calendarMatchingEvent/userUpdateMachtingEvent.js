@@ -50,7 +50,6 @@ function addEventToFC(calendar, events) {
     calendar.render()
 }
 
-//Set le calendar FC
 function setEventDragable(color) {
     // === Event dragable ===
     const containerEl = document.getElementById("external-events")

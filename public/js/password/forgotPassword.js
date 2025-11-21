@@ -17,7 +17,7 @@ $("#submit-forgot-password").on("click",async function (e) {
         ),
         success: function (data) {
             if (data.success == true) {
-                $("#message").text(`${data.message}`)
+                $("#message-alert-success").text(`${data.message}`).css("display", "block")
             }
         }
     })

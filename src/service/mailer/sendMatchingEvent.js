@@ -56,7 +56,7 @@ export async function sendMatchingEvent(req, url, email) {
                                 <!-- BOÎTE D'INFORMATION (optionnelle) -->
                                 <div style="background-color: #f8fafc;border-left: 4px solid #716af9;padding: 20px;margin: 25px 0;border-radius: 8px;">
                                     <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 10px 0;">
-                                        <strong>💡 Détails du rendez-vous sont les suivants :</strong><br>    
+                                        <strong>💡 Détails du rendez-vous :</strong><br>    
                                         -Titre : ${req.body.eventTitle}<br>
                                         -Adresse : ${req.body.eventAddress ?? "Non renseignée"}<br>
                                         -Description : ${req.body.description ?? "Non renseignée"}<br>

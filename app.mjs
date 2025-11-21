@@ -94,6 +94,7 @@ app.use(cors({
 app.use(express.static("public"));
 
 
+
 app.use("/", routerHtml);
 app.use("/", routerApiUser);
 app.use("/api/event", routerApiEvent)

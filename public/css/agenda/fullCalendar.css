@@ -95,20 +95,7 @@
 }
 
 
-
-
-
-
 /* FC calendar */
-#calendar {
-    padding: 50px;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    width: 50%;
-    max-width: 1200px;
-    background-color: white;
-    height: fit-content;
-}
 
 .fc {
     font-family: inherit;
@@ -154,8 +141,8 @@
 
 .fc .fc-daygrid-day-number {
     color: hsl(var(--foreground));
-    padding: 0.5rem;
-    font-weight: 500;
+    padding: 2px;
+    font-weight: 600;
 }
 
 .fc .fc-daygrid-day.fc-day-today {
@@ -175,6 +162,7 @@
     font-size: 0.75rem;
     letter-spacing: 0.05em;
     padding: 0.75rem;
+    height: 50px !important;
 }
 
 .fc-event {
@@ -182,7 +170,6 @@
     padding: 0.25rem 0.5rem;
     border: none !important;
     cursor: pointer;
-    transition: all 0.2s;
     background: #3788d8;
     color: white;
 
@@ -207,22 +194,10 @@
     font-weight: 500;
 }
 
-/* Scrollbar Styling */
-.fc-scroller::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+/* cell day */
+.fc-day {
+    height:130px;
+    max-height: 130px;
 }
 
-.fc-scroller::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
-    border-radius: 4px;
-}
 
-.fc-scroller::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 4px;
-}
-
-.fc-scroller::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground));
-}

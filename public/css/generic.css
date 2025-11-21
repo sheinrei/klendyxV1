@@ -10,8 +10,8 @@
     --secondary-color: #6b7280;
 
 
-    --success-color: #10b981;
-    --error-color: #ef4444;
+    --success-color: #3defb4;
+    --error-color: #ea6e6e;
     --background-color: #f8fafc;
     --card-background: #ffffff;
 
@@ -27,6 +27,11 @@
     --border-radius: 12px;
     --border-radius-small: 8px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    user-select: none;
+    resize: none;
 }
 
 ul,
@@ -77,8 +82,35 @@ main {
     min-height: 100vh;
 }
 
-.no-select {
-    user-select: none;
+.divider {
+    margin-top: 20px;
+    border-bottom: 1px solid rgb(202, 202, 202)
+}
+
+/* Message d'alert */
+#message-alert-warning,
+#message-alert-success,
+#message-alert-information {
+    border-radius: 5px;
+    margin: auto;
+    display: none;
+    width: fit-content;
+    padding: 5px 10px;
+    color: black;
+    font-weight: 500;
+    margin-bottom: 10px
+}
+
+#message-alert-warning {
+    background-color: var(--error-color)
+}
+
+#message-alert-success {
+    background-color: var(--success-color);
+}
+
+#message-alert-information {
+    background-color: var(--secondary-color);
 }
 
 /* title */
@@ -208,6 +240,22 @@ footer {
 .btn-delete {
     background-color: var(--error-color);
     color: white
+}
+
+.btn-sync-calendar {
+    padding: 5px 15px;
+    border-radius: 19px;
+    background: #4285f4;
+    border: none;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-sync-calendar:hover {
+    background: #2166d5;
+
 }
 
 /* input */

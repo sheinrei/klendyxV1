@@ -8,11 +8,10 @@ $(async function () {
                 <a class="item-nav" href="/index" id="btnDeconnection"">Se Deconnecter</a>
                 <a class="item-nav nav-none" href="/mon-compte" id="btnMonCompte">Mon compte</a>
                 <a class="item-nav nav-none" href="/dashboard">Tableau de bord</a>
-                <a class="item-nav" href="/services">Services</a>
-                <a class="item-nav nav-none" href="/event">Créer un evenement</a>
-                <a class="item-nav" href="/contact">Contact</a>
                 <a class="item-nav nav-none" href="/agenda">Agenda</a>
-                <a class="item-nav nav-none" href="/contact-favori">Contact Favori</a>
+                <a class="item-nav nav-none" href="/event">Créer un evenement</a>
+                <a class="item-nav" href="/contact">Contactez-nous</a>
+                <a class="item-nav nav-none" href="/contacts-favoris">Vos contact favoris</a>
             </div>
             <button class="btn-navbar-slide"></button>
         </nav>

@@ -1,14 +1,11 @@
 async function getContactRender() {
     const config = await getConfig()
     const host = config.host;
-    const token = window.localStorage.getItem("token")
     const nombreContactAfficghage = $("#nombre-contact-affichage").val()
 
     const res = await fetch(`${host}/api/contact-favori/get`, {
         method: "GET",
-        headers: {
-            "Authorization": "Bearer " + token
-        }
+
     })
     const data = await res.json()
 
@@ -29,8 +26,8 @@ async function getContactRender() {
     }
 }
 
-$("#search-contact").on("input", async function () {
 
+$("#search-contact").on("input", async function () {
     $(".contact-row").remove()
 
     const config = await getConfig()
@@ -55,11 +52,8 @@ $("#search-contact").on("input", async function () {
         console.log(data.data)
 
         data.data.forEach(element => {
-
             addContactDOM(element.id, element.nom, element.prenom, element.email, element.phone)
         });
-
-
         return
     }
     getContactRender()

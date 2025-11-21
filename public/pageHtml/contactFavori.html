@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="./css/generic.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/pageHeader.css">
 
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
@@ -78,48 +79,67 @@
 
         <main>
             <header>
-                <h1>Gestion de vos contacts en favori</h1>
-                <p>Dans cette page vous pouvez organiser tout vos contact en favori</p>
+                <div class="header-logo" style="margin-right: 20px;">
+                    <img width="60" height="60" src="https://img.icons8.com/papercut/60/contact-card.png"
+                        alt="contact-card" />
+                </div>
+                <div class="header-content">
+                    <h1 class="header-title">Ajoutez des contacts dans vos favoris</h1>
+                    <p class="header-subtitle">Ajouter des contacts en favoris pour acceder plus facilement à leurs informations dans Calendyx</p>
+                </div>
             </header>
+
 
 
             <section class="frame-add-contact">
 
                 <form action="">
-                    <p>Ajouter un nouveau contact</p>
+                    <p class="add-contact-title">Ajouter un nouveau contact</p>
 
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom" name="nom">
+                    <span class="divider"></span>
+                    <div class="input-row">
+                        <label for="nom">Nom :</label>
+                        <input type="text" id="nom" name="nom">
+                    </div>
 
-                    <label for="prenom">Prenom :</label>
-                    <input type="text" id="prenom" name="prenom">
+                    <div class="input-row">
+                        <label for="prenom">Prenom :</label>
+                        <input type="text" id="prenom" name="prenom">
+                    </div>
 
-                    <label for="email">Email :</label>
-                    <input type="text" id="email" name="email">
+                    <div class="input-row">
+                        <label for="email">Email :</label>
+                        <input type="text" id="email" name="email">
+                    </div>
 
-                    <label for="nom">Phone :</label>
-                    <input type="text" id="phone" name="phone">
-
+                    <div class="input-row">
+                        <label for="nom">Telephone :</label>
+                        <input type="text" id="phone" name="phone">
+                    </div>
                     <button id="btn-create-submit">Ajouter</button>
                 </form>
 
 
             </section>
 
-            <section>
-                <p>Liste de tout vos contacts</p>
-                <div>
-                    <span>Nombre de contact à afficher : </span>
-                    <select name="nombre-contact-affichage" id="nombre-contact-affichage">
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
+
+
+
+            <section class="frame-contact-saved">
+                <p class="frame-contact-title">Liste de tout vos contacts</p>
 
                 <label for="search-contact">Rechercher dans vos contact</label>
-                <input type="text" id="search-contact" name="search-contact">
+                <div class="frame-searching">
+                    <input type="text" id="search-contact" name="search-contact">
+                    <div>
+                        <select name="nombre-contact-affichage" id="nombre-contact-affichage">
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div id="frame-list-contact">
                     <div class="contact-row-header">

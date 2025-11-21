@@ -6,7 +6,7 @@ import { google } from "googleapis";
 import { saveToken } from "../service/token/saveToken.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { getToken } from "../service/token/getToken.js";
-import { deleteToken } from "../service/token/deleteToken.js";
+import { deleteTokenAccessGoogle } from "../service/token/deleteToken.js";
 
 
 
@@ -41,22 +41,22 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
     const { tokens } = await oauth2Client.getToken(code);
 
     try {
-        console.log(invite)
-        if (!invite) {
 
+        if (!invite) {
             const { userId } = JSON.parse(state);
             oauth2Client.setCredentials(tokens);
             saveToken(userId, "RefreshTokenGoogle", tokens, db)
         }
-        res.cookie("googleAuth", tokens.refresh_token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "strict",
-            maxAge: 3600 * 1000
-        })
+        if(invite){
+            res.cookie("googleAuth", tokens.refresh_token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: "strict",
+                maxAge: 3600 * 1000
+            })
+        }
         res.redirect(`${process.env.HOST}/agenda`);
-
-
+        
     } catch (err) {
         console.error("Erreur lors du callback:", err);
         res.status(500).send("Erreur d’authentification");
@@ -67,9 +67,9 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
 
 // 🔹 Étape 3 — Get all calendar
 routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
+
     let token = await getToken("RefreshTokenGoogle", req.userId, db)
     const { rangeMin, rangeMax } = req.query
-
 
     try {
         if (!token) return res.status(401).send("Non autorisé")
@@ -93,20 +93,43 @@ routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
         }
 
         const events = await calendar.events.list(option);
-
         res.json({ success: true, events })
 
     } catch (err) {
-        if (err == "Error: No access, refresh token, API key or refresh handler callback is set.") {
-            return res.json({ success: false, message: "Vous n'avez pas acces à votre agenda google, merci de vous authentifier" })
+        const errorDesc = err?.response?.data?.error_description;
+        const errorCode = err?.response?.data?.error;
+        const tokenExpire = err?.message
+        console.log(tokenExpire)
+        if (
+            errorDesc === "Token has been expired or revoked." ||
+            errorCode === "invalid_grant" ||
+            err?.message?.includes("invalid_grant") ||
+            tokenExpire?.includes('No access, refresh token, API key or refresh handler callback is set.')
+        ) {
+            console.log("Suppression du token dans le BDD")
+            await deleteTokenAccessGoogle(req.userId, db); // supprime token invalide
+            return res.json({
+                success: false,
+                err: "droit acces",
+                message: `Vos droits d'accès à votre agenda Google ont été modifiés, merci de resynchroniser votre agenda Google.`
+            });
         }
-        if (err.response.data.error_description === 'Token has been expired or revoked.') {
-            await deleteToken(token, db)
-            return res.json({ success: false, err: "droit acces", message: `Vos droits d'accès à votre agenda Google ont été modifié, merci de resynchroniser votre agenda Google en cliquant` })
-        }
-        res.json({ success: false, message: err });
+
+        return res.json({
+            success: false,
+            message: err?.message || "Erreur interne"
+        });
     }
 });
+
+//Cherche si un user est sync
+routerApiCalendar.get("/google/sync", authMiddleware, async (req, res) => {
+    const user = req.userId
+
+    const searchToken = await getToken("RefreshTokenGoogle", user, db)
+
+    return res.json(searchToken.success)
+})
 
 
 //create un event google
@@ -271,7 +294,7 @@ routerApiCalendar.get("/google/get/invite", async (req, res) => {
         };
 
         const events = await calendar.events.list(options);
-        
+
         if (cookieTokenGoogle) {
             res.clearCookie("googleAuth", {
                 httpOnly: true,

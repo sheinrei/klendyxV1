@@ -1,68 +1,72 @@
-/* Formulaire Match Event */
-#match-event {
-    max-width: 700px;
-    width: 80%;
-    margin: 1.5rem auto;
-    padding: 2.5rem;
-    background: var(--card-background);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-large);
-}
-
-/* Header du formulaire */
 .form-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    display:flex;
+    flex-direction: column;
+    margin-bottom:10px
 }
 
-/* Sections du formulaire */
+.form-header h2{
+    margin: 0;
+    font-size: 24px;
+    display:flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.form-header p{
+    margin:0;
+    text-align: start;
+    padding-bottom: 15px;
+}
+
 .form-section {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--border-color);
 }
 
 .form-section:last-of-type {
     border-bottom: none;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .section-title {
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-/* Groupes de champs */
+/*GROUPES & LABELS */
+
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .form-group:last-child {
     margin-bottom: 0;
 }
 
-/* Labels */
 #match-event label {
     display: block;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
-/* Inputs généraux */
+/* INPUTS GÉNÉRAUX */
+
 #match-event input[type="text"],
 #match-event input[type="email"],
 #match-event input[type="number"],
 #match-event input[type="date"],
 #match-event textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.625rem 0.875rem;
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius-small);
     font-size: 0.875rem;
@@ -87,10 +91,11 @@
 
 #match-event textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 60px;
 }
 
-/* Input avec bouton (email) */
+/* INPUT AVEC BOUTON*/
+
 .input-with-button {
     display: flex;
     gap: 0.5rem;
@@ -101,10 +106,8 @@
 }
 
 .btn-add {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    padding: 0;
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: var(--border-radius-small);
     background: linear-gradient(135deg, var(--primary-color), #7c3aed);
@@ -127,9 +130,10 @@
     transform: translateY(0);
 }
 
-/* Liste des contacts */
+/*  CONTACTS */
+
 .contacts-list {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 .list-label {
@@ -138,7 +142,7 @@
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 #list-contact-send {
@@ -148,8 +152,8 @@
     background-color: var(--background-color);
     border: 2px dashed var(--border-color);
     border-radius: var(--border-radius-small);
-    padding: 1rem;
-    min-height: 60px;
+    padding: 0.75rem;
+    min-height: 50px;
     align-items: center;
 }
 
@@ -160,12 +164,12 @@
     font-style: italic;
 }
 
-/* Chips de contacts (à ajouter via JS) */
 .contact-chip {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.4rem 0.65rem;
     background-color: var(--primary-color);
     color: white;
     border-radius: 20px;
@@ -192,20 +196,22 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Durée */
+/* DURÉE*/
+
 .duration-input {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     background-color: var(--background-color);
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.875rem;
     border-radius: var(--border-radius-small);
-    width: fit-content;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .duration-input input {
     width: 80px;
-    padding: 0.5rem;
+    padding: 0.4rem;
     text-align: center;
     border: 2px solid var(--border-color);
     background-color: white;
@@ -217,12 +223,15 @@
     font-weight: 500;
 }
 
-/* Plage horaire */
+/* PLAGE HORAIRE */
+
 .time-range {
     display: flex;
     align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
+    min-width: 0;
+    /* FIX DEBORDEMENT */
 }
 
 .time-input-group {
@@ -230,10 +239,11 @@
     align-items: center;
     gap: 0.5rem;
     background-color: var(--background-color);
-    padding: 0.75rem 1rem;
+    padding: 0.625rem 0.875rem;
     border-radius: var(--border-radius-small);
     flex: 1;
-    min-width: 140px;
+    min-width: 0;
+    /* FIX DEBORDEMENT */
 }
 
 .time-label {
@@ -245,10 +255,12 @@
 
 .time-input-group input {
     width: 60px;
-    padding: 0.5rem;
+    padding: 0.4rem;
     text-align: center;
     border: 2px solid var(--border-color);
     background-color: white;
+    min-width: 0;
+    /* FIX DEBORDEMENT */
 }
 
 .time-unit {
@@ -262,7 +274,8 @@
     font-weight: 600;
 }
 
-/* Plage de dates */
+/* PLAGE DE DATES */
+
 .date-range {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -272,7 +285,7 @@
 .date-input-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
 }
 
 .date-label {
@@ -283,13 +296,14 @@
 }
 
 .date-input-group input {
-    padding: 0.75rem;
+    padding: 0.625rem;
 }
 
-/* Bouton de soumission */
+/*  BOUTON SUBMIT */
+
 #btn-submit-matching-event {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 0.875rem 2rem;
     border: none;
     border-radius: var(--border-radius-small);
     font-size: 1rem;
@@ -302,31 +316,26 @@
     gap: 0.5rem;
 }
 
-/* Responsive */
+
 @media (max-width: 640px) {
     #match-event {
-        padding: 1.5rem;
+        padding: 1.25rem;
         margin: 1rem;
     }
-    
-    .time-range {
-        flex-direction: column;
-    }
-    
+
     .time-input-group {
         width: 100%;
     }
-    
+
     .range-separator {
         display: none;
     }
-    
+
     .date-range {
         grid-template-columns: 1fr;
     }
-    
+
     .duration-input {
-        width: 100%;
         justify-content: space-between;
     }
 }

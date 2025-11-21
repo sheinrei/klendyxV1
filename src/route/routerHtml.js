@@ -1,6 +1,5 @@
 import express from "express"
 import sendFile from "./../service/sendFile.js";
-import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router()
 
@@ -14,7 +13,6 @@ router.get("/index", (req, res) => {
     sendFile("./public/pageHtml/index.html", res);
 })
 
-
 router.get("/connexion", (req, res) => {
     sendFile("./public/pageHtml/connexion.html", res);
 })
@@ -24,10 +22,6 @@ router.get("/dashboard", (req, res) => {
     sendFile("./public/pageHtml/dashboard.html", res);
 })
 
-
-router.get("/services", (req, res) => {
-    sendFile("./public/pageHtml/services.html", res);
-})
 
 
 router.get("/forgotPassword", (req, res) => {
@@ -60,7 +54,7 @@ router.get("/mon-compte", (req, res) => {
 })
 
 
-router.get("/contact-favori", (req, res) => {
+router.get("/contacts-favoris", (req, res) => {
     sendFile("./public/pageHtml/contactFavori.html", res);
 })
 

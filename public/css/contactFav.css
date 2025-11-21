@@ -1,28 +1,309 @@
-.frame-add-contact {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 20px;
-    background-color: var(--main-bg);
+/* formulaire d'ajout */
 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: center;
+.frame-add-contact {
+    background: linear-gradient(135deg, #667eea15, #764ba215);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 40px;
+    border: 2px solid var(--border-color);
+    width: 30%;
+    box-shadow: var(--shadow-large);
+
+}
+
+.add-contact-title {
+    font-size: 22px;
+    width: 100%;
+    color: #667eea;
+    font-weight: 700;
+    padding: 0 0 20px 0;
+    border-bottom: 2px solid rgb(185, 185, 185);
+    margin: 0
 }
 
 .frame-add-contact form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px
+}
+
+.input-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.input-row label {
+    width: 100px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.input-row input {
+    border-radius: 5px;
+    padding: 8px;
+    width: 60%;
 }
 
 
-.contact-row, .contact-row-header {
-    border: 1px solid black;
-    display: flex;
+
+/* frame contact saved */
+.frame-contact-saved {
+    margin-top: 40px;
+    width: 80%;
+    border:1px solid var(--border-color);
+    background-color:white;
+    padding:30px;
+}
+
+.frame-contact-title {
+    font-size: 22px;
+    width: 100%;
+    color: #667eea;
+    font-weight: 700;
+    padding: 0 0 20px 0;
+    margin: 0
+}
+
+.frame-searching{
+    display:flex;
     flex-direction: row;
-    gap:25px;
-    justify-content: space-between;
+    gap:4px;
+    margin-bottom:10px;
+}
 
-    width: 600px;
 
+select {
+    padding: 8px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    height: 100%;
+}
+
+select:focus {
+    outline: none;
+    border-color: #667eea;
+    cursor:pointer
+}
+
+label[for="search-contact"] {
+    display: block;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+#search-contact {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+#search-contact:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#frame-list-contact {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    min-width: 70%;
+}
+
+.contact-row-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr 1fr 0.8fr;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    padding: 15px 20px;
+    width: 100%;
+}
+
+.contact-row-header p {
+    text-align: center;
+}
+
+.contact-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr 1fr 0.8fr;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    animation: slideIn 0.4s ease-out;
+}
+
+
+.contact-row p {
+    color: #4a5568;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+}
+
+.contact-row div {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* button */
+#btn-create-submit {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#btn-create-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+#btn-create-submit:active {
+    transform: translateY(0);
+}
+
+
+.contact-row button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#btn-delete {
+    background: linear-gradient(135deg, #f56565, #e53e3e);
+    color: white;
+}
+
+#btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 101, 101, 0.4);
+}
+
+#btn-update {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+}
+
+#btn-update:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+}
+
+.contact-row button:active {
+    transform: translateY(0);
+}
+
+
+
+
+/* animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* responciv */
+
+@media (max-width: 768px) {
+    main {
+        padding: 25px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .frame-add-contact form {
+        grid-template-columns: 1fr;
+    }
+
+    .frame-add-contact {
+        padding: 20px;
+    }
+
+    .contact-row-header {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .contact-row-header p {
+        text-align: left;
+        padding: 5px 0;
+    }
+
+    .contact-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .contact-row p {
+        text-align: left;
+        justify-content: flex-start;
+    }
+
+    .contact-row p::before {
+        content: attr(id);
+        font-weight: 600;
+        color: #667eea;
+        margin-right: 8px;
+        text-transform: capitalize;
+    }
+
+    .contact-row div {
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+
+    .contact-row button {
+        flex: 1;
+    }
 }

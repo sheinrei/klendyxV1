@@ -1,116 +1,215 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+header {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    background-color: rgb(255, 255, 255);
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
+    margin-bottom: 30px;
 
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-            margin-bottom: 50px;
-            margin-top: 50px;
-        }
+    border-bottom: 2px solid rgb(236, 235, 235)
+}
 
-        main {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-        }
+.header-logo {
+    margin-left: 20px
+}
 
-        header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
+.header-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-        .title {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
+.header-title {
+    font-size: 24px;
+    margin: 0
+}
 
-        section p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
+.header-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin: 0;
+}
 
-        form {
-            margin-top: 30px;
-        }
+/* texte contact */
+.contact-frame {
+    background: var(--main-bg);
+    border:1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 50px 60px;
+    max-width: 800px;
+    animation: fadeIn 0.7s ease-out;
+}
 
-        label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 8px;
-            margin-top: 20px;
-        }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
 
-        input[type="text"],
-        input[type="email"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 16px;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+.contact-frame h2 {
+    color: #667eea;
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
 
-        textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
+.contact-frame h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
 
-        button[type="submit"] {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 14px 32px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
+.contact-frame p {
+    color: #4a5568;
+    font-size: 1.05em;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    text-align: justify;
+    position: relative;
+    padding-left: 20px;
+}
 
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
+.contact-frame p::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 10px;
+    height: 10px;
+    background: #667eea;
+    border-radius: 50%;
+    opacity: 0.7;
+}
 
-        button[type="submit"]:active {
-            transform: translateY(0);
-        }
+.contact-frame p:last-of-type {
+    margin-bottom: 0;
+}
 
-        .required {
-            color: #e74c3c;
-        }
+.contact-frame p:hover {
+    color: #2d3748;
+    transition: color 0.3s ease;
+}
 
-        @media (max-width: 600px) {
-            main {
-                padding: 25px;
-            }
 
-            .title {
-                font-size: 24px;
-            }
-        }
+
+
+
+
+/* formulaire */
+#contact-form {
+    width: 50%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-large);
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: var(--main-bg);
+
+}
+
+
+form {
+    margin-top: 30px;
+}
+
+label {
+    display: block;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-top: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+.required {
+    color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+    .contact-frame {
+        padding: 30px 25px;
+    }
+
+    .contact-frame h2 {
+        font-size: 1.8em;
+    }
+
+    .contact-frame p {
+        font-size: 1em;
+        text-align: left;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 25px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+}

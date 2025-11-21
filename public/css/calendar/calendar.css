@@ -1,30 +1,4 @@
 
-.frame-calendar{
-    display:flex;
-    gap:10px
-}
-
-.calendar-tools{
-    display:flex;
-    flex-direction: column;
-    gap:50px
-}
-
-
-#create-event form{
-    border:1px solid var(--border-color);
-    background:white;
-    padding:5px;
-    display:flex;
-    flex-direction: column;
-}
-
-
-
-
-
-
-
 /* === MODALE === */
 .event-modale {
     max-width: 30%;

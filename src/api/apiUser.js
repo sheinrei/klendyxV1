@@ -194,10 +194,10 @@ routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
 })
 
 
-routerApiUser.get("/api/user/session",authMiddlewareOptional, async (req, res) => {
+routerApiUser.get("/api/user/session", authMiddlewareOptional, async (req, res) => {
 
     if (!req.userId) {
-        return res.json({logged:false})
+        return res.json({ logged: false })
     }
 
     const session = await getUserSession(db, req)

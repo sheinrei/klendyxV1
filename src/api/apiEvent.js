@@ -136,9 +136,9 @@ routerApiEvent.post("/matching-event/create", authMiddleware, async (req, res) =
         }
     } catch (err) {
         console.log(err)
-        return res.json({ success: false, message: "Erreur survenu", err })
+        return res.json({ success: false, message: "Erreur survenu, veuillez réessayer plus tard", err })
     }
-    return res.json({ success: true, message: "notification envoyé" })
+    return res.json({ success: true, messageHtml: "Votre matching event a été créé avec succès.<br> Une notification vous sera envoyée par mail lorsque tous les participants auront rempli leurs disponibilités." })
 })
 
 routerApiEvent.get("/matching-event/get", async (req, res) => {

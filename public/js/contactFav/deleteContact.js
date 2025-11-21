@@ -1,6 +1,3 @@
-console.log('hello')
-
-
 $(document).on("click", "#btn-delete", async function (e) {
     e.preventDefault()
 

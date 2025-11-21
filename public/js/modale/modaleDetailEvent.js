@@ -1,4 +1,4 @@
-function createModale(infos) {
+function createModaleDetailEvent(infos) {
     //remove si modale déjà présente
     $(".event-modale").remove()
     const def = infos.event._def
@@ -9,9 +9,7 @@ function createModale(infos) {
     let end;
     let title;
     let description;
-    let id = extProps.data.id;
-
-    console.log(extProps)
+    let id = extProps?.data?.id || 0;
 
     switch (origin) {
         case "google": {
@@ -138,6 +136,7 @@ function createModale(infos) {
     $("body").append(htmlModale)
 }
 
+
 $(document).on("click", ".close-modale", () => {
     $(".close-modale").closest(".event-modale").remove()
 })
@@ -145,27 +144,3 @@ $(document).on("click", ".close-modale", () => {
 
 
 
-$(document).on("click", '.event-modale', (e) => {
-    const modal = $(".event-modale")[0];
-    let offsetX = 0, offsetY = 0;
-    let isDragging = false;
-
-    $(modal).on("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - modal.offsetLeft;
-        offsetY = e.clientY - modal.offsetTop;
-
-        document.body.style.userSelect = 'none'
-    })
-
-    $(document).on('mousemove', (e) => {
-        if (!isDragging) return;
-        modal.style.left = e.clientX - offsetX + 'px';
-        modal.style.top = e.clientY - offsetY + 'px';
-    });
-
-    $(modal).on('mouseup', () => {
-        isDragging = false;
-        document.body.style.userSelect = 'auto';
-    });
-})
