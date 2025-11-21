@@ -29,20 +29,20 @@ import { exec } from "child_process";
 const app = express();
 
 app.post(`/webhook/:token`, (req, res) => {
+    //Ecrire dans le fichier deploy log tout les webhook de github
+    const logFile = path.join(__dirname, 'deploy.log');
+    const timestamp = new Date().toISOString();
+    const log = (message) => {
+        const logMessage = `[${timestamp}] ${message}\n`;
+        fs.appendFileSync(logFile, logMessage);
+    };
 
     const secret = process.env.WEBHOOK_SECRET
     const params = req.params.token
     log(`Webhook reçu: token=${params}, secret=${secret}`);
+    
+    
     if (secret === params) {
-
-
-        //Ecrire dans le fichier deploy log tout les webhook de github
-        const logFile = path.join(__dirname, 'deploy.log');
-        const timestamp = new Date().toISOString();
-        const log = (message) => {
-            const logMessage = `[${timestamp}] ${message}\n`;
-            fs.appendFileSync(logFile, logMessage);
-        };
 
 
 
