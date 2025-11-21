@@ -20,7 +20,6 @@ import routerApiCredit from "./src/api/apiCredit.js";
 import routerApiCalendar from "./src/api/apiCalendar.js";
 import routerApiComment from "./src/api/apiComment.js"
 import routerApiContactFav from "./src/api/apiContactFav.js"
-import routerApiGpt from "./src/api/apiGpt.js"
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 await initDb()
@@ -89,7 +88,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
     origin: process.env.HOST,
-    credentials:true,
+    credentials: true,
 }))
 app.use(express.static("public"));
 
@@ -102,7 +101,6 @@ app.use("/api/credit", routerApiCredit)
 app.use("/api/calendar", routerApiCalendar)
 app.use("/api/comment", routerApiComment)
 app.use("/api/contact-favori", routerApiContactFav)
-app.use("/api/gpt", routerApiGpt)
 
 
 app.get("/config", (req, res) => {
