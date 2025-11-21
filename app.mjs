@@ -32,7 +32,7 @@ app.post(`/webhook/:token`, (req, res) => {
 
     const secret = process.env.WEBHOOK_SECRET
     const params = req.params.token
-
+    log(`Webhook reçu: token=${params}, secret=${secret}`);
     if (secret === params) {
 
 
