@@ -66,10 +66,11 @@ app.post(`/webhook/:token`, (req, res) => {
         const logMessage = `[${timestamp}] ${message}\n`;
         fs.appendFileSync(logFile, logMessage);
     };
-    
-    
+
+    log("Enté dans la route de deploy")
+
     if (secret === params) {
-    
+
         //verif si c'est bien la branch production
         const branch = req.body.ref.replace('refs/heads/', '')
         if (branch !== 'production') {
