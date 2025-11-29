@@ -1,9 +1,9 @@
-import { eventTable } from "../../models/eventTable.js";
+import { eventRdvCalendyxTable } from "../../models/eventRdvCalendyxTable.js";
 
 
 export async function deleteEvent(db, req) {
 
-    const Event = eventTable(db);
+    const Event = eventRdvCalendyxTable(db);
     const userId = req.userId;
     const idEvent = req.body.eventId;
 

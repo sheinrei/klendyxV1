@@ -1,9 +1,9 @@
-import { eventTable } from "./../../models/eventTable.js";
+import { eventRdvCalendyxTable } from "../../models/eventRdvCalendyxTable.js";
 
 
 export async function updateEvent(req, db) {
 
-    const Table = eventTable(db);
+    const Table = eventRdvCalendyxTable(db);
 
     const { responseUser,
         message,
@@ -29,7 +29,7 @@ export async function updateEvent(req, db) {
 
 
 export async function updateStateEvent(userId, idEvent, db, state) {
-    
+
     const Table = eventTable(db);
 
     const update = Table.update({

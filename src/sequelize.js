@@ -5,12 +5,13 @@ dotenv.config();
 import { Sequelize } from "sequelize";
 import userTable from "./models/utilisateurTable.js";
 import tokenTable from "./models/tokenTable.js";
-import { eventTable } from "./models/eventTable.js";
+import { eventRdvCalendyxTable } from "./models/eventRdvCalendyxTable.js";
 import { creditTable } from "./models/creditTable.js";
 import { commentTable } from "./models/commentTable.js";
 import { contactFavTable } from "./models/contactFavTable.js";
 import { userSessionTable } from "./models/userSessionTable.js";
 import { matchingEventTable } from "./models/matchingEventTable.js";
+import { eventCalendyxTable } from "./models/eventCalendyxTable.js";
 
 
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -27,12 +28,13 @@ export async function initDb() {
     // init des tables
     userTable(db);
     tokenTable(db);
-    eventTable(db);
+    eventRdvCalendyxTable(db);
     creditTable(db);
     commentTable(db);
     contactFavTable(db);
     userSessionTable(db)
     matchingEventTable(db)
+    eventCalendyxTable(db)
 
     let force = process.env.SEQUELIZE_FORCE
     force === "true" ? (force = true, console.log("🗑️  Sequelize remise à zero de la db")) : force = false

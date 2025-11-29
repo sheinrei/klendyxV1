@@ -1,6 +1,5 @@
 import DataTypes from "sequelize"
 
-const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
 export function creditTable(sequelize) {
     return sequelize.define("credit", {
@@ -13,30 +12,31 @@ export function creditTable(sequelize) {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        plan : {
+        plan: {
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: "Free",
         },
-        refreshAt:{
+        refreshAt: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: nextWeek
+            defaultValue: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
         },
         sms: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue : 5,
+            defaultValue: 5,
         },
-        mail : {
+        mail: {
             type: DataTypes.INTEGER,
-            allowNull : false,
+            allowNull: false,
             defaultValue: 40,
 
         },
-    },{
+    }, {
         timestamps: true,
-        paranoid:false,
+        paranoid: false,
         deletedAt: false
     })
 }

@@ -1,9 +1,5 @@
 import { DataTypes } from "sequelize"
 
-/**
- * 
- * Table de gestion des token
- */
 
 export default (sequelize) => {
     return sequelize.define("token", {

@@ -1,9 +1,7 @@
 $(function () {
-    const btn = document.getElementById("btnDeconnection")
 
-    btn.addEventListener("click", async function (e) {
+    $(document).on("click","#btnDeconnection", async function(e) {
         e.preventDefault(e)
-
         const config = await getConfig()
         const host = config.host
 
@@ -12,5 +10,4 @@ $(function () {
         })
         window.location.href = "/connexion";
     })
-
 })

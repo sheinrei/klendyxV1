@@ -20,7 +20,7 @@ async function updatingEvent(responseUser, message) {
     const id = params[5];
     const idEvent = params[6];
 
-    const res = await fetch(`${host}/api/event/update`, {
+    const res = await fetch(`${host}/api/rdv/update`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'

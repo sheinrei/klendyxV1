@@ -11,11 +11,14 @@ dotenv.config()
 //router
 import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
-import routerApiEvent from "./src/api/apiEvent.js";
+import routerApiRdv from "./src/api/apiRdv.js";
 import routerApiCredit from "./src/api/apiCredit.js";
+import routerApiEventCalendyx from "./src/api/apiEventCalendyx.js";
 import routerApiCalendar from "./src/api/apiCalendar.js";
-import routerApiComment from "./src/api/apiComment.js"
-import routerApiContactFav from "./src/api/apiContactFav.js"
+import routerApiComment from "./src/api/apiComment.js";
+import routerApiContactFav from "./src/api/apiContactFav.js";
+import routerApiMatching from "./src/api/apiMatching.js";
+
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 import { exec } from "child_process";
@@ -39,11 +42,13 @@ app.use(express.static("public"));
 
 app.use("/", routerHtml);
 app.use("/", routerApiUser);
-app.use("/api/event", routerApiEvent)
+app.use("/api/rdv", routerApiRdv)
 app.use("/api/credit", routerApiCredit)
 app.use("/api/calendar", routerApiCalendar)
+app.use("/api/event/calendyx", routerApiEventCalendyx)
 app.use("/api/comment", routerApiComment)
 app.use("/api/contact-favori", routerApiContactFav)
+app.use("/api/matching-event", routerApiMatching)
 
 // Définir __dirname pour les modules ES
 const __filename = fileURLToPath(import.meta.url);

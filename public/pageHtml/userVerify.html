@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription confirmée</title>
+
+    <link rel="stylesheet" href="/css/generic.css">
+    <link rel="stylesheet" href="/css/user/verifyAccount.css">
+
+
+    <script src="/js/config.js" defer></script>
+</head>
+
+
+
+
+<body>
+    <div class="container">
+        <div class="checkmark">
+            <svg viewBox="0 0 52 52">
+                <polyline points="14,27 22,35 38,19" />
+            </svg>
+        </div>
+
+        <h1 class="title">Compte activé avec succès !</h1>
+        <p class="subtitle">Ton compte est maintenant opérationnel 🎉</p>
+        <div class="info-box">
+            <strong>✅ Validation confirmée</strong>
+            <p>
+                Ton adresse email a été vérifiée avec succès.
+                Tu peux maintenant te connecter et profiter de toutes les fonctionnalités de la plateforme.
+            </p>
+        </div>
+
+        <p style="font-size: 0.875rem; margin-bottom: 1.5rem;">
+            Prêt à commencer ? Connecte-toi dès maintenant pour explorer ton espace.
+        </p>
+
+        <a href="https://calendyx.beaute-laurent.fr" class="btn">
+            Se connecter
+        </a>
+
+        <p class="footer-text">
+            Un problème ? <a href="https://calendyx.beaute-laurent.fr">Contacte notre support</a>
+        </p>
+    </div>
+
+    <script>
+
+            const url = window.location.href;
+            const token = url.split("/")[4];
+            const id = url.split("/")[5];
+
+            
+            const verifyRes = fetch(`/user/verify/${token}/${id}`, {
+                method: "GET",
+                "ContentType": "application/json"
+            }).then((verify)=>{
+                const data = verify.json()
+                .then((data)=>{
+                    console.log(data)
+                })
+            })
+    </script>
+</body>
+
+</html>

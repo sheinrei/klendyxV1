@@ -7,7 +7,7 @@ const setGraph = async () => {
   const config = await getConfig()
   const host = config.host
 
-  const res = await fetch(`${host}/api/event/get`, {
+  const res = await fetch(`${host}/api/rdv/get`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",

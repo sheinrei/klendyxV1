@@ -20,39 +20,8 @@ Event Calendyx:
 	faire le scrollTo quand form submit
 
 
--Agenda : 
-	->Afficher la liste des calendrier sync (google/google-apple)
-
-	->Sync agenda apple => calDav
-	->Sync agenda outlootk
-
-	->ajouter la modale validation new event
-
-
--Dashboard :
-	->Card event en cours;
-	->Graph des envoies sms/email
-	->Graph %event en cours / %event validé/ %event refusé.
-
--Système de notification :
-	->Mettre en place le systeme
-	->Alerte quand un event à été modififé
-
-
--Page CGV :
-	->A définir
-	->Pregen par IA
-
-
 ->debounce pour eviter refresh champs de recherche dynamique
 ->throttling
 ->Ou lib lodash
 
 
--Feature :
-	Superposer deux utilisateurs pour définir d'dun rdv
-	match user par session calendyx
-
-
--Param compte
-	clic tn revoker google

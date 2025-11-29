@@ -15,7 +15,6 @@ import generateToken from "./../service/token/generateToken.js"
 import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "./../service/nodemailer.js";
 //instance bdd
 import db from "./../sequelize.js"
-import { frontConfirmationCreateUser } from "../../public/js/frontConfirmationCreateUser.js";
 import sendFile from "./../service/sendFile.js";
 import { deleteUserSession } from "../service/userSession/deleteUserSession.js";
 import { createUserSession } from "../service/userSession/createUserSession.js";
@@ -34,9 +33,9 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     //generer un token de creation
     const id = user.user.id
     const token = await generateToken(id, "verifCreateAccount", db);
-
+    console.log(token)
     //envoyer l'email
-    const url = `${process.env.HOST}/user/verify/${token}/${id}`;
+    const url = `${process.env.HOST}/user-verify/${token.token}/${id}`;
     await sendVerifyAccount(user.user.email, url);
 
     res.json({ success: true, message: "Bienvenue chez Calendyx, votre compte a été créé avec succes. \n Pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
@@ -126,12 +125,13 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
     const token = req.params.token;
     const id = req.params.id;
 
-    verifyAccount(token, id, res, db)
+    const verified = await verifyAccount(token, id, db)
+    console.log("verified : ",verified)
+    if (!verified.success) {
+        return res.json({ success: false, message: verified.message })
+    }
 
-    const loginUrl = `${process.env.HOST}/connexion`;
-    const contactUrl = `${process.env.HOST}/contact`
-    const html = frontConfirmationCreateUser(loginUrl, contactUrl)
-    res.send(html)
+    return res.json({ success: true, message: "Succes los de la verification du compte" })
 })
 
 //Auth utilisateur

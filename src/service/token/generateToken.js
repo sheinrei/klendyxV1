@@ -6,15 +6,16 @@ export default async function generateToken(userId, typeToken, db) {
     const instanceToken = tokenTable(db)
     const token = crypto.randomBytes(32).toString("hex")
 
-    console.log(userId)
 
     try {
-        await instanceToken.create({
+        const newToken = await instanceToken.create({
             idUser: userId,
             type: typeToken,
             token,
         })
-        return token
+        if(newToken){
+            return ({success:true, token})
+        }
 
     } catch (err) {
         console.log(err)

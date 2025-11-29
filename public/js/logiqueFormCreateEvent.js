@@ -1,4 +1,4 @@
-// Logique du formulaire de création d'un event avec l'affiche du render
+// Logique du formulaire de création d'un rdv avec l'affiche du render
 $("#btn-submit-form-create-event").on("click", async function (e) {
     e.preventDefault();
     const htmlMessageAlert = $("#message-alert")
@@ -54,7 +54,7 @@ $("#btn-submit-form-create-event").on("click", async function (e) {
     const config = await getConfig()
     const host = config.host
     $.ajax({
-        url: `${host}/api/event/create`,
+        url: `${host}/api/rdv/create`,
         method: "post",
         headers: {
             "Authorization": "Bearer " + token,

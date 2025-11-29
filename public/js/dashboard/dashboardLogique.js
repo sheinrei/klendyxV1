@@ -8,7 +8,7 @@ $(document).on("click", ".delete-event-btn", async function (e) {
     const config = await getConfig()
     const host = config.host
 
-    const res = await fetch(`${host}/api/event/delete`, {
+    const res = await fetch(`${host}/api/rdv/delete`, {
         method: "POST",
         headers: {
             "Content-type": "Application/json",

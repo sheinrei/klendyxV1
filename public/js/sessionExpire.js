@@ -1,4 +1,5 @@
 $(async function () {
+
     const resConf = await fetch("/config");
     const dataConf = await resConf.json();
     const host = dataConf.host
@@ -15,8 +16,17 @@ $(async function () {
         }
     }
 
-    const connected = await isConnect()
-    connected ? $("#btnConnection").css("display", "none") : $("#btnDeconnection").css("display", "none")
+    const connected = await isConnect();
+
+
+
+
+
+
+
+
+
+
 
 
     const urlProtect = [`${host}/contact-favori`, `${host}/agenda`]

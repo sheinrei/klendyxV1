@@ -1,12 +1,8 @@
 import { DataTypes } from "sequelize";
 
 
-/**
- * Table des events.
- */
-
-export function eventTable(sequelize) {
-    return sequelize.define("event", {
+export function eventRdvCalendyxTable(sequelize) {
+    return sequelize.define("eventRdv", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,

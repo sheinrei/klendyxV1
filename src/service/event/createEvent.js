@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { eventTable } from "../../models/eventTable.js";
+import { eventRdvCalendyxTable } from "../../models/eventRdvCalendyxTable.js";
 
 
 /**
@@ -27,7 +27,7 @@ export async function createEvent(db, req) {
 
     const userId = req.userId;
 
-    const Event = eventTable(db)
+    const Event = eventRdvCalendyxTable(db)
 
     if (!userId) return { success: false, message: "Utilisateur introuvable, merci de vous connecter" }
     if (!recipientName) return { success: false, message: "Nom du client inconnu merci de le saisir" }

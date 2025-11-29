@@ -4,6 +4,8 @@
     --main-bg: white;
     --footer-bg: rgb(198, 198, 198);
 
+    --gradient-title: linear-gradient(to right, rgba(113, 106, 249, 1) 0%, rgba(91, 9, 121, 1) 100%);
+    --color-nav: rgb(44, 44, 44);
 
     --primary-color: #716af9;
     --primary-hover: #5247c7;

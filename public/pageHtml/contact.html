@@ -74,7 +74,8 @@
         <main>
             <header>
                 <div class="header-logo" style="margin-right: 20px;">
-                   <img width="60" height="60" src="https://img.icons8.com/papercut/60/secured-letter.png" alt="secured-letter"/>
+                    <img width="60" height="60" src="https://img.icons8.com/papercut/60/secured-letter.png"
+                        alt="secured-letter" />
                 </div>
                 <div class="header-content">
                     <h1 class="header-title">Contactez-nous</h1>
@@ -132,54 +133,57 @@
     </section>
 
 
-    <script>
-        $("#btn-submit").on("click", async (e) => {
-            e.preventDefault()
-            const config = await getConfig()
-            const host = config.host
+    <script defer>
+        (() => {
+            $("#btn-submit").on("click", async (e) => {
+                e.preventDefault()
+                const config = await getConfig()
+                const host = config.host
 
-            const nom = $("#nom").val();
-            const prenom = $("#prenom").val();
-            const email = $("#email").val();
+                const nom = $("#nom").val();
+                const prenom = $("#prenom").val();
+                const email = $("#email").val();
 
-            const categorie = $("#sujet").val();
-            const message = $("#message").val()
+                const categorie = $("#sujet").val();
+                const message = $("#message").val()
 
-            console.log({
-                nom,
-                prenom,
-                email,
-                categorie,
-                message
-            })
-
-            const array = [nom, prenom, email, categorie, message];
-
-            if (!array.every((current) => current.length > 0)) {
-                createClassiqueModale("Veuillez remplir tout les champs pour soumettre votre commentaire.")
-                return
-            }
-
-            const res = await fetch(`${host}/api/comment/post`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "Application/json",
-                },
-                body: JSON.stringify({
+                console.log({
                     nom,
                     prenom,
                     email,
                     categorie,
-                    commentaire: message,
+                    message
                 })
-            })
-            const data = await res.json()
-            if (data.success) {
-                createClassiqueModale(data.message)
-                document.getElementById("contact-form").reset()
-            }
 
+                const array = [nom, prenom, email, categorie, message];
+
+                if (!array.every((current) => current.length > 0)) {
+                    createClassiqueModale("Veuillez remplir tout les champs pour soumettre votre commentaire.")
+                    return
+                }
+
+                const res = await fetch(`${host}/api/comment/post`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "Application/json",
+                    },
+                    body: JSON.stringify({
+                        nom,
+                        prenom,
+                        email,
+                        categorie,
+                        commentaire: message,
+                    })
+                })
+                const data = await res.json()
+                if (data.success) {
+                    createClassiqueModale(data.message)
+                    document.getElementById("contact-form").reset()
+                }
+
+            })
         })
+
     </script>
 </body>
 

@@ -13,6 +13,10 @@ router.get("/index", (req, res) => {
     sendFile("./public/pageHtml/index.html", res);
 })
 
+router.get("/index2", (req, res) => {
+    sendFile("./public/pageHtml/index2.html", res);
+})
+
 
 router.get("/connexion", (req, res) => {
     sendFile("./public/pageHtml/connexion.html", res);
@@ -29,7 +33,9 @@ router.get("/forgotPassword", (req, res) => {
     sendFile("./public/pageHtml/forgotPassword.html", res);
 })
 
-
+router.get("/user-verify/:token/:id", (req, res) => {
+    sendFile("./public/pageHtml/userVerify.html", res)
+})
 
 
 router.get("/contact", (req, res) => {

@@ -3,7 +3,7 @@ async function calendyxDeleteEvent(token, idEvent) {
     const config = await getConfig()
     const host = config.host
 
-    const res = await fetch(`${host}/api/event/delete`, {
+    const res = await fetch(`${host}/api/rdv/delete`, {
         method: "POST",
         headers: {
             "Authorization": "Bearer " + token,
