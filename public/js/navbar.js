@@ -260,6 +260,11 @@ $(async function () {
         }
     });
 
+    const clientWidth = $("html").width();
+    console.log(clientWidth)
+    if (clientWidth < 1024) {
+        $("#navbar-retract").click()
+    }
 
 
 })

@@ -6,17 +6,18 @@
 
     background-color: white;
     width: fit-content;
-
+    
 }
 
 .navbar-state-retract {
     min-height: 0px !important;
-    height: 100%;
+    height: fit-content;
     border: 1px solid var(--border-color);
     border-top: none;
     border-radius: 0 0 12px;
     padding: 10px 15px 0px 15px;
-
+    position: fixed;
+    z-index: 999;
 }
 
 /* Header */
@@ -69,7 +70,7 @@
     border-radius: 6px;
     color: rgb(115, 115, 115);
     transform: rotate(180deg);
-    
+
 }
 
 .btn-retract:hover {
@@ -135,6 +136,7 @@
     font-size: 16px;
     width: fit-content;
     margin-left: 6px;
+    font-family: 'Poppins', 'Inter', sans-serif;
 }
 
 a:visited {

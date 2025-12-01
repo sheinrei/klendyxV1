@@ -9,6 +9,7 @@
 
     --primary-color: #716af9;
     --primary-hover: #5247c7;
+    
     --secondary-color: #6b7280;
 
 
@@ -60,7 +61,6 @@ body {
     flex-direction: column;
     justify-content: space-between;
 
-    height: 100%;
 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background: linear-gradient(135deg, var(--background-color) 0%, #e0e7ff 100%);
