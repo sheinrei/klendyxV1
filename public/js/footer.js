@@ -5,7 +5,7 @@ const htmlFooter = `
                 <!-- Colonne principale -->
                 <div class="footer-column footer-main">
                     <div class="footer-brand">
-                        <h3>Calendyx</h3>
+                        <h3>Klendyx</h3>
                         <p class="footer-tagline">Simplifiez la gestion de vos rendez-vous</p>
                     </div>
                     <div class="footer-social">
@@ -53,8 +53,8 @@ const htmlFooter = `
                 <div class="footer-column">
                     <h4 class="footer-title">Légal</h4>
                     <ul class="footer-links">
-                        <li><a href="https://calendyx.beaute-laurent.fr/confidentialite">Confidentialité</a></li>
-                        <li><a href="https://calendyx.beaute-laurent.fr/condition-utilisation">Condition d'utilisation</a></li>
+                        <li><a href="/confidentialite">Confidentialité</a></li>
+                        <li><a href="/condition-utilisation">Condition d'utilisation</a></li>
                         <li><a href="#">RGPD</a></li>
                         <li><a href="#">CGV</a></li>
                         <li><a href="#">Mentions légales</a></li>
@@ -63,7 +63,7 @@ const htmlFooter = `
             </div>
 
             <div class="footer-bottom">
-                <p class="footer-copyright">© 2025 Calendyx. Tous droits réservés.</p>
+                <p class="footer-copyright">© 2025 Klendyx. Tous droits réservés.</p>
                 <div class="footer-meta">
                     <span>Fait avec ❤️ en France</span>
                 </div>

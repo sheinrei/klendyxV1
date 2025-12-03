@@ -1,4 +1,3 @@
-
 /* Conteneur principal */
 .auth-container {
     display: flex;
@@ -18,8 +17,8 @@
     max-width: 500px;
     border: 1px solid var(--border-color);
     background: rgba(255, 255, 255, 0.95);
-    
-    margin:2rem
+
+    margin: 2rem
 }
 
 /* En-tête */
@@ -29,7 +28,20 @@
 }
 
 
+/* footer */
+.a-nav {
+    width: 100%;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius-small);
+    text-align: center;
+    transition: background 1s !important;
+}
 
+.a-nav:hover {
+    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+    
+    color: white;
+}
 
 /* Onglets */
 .auth-tabs {
@@ -92,6 +104,7 @@
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -160,7 +173,7 @@
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
-.auth-form input:focus + .input-icon {
+.auth-form input:focus+.input-icon {
     color: var(--primary-color);
 }
 
@@ -170,6 +183,12 @@
 }
 
 /* Section professionnelle */
+.icone-toggle{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    position:relative;
+}
 .professional-section {
     margin-top: 1rem;
     padding-top: 1.5rem;
@@ -231,49 +250,32 @@
         margin: 1rem;
         max-width: none;
     }
-    
+
     .auth-title {
         font-size: 2rem;
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-    
+
     .tab-btn {
         padding: 0.625rem 0.75rem;
         font-size: 0.8125rem;
     }
-    
+
     .tab-icon {
         width: 16px;
         height: 16px;
     }
-    
+
     .professional-section {
         margin-top: 0.5rem;
         padding-top: 1rem;
     }
 }
 
-@media (max-width: 480px) {
-    .auth-container {
-        padding: 1rem 0.5rem;
-    }
-    
-    .auth-card {
-        padding: 1rem;
-    }
-    
-    .auth-title {
-        font-size: 1.75rem;
-    }
-    
-    .auth-subtitle {
-        font-size: 0.875rem;
-    }
-}
 
 /* Animations supplémentaires */
 .auth-card {
@@ -285,6 +287,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -324,7 +327,26 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .auth-card {
+        padding: 1rem;
+    }
+
+    .auth-title {
+        font-size: 1.75rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.875rem;
     }
 }

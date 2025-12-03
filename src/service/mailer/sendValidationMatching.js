@@ -22,7 +22,7 @@ export async function sendValidationMatching(email, id, titleEvent, dateEvent, h
                         <tr>
                             <td style="background-color: #716af9;padding: 40px 30px;text-align: center;border-radius:20px">
                                 <h1 style="color: #ffffff;font-size: 28px;font-weight: 700;margin: 0;line-height: 1.3;">
-                                    CALENDYX - Nouveau Rendez-vous
+                                    KLENDYX - Nouveau Rendez-vous
                                 </h1>
                             </td>
                         </tr>
@@ -53,12 +53,12 @@ export async function sendValidationMatching(email, id, titleEvent, dateEvent, h
                                 
                                 <!-- TEXTE DE CLÔTURE -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    Calendyx "Gérez votre emplois du temps, gagnez du temps."
+                                    Klendyx "Gérez votre emplois du temps, gagnez du temps."
                                 </p>
                                 
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
                                     Cordialement,<br>
-                                    <strong>Votre Équipe</strong>
+                                    <strong>Votre Équipe Klendyx</strong>
                                 </p>
                                 
                             </td>

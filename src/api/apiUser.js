@@ -12,7 +12,7 @@ import authMiddleware, { authMiddlewareOptional } from "./../middleware/authMidd
 import { deleteToken } from "./../service/token/deleteToken.js";
 import generateToken from "./../service/token/generateToken.js"
 //NodeMailer
-import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "./../service/nodemailer.js";
+import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "../service/mailer/sendPassword.js";
 //instance bdd
 import db from "./../sequelize.js"
 import sendFile from "./../service/sendFile.js";
@@ -38,7 +38,7 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     const url = `${process.env.HOST}/user-verify/${token.token}/${id}`;
     await sendVerifyAccount(user.user.email, url);
 
-    res.json({ success: true, message: "Bienvenue chez Calendyx, votre compte a été créé avec succes. \n Pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
+    res.json({ success: true, message: "Votre compte a été créé avec succès, pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
 })
 
 //user connected change password
@@ -72,12 +72,16 @@ routerApiUser.post("/api/user/email/new-password", async function (req, res) {
 
     //generer un token
     const token = await generateToken(id, "forgotPassword", db);
-
+    if(!token.success){
+        return res.json({success:false, message: token.message})
+    }
     //envoyer un email
-    const url = `${process.env.HOST}/api/user/resetpassword/${token}/${id}`;
-    await sendForgotPassword(email, url);
-
-    res.json({ success: true, message: `Un email a été envoyé si cette adresse existe` });
+    const url = `${process.env.HOST}/api/user/resetpassword/${token.token}/${id}`;
+    const sending = await sendForgotPassword(email, url);
+    if(!sending){
+        return res.json({success:false, message : "Echec lors de l'envois de l'email"})
+    }
+    return res.json({ success: true, message: `Un email a été envoyé si cette adresse existe` });
 })
 
 

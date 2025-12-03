@@ -8,13 +8,28 @@ const alert = $("#message-alert-password")
 
 
 $("#new-password").on("input", function () {
+    const mdp = $(this).val()
+    if (mdp.length < 1) {
+        MessageAlert.removeMessage()
+        return
+    }
     checkPassword($(this).val());
 });
 
+$("#mdp").on("input", function () {
+    const mdp = $(this).val()
+    if (mdp.length < 1) {
+        MessageAlert.removeMessage()
+        return
+    }
+    checkPassword($(this).val());
+});
+
+
+
+
 function checkPassword(password) {
-    alert.text(""); 
-
-
+    MessageAlert.removeMessage();
     let strength = 0;
     let message = "";
 
@@ -29,12 +44,25 @@ function checkPassword(password) {
     for (const rule of rules) {
         if (!rule.test.test(password)) {
             message = rule.message;
-            break; 
+            break;
         }
         strength++;
     }
 
     // Met à jour le message et la barre
-    alert.text(message);
     $("#strength-bar").prop("value", strength * 25);
+
+    const progress = document.querySelector("progress")
+    if (strength == 1) progress.style.setProperty("--primary-color", "#a35454");
+    if (strength == 2) progress.style.setProperty("--primary-color", "#f59e0b");
+    if (strength ==3) progress.style.setProperty("--primary-color", "#facc15"); 
+    if (strength == 4)progress.style.setProperty("--primary-color", "#10b981"); 
+
+
+    if (strength == 100) {
+        MessageAlert.removeMessage()
+        return
+    }
+
+    MessageAlert.create("warning", "#input-message-alert-password", message)
 }

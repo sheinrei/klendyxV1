@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     $('.tab-btn').on('click', function () {
-        $("#msg-alert").text("")
+        MessageAlert.removeMessage()
         const tabName = $(this).data('tab');
 
         // Retirer la classe active des onglets et contenu

@@ -29,6 +29,7 @@
 }
 
 .navbar-title {
+    padding : 0 10px;
     font-size: 36px;
     font-weight: 900;
     letter-spacing: -1px;
@@ -36,7 +37,8 @@
     color: transparent;
     background-clip: text;
     overflow: hidden;
-    margin: 15px 0
+    margin: 15px 0;
+    text-align: center;
 }
 
 .navbar-logo {

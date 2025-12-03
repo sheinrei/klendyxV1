@@ -4,8 +4,8 @@ $(async function () {
         "header": `
         <section class="navbar">
         <header class="navbar-header">
-            <img class="navbar-logo" src="./../images/litleLogo.png" alt="logo de Calendyx">
-            <p class="navbar-title">Calendyx</p>
+            <img class="navbar-logo" src="./../images/litleLogo.png" alt="logo de Klendyx">
+            <p class="navbar-title">Klendyx</p>
         </header>
 
         <div class="navbar-content">
@@ -261,7 +261,6 @@ $(async function () {
     });
 
     const clientWidth = $("html").width();
-    console.log(clientWidth)
     if (clientWidth < 1024) {
         $("#navbar-retract").click()
     }

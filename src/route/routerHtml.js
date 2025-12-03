@@ -13,10 +13,6 @@ router.get("/index", (req, res) => {
     sendFile("./public/pageHtml/index.html", res);
 })
 
-router.get("/index2", (req, res) => {
-    sendFile("./public/pageHtml/index2.html", res);
-})
-
 
 router.get("/connexion", (req, res) => {
     sendFile("./public/pageHtml/connexion.html", res);

@@ -1,9 +1,27 @@
 
 //Controle des champs et fetch vers api
 $(document).ready(() => {
+
+
+    $("#login-google").on("click", function (e) {
+        e.preventDefault();
+        createClassiqueModale("Fonctionalité en cours de constuction")
+    })
+
+    let stateToggle = false
+    $("#toggle-entreprise").on("click", function () {
+        console.log("toggle")
+        const imgSrc = stateToggle ? "https://img.icons8.com/color/50/circled-chevron-down.png" : "https://img.icons8.com/fluency/48/circled-chevron-up.png";
+        $(this).attr("src", imgSrc);
+        stateToggle = !stateToggle
+        $(".entreprise-form").slideToggle(300);
+    })
+
+
+
     $("#createUserForm").on("submit", async function (e) {
         e.preventDefault()
-
+        MessageAlert.removeMessage()
 
         const scrollTo = () => window.scrollTo({
             top: 0,
@@ -20,8 +38,9 @@ $(document).ready(() => {
         const siren = $("#siren").val()
         const cgu = $("#cgu").is(":checked")
 
+
         if (!cgu) {
-            $("#msg-alert").text(`Veuillez valider les CGU`)
+            MessageAlert.create("error", "#input-message-alert", "Veuillez valider les CGU")
             scrollTo()
             return
         }
@@ -29,7 +48,13 @@ $(document).ready(() => {
         if (mdp !== mdpConfirm) {
             $("#mdp").css("border", "1px solid var(--error-color)")
             $("#mdpConfirm").css("border", "1px solid var(--error-color)")
-            $("#msg-alert").text(`Veuillez faire correspondre les deux mots de passes !`)
+            MessageAlert.create("error", "#input-message-alert", "Veuillez faire correspondre les deux mots de passes")
+            scrollTo()
+            return
+        }
+
+        if ($("#strength-bar").val() !== 100) {
+            MessageAlert.create("error", "#input-message-alert", "Mot de passe trop faible")
             scrollTo()
             return
         }
@@ -52,11 +77,8 @@ $(document).ready(() => {
             }),
 
             success: function (res) {
-                console.log(res)
                 if (res.success === true) {
-                    $("#msg-alert").css("color", "green")
-                    const message = res.message.replace(/\n/g, "<br>")
-                    $("#msg-alert").html(`<p>${message}</p>`)
+                    MessageAlert.create("success", "#input-message-alert", message)
                     scrollTo()
                     $("#nom").val("")
                     $("#prenom").val("")
@@ -68,13 +90,14 @@ $(document).ready(() => {
                     $("#siren").val("")
                     $('#cgu').prop('checked', false);
                 } else {
-                    $("#msg-alert").text(`${res.message}`)
+                    console.log(res)
+                    MessageAlert.create("warning", "#input-message-alert", res.message)
                     scrollTo()
                 }
             },
 
             error: function (err) {
-                $("#msg-alert").text(`Erreur survenu avec le serveur.`)
+                MessageAlert.create("error", "#input-message-alert", "Erreur survenu avec le serveur")
                 console.log(err)
             }
         })
