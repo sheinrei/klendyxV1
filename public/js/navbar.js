@@ -30,7 +30,7 @@ $(async function () {
     `,
 
         "acceuil": {
-            html: ` <a class="item-nav" href="/index" title="Accueil">
+            html: ` <a class="item-nav" href="/index" title="Accueil" id="navbar-index">
                     <svg class="item-nav-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"
@@ -45,7 +45,7 @@ $(async function () {
         },
 
         "connexion": {
-            html: `<a class="item-nav" href="/connexion" id="btnConnection" title="Se connecter">
+            html: `<a class="item-nav" href="/connexion" id="navbar-connexion" title="Se connecter">
                     <svg class="item-nav-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"
@@ -60,7 +60,7 @@ $(async function () {
         },
 
         "deconnexion": {
-            html: `<a class="item-nav" href="/index" id="btnDeconnection" title="Se déconnecter" id="btnDeconnection">
+            html: `<a class="item-nav" href="/index" id="btnDeconnection" title="Se déconnecter">
                     <svg class="item-nav-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"
@@ -75,7 +75,7 @@ $(async function () {
 
         },
         "monCompte": {
-            html: `<a class="item-nav" href="/mon-compte" id="btnMonCompte" title="Mon compte">
+            html: `<a class="item-nav" href="/mon-compte" title="Mon compte" id="navbar-mon-compte">
                     <svg class="item-nav-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"
@@ -90,7 +90,7 @@ $(async function () {
 
         },
         "dashboard": {
-            html: ` <a class="item-nav" href="/dashboard" title="Tableau de bord">
+            html: ` <a class="item-nav" href="/dashboard" title="Tableau de bord" id="navbar-dashboard">
                     <svg class="item-nav-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"
@@ -104,27 +104,27 @@ $(async function () {
                 </a>`,
         },
         "agenda": {
-            html: `<a class="item-nav" href="/agenda" title="Agenda">
+            html: `<a class="item-nav" href="/agenda" title="Agenda" id="navbar-agenda">
                     <img class="item-nav-logo" width="24" height="24"
                         src="https://img.icons8.com/ios/50/tear-off-calendar.png" alt="tear-off-calendar" />
                     <p>Agenda</p>
                 </a>`,
         },
         "createEvent": {
-            html: `<a class="item-nav" href="/event" title="Créer un evenement">
+            html: `<a class="item-nav" href="/event" title="Créer un evenement" id="navbar-event">
                     <img class="item-nav-logo" width="50" height="50" src="https://img.icons8.com/ios/50/event-accepted-tentatively.png"
                         alt="event-accepted-tentatively" />
                     <p>Créer un rendez-vous</p>
                 </a>`,
         },
         "contactsFavoris": {
-            html: `<a class="item-nav" href="/contacts-favoris" title="Vos contact favoris">
+            html: `<a class="item-nav" href="/contacts-favoris" title="Vos contact favoris" id="navbar-contacts-favoris">
                    <img class="item-nav-logo" width="24" height="24" src="https://img.icons8.com/comic/100/business-contact.png" alt="business-contact"/>
                     <p>Vos contact favoris</p>
                 </a>`,
         },
         "contactUs": {
-            html: `<a class="item-nav" href="/contact" title="Contactez-nous">
+            html: `<a class="item-nav" href="/contact" title="Contactez-nous" id="navbar-contact">
                     <svg class="item-nav-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <rect x="2" y="4" width="20" height="16" rx="2" ry="2"/>
                       <path d="M2 7l10 7 10-7"/>
@@ -184,6 +184,22 @@ $(async function () {
     $("#content").prepend(htmlNavbar)
 
 
+    // === Gestion du background pour l'item a selon la page actuelle
+
+    const url = document.location.href
+    const currentPage = url.split("/")[3]
+    const arrayUrl = ["index","connexion", "mon-compte", "dashboard", "agenda","event", "contacts-favoris", "contact"]
+    console.log(currentPage)
+    arrayUrl.map((url)=> {
+        if (url === currentPage){
+            console.log("page :", currentPage)
+            $(`#navbar-${url}`).css({
+                "background" : "var(--gradient-title",
+                "color" : "white",
+                "font-weight" : "500"
+            })
+        }
+    })
 
 
 

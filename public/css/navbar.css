@@ -39,6 +39,7 @@
     overflow: hidden;
     margin: 15px 0;
     text-align: center;
+    padding-right:30px;
 }
 
 .navbar-logo {
@@ -107,8 +108,9 @@
     flex-direction: row;
     align-items: center;
     margin: 5px 8px 5px 0px;
-    border-radius: 6px;
+    padding:5px 0px;
     position: relative;
+    border-radius: 12px;
     gap: 6px;
     overflow: hidden;
 }
