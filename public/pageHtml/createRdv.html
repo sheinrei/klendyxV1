@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un evenement Klendyx</title>
+    <meta name="description"
+        content="Liste de tous les services proposés par Klendyx, gérez votre emploi du temps en toute facilité.">
+
+    <meta name="keywords" content="callendar, agenda, rendez-vous">
+    <meta name="author" content="Sheinrei">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://klendyx/event">
+
+    <!-- Extras utiles -->
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Open Graph (pour le partage sur réseaux sociaux) -->
+    <meta property="og:title" content="Retrouvez les services proposés par Klendyx">
+    <meta property="og:description"
+        content="Liste de tous les services proposés par Klendyx, gérez votre emploi du temps en toute facilité.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://klendyx/event">
+    <meta property="og:image" content="https://www.example.com/image-de-la-page.jpg">
+    <meta property="og:site_name" content="Klendyx">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Titre de la page - mot-clé principal">
+    <meta name="twitter:description" content="Description de la page pour Twitter.">
+    <meta name="twitter:image" content="https://www.example.com/image-de-la-page.jpg">
+    <meta name="twitter:site" content="@Sheinrei">
+
+
+    <!-- css -->
+    <link rel="stylesheet" href="./../css/createEvent2.css">
+    <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./css/pageHeader.css">
+
+    <!-- script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="./js/config.js" defer></script>
+    <script src="./js/navbar.js" defer></script>
+    <script src="./js/footer.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/tools.js" defer></script>
+    <script src="./js/logiqueFormCreateEvent.js" defer></script>
+    <script src="./js/modale/classiqueModale.js" defer></script>
+    <script src="./js/sessionExpire.js" defer></script>
+    <script src="./js/messageAlert.js" defer></script>
+    <script src="./js/createRdv/gestionDOM.js" defer></script>
+    <script src="./js/createRdv/getContactFav.js" defer></script>
+    <script src="./js/createRdv/submitNewRDV.js" defer></script>
+
+</head>
+
+
+
+<body>
+    <section id="content" class="content">
+
+        <main>
+
+            <header>
+                <div class="header-logo" style="margin-right: 20px;">
+                    <img width="50" height="50"
+                        src="https://img.icons8.com/external-xnimrodx-blue-xnimrodx/64/external-correct-calendar-xnimrodx-blue-xnimrodx.png"
+                        alt="external-correct-calendar-xnimrodx-blue-xnimrodx" />
+                </div>
+                <div class="header-content">
+                    <h1 class="header-title">Créer un rendez-vous</h1>
+                    <p class="header-subtitle">Créer et envoyer un rendez-vous en quelques clics</p>
+                </div>
+            </header>
+            <p id="input-message-alert"></p>
+
+
+            <section class="main-content-rdv">
+
+                <section class="content-create-rdv-left">
+
+                    <!-- search bar -->
+                    <section class="card-rdv frame-card-recapitulatif" id="frame-searching-bar">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.3-4.3"></path>
+                            </svg>
+                            <span class="card-title">Rechercher un contact dans vos favoris </span>
+                        </div>
+                        <div class="search-bar">
+                            <input type="text" placeholder="Nom, prénom, email ou téléphonne" id="search-bar">
+                        </div>
+                    </section>
+
+                    <!--info client -->
+                    <section class="card-rdv">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="card-title">information client</span>
+                        </div>
+
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <div class="card-row-subtitle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <label for="data-rdv-nom">Nom</label>
+                                </div>
+                                <input type="text" id="data-rdv-nom" name="data-rdv-nom" placeholder="Martin">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="card-row-subtitle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <label for="data-rdv-prenom">Prénom</label>
+                                </div>
+                                <input type="text" id="data-rdv-prenom" name="data-rdv-prenom" placeholder="Jean">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="card-row-subtitle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </svg>
+                                <label for="data-rdv-email">Email</label>
+                            </div>
+                            <input type="text" id="data-rdv-email" name="data-rdv-email"
+                                placeholder="jeanmartin@gmail.com">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="card-row-subtitle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                                <label for="data-rdv-phone">Téléphone</label>
+                            </div>
+                            <input type="text" id="data-rdv-phone" name="data-rdv-phone" placeholder="06 12 34 56 78">
+                        </div>
+
+                    </section>
+
+
+                    <!--detail du rdv-->
+                    <section class="card-rdv">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 2v4"></path>
+                                <path d="M16 2v4"></path>
+                                <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                <path d="M3 10h18"></path>
+                            </svg>
+                            <span class="card-title">Détail du rdv</span>
+                        </div>
+
+
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <div class="card-row-subtitle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M8 2v4"></path>
+                                        <path d="M16 2v4"></path>
+                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                        <path d="M3 10h18"></path>
+                                    </svg>
+                                    <span>Date</span>
+                                </div>
+                                <input type="date" id="data-rdv-day-start">
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="card-row-subtitle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span>Début</span>
+                                </div>
+                                <input type="time" id="data-rdv-horraire-start">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="card-row-subtitle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span>Fin</span>
+                                </div>
+                                <input type="time" id="data-rdv-horraire-end">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="card-row-subtitle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-file-text w-4 h-4 text-muted-foreground">
+                                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                    <path d="M10 9H8"></path>
+                                    <path d="M16 13H8"></path>
+                                    <path d="M16 17H8"></path>
+                                </svg>
+                                <span>Titre du rendez-vous</span>
+                            </div>
+                            <input type="text" id="data-rdv-title" placeholder="Consultation de suivi">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="card-row-subtitle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-message-circle w-4 h-4 text-muted-foreground">
+                                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                                </svg>
+                                <span>Information complémentaire (optionnel)</span>
+                            </div>
+                            <textarea rows="3" id="data-rdv-commentaire"
+                                placeholder="Informations supplémentaires"></textarea>
+                        </div>
+
+                    </section>
+
+                    <!--methode contact -->
+                    <section class="card-rdv">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="card-title"> Methode de contact</span>
+                        </div>
+
+
+                        <div style="display:flex;flex-direction:column; gap:10px">
+                            <label for="contact-method-email" class="label-full-row">
+                                <input type="checkbox" name="contact-method-email" id="contact-method-email">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect fill="none" stroke="currentColor" width="20" height="16" x="2" y="4" rx="2">
+                                    </rect>
+                                    <path fill="none" stroke="currentColor"
+                                        d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </svg>
+                                <span>Envoyer par Email</span>
+                            </label>
+
+                            <label for="contact-method-sms" class="label-full-row">
+                                <input type="checkbox" name="contact-method-sms" id="contact-method-sms">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span>Envoyer par SMS</span>
+                            </label>
+                        </div>
+                    </section>
+
+
+                    <!-- rappel rdv -->
+                    <section class="card-rdv">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                            </svg>
+                            <span class="card-title">Activer un rappel</span>
+                        </div>
+
+                        <div
+                            style="display:flex; justify-content: space-between; align-items: center;margin-bottom:20px">
+                            <span>
+                                Activer un rappel avant le rendez-vous
+                            </span>
+
+                            <button class="btn-toggle-switch-desactiv" id="btn-toggle-switch-rappel"></button>
+                        </div>
+
+                        <div class="frame-setup-rappel">
+                            <div class="card-row-subtitle">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M8 2v4"></path>
+                                    <path d="M16 2v4"></path>
+                                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                    <path d="M3 10h18"></path>
+                                </svg>
+                                <span>Envoyer un rappel avant le rendez-vous</span>
+                            </div>
+
+                            <div style="margin-top:10px">
+                                <input type="number" min="1" max="48" value="1" id="data-rdv-hour-rappel">
+                                <span>heures avant</span>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+
+
+
+
+
+                <section class="content-create-rdv-right">
+
+                    <!--recap general-->
+                    <section class="card-rdv">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                <path d="M10 9H8"></path>
+                                <path d="M16 13H8"></path>
+                                <path d="M16 17H8"></path>
+                            </svg>
+                            <span class="card-title">Récapitulatif</span>
+                        </div>
+
+                        <div class="frame-data-recapitulatif">
+
+                            <!--nom client-->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>Client</span>
+                                </div>
+                                <span id="recapitulatif-client">--</span>
+                            </div>
+
+                            <!-- method contact-->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <span>Méthode contact</span>
+                                </div>
+                                <span id="recapitulatif-method-contact">--</span>
+                            </div>
+
+                            <!-- date -->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M8 2v4"></path>
+                                        <path d="M16 2v4"></path>
+                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                        <path d="M3 10h18"></path>
+                                    </svg>
+                                    <span>Date</span>
+                                </div>
+                                <span id="recapitulatif-date">--</span>
+                            </div>
+
+                            <!-- horraire -->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span>Horraire</span>
+                                </div>
+                                <span id="recapitulatif-horraire">--</span>
+                            </div>
+
+                            <!-- titre-->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                                        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                        <path d="M10 9H8"></path>
+                                        <path d="M16 13H8"></path>
+                                        <path d="M16 17H8"></path>
+                                    </svg>
+                                    <span>Titre</span>
+                                </div>
+                                <span id="recapitulatif-titre">--</span>
+                            </div>
+
+                            <!-- rappel -->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                                    </svg>
+                                    <span>Rappel</span>
+                                </div>
+                                <span id="recapitulatif-rappel">Désactivé</span>
+                            </div>
+                        </div>
+
+
+                    </section>
+
+                    <button class="btn btn-primary" id="btn-submit-rdv">Créer le rendez-vous </button>
+
+
+                    <!--previsu sms-->
+                    <section class="card-rdv" id="previsualisation-sms">
+                        <div class="card-row-title"
+                            style="border-bottom:2px solid var(--border-color); padding-bottom:15px">
+                            <svg aria-colcount="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24"
+                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="svg-selected">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="card-title">Apercu SMS</span>
+                        </div>
+
+
+
+                        <div class="previsualisation-phone">
+                            <div class="previsualisation-phone-header">
+                                <div class="previsualisation-phone-header-top">
+                                    <span>9:42</span>
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+
+                                            <path d="M2 20h.01"></path>
+                                            <path d="M7 20v-4"></path>
+                                            <path d="M12 20v-8"></path>
+                                            <path d="M17 20V8"></path>
+                                            <path d="M22 4v16"></path>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-wifi w-3.5 h-3.5 text-foreground">
+                                            <path d="M12 20h.01"></path>
+                                            <path d="M2 8.82a15 15 0 0 1 20 0"></path>
+                                            <path d="M5 12.859a10 10 0 0 1 14 0"></path>
+                                            <path d="M8.5 16.429a5 5 0 0 1 7 0"></path>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-battery w-4 h-4 text-foreground">
+                                            <rect width="16" height="10" x="2" y="7" rx="2" ry="2"></rect>
+                                            <line x1="22" x2="22" y1="11" y2="13"></line>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p style="text-align: center;font-weight: 700;">Messages</p>
+                            </div>
+
+
+                            <div class="previsualisation-phone-body">
+
+                                <p style="text-align: center; margin: 4px 0px; color:var(--text-secondary)">Aujourd'hui
+                                </p>
+                                <div>
+                                    <p class="previsualisation-phone-body-sms">
+                                        Bonjour, votre rendez-vous
+                                        "<span id="previsualisation-phone-title">[Titre]</span>"
+                                        avec
+                                        <span id="previsualisation-phone-name">[Votre nom prénom]</span>
+                                        est confirmé pour le
+                                        <span id="previsualisation-phone-date">[Date]</span>
+                                        de
+                                        <span id="previsualisation-phone-horraire">[Heure] à [Heure]</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="previsualisation-phone-footer">
+                                <p>92/160 caractères</p>
+                                <p>Message</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!--previsu email-->
+                    <section class="card-rdv" id="previsualisation-email">
+                        <div class="card-row-title"
+                            style="border-bottom:2px solid var(--border-color); padding-bottom:15px">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                            <span class="card-title">Apercu Email</span>
+                        </div>
+
+                        <div class="previsualisation-email">
+                            <div class="previsualisation-email-header">
+                                <div class="frame-row">
+                                    <span style="min-width:50px; display:inline-block;">De:</span>
+                                    <span>Klendyx.com</span>
+                                </div>
+
+                                <div class="frame-row">
+                                    <span style="min-width:50px; display:inline-block;">A: </span>
+                                    <span id="previsualisation-email-email">[Email client]</span>
+                                </div>
+
+
+                                <div class="frame-row">
+                                    <span style="min-width:50px; display:inline-block;">Objet:</span>
+                                    <span>
+                                        <strong>Confirmation de votre rendez-vous -
+                                            "<span id="previsualisation-email-title">[Titre]</span>"
+                                        </strong>
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div class="previsualisation-email-body">
+                                <p>Bonjour <span id="previsualisation-email-name">[Prénom]</span>,</p>
+                                <p>Nous vous confirmons votre rendez-vous avec
+                                    <span id="previsualisation-email-name-initialisateur">[Name initialisateur]</span>
+                                </p>
+
+                                <div class="previsualisation-email-body-data">
+
+                                    <div class="previsualisation-email-body-data-row">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M8 2v4"></path>
+                                            <path d="M16 2v4"></path>
+                                            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                            <path d="M3 10h18"></path>
+                                        </svg>
+                                        <div>
+                                            <p>Date</p>
+                                            <p id="previsualisation-email-date-start">[Date du rendez-vous]</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="previsualisation-email-body-data-row">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        <div>
+                                            <p>Horraire</p>
+                                            <p id="previsualisation-email-hour">[Heure] - [Heure]</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div>
+                                    <p id="previsualisation-email-information-complementaire"></p>
+                                </div>
+                            </div>
+
+                            <div class="previsualisation-email-footer">
+                                <p>A bientôt,</p>
+                                <p>Votre équipe</p>
+                            </div>
+                        </div>
+                    </section>
+
+                </section>
+            </section>
+        </main>
+    </section>
+</body>
+
+</html>

@@ -4,6 +4,7 @@ export async function getUserData(req = null, db, id) {
     const User = user(db);
     const userId = req?.userId ?? id;
     const data = await User.findByPk(userId);
+    
     return data
 }
 

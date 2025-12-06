@@ -84,51 +84,53 @@
             </header>
 
 
-            <section class="contact-frame">
-                <h2>Bienvenue sur notre page de contact !</h2>
+            <section class="main-frame">
+                <section class="contact-frame">
+                    <h2>Vous avez des questions? Des remarques ou des idées de features, laissez-nous un message !</h2>
 
-                <p> Chez Klendyx, nous mettons un point d'honneur à rester
-                    à l'écoute de nos utilisateurs. Que vous ayez besoin d'assistance technique, que vous
-                    souhaitiez partager vos impressions sur nos services, ou que vous ayez des suggestions pour
-                    améliorer notre plateforme, nous sommes là pour vous.</p>
+                    <p> Chez Klendyx, nous mettons un point d'honneur à rester
+                        à l'écoute de nos utilisateurs. Que vous ayez besoin d'assistance technique, que vous
+                        souhaitiez partager vos impressions sur nos services, ou que vous ayez des suggestions pour
+                        améliorer notre plateforme, nous sommes là pour vous.</p>
 
-                <p>Notre équipe dédiée s'engage à traiter chaque demande avec attention et professionnalisme.
-                    Nous comprenons l'importance d'une communication efficace et nous nous efforçons de répondre
-                    à toutes vos sollicitations dans les plus brefs délais, généralement sous 24 à 48 heures
-                    ouvrées.</p>
+                    <p>Notre équipe dédiée s'engage à traiter chaque demande avec attention et professionnalisme.
+                        Nous comprenons l'importance d'une communication efficace et nous nous efforçons de répondre
+                        à toutes vos sollicitations dans les plus brefs délais, généralement sous 24 à 48 heures
+                        ouvrées.</p>
 
 
-                <p>N'hésitez pas à être aussi précis que possible dans votre message. Plus vous nous fournirez
-                    d'informations sur votre demande, plus nous pourrons vous apporter une réponse adaptée et
-                    personnalisée. Nous sommes impatients d'échanger avec vous et de continuer à faire évoluer
-                    Klendyx selon vos besoins.</p>
+                    <p>N'hésitez pas à être aussi précis que possible dans votre message. Plus vous nous fournirez
+                        d'informations sur votre demande, plus nous pourrons vous apporter une réponse adaptée et
+                        personnalisée. Nous sommes impatients d'échanger avec vous et de continuer à faire évoluer
+                        Klendyx selon vos besoins.</p>
+                </section>
+
+
+                <form id="contact-form">
+                    <label for="nom">Nom <span class="required">*</span></label>
+                    <input type="text" name="nom" id="nom" required>
+
+                    <label for="prenom">Prénom <span class="required">*</span></label>
+                    <input type="text" name="prenom" id="prenom" required>
+
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" name="email" id="email" required>
+
+                    <label for="sujet">Sujet <span class="required">*</span></label>
+                    <select name="sujet" id="sujet" required>
+                        <option value="">-- Sélectionnez un sujet --</option>
+                        <option value="assistance">Assistance</option>
+                        <option value="commentaire">Commentaire</option>
+                        <option value="devis">Devis</option>
+                        <option value="feature">Demande de Feature</option>
+                    </select>
+
+                    <label for="message">Message <span class="required">*</span></label>
+                    <textarea name="message" id="message" required></textarea>
+
+                    <button type="submit" id="btn-submit">Envoyer le message</button>
+                </form>
             </section>
-
-
-            <form id="contact-form">
-                <label for="nom">Nom <span class="required">*</span></label>
-                <input type="text" name="nom" id="nom" required>
-
-                <label for="prenom">Prénom <span class="required">*</span></label>
-                <input type="text" name="prenom" id="prenom" required>
-
-                <label for="email">Email <span class="required">*</span></label>
-                <input type="email" name="email" id="email" required>
-
-                <label for="sujet">Sujet <span class="required">*</span></label>
-                <select name="sujet" id="sujet" required>
-                    <option value="">-- Sélectionnez un sujet --</option>
-                    <option value="assistance">Assistance</option>
-                    <option value="commentaire">Commentaire</option>
-                    <option value="devis">Devis</option>
-                    <option value="feature">Demande de Feature</option>
-                </select>
-
-                <label for="message">Message <span class="required">*</span></label>
-                <textarea name="message" id="message" required></textarea>
-
-                <button type="submit" id="btn-submit">Envoyer le message</button>
-            </form>
         </main>
     </section>
 

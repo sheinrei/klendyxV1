@@ -20,16 +20,7 @@ $(async function () {
 
 
 
-
-
-
-
-
-
-
-
-
-    const urlProtect = [`${host}/contact-favori`, `${host}/agenda`]
+    const urlProtect = [`${host}/contact-favori`, `${host}/agenda`, `${host}/creer-rdv`]
     if (!connected) {
         $(".nav-none").css("display", "none");
 

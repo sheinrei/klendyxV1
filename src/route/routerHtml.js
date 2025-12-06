@@ -39,8 +39,8 @@ router.get("/contact", (req, res) => {
 })
 
 
-router.get("/event", (req, res) => {
-    sendFile("./public/pageHtml/event.html", res);
+router.get("/creer-rdv", (req, res) => {
+    sendFile("./public/pageHtml/createRdv.html", res);
 })
 
 

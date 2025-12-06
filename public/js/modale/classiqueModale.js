@@ -4,7 +4,7 @@ function createClassiqueModale(content) {
         <div class="classique-modale-overlay">
             <div class="classique-modale">
                 <div class="classique-modale-header">
-                    <h2>Calendyx</h2>
+                    <h2>Klendyx</h2>
                     <button class="btn-close-icon" id="btn-close-classique-modale">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="18" y1="6" x2="6" y2="18"></line>

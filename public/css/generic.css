@@ -12,7 +12,7 @@
 
     --secondary-color: #6b7280;
 
-    --input-color: #E8F0FE;
+    --input-color: #F8FAFC;
 
     --success-color: #10815c;
     --error-color: #a35454;
@@ -25,7 +25,7 @@
     --text-light: #b3b7be;
 
     --border-color: #e5e7eb;
-    --border-focus: #4f46e5;
+    --border-focus: #7b75e3;
 
     --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -39,6 +39,7 @@
     user-select: none;
     resize: none;
     scroll-behavior: smooth;
+    box-sizing: border-box;
 }
 
 
@@ -94,6 +95,7 @@ main {
 
     width: 100%;
     align-items: center;
+    padding-bottom:50px;
 }
 
 .content {

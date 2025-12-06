@@ -2,7 +2,7 @@ $(async function () {
     //===== Data pour la construction de barnav =====
     const navbarConstructor = {
         "header": `
-        <section class="navbar">
+        <section class="navbar" id="navbar">
         <header class="navbar-header">
             <img class="navbar-logo" src="./../images/litleLogo.png" alt="logo de Klendyx">
             <p class="navbar-title">Klendyx</p>
@@ -111,7 +111,7 @@ $(async function () {
                 </a>`,
         },
         "createEvent": {
-            html: `<a class="item-nav" href="/event" title="Créer un evenement" id="navbar-event">
+            html: `<a class="item-nav" href="/creer-rdv" title="Créer un evenement" id="navbar-event">
                     <img class="item-nav-logo" width="50" height="50" src="https://img.icons8.com/ios/50/event-accepted-tentatively.png"
                         alt="event-accepted-tentatively" />
                     <p>Créer un rendez-vous</p>
@@ -166,7 +166,6 @@ $(async function () {
         } catch (err) {
             return false
         }
-
     }
 
 
@@ -189,10 +188,8 @@ $(async function () {
     const url = document.location.href
     const currentPage = url.split("/")[3]
     const arrayUrl = ["index","connexion", "mon-compte", "dashboard", "agenda","event", "contacts-favoris", "contact"]
-    console.log(currentPage)
     arrayUrl.map((url)=> {
         if (url === currentPage){
-            console.log("page :", currentPage)
             $(`#navbar-${url}`).css({
                 "background" : "var(--gradient-title",
                 "color" : "white",
@@ -219,6 +216,7 @@ $(async function () {
         isRetracted: false,
         isAnimating: false,
     }
+
 
     function animate() {
         Navbar.isAnimating = true;
@@ -270,12 +268,14 @@ $(async function () {
     }
 
 
+    //declanchement de la retractation ou du deploy
     $(document).on("click", "#navbar-retract", () => {
         if (!Navbar.isAnimating) {
             animate();
         }
     });
 
+    //clic sur retractation selon width client
     const clientWidth = $("html").width();
     if (clientWidth < 1024) {
         $("#navbar-retract").click()

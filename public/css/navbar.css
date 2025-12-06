@@ -6,7 +6,10 @@
 
     background-color: white;
     width: fit-content;
-    
+    box-sizing: content-box;
+
+    display:flex;
+    flex-direction: column;
 }
 
 .navbar-state-retract {
@@ -16,8 +19,6 @@
     border-top: none;
     border-radius: 0 0 12px;
     padding: 10px 15px 0px 15px;
-    position: fixed;
-    z-index: 999;
 }
 
 /* Header */
@@ -109,6 +110,7 @@
     align-items: center;
     margin: 5px 8px 5px 0px;
     padding:5px 0px;
+    padding-right:7px;
     position: relative;
     border-radius: 12px;
     gap: 6px;
@@ -145,4 +147,14 @@
 
 a:visited {
     color: black
+}
+
+@media(max-width:768px){
+    .navbar{
+        padding:5px
+    }
+
+    .item-nav{
+        margin:5px
+    }
 }

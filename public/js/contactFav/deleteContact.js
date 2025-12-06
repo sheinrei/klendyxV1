@@ -22,7 +22,6 @@ $(document).on("click", "#btn-delete", async function (e) {
 
 
     if (data.success) {
-        createClassiqueModale(data.message)
         $(element).remove()
     }
 })

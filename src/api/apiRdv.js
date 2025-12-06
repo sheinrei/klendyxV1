@@ -17,10 +17,50 @@ import { getEvent } from "../service/event/getEvent.js";
 import { decrementCredit } from "../service/credit/decrementCredit.js";
 import { deleteEvent } from "../service/event/deleteEvent.js";
 import { sendSMS } from "../service/sms/sendSms.js";
+import { getUserData } from "../service/user/getUserData.js";
+import { sendSmsConfirmationRdv } from "../service/sms/sendSmsConfirmationRdv.js";
+import { sendEmailConfirmationRdv } from "../service/mailer/sendEmailConfirmationRdv.js";
 
 
 
-//creation d'un event depuis le formulaire créer un evenement
+
+//Envois d'une confirmation rendez-vous instant sans proposition
+routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
+    const { nom, prenom, email, phone, dayStart, hourStart, hourEnd, title, commentaire, methodContactSms, methodContactEmail, rappel, timeRappel } = req.body;
+
+
+
+    const id = req.userId
+    const dataUser = await getUserData(req, db, id);
+    const nameInitialisateur = dataUser.nom + " " + dataUser.prenom;
+    if (methodContactSms) {
+        try {
+
+            const message = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirme le ${dayStart} de ${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}`;
+            const sendSms = await sendSmsConfirmationRdv(phone, message);
+            console.log(sendSms)
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    if(methodContactEmail){
+        try{
+            const sendEmail = await sendEmailConfirmationRdv(email, title,prenom , nameInitialisateur, dayStart, hourStart, hourEnd);
+            console.log(sendEmail)
+
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    return res.json({ message: "bonjour" })
+})
+
+
+
+//creation d'un event depuis le formulaire créer un evenement avec validation
 routerApiRdv.post("/create", authMiddleware, (async (req, res) => {
 
     const id = req.userId
@@ -68,7 +108,6 @@ routerApiRdv.post("/create", authMiddleware, (async (req, res) => {
         return res.json({ success: true, message: sendSms.message })
     }
 }))
-
 
 
 //formulaire d'acceptation du receveur

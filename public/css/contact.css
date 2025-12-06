@@ -30,12 +30,24 @@ header {
     margin: 0;
 }
 
+/* layout */
+
+.main-frame {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* texte contact */
 .contact-frame {
     background: var(--main-bg);
-    border:1px solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     padding: 50px 60px;
+    width: 100%;
     max-width: 800px;
     animation: fadeIn 0.7s ease-out;
 }
@@ -111,11 +123,12 @@ header {
 
 /* formulaire */
 #contact-form {
-    width: 50%;
+    width: 100%;
+    max-width: 800px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-large);
-    padding: 30px;
+    padding: 50px 60px;
 
     display: flex;
     flex-direction: column;
@@ -189,13 +202,23 @@ button[type="submit"]:active {
     color: #e74c3c;
 }
 
+@media(max-width:1024px) {
+    .main-frame {
+        width: 80%;
+    }
+}
+
 @media (max-width: 768px) {
-    .contact-frame {
-        padding: 30px 25px;
+    .main-frame {
+        width: 90%;
     }
 
     .contact-frame h2 {
         font-size: 1.8em;
+    }
+
+    .contact-frame, #contact-form {
+        padding: 30px 20px
     }
 
     .contact-frame p {
@@ -205,8 +228,12 @@ button[type="submit"]:active {
 }
 
 @media (max-width: 600px) {
-    main {
-        padding: 25px;
+    .contact-frame{
+        padding:10px 20px
+    }
+    h2{
+        font-size:20px;
+        margin: 15px 20px
     }
 
     .title {

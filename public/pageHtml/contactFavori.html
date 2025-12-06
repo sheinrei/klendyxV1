@@ -49,12 +49,12 @@
 
 
     <!-- css -->
-    <link rel="stylesheet" href="./css/contactFav.css">
     <link rel="stylesheet" href="./css/modale/classiqueModale.css">
     <link rel="stylesheet" href="./css/generic.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/footer.css">
     <link rel="stylesheet" href="./css/pageHeader.css">
+    <link rel="stylesheet" href="./css/contactFav.css">
 
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
@@ -63,6 +63,7 @@
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
     <script src="./js/deconnectUser.js" defer></script>
+    <script src="./js/messageAlert.js" defer></script>
     <script src="./js/modale/classiqueModale.js" defer></script>
     <script src="./js/contactFav/createContact.js" defer></script>
     <script src="./js/contactFav/getContact.js" defer></script>
@@ -85,74 +86,169 @@
                 </div>
                 <div class="header-content">
                     <h1 class="header-title">Ajoutez des contacts dans vos favoris</h1>
-                    <p class="header-subtitle">Ajouter des contacts en favoris pour acceder plus facilement à leurs informations dans Klendyx</p>
+                    <p class="header-subtitle">Ajouter des contacts en favoris pour acceder plus facilement à leurs
+                        informations dans Klendyx</p>
                 </div>
             </header>
 
 
 
-            <section class="frame-add-contact">
+            <section class="frame-contact">
 
-                <form action="">
-                    <p class="add-contact-title">Ajouter un nouveau contact</p>
+                <section class="frame-add-contact">
 
-                    <span class="divider"></span>
-                    <div class="input-row">
-                        <label for="nom">Nom :</label>
-                        <input type="text" id="nom" name="nom">
+                    <header class="frame-row">
+                        <svg class="contact-main-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-user-plus w-5 h-5 text-primary">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" x2="19" y1="8" y2="14"></line>
+                            <line x1="22" x2="16" y1="11" y2="11"></line>
+                        </svg>
+                        <div>
+                            <p>Nouveau contact</p>
+                            <p class="subtitle">Ajouter un contact à vos favoris</p>
+                        </div>
+                    </header>
+
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-user w-4 h-4 text-muted-foreground">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <label for="nom">Nom</label>
+                                </div>
+                                <input type="text" id="nom" name="nom">
+                            </div>
+
+
+                            <div class="form-group">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-user w-4 h-4 text-muted-foreground">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <label for="prenom">Prenom</label>
+                                </div>
+                                <input type="text" id="prenom" name="prenom">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-phone w-4 h-4 text-muted-foreground">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                                <label for="nom">Téléphone</label>
+                            </div>
+                            <input type="text" id="phone" name="phone">
+                        </div>
+
+
+                        <div class="form-group">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-mail w-4 h-4 text-muted-foreground">
+                                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                </svg>
+                                <label for="email">Email</label>
+                            </div>
+                            <input type="text" id="email" name="email">
+                        </div>
+
+
+                        <button id="btn-create-submit" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-user-plus w-4 h-4">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <line x1="19" x2="19" y1="8" y2="14"></line>
+                                <line x1="22" x2="16" y1="11" y2="11"></line>
+                            </svg>
+                            Ajouter
+                        </button>
+                    </form>
+                </section>
+
+
+                <section class="frame-contact-saved">
+                    <header class="frame-row">
+                        <div class="contact-saved-header-left">
+                            <svg class="contact-main-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <div>
+                                <p>Contacts favoris</p>
+                                <p class="subtitle" id="contact-saved-subtitle">x contacts enregistrés</p>
+                            </div>
+                        </div>
+
+
+                        <div class="contact-saved-header-right">
+                            <div class="searching-bar">
+                                <svg class="logo-searching" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.3-4.3"></path>
+                                </svg>
+
+                                <input type="text" id="search-contact" name="search-contact">
+                            </div>
+
+                            <select name="nombre-contact-affichage" id="nombre-contact-affichage">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </header>
+
+
+
+
+
+
+
+
+                    <div id="frame-list-contact">
+                        <div class="contact-table-header">
+                            <p style="grid-column:1">NOM</p>
+                            <p style="grid-column:2">PRENOM</p>
+                            <p style="grid-column:3/5">TELEPHONE</p>
+                            <p style="grid-column:5/7">EMAIL</p>
+                            <p style="grid-column:7">ACTION</p>
+                        </div>
+
                     </div>
-
-                    <div class="input-row">
-                        <label for="prenom">Prenom :</label>
-                        <input type="text" id="prenom" name="prenom">
-                    </div>
-
-                    <div class="input-row">
-                        <label for="email">Email :</label>
-                        <input type="text" id="email" name="email">
-                    </div>
-
-                    <div class="input-row">
-                        <label for="nom">Telephone :</label>
-                        <input type="text" id="phone" name="phone">
-                    </div>
-                    <button id="btn-create-submit">Ajouter</button>
-                </form>
-
+                </section>
 
             </section>
-
-
-
-
-            <section class="frame-contact-saved">
-                <p class="frame-contact-title">Liste de tout vos contacts</p>
-
-                <label for="search-contact">Rechercher dans vos contact</label>
-                <div class="frame-searching">
-                    <input type="text" id="search-contact" name="search-contact">
-                    <div>
-                        <select name="nombre-contact-affichage" id="nombre-contact-affichage">
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="frame-list-contact">
-                    <div class="contact-row-header">
-                        <p>Nom</p>
-                        <p>Prenom</p>
-                        <p>Email</p>
-                        <p>Phone</p>
-                        <p>Action</p>
-                    </div>
-
-                </div>
-            </section>
-
 
 
         </main>
