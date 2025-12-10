@@ -1,9 +1,8 @@
-import { eventRdvCalendyxTable } from "../../models/eventRdvCalendyxTable.js";
+import { klendyxPropositionRdvTable } from "../../models/klendyxPropositionRdvTable.js";
 
 
-export async function updateEvent(req, db) {
-
-    const Table = eventRdvCalendyxTable(db);
+export async function updatePropositionRdv(req, db) {
+    const Table = klendyxPropositionRdvTable(db);
 
     const { responseUser,
         message,
@@ -11,27 +10,22 @@ export async function updateEvent(req, db) {
         idEvent } = req.body;
 
     const update = await Table.update({
-        response: responseUser,
-        messageReturn: message,
+        recipientReponse: responseUser,
+        recipientComment: message,
         state: "Repondu"
     },
         { where: { userId: id, id: idEvent } }
     )
-
-
     if (!update) {
         return { success: false, message: "Erreur Serveur, merci de réessayer plus tard." }
     }
-
-    return { success: true, message: "Notification prise en compte." }
+    return { success: true, data:update, message: "Merci pour votre réponse, la notification a bien été prise en compte.\n Un message sera envoyé à l'initialisateur de la demande pour indiquer votre réponse." }
 }
 
 
 
 export async function updateStateEvent(userId, idEvent, db, state) {
-
     const Table = eventTable(db);
-
     const update = Table.update({
         state: state,
     },
@@ -42,6 +36,5 @@ export async function updateStateEvent(userId, idEvent, db, state) {
     if (!update) {
         return { success: false, message: "Erreur Serveur, merci de réessayer plus tard." }
     }
-
     return { success: true, message: "Notification prise en compte." }
 }

@@ -1,4 +1,6 @@
 
+import { sendLowRemainingcredit } from "./sendLowRemainingCredit.js";
+
 export async function sendSmsConfirmationRdv(phone, message){
     const res = await fetch("https://api.brevo.com/v3/transactionalSMS/sms", {
         method: "POST",
@@ -18,11 +20,14 @@ export async function sendSmsConfirmationRdv(phone, message){
     const data = await res.json();
 
     console.log("data de l'envois de sms", data);
+    if(data.remainingCredits < 70){
+        sendLowRemainingcredit()
+    }
     
     if (data.message == 'Invalid telephone number'){
         return {success : false, message: "Numéro de telephone invalide."}
     }
     if (data.smsCount){
-        return {success : true, message : "Sms envoyé avec succès."}
+        return {success : true, message : "L'envois du sms s'est effectué avec succès."}
     }
 };

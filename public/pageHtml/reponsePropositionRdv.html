@@ -9,26 +9,24 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
 
+    <link rel="stylesheet" href="/css/generic.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/navbar.js" defer></script>
+    <script src="/js/footer.js" defer></script>
     <script src="/js/config.js" defer></script>
-    <script src="/js/logiqueFormValidEvent.js" defer></script>
+    <script src="/js/messageAlert.js" defer></script>
+    <script src="/js/responsPropositionRdv.js" defer></script>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-            min-height: 100vh;
+        main {
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
-            line-height: 1.6;
-            color: #1f2937;
+            justify-content: center;
         }
 
         .container {
@@ -105,7 +103,7 @@
             margin-top: 30px;
         }
 
-        button {
+        .button {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -154,6 +152,16 @@
             transform: translateY(0);
         }
 
+
+        #message-alert p {
+            padding: 12px;
+            text-align: left;
+            margin: 10px;
+            white-space: pre-line !important;
+            font-weight: 600;
+
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 30px 20px;
@@ -175,30 +183,34 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Confirmation de rendez-vous</h1>
-            <p>Veuillez confirmer ou refuser ce rendez-vous</p>
-            <p id="message-alert" style="font-weight: 700; color: black"> </p>
-        </div>
+    <section class="content" id="content">
+        <main>
+            <div class="container">
+                <div class="header">
+                    <h1>Confirmation de rendez-vous</h1>
+                    <p>Veuillez confirmer ou refuser ce rendez-vous</p>
+                    <p id="message-alert"></p>
+                </div>
 
-        <form>
-            <div class="form-group">
-                <label for="response-message">Message (optionnel)</label>
-                <textarea id="response-message" name="response-message"
-                    placeholder="Ajouter un message avec votre réponse..."></textarea>
-            </div>
+                <form>
+                    <div class="form-group">
+                        <label for="response-message">Message (optionnel)</label>
+                        <textarea id="response-message" name="response-message"
+                            placeholder="Ajouter un message avec votre réponse..."></textarea>
+                    </div>
 
-            <div class="button-group">
-                <button type="submit" id="btn-accepter" name="action" value="validate" class="btn-validate">
-                    Accepter
-                </button>
-                <button type="submit" name="action" id="btn-refuse" value="refuse" class="btn-refuse">
-                    Refuser
-                </button>
+                    <div class="button-group">
+                        <button class="button btn-validate" type="submit" id="btn-accepter" name="action" value="true">
+                            Accepter
+                        </button>
+                        <button class="button btn-refuse" type="submit" name="action" id="btn-refuser" value="false">
+                            Refuser
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
+        </main>
+    </section>
 </body>
 
 </html>

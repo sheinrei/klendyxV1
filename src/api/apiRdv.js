@@ -1,6 +1,5 @@
 import express from "express";
 const routerApiRdv = express.Router()
-import sendFile from "../service/sendFile.js";
 
 //securité
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -9,125 +8,195 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import db from "../sequelize.js";
 
 
-import { createEvent } from "../service/event/createEvent.js";
-import { sendNewEvent } from "../service/mailer/sendNewEvent.js";
+import { createKlendyxPropositionRdv } from "../service/event/createKlendyxPropositionRdv.js";
 import generateToken from "../service/token/generateToken.js";
-import { updateEvent, updateStateEvent } from "../service/event/updateEvent.js";
-import { getEvent } from "../service/event/getEvent.js";
+import { updatePropositionRdv, updateStateEvent } from "../service/event/updatePropositionRdv.js";
+import { getAllPropositionRdv, getPropositionRdvById } from "../service/event/getPropositionRdv.js";
 import { decrementCredit } from "../service/credit/decrementCredit.js";
 import { deleteEvent } from "../service/event/deleteEvent.js";
-import { sendSMS } from "../service/sms/sendSms.js";
 import { getUserData } from "../service/user/getUserData.js";
+
+import { sendSmsPropositionRdv } from "../service/sms/sendSmsPropositionRdv.js";
+import { sendPropositionRdv } from "../service/mailer/sendPropositionRdv.js";
 import { sendSmsConfirmationRdv } from "../service/sms/sendSmsConfirmationRdv.js";
 import { sendEmailConfirmationRdv } from "../service/mailer/sendEmailConfirmationRdv.js";
 
+import { createRappelRdv } from "../service/rappelRdv/createRappelRdv.js";
+import { sendPropositionRdvResolv } from "../service/mailer/sendPropositionRdvResolv.js";
 
 
 
-//Envois d'une confirmation rendez-vous instant sans proposition
+
+//Envois de rendez-vous
 routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
-    const { nom, prenom, email, phone, dayStart, hourStart, hourEnd, title, commentaire, methodContactSms, methodContactEmail, rappel, timeRappel } = req.body;
+    const { methodRdvProposition, methodRdvConfirmation,
+        nom,prenom,
+        email, phone,
+        dayStart, hourStart, hourEnd,
+        title, commentaire,
+        methodContactSms, methodContactEmail,
+        rappel,
+        rappelSms, rappelEmail,
+        timeRappel } = req.body;
 
 
-
-    const id = req.userId
-    const dataUser = await getUserData(req, db, id);
+    const idUser = req.userId
+    const dataUser = await getUserData(req, db, idUser);
     const nameInitialisateur = dataUser.nom + " " + dataUser.prenom;
-    if (methodContactSms) {
-        try {
+    let dataReturn = {}
 
-            const message = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirme le ${dayStart} de ${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}`;
-            const sendSms = await sendSmsConfirmationRdv(phone, message);
-            console.log(sendSms)
+    //rempli la bdd rappel de rdv
+    if (rappel) {
+        let method = ""
+        if (rappelSms) method += "sms"
+        if (rappelSms && rappelEmail) method += "-"
+        if (rappelEmail) method += "email"
+        const date = new Date(`${dayStart.replace(":", "-")}T${hourStart}`)
+        const dayStartFr = date.toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" })
+        const message = `Bonjour ${prenom}, rappel de votre rendez-vous avec ${nameInitialisateur} le ${dayStartFr} de ${hourStart.replace(":", "h")} à ${hourEnd.replace(":", "h")}`
 
-        } catch (err) {
-            console.log(err)
+        const createRappel = await createRappelRdv(db, idUser, phone, email, method, date, timeRappel, message)
+
+        if (createRappel.success && rappelEmail) {
+            decrementCredit(db, req, "mail")
+        }
+        if (createRappel.success && rappelSms) {
+            decrementCredit(db, req, "sms")
+        }
+        dataReturn["rappel"] = {
+            success: createRappel.success,
+            message: createRappel.message
         }
     }
 
-    if(methodContactEmail){
-        try{
-            const sendEmail = await sendEmailConfirmationRdv(email, title,prenom , nameInitialisateur, dayStart, hourStart, hourEnd);
-            console.log(sendEmail)
 
-        }catch(err){
-            console.log(err)
+    if (methodRdvConfirmation) {
+        if (methodContactSms) {
+            try {
+                const message = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirme le ${dayStart} de ${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}`;
+                const sendSms = await sendSmsConfirmationRdv(phone, message);
+                console.log(sendSms)
+                dataReturn["sms"] = {
+                    success: sendSms.success,
+                    message: sendSms.message
+                }
+                if (sendSms.success) {
+                    await decrementCredit(db, req, "sms")
+                }
+            } catch (err) {
+                console.log(err)
+                dataReturn["sms"] = {
+                    success: false,
+                    message: err
+                }
+            }
+        }
+        if (methodContactEmail) {
+            try {
+                const sendEmail = await sendEmailConfirmationRdv(email, title, commentaire, prenom, nameInitialisateur, dayStart, hourStart, hourEnd);
+                dataReturn["email"] = {
+                    success: sendEmail.success,
+                    message: sendEmail.message
+                }
+                if (sendEmail.success) {
+                    await decrementCredit(db, req, "mail")
+                }
+
+            } catch (err) {
+                console.log(err)
+                dataReturn["email"] = {
+                    success: false,
+                    message: err
+                }
+            }
         }
     }
 
-    return res.json({ message: "bonjour" })
+    if (methodRdvProposition) {
+        const createProposition = await createKlendyxPropositionRdv(db, req);
+        const token = await generateToken(idUser, "validationEventEmail", db);
+        const url = `${process.env.HOST}/valider-rdv/${token.token}/${idUser}/${createProposition.create.id}`;
+
+        if (methodContactEmail) {
+            try {
+                const send = await sendPropositionRdv(url, email, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd);
+                dataReturn["email"] = {
+                    success: send.success,
+                    message: send.message
+                }
+                if (send.success) {
+                    await decrementCredit(db, req, "mail")
+                }
+            } catch (err) {
+                console.log(err)
+                dataReturn["email"] = {
+                    success: false,
+                    message: err
+                }
+            }
+        }
+
+        if (methodContactSms) {
+            const textSms = `Bonjour,
+                ${nameInitialisateur} vous propose un rendez-vous "${title}"
+                le ${dayStart} de ${hourStart} a ${hourEnd}.
+                Merci de repondre en cliquant sur ce lien ${url}
+                `
+
+            try {
+                const sendSms = await sendSmsPropositionRdv(phone, textSms);
+                console.log(sendSms)
+                dataReturn["sms"] = {
+                    success: sendSms.success,
+                    message: sendSms.message
+                }
+                if (send.success) {
+                    await decrementCredit(db, req, "sms")
+                }
+
+            } catch (err) {
+                dataReturn["sms"] = {
+                    success: false,
+                    message: err
+                }
+            }
+        }
+    }
+
+    return res.json({ success: true, data: dataReturn })
 })
 
 
 
-//creation d'un event depuis le formulaire créer un evenement avec validation
-routerApiRdv.post("/create", authMiddleware, (async (req, res) => {
 
-    const id = req.userId
-    const create = await createEvent(db, req);
-    const idEvent = create.create.id;
+//mis à jour de la réponse d'une proposition de rendez-vous
+routerApiRdv.post("/reponsePropositionRdv", async (req, res) => {
 
-    if (!create) {
-        return res.json({ success: false, message: create.message })
+    const searchProposition = await getPropositionRdvById(db, req)
+    if (!searchProposition.success) {
+        return res.json({ success: false, message: searchProposition.message })
+    }
+    if(searchProposition.data.recipientReponse !== null){
+        return res.json({success:false, message : "Une réponse pour cet événement a déjà été renseigné, impossible de le changer"})
     }
 
-    const plateforme = req.body.plateformSender;
-    let plateformeSms;
-    let plateformeEmail;
+    const update = await updatePropositionRdv(req, db);
 
-    if (plateforme.includes("sms")) {
-        plateformeSms = true
-    }
-    if (plateforme.includes("email")) {
-        plateformeEmail = true
-    }
-
-    if (plateformeEmail) {
-        const email = req.body.recipientContactEmail;
-        const token = await generateToken(id, "validationEventEmail", db);
-        const url = `${process.env.HOST}/api/rdv/valid/${token}/${id}/${idEvent}`;
-        const send = await sendNewEvent(req, url, email, res);
-        if (send.success) {
-            await decrementCredit(db, req, "mail")
-            await updateStateEvent(id, idEvent, db, "Email envoyé, en attente de reponse.")
-            return res.json({ success: true, message: send.message })
-        }
-    }
-
-    //Route a faire pour la gestion par sms
-    if (plateformeSms) {
-
-        const sendSms = await sendSMS(req.body.recipientContactSms, `${req.body.titleEvent}.\n${req.body.messageEvent}`);
-
-        console.log(sendSMS)
-        if (!sendSms.success) {
-            await decrementCredit(db, req, "sms")
-            await updateStateEvent(id, db, idEvent, "Sms envoyé, en attente de reponse.")
-            return res.json({ success: false, message: sendSms.message })
-        }
-        return res.json({ success: true, message: sendSms.message })
-    }
-}))
-
-
-//formulaire d'acceptation du receveur
-routerApiRdv.get("/valid/:token/:id/:idEvent", (req, res) => {
-
-    sendFile("/public/pageHtml/formValidEvent.html", res)
-})
-
-//api update Event
-routerApiRdv.post("/update", async (req, res) => {
-    const update = await updateEvent(req, db);
 
     if (update.success == true) {
-        res.json({ success: true, message: update.message })
+        const dataUser = await getUserData(req, db, req.body.id);
+        const email = dataUser.email;
+        const nameInitialisateur = `${dataUser.nom} ${dataUser.prenom}`;
+        const recipientPropositionFullName = searchProposition.data.recipientName;
+        sendPropositionRdvResolv(req, email,nameInitialisateur, recipientPropositionFullName )
+        return res.json({ success: true, message: update.message })
     }
 })
+
 
 //get tout les events de l'user
 routerApiRdv.get("/get", authMiddleware, async (req, res) => {
-    const event = await getEvent(db, req);
+    const event = await getAllPropositionRdv(db, req);
 
     if (event.success == true) {
         res.json({ success: true, event })

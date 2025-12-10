@@ -23,7 +23,7 @@ export async function sendMatchingEvent(req, url, email) {
                         <tr>
                             <td style="background-color: #716af9;padding: 40px 30px;text-align: center;border-radius:20px">
                                 <h1 style="color: #ffffff;font-size: 28px;font-weight: 700;margin: 0;line-height: 1.3;">
-                                    CALENDYX - Demande de Rendez-Vous
+                                    KLENDYX - Demande de Rendez-Vous
                                 </h1>
                             </td>
                         </tr>
@@ -43,7 +43,7 @@ export async function sendMatchingEvent(req, url, email) {
                                 
                                 <!-- PARAGRAPHE SECONDAIRE (optionnel) -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    Afin de convenir d'une disponibilité mutuelle merci de cliquer sur le liens qui vous dirigera sur une instance Calendyx.
+                                    Afin de convenir d'une disponibilité mutuelle merci de cliquer sur le liens qui vous dirigera sur une instance Klendyx.
                                 </p>
                                 
                                 <!-- CALL TO ACTION -->
@@ -70,7 +70,7 @@ export async function sendMatchingEvent(req, url, email) {
                                 
                                 <!-- TEXTE DE CLÔTURE -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    Calendyx "Gérez votre emplois du temps, gagnez du temps."
+                                    Klendyx "Gérez votre emplois du temps, gagnez du temps."
                                 </p>
                                 
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">

@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Créer un evenement Klendyx</title>
+    <title>Klendyx créer un rendez-vous</title>
     <meta name="description"
         content="Liste de tous les services proposés par Klendyx, gérez votre emploi du temps en toute facilité.">
 
@@ -91,9 +91,50 @@
             <p id="input-message-alert"></p>
 
 
+
             <section class="main-content-rdv">
 
                 <section class="content-create-rdv-left">
+
+                    <section class="card-rdv">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor"
+                                    stroke-width="2" />
+                                <path d="M3 10h18" stroke="currentColor" stroke-width="2" />
+                                <path d="M8 2v4M16 2v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <circle cx="10" cy="15" r="1.5" fill="currentColor" />
+                                <circle cx="14" cy="15" r="1.5" fill="currentColor" />
+                            </svg>
+
+                            <h2 class="card-title">Choisir la méthode de rendez-vous</h2>
+                        </div>
+
+
+                        <div class="frame-select-method-rdv">
+
+                            <label for="method-rdv-confirmation" class="card-select-method-rdv">
+                                <div class="card-row-title">
+                                    <input type="radio" name="method-rdv" id="method-rdv-confirmation" checked>
+                                    <span class="card-title">Confirmation</span>
+                                </div>
+                                <p>Confirme un rendez-vous avec la date et l'heure</p>
+                            </label>
+
+                            <label for="method-rdv-proposition" class="card-select-method-rdv">
+                                <div class="card-row-title">
+                                    <input type="radio" id="method-rdv-proposition" name="method-rdv">
+                                    <span class="card-title">Proposition</span>
+                                </div>
+                                <p> Le destinataire reçoit votre proposition, il peut la confirmer ou la
+                                    refuser en vous laissant un message. Vous pouvez suivre l'état de l'avancement dans
+                                    votre
+                                    tableau de
+                                    bord
+                                </p>
+                            </label>
+                        </div>
+                    </section>
 
                     <!-- search bar -->
                     <section class="card-rdv frame-card-recapitulatif" id="frame-searching-bar">
@@ -107,12 +148,13 @@
                             <span class="card-title">Rechercher un contact dans vos favoris </span>
                         </div>
                         <div class="search-bar">
-                            <input type="text" placeholder="Nom, prénom, email ou téléphonne" id="search-bar">
+                            <input type="text" placeholder="Nom, prénom, email ou téléphonne" id="search-bar"
+                                autocomplete="one-time-code">
                         </div>
                     </section>
 
                     <!--info client -->
-                    <section class="card-rdv">
+                    <section class="card-rdv" id="frame-info-client">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -183,7 +225,7 @@
 
 
                     <!--detail du rdv-->
-                    <section class="card-rdv">
+                    <section class="card-rdv" id="frame-detail-rdv">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -283,7 +325,7 @@
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                             </svg>
-                            <span class="card-title"> Methode de contact</span>
+                            <span class="card-title"> Méthode de contact</span>
                         </div>
 
 
@@ -314,7 +356,7 @@
 
 
                     <!-- rappel rdv -->
-                    <section class="card-rdv">
+                    <section class="card-rdv" id="frame-rappel">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -351,6 +393,20 @@
                                 <input type="number" min="1" max="48" value="1" id="data-rdv-hour-rappel">
                                 <span>heures avant</span>
                             </div>
+
+                            <label class="label-full-row" style="background-color:white; margin-top:10px"
+                                for="data-rdv-rappel-method-sms">
+                                <input type="checkbox" id="data-rdv-rappel-method-sms"
+                                    name="data-rdv-rappel-method-sms">
+                                <span>Envoyer le rappel par sms</span>
+                            </label>
+
+                            <label class="label-full-row" style="background-color:white; margin-top:10px"
+                                for="data-rdv-rappel-method-email">
+                                <input type="checkbox" id="data-rdv-rappel-method-email"
+                                    name="data-rdv-rappel-method-email">
+                                <span>Envoyer le rappel par email</span>
+                            </label>
                         </div>
                     </section>
                 </section>
@@ -379,6 +435,23 @@
 
                         <div class="frame-data-recapitulatif">
 
+                            <!-- methode rdv -->
+                            <div class="recapitulatif-row">
+                                <div>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor"
+                                            stroke-width="2"></rect>
+                                        <path d="M3 10h18" stroke="currentColor" stroke-width="2"></path>
+                                        <path d="M8 2v4M16 2v4" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round"></path>
+                                        <circle cx="10" cy="15" r="1.5" fill="currentColor"></circle>
+                                        <circle cx="14" cy="15" r="1.5" fill="currentColor"></circle>
+                                    </svg>
+                                    </svg>
+                                    <span>Méthode rdv</span>
+                                </div>
+                                <span id="recapitulatif-method-rdv">Confirmation</span>
+                            </div>
                             <!--nom client-->
                             <div class="recapitulatif-row">
                                 <div>
@@ -469,6 +542,159 @@
                         </div>
 
 
+                        <!-- recap des credits -->
+                        <div class="frame-credit">
+                            <div class="card-row-title">
+                                <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                    viewBox="0 0 30 30" role="img" aria-label="Pièce Klendyx">
+                                    <defs>
+                                        <radialGradient id="goldGrad" cx="35%" cy="30%" r="80%">
+                                            <stop offset="0%" stop-color="#ffe79a" />
+                                            <stop offset="55%" stop-color="#f0b336" />
+                                            <stop offset="100%" stop-color="#c18810" />
+                                        </radialGradient>
+                                    </defs>
+
+                                    <circle cx="15" cy="15" r="14" fill="#5a3f12" />
+                                    <circle cx="15" cy="15" r="13" fill="url(#goldGrad)" stroke="#7a5915"
+                                        stroke-width="0.6" />
+                                    <circle cx="15" cy="15" r="10.8" fill="none" stroke="#e6b54a" stroke-width="0.9" />
+                                    <text x="15" y="15" text-anchor="middle" dominant-baseline="middle"
+                                        font-family="Georgia, 'Times New Roman', serif" font-size="12" font-weight="700"
+                                        fill="#2b1b08">K</text>
+                                </svg>
+                                <span>Vos crédits</span>
+                            </div>
+
+                            <p>Actuellement</p>
+                            <div>
+                                <div class="recapitulatif-row">
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+                                            </path>
+                                        </svg>
+                                        <span>Sms</span>
+                                    </div>
+                                    <span id="credit-sms-preview">--</span>
+                                </div>
+
+                                <div class="recapitulatif-row">
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect fill="none" stroke="currentColor" width="20" height="16" x="2" y="4"
+                                                rx="2">
+                                            </rect>
+                                            <path fill="none" stroke="currentColor"
+                                                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                        </svg>
+                                        <span>Email</span>
+                                    </div>
+                                    <span id="credit-email-preview">--</span>
+                                </div>
+                            </div>
+
+                            <p>Après l'envois</p>
+
+                            <div>
+                                <div class="recapitulatif-row">
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z">
+                                            </path>
+                                        </svg>
+                                        <span>Sms</span>
+                                    </div>
+                                    <span id="credit-sms-after">--</span>
+                                </div>
+
+                                <div class="recapitulatif-row">
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <rect fill="none" stroke="currentColor" width="20" height="16" x="2" y="4"
+                                                rx="2">
+                                            </rect>
+                                            <path fill="none" stroke="currentColor"
+                                                d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                        </svg>
+                                        <span>Email</span>
+                                    </div>
+                                    <span id="credit-email-after">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </section>
+
+                    <section class="card-rdv" id="frame-sync-calendar">
+                        <div class="card-row-title">
+                            <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                <path d="M10 9H8"></path>
+                                <path d="M16 13H8"></path>
+                                <path d="M16 17H8"></path>
+                            </svg>
+                            <span class="card-title">Sauvegarder le rendez-vous dans votre agenda</span>
+                        </div>
+
+
+                        <div class="calendar-row">
+                            <!-- Klendyx -->
+                            <div class="external-input-row" id="external-calendar-save-klendyx">
+                                <input type="checkbox" id="external-klendyx" name="external-klendyx"
+                                    style="display:none">
+                                <label class="external-label-calendar" for="external-klendyx" title="Klendyx">
+                                    <img width="38" height="38" src="./../images/litleLogo.png" alt="klendyx-logo" />
+                                    <span class="badge">✔️</span>
+                                </label>
+                            </div>
+
+                            <!-- google -->
+                            <div class="external-input-row" id="external-calendar-save-google">
+                                <input type="checkbox" id="external-google" name="external-google" style="display:none">
+                                <label class="external-label-calendar" for="external-google" title="Google">
+                                    <img width="38" height="38" src="https://img.icons8.com/fluency/48/google-logo.png"
+                                        alt="google-logo" />
+                                    <span class="badge">✔️</span>
+                                </label>
+                            </div>
+
+                            <!-- Apple -->
+                            <div class="external-input-row" id="external-calendar-save-apple">
+                                <input type="checkbox" id="external-apple" name="external-apple" style="display:none">
+                                <label class="external-label-calendar" for="external-apple" title="Apple">
+                                    <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png"
+                                        alt="mac-os" />
+                                    <span class="badge">✔️</span>
+                                </label>
+                            </div>
+
+                            <!-- Outlook-->
+                            <div class="external-input-row" id="external-calendar-save-outlook">
+                                <input type="checkbox" id="external-outlook" name="external-outlook"
+                                    style="display:none">
+                                <label class="external-label-calendar" for="external-outlook" title="Outlook">
+                                    <img width="38" height="38"
+                                        src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
+                                        alt="microsoft-outlook-2019" />
+                                    <span class="badge">✔️</span>
+                                </label>
+                            </div>
+                        </div>
+
                     </section>
 
                     <button class="btn btn-primary" id="btn-submit-rdv">Créer le rendez-vous </button>
@@ -530,21 +756,21 @@
                                 <p style="text-align: center; margin: 4px 0px; color:var(--text-secondary)">Aujourd'hui
                                 </p>
                                 <div>
-                                    <p class="previsualisation-phone-body-sms">
+                                    <p class="previsualisation-phone-body-sms" id="previsualisation-phone-body-sms">
                                         Bonjour, votre rendez-vous
-                                        "<span id="previsualisation-phone-title">[Titre]</span>"
+                                        "[Titre]"
                                         avec
-                                        <span id="previsualisation-phone-name">[Votre nom prénom]</span>
+                                        [Votre nom prénom]
                                         est confirmé pour le
-                                        <span id="previsualisation-phone-date">[Date]</span>
+                                        [Date]
                                         de
-                                        <span id="previsualisation-phone-horraire">[Heure] à [Heure]</span>
+                                        [Heure] à [Heure]
                                     </p>
                                 </div>
                             </div>
 
                             <div class="previsualisation-phone-footer">
-                                <p>92/160 caractères</p>
+                                <p><span id="sms-count-length">0</span>/160 caractères</p>
                                 <p>Message</p>
                             </div>
                         </div>
@@ -567,7 +793,7 @@
                             <div class="previsualisation-email-header">
                                 <div class="frame-row">
                                     <span style="min-width:50px; display:inline-block;">De:</span>
-                                    <span>Klendyx.com</span>
+                                    <span>Klendyx</span>
                                 </div>
 
                                 <div class="frame-row">
@@ -579,8 +805,7 @@
                                 <div class="frame-row">
                                     <span style="min-width:50px; display:inline-block;">Objet:</span>
                                     <span>
-                                        <strong>Confirmation de votre rendez-vous -
-                                            "<span id="previsualisation-email-title">[Titre]</span>"
+                                        <strong id="email-objet">Votre rendez-vous avec [Votre nom]
                                         </strong>
                                     </span>
                                 </div>
@@ -589,12 +814,12 @@
 
                             <div class="previsualisation-email-body">
                                 <p>Bonjour <span id="previsualisation-email-name">[Prénom]</span>,</p>
-                                <p>Nous vous confirmons votre rendez-vous avec
+                                <p id="email-content-header">Nous vous confirmons votre rendez-vous avec
                                     <span id="previsualisation-email-name-initialisateur">[Name initialisateur]</span>
                                 </p>
 
+                                <p>Information du rendez-vous :</p>
                                 <div class="previsualisation-email-body-data">
-
                                     <div class="previsualisation-email-body-data-row">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -625,9 +850,10 @@
 
                                 </div>
 
-                                <div>
-                                    <p id="previsualisation-email-information-complementaire"></p>
-                                </div>
+
+                                <p id="previsualisation-email-information-complementaire"></p>
+                                <p id="input-text-proposition"></p>
+                                <p id="input-btn-proposition"></p>
                             </div>
 
                             <div class="previsualisation-email-footer">

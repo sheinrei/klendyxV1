@@ -1,11 +1,11 @@
 
 
 
-export function createOption(recipientEmail, initialisateur, html,titleEvent){
+export function createOption(recipientEmail,nameInitialisateur, html,titleEvent){
         const mailOptions = {
-        from: '"Klendyx" <no-reply@calendyx.com>',
+        from: '"Klendyx" <no-reply@klendyx.com>',
         to: recipientEmail,
-        subject: `Votre rendez-vous avec ${initialisateur}`,
+        subject: `Votre rendez-vous avec ${nameInitialisateur}`,
         text: titleEvent,
         html: html,
     };

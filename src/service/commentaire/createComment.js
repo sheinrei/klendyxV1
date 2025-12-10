@@ -15,7 +15,7 @@ export async function createComment(req, db) {
         })
 
         if(newComment){
-            return {success:true, message:"Votre commentaire à bien été déposé. \n L’équipe Calendyx mettra tout en œuvre pour vous répondre dans les plus brefs délais."}
+            return {success:true, message:"Votre commentaire à bien été déposé. \n L’équipe Klendyx mettra tout en œuvre pour vous répondre dans les plus brefs délais."}
         }
     } catch (err) {
         console.log('Erreur lors de l\'enregistrement du commentaire', err)

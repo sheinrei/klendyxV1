@@ -5,20 +5,31 @@ dotenv.config();
 import { Sequelize } from "sequelize";
 import userTable from "./models/utilisateurTable.js";
 import tokenTable from "./models/tokenTable.js";
-import { eventRdvCalendyxTable } from "./models/eventRdvCalendyxTable.js";
+import { klendyxPropositionRdvTable } from "./models/klendyxPropositionRdvTable.js";
 import { creditTable } from "./models/creditTable.js";
 import { commentTable } from "./models/commentTable.js";
 import { contactFavTable } from "./models/contactFavTable.js";
 import { userSessionTable } from "./models/userSessionTable.js";
 import { matchingEventTable } from "./models/matchingEventTable.js";
-import { eventCalendyxTable } from "./models/eventCalendyxTable.js";
+import { eventKlendyxTable } from "./models/eventKlendyxTable.js";
+import { rappelRdvTable } from "./models/rappelRdvTable.js";
 
 
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
-    timezone: '+02:00',
+    timezone: '+00:00',
     logging: false,
+    dialectOptions: {
+        useUTC: true,
+        dateStrings: true,
+        typeCast: function (field, next) {
+            if (field.type === "DATETIME") {
+                return field.string(); 
+            }
+            return next();
+        }
+    }
 });
 
 
@@ -28,13 +39,14 @@ export async function initDb() {
     // init des tables
     userTable(db);
     tokenTable(db);
-    eventRdvCalendyxTable(db);
+    klendyxPropositionRdvTable(db);
     creditTable(db);
     commentTable(db);
     contactFavTable(db);
     userSessionTable(db)
     matchingEventTable(db)
-    eventCalendyxTable(db)
+    eventKlendyxTable(db)
+    rappelRdvTable(db)
 
     let force = process.env.SEQUELIZE_FORCE
     force === "true" ? (force = true, console.log("🗑️  Sequelize remise à zero de la db")) : force = false

@@ -4,7 +4,7 @@ $(async function () {
         "header": `
         <section class="navbar" id="navbar">
         <header class="navbar-header">
-            <img class="navbar-logo" src="./../images/litleLogo.png" alt="logo de Klendyx">
+            <img class="navbar-logo" src="/../images/litleLogo.png" alt="logo de Klendyx">
             <p class="navbar-title">Klendyx</p>
         </header>
 
@@ -111,7 +111,7 @@ $(async function () {
                 </a>`,
         },
         "createEvent": {
-            html: `<a class="item-nav" href="/creer-rdv" title="Créer un evenement" id="navbar-event">
+            html: `<a class="item-nav" href="/creer-rdv" title="Créer un evenement" id="navbar-creer-rdv">
                     <img class="item-nav-logo" width="50" height="50" src="https://img.icons8.com/ios/50/event-accepted-tentatively.png"
                         alt="event-accepted-tentatively" />
                     <p>Créer un rendez-vous</p>
@@ -183,11 +183,11 @@ $(async function () {
     $("#content").prepend(htmlNavbar)
 
 
+    
     // === Gestion du background pour l'item a selon la page actuelle
-
     const url = document.location.href
     const currentPage = url.split("/")[3]
-    const arrayUrl = ["index","connexion", "mon-compte", "dashboard", "agenda","event", "contacts-favoris", "contact"]
+    const arrayUrl = ["index", "connexion", "mon-compte", "dashboard", "agenda", "creer-rdv", "contacts-favoris", "contact"]
     arrayUrl.map((url)=> {
         if (url === currentPage){
             $(`#navbar-${url}`).css({

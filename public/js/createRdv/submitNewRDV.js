@@ -1,76 +1,86 @@
-function controleInput(nom, prenom, email, validEmail, phone, dayStart, hourStart, hourEnd, title, methodContactSms, methodContactEmail) {
+function invalidInput(elementInput, message) {
+    $(elementInput).css("border", "1px solid red");
+    scrollTo()
+    MessageAlert.create("warning", "#input-message-alert", message)
+}
+
+function controleInput(nom, prenom, email, validEmail, phone, dayStart, hourStart, hourEnd, title, methodContactSms, methodContactEmail, creditEmail, creditSms) {
 
     if (!nom) {
-        $("#data-rdv-nom").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir un nom");
+        invalidInput("#data-rdv-nom", "Veuillez saisir un nom")
         return false
     }
-
     if (!prenom) {
-        $("#data-rdv-prenom").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir un prenom");
+        invalidInput("#data-rdv-prenom", "Veuillez saisir un prenom")
         return false
     }
 
     if (!email && methodContactEmail) {
-        $("#data-rdv-email").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir une adresse email");
+        invalidInput("#data-rdv-email", "Veuillez saisir une adresse email")
         return false
     }
 
     if (!validEmail && methodContactEmail) {
-        $("#data-rdv-email").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir une adresse email valide");
+        invalidInput("#data-rdv-email", "Veuillez saisir une adresse email valide")
         return false
     }
 
     if (!phone && methodContactSms) {
-        $("#data-rdv-phone").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir une numméro de téléphone");
+        invalidInput("#data-rdv-phone", "Veuillez saisir une numméro de téléphone")
         return false
     }
 
     if (!methodContactEmail && !methodContactSms) {
-        $(".label-full-row").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez sélectionner une methode de contact");
+        invalidInput(".label-full-row", "Veuillez sélectionner une methode de contact")
         return false
     }
 
     if (!dayStart) {
-        $("#data-rdv-day-start").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir une date");
+        invalidInput("#data-rdv-day-start", "Veuillez saisir la date du rendez-vous")
         return false
     }
 
     if (!hourStart) {
-        $("#data-rdv-horraire-start").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir l'heure de début");
+        invalidInput("#data-rdv-horraire-start", "Veuillez saisir l'heure de début")
         return false
     }
 
     if (!hourEnd) {
-        $("#data-rdv-horraire-end").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir l'heure de fin");
+        invalidInput("#data-rdv-horraire-end", "Veuillez saisir l'heure de fin")
         return false
     }
 
     if (!title) {
-        $("#data-rdv-title").css("border", "1px solid red");
-        scrollTo()
-        MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir un titre pour le rendez-vous");
+        invalidInput("#data-rdv-title", "Veuillez saisir le titre du rendez-vous")
         return false
     }
-    return true
 
+    if ((methodContactEmail || $("#data-rdv-rappel-method-email").is(":checked")) && creditEmail < 0) {
+        scrollTo()
+        MessageAlert.create("warning", "#input-message-alert", "Vos crédit d'envois d'email ne sont pas suffisant, veuillez ajouter du crédit ou attendre le rechargement hebdomadaire");
+        return false
+    }
+
+    if ((methodContactSms || $("#data-rdv-rappel-method-sms").is(":checked")) && creditSms < 0) {
+        scrollTo()
+        MessageAlert.create("warning", "#input-message-alert", "Vos crédit d'envois de sms ne sont pas suffisant, veuillez ajouter du crédit ou attendre le rechargement hebdomadaire");
+        return false
+    }
+
+    let rappel = $("#recapitulatif-rappel").text()
+    rappel === "Désactivé" ? rappel = false : rappel = true;
+    if (
+        rappel && !(
+            $("#data-rdv-rappel-method-sms").is(":checked")
+            || $("#data-rdv-rappel-method-email").is(":checked")
+        )
+    ) {
+        scrollTo()
+        MessageAlert.create("warning", "#input-message-alert", "Vous avez activé le rappel mais pas définis de méthode pour l'envoyer");
+        return false
+    }
+
+    return true
 }
 
 function resetCss() {
@@ -101,15 +111,109 @@ function parseSmsNumber(phone) {
     return { success: true, message: "Numero tel au bon format", phone: result }
 }
 
+function resetFormulaire() {
+    $("#data-rdv-nom").val("")
+    $("#data-rdv-prenom").val("")
+    $("#data-rdv-email").val("")
+    $("#data-rdv-phone").val("")
+    $("#data-rdv-day-start").val("")
+    $("#data-rdv-horraire-start").val("")
+    $("#data-rdv-horraire-end").val("")
+    $("#data-rdv-title").val("")
+    $("#data-rdv-commentaire").val("")
+
+
+    $("#recapitulatif-client").text("--")
+    $("#recapitulatif-date").text("--")
+    $("#recapitulatif-titre").text("--")
+    $("#recapitulatif-horraire").text("--")
+    $("#credit-sms-preview").text($("#credit-sms-after").text())
+    $("#credit-email-preview").text($("#credit-email-after").text())
+
+    $("#credit-email-after").text("--")
+    $("#credit-sms-after").text("--")
+
+    setDataPrevisualisationEmail("[Votre nom]");
+    setDataPrevisualisationSms("[votre nom]")
+}
+
+function toRFC3339WithOffset(date) {
+    const pad = n => String(n).padStart(2, "0");
+
+    const offset = -date.getTimezoneOffset();
+    const sign = offset >= 0 ? "+" : "-";
+
+    const hhOffset = pad(Math.floor(Math.abs(offset) / 60));
+    const mmOffset = pad(Math.abs(offset) % 60);
+
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T` +
+        `${pad(date.getHours())}:${pad(date.getMinutes())}:00` +
+        `${sign}${hhOffset}:${mmOffset}`;
+}
+
+async function saveInGoogle(host, dayStart, hourStart, hourEnd, title, description) {
+    const [year, month, day] = dayStart.split('-').map(Number);
+    const [hStart, mStart] = hourStart.split(':').map(Number);
+    const [hEnd, mEnd] = hourEnd.split(':').map(Number);
+
+    const startDate = new Date(year, month - 1, day, hStart, mStart);
+    const endDate = new Date(year, month - 1, day, hEnd, mEnd);
+
+    const dateStartRFC = toRFC3339WithOffset(startDate);
+    const dateEndRFC = toRFC3339WithOffset(endDate);
+
+
+    const savedGoogle = await fetch(`${host}/api/calendar/google/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "Application/json"
+        },
+        body: JSON.stringify({
+            summary: title,
+            description,
+            dateStart: dateStartRFC,
+            dateEnd: dateEndRFC,
+        })
+    })
+    const resSavedGoogle = await savedGoogle.json()
+    return resSavedGoogle
+}
+
+async function saveInKlendyx(host, title, description, dayStart, hourStart, hourEnd) {
+
+    const [year, month, day] = dayStart.split('-').map(Number);
+    const [hStart, mStart] = hourStart.split(':').map(Number);
+    const [hEnd, mEnd] = hourEnd.split(':').map(Number);
+
+    const startDate = new Date(year, month - 1, day, hStart, mStart);
+    const endDate = new Date(year, month - 1, day, hEnd, mEnd);
+
+    const dateStartRFC = toRFC3339WithOffset(startDate);
+    const dateEndRFC = toRFC3339WithOffset(endDate);
+
+    const savedKlendyx = await fetch(`${host}/api/event/klendyx/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "Application/json"
+        },
+        body: JSON.stringify({
+            summary: title,
+            describe: description,
+            hourStart: dateStartRFC,
+            hourEnd: dateEndRFC,
+        })
+    })
+    const resSavedKlendyx = await savedKlendyx.json()
+    return resSavedKlendyx
+}
+
 
 $("#btn-submit-rdv").on("click", async function (e) {
     e.preventDefault()
-    resetCss()
     MessageAlert.removeMessage()
+    resetCss()
     const config = await getConfig()
     const host = config.host;
-
-    console.log("debut du submit")
 
     const nom = $("#data-rdv-nom").val()
     const prenom = $("#data-rdv-prenom").val()
@@ -128,10 +232,14 @@ $("#btn-submit-rdv").on("click", async function (e) {
     const methodContactSms = $("#contact-method-sms").is(":checked")
     const methodContactEmail = $("#contact-method-email").is(":checked")
 
-    const rappel = $("#btn-toggle-switch-rappel").is(":checked")
+    let rappel = $("#recapitulatif-rappel").text()
+    rappel === "Désactivé" ? rappel = false : rappel = true;
     const timeRappel = $("#data-rdv-hour-rappel").val()
 
-    const allInputValid = controleInput(nom, prenom, email, validEmail, phone, dayStart, hourStart, hourEnd, title, methodContactSms, methodContactEmail)
+    const creditSms = $("#credit-sms-after").text()
+    const creditEmail = $("#credit-email-after").text()
+
+    const allInputValid = controleInput(nom, prenom, email, validEmail, phone, dayStart, hourStart, hourEnd, title, methodContactSms, methodContactEmail, creditEmail, creditSms)
 
     if (!allInputValid) return
 
@@ -142,11 +250,38 @@ $("#btn-submit-rdv").on("click", async function (e) {
             $("#data-rdv-phone").css("border", "1px solid red");
             scrollTo()
             MessageAlert.create("warning", "#input-message-alert", "Veuillez saisir un numéro de téléphone valide");
-            return 
+            return
         }
         phone = validPhone.phone
     }
 
+
+
+
+
+    let messageResult = ""
+    // sauvegarde dans un calendar
+    const googleSave = $("#external-google").is(":checked")
+    const klendyxSave = $("#external-klendyx").is(":checked")
+    const outlookSave = $("#external-outlook").is(":checked")
+    const appleSave = $("#external-apple").is(":checked")
+
+    const description = `Rendez-vous "${title}" avec ${nom + " " + prenom} commentaire envoyé : ${commentaire || "aucun"}`
+
+    if (googleSave) {
+        const saved = await saveInGoogle(host, dayStart, hourStart, hourEnd, title, description);
+        messageResult += `<p>${saved.message}</p>`
+    }
+    if (klendyxSave) {
+        const saved = await saveInKlendyx(host, title, description, dayStart, hourStart, hourEnd);
+        messageResult += `<p>${saved.message}</p>`
+    }
+
+
+
+    //Send email/sms du rendez-vous
+    const methodRdvConfirmation = $("#method-rdv-confirmation").is(":checked")
+    const methodRdvProposition = $("#method-rdv-proposition").is(":checked")
 
     const sending = await fetch(`${host}/api/rdv/sending`, {
         method: "POST",
@@ -154,6 +289,8 @@ $("#btn-submit-rdv").on("click", async function (e) {
             "Content-Type": "Application/json"
         },
         body: JSON.stringify({
+            methodRdvProposition,
+            methodRdvConfirmation,
             nom,
             prenom,
             email,
@@ -166,11 +303,19 @@ $("#btn-submit-rdv").on("click", async function (e) {
             methodContactSms,
             methodContactEmail,
             rappel,
-            timeRappel
+            rappelSms: $("#data-rdv-rappel-method-sms").is(":checked"),
+            rappelEmail: $("#data-rdv-rappel-method-email").is(":checked"),
+            timeRappel,
         })
     })
 
-    const resSending = await sending.json()
-    console.log(resSending)
 
+    //Fin du submit affichage du resultat
+    scrollTo()
+    const resSending = await sending.json()
+    Object.entries(resSending["data"]).map(([key, value]) => {
+        messageResult += `<p> ${resSending.data[key].message}</p>`
+    })
+    resetFormulaire()
+    createClassiqueModale(`<div style="padding:10px; display:flex; flex-direction:column; gap:10px">${messageResult}</div>`)
 })

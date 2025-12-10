@@ -1,4 +1,4 @@
-async function getCalendyxRdv(host) {
+async function getKlendyxRdv(host) {
     const res = await fetch(`${host}/api/rdv/get`, {
         method: 'GET',
     });
@@ -227,7 +227,7 @@ $(document).ready(async () => {
             turn++
         })
     }
-    const eventCalendyx = await getCalendyxRdv(host)
+    const eventCalendyx = await getKlendyxRdv(host)
 
 
     window.calendar.batchRendering(() => {

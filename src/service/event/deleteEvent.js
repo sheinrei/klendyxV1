@@ -1,9 +1,9 @@
-import { eventRdvCalendyxTable } from "../../models/eventRdvCalendyxTable.js";
+import { klendyxPropositionRdvTable } from "../../models/klendyxPropositionRdvTable.js";
 
 
 export async function deleteEvent(db, req) {
 
-    const Event = eventRdvCalendyxTable(db);
+    const Event = klendyxPropositionRdvTable(db);
     const userId = req.userId;
     const idEvent = req.body.eventId;
 

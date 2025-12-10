@@ -33,8 +33,8 @@ $("body").on("click", ".search-finding-row", function (e) {
     if (data.phone !== "non renseigné") {
         $("#data-rdv-phone").val(data.phone);
     }
-
     $("#input-contact-fav").remove()
+    window.location.href = "#frame-info-client"
 })
 
 

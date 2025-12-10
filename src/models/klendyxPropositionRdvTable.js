@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 
 
-export function eventRdvCalendyxTable(sequelize) {
-    return sequelize.define("eventRdv", {
+export function klendyxPropositionRdvTable(sequelize) {
+    return sequelize.define("klendyxPropositionRdv", {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -12,51 +12,75 @@ export function eventRdvCalendyxTable(sequelize) {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        plateformSender: {
-            type: DataTypes.STRING, //sms ou mail
+
+
+        methodContactSms: {
+            type: DataTypes.BOOLEAN,
             allowNull: false
         },
+        methodContactEmail: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
+        recipientPhone: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        recipientEmail: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+
         recipientName: {
-            type: DataTypes.STRING,//corp de l'objet
-            allowNull: false
-        },
-        recipientContactEmail: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        recipientContactSms: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        titleEvent: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        messageEvent: {
+
+
+        title: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        dateDebut: {
-            type: DataTypes.DATE,
+        commentaire: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+
+        dayStart: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        dateFin: {
-            type: DataTypes.DATE,
+        hourStart: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
-        messageReturn: {
+        hourEnd: {
             type: DataTypes.STRING,
             allowNull: true,
         },
+
+        rappel: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
+
         state: {
             type: DataTypes.STRING,// Etat de l'envois et réponse -> message envoyé, reponse ok|| nok
             allowNull: false,
             defaultValue: "Initialisation"
         },
-        response: {
-            type: DataTypes.STRING,
+
+        //reponse du client
+        recipientReponse: {
+            type: DataTypes.BOOLEAN,
             allowNull: true,
         },
+        recipientComment: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        }
     },
         {
             timestamps: true,

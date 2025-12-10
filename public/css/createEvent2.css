@@ -56,17 +56,50 @@
     background-color: #F7FAFF;
     border-bottom: 1px solid var(--border-color);
     padding: 5px;
-}
-
-.search-finding-row:hover {
-    background-color: antiquewhite;
     cursor: pointer;
-    border-radius: 5px;
 }
 
+.frame-select-method-rdv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
 
 
 /* card */
+.card-select-method-rdv {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 15px;
+}
+
+.card-select-method-rdv p {
+    margin: 0
+}
+
+.card-select-method-rdv {
+    border: 1px solid #dcdcdc;
+    border-radius: 14px;
+    background: #fafafa;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: 0.25s ease;
+    position: relative;
+}
+
+.card-select-method-rdv:has(input[type="radio"]:checked) {
+    border-color: #3b82f6;
+    background: #f0f7ff;
+}
+
+
+
+
+
+
 
 .card-row-title,
 .card-row-subtitle {
@@ -94,6 +127,7 @@
 .card-title {
     font-size: 18px;
     font-weight: 600;
+    margin: 0
 }
 
 .card-rdv {
@@ -104,6 +138,13 @@
 }
 
 /* element du formulaire */
+input[type=text] {
+    cursor: text
+}
+
+label p {
+    cursor: pointer;
+}
 
 .form-group {
     display: flex;
@@ -181,8 +222,8 @@ input[type="checkbox"]:checked::before {
 }
 
 .label-selected {
-    border: 1px solid var(--border-focus);
-    background-color: rgb(242, 244, 255);
+    border: 1px solid #3b82f6;
+    background-color: #f0f7ff;
     color: var(--border-focus)
 }
 
@@ -235,9 +276,15 @@ input[type="checkbox"]:checked::before {
 }
 
 .frame-setup-rappel input {
-    width: 40px;
+    width: 75px;
+    background-color: white;
+    cursor: pointer;
 }
 
+.frame-setup-rappel input[type=checkbox] {
+    width: 25px;
+    height: 25px;
+}
 
 /* frame right */
 
@@ -318,6 +365,65 @@ input[type="checkbox"]:checked::before {
     margin: 0;
     line-height: 20px;
 }
+
+/* recap credit */
+
+.frame-credit {
+    margin: 10px;
+
+}
+
+.frame-credit p {
+    margin: 0
+}
+
+
+
+
+
+/* calendar row */
+.calendar-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap:30px;
+}
+
+.external-form-group-calendar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px
+}
+
+.external-label-calendar {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.external-label-calendar .badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: rgb(91, 239, 91);
+    color: white;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+input[type="checkbox"]:checked+.external-label-calendar .badge {
+    display: flex;
+}
+
+
 
 
 /* previsu sms*/
@@ -420,10 +526,11 @@ input[type="checkbox"]:checked::before {
 
 
 @media(max-width:768px) {
-    .main-content-rdv{
-        margin:20px
+    .main-content-rdv {
+        margin: 20px
     }
-    .main-contact-rdv{
+
+    .main-contact-rdv {
         width: 90%;
     }
 
@@ -431,21 +538,23 @@ input[type="checkbox"]:checked::before {
     .content-create-rdv-right {
         width: 90%;
     }
-    
-    .form-group-row{
+
+    .form-group-row {
         flex-direction: column;
         width: 100%;
-        gap:0;
+        gap: 0;
     }
 
-    .form-group{
-        min-width:100%
+    .form-group {
+        min-width: 100%
     }
 }
 
-@media(max-width:500px){
-    input, .label-full-row{
-        font-size:14px;
-        padding:10px 5px;
+@media(max-width:500px) {
+
+    input,
+    .label-full-row {
+        font-size: 14px;
+        padding: 10px 5px;
     }
 }

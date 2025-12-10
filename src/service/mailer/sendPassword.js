@@ -148,7 +148,7 @@ export async function sendPasswordChanged(recipient, User) {
                     <p style="margin: 0 0 16px 0;">Bonjour ${User.prenom},</p>
 
                     <p style="margin: 0 0 16px 0; color: #6b7280;">
-                        Nous te confirmons que le mot de passe de ton compte <strong>Calendyx</strong> a bien été modifié avec succès.
+                        Nous te confirmons que le mot de passe de ton compte <strong>Klendyx</strong> a bien été modifié avec succès.
                     </p>
 
                     <div style="margin: 28px 0; text-align: center;">

@@ -170,7 +170,7 @@ routerApiCalendar.post("/google/create", authMiddleware, async (req, res) => {
             return res.status(500).json({ success: false });
         }
         const googleEventId = eventRes.data.id;
-        res.json({ success: true, data: eventRes.data, id: googleEventId });
+        return res.json({ success: true, data: eventRes.data, id: googleEventId, message : "Le nouvel évènement a été ajouté dans votre agenda Google avec succès." });
     });
 })
 

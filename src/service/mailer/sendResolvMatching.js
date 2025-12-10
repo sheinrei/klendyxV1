@@ -16,7 +16,7 @@ export async function sendResolvMatching(email, eventTitle, url) {
                             <tr>
                                 <td style="background-color: #716af9;padding: 40px 30px;text-align: center;border-radius:20px">
                                     <h1 style="color: #ffffff;font-size: 28px;font-weight: 700;margin: 0;line-height: 1.3;">
-                                        ✨ CALENDYX - Dates Disponibles
+                                        ✨ KLENDYX - Dates Disponibles
                                     </h1>
                                 </td>
                             </tr>
@@ -37,7 +37,7 @@ export async function sendResolvMatching(email, eventTitle, url) {
                                     <!-- BLOC INFO -->
                                     <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 20px; border-radius: 4px; margin: 0 0 20px 0;">
                                         <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0;">
-                                            🎯 <strong>Calendyx</strong> a terminé l'analyse des créneaux compatibles avec l’emploi du temps de tous vos correspondants.
+                                            🎯 <strong>Klendyx</strong> a terminé l'analyse des créneaux compatibles avec l’emploi du temps de tous vos correspondants.
                                         </p>
                                     </div>
                                     
@@ -62,7 +62,7 @@ export async function sendResolvMatching(email, eventTitle, url) {
                                     
                                     <!-- TEXTE DE CLÔTURE -->
                                     <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                        Calendyx "Gérez votre emploi du temps, gagnez du temps."
+                                        Klendyx "Gérez votre emploi du temps, gagnez du temps."
                                     </p>
                                     
                                     <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
@@ -81,7 +81,7 @@ export async function sendResolvMatching(email, eventTitle, url) {
 
 
     const mailOptions = {
-        from: '"Calendyx" <no-reply@Klendyx.com>',
+        from: '"Klendyx" <no-reply@Klendyx.com>',
         to: email,
         subject: `Votre demande de matching de rendez-vous Klendyx est resolue`,
         text: titleEvent,

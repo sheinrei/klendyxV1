@@ -13,7 +13,7 @@ import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
 import routerApiRdv from "./src/api/apiRdv.js";
 import routerApiCredit from "./src/api/apiCredit.js";
-import routerApiEventCalendyx from "./src/api/apiEventCalendyx.js";
+import routerApiEventKlendyx from "./src/api/apiEventKlendyx.js";
 import routerApiCalendar from "./src/api/apiCalendar.js";
 import routerApiComment from "./src/api/apiComment.js";
 import routerApiContactFav from "./src/api/apiContactFav.js";
@@ -45,7 +45,7 @@ app.use("/", routerApiUser);
 app.use("/api/rdv", routerApiRdv)
 app.use("/api/credit", routerApiCredit)
 app.use("/api/calendar", routerApiCalendar)
-app.use("/api/event/calendyx", routerApiEventCalendyx)
+app.use("/api/event/klendyx", routerApiEventKlendyx)
 app.use("/api/comment", routerApiComment)
 app.use("/api/contact-favori", routerApiContactFav)
 app.use("/api/matching-event", routerApiMatching)
