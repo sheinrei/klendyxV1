@@ -9,7 +9,7 @@ $(document).ready(function () {
         const host = config.host
 
         //reset du message d'alerte
-        $("#msg-alert").text(``)
+        MessageAlert.removeMessage()
 
 
         const email = $("#emailConnect").val();
@@ -20,6 +20,7 @@ $(document).ready(function () {
             method: "post",
             contentType: "application/json",
             data: JSON.stringify({ emailConnect: email, mdpConnect: mdp }),
+
             success: function (data) {
                 if (data.success == true) {
                     const redirect = window.localStorage.getItem("redirect")
@@ -30,7 +31,7 @@ $(document).ready(function () {
                         window.location.href = "/dashboard"
                     }
                 } else {
-                    $("#msg-alert").text(`${data.message}`)
+                    MessageAlert.create("error","#input-message-alert",`${data.message}`)
                 }
 
             },

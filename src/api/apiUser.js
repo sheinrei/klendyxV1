@@ -19,6 +19,12 @@ import sendFile from "./../service/sendFile.js";
 import { deleteUserSession } from "../service/userSession/deleteUserSession.js";
 import { createUserSession } from "../service/userSession/createUserSession.js";
 import { getUserSession } from "../service/userSession/getUserSession.js";
+import { updateUserData } from "../service/user/updateUser.js";
+import { sendDeleteAccount } from "../service/mailer/sendDeleteAccount.js";
+import { deleteAccount } from "../service/user/deleteAccount.js";
+
+
+
 
 
 //creation d'un nouvel utilisateur
@@ -41,6 +47,9 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     res.json({ success: true, message: "Votre compte a été créé avec succès, pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
 })
 
+
+
+
 //user connected change password
 routerApiUser.post("/api/user/connected/reset-password", authMiddleware, async (req, res) => {
 
@@ -48,16 +57,30 @@ routerApiUser.post("/api/user/connected/reset-password", authMiddleware, async (
     const changePassword = await resetPassword(db, req, userId);
 
     const dataUser = changePassword.dataUser;
+    const urlConnexion = `${process.env.HOST}/connexion`
 
-    if (changePassword.success == true) {
+    if (changePassword.success) {
         const recipient = changePassword.email;
-        await sendPasswordChanged(recipient, dataUser);
+        await sendPasswordChanged(recipient, dataUser, urlConnexion);
 
-        res.json({ success: true, message: "Mot de passe modifié avec succès." });
+        return res.json({ success: true, message: changePassword.message });
     } else {
-        res.json({ success: false, message: changePassword.message });
+        return res.json({ success: false, message: changePassword.message });
     }
 })
+
+
+
+
+//user change data
+routerApiUser.post("/api/user/update", authMiddleware, async (req, res) => {
+    const userId = req.userId;
+    const data = req.body.data;
+    const updated = await updateUserData(db, userId, data);
+
+    return res.json({ success: updated.success, message: updated.message })
+})
+
 
 
 
@@ -72,14 +95,14 @@ routerApiUser.post("/api/user/email/new-password", async function (req, res) {
 
     //generer un token
     const token = await generateToken(id, "forgotPassword", db);
-    if(!token.success){
-        return res.json({success:false, message: token.message})
+    if (!token.success) {
+        return res.json({ success: false, message: token.message })
     }
     //envoyer un email
     const url = `${process.env.HOST}/api/user/resetpassword/${token.token}/${id}`;
     const sending = await sendForgotPassword(email, url);
-    if(!sending){
-        return res.json({success:false, message : "Echec lors de l'envois de l'email"})
+    if (!sending) {
+        return res.json({ success: false, message: "Echec lors de l'envois de l'email" })
     }
     return res.json({ success: true, message: `Un email a été envoyé si cette adresse existe` });
 })
@@ -130,7 +153,7 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
     const id = req.params.id;
 
     const verified = await verifyAccount(token, id, db)
-    console.log("verified : ",verified)
+    console.log("verified : ", verified)
     if (!verified.success) {
         return res.json({ success: false, message: verified.message })
     }
@@ -181,8 +204,9 @@ routerApiUser.post("/api/user/logout", authMiddleware, async (req, res) => {
 //get data d'un user
 routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
     try {
-        const data = await getUserData(req, db, res)
-        res.json({
+        const id = req.userId
+        const data = await getUserData(db, id)
+        return res.json({
             message: "Donnée de l'utilisateur",
             nom: data.nom,
             prenom: data.prenom,
@@ -199,18 +223,55 @@ routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
 
 
 routerApiUser.get("/api/user/session", authMiddlewareOptional, async (req, res) => {
-
     if (!req.userId) {
         return res.json({ logged: false })
     }
-
+    const id = req.userId
     const session = await getUserSession(db, req)
-
     return session.logged
         ? res.json({ logged: true })
         : res.json({ logged: false })
-
 })
+
+routerApiUser.post("/api/user/send-delete", authMiddleware, async (req, res) => {
+
+    try {
+        console.log("send delete")
+        const id = req.userId;
+        const token = await generateToken(id, "deleteAccount", db);
+        const dataUser = await getUserData(db, id)
+        const email = dataUser.email
+        const url = `${process.env.HOST}/api/user/delete/${token.token}`
+
+        if (token.token) {
+            const send = await sendDeleteAccount(email, url);
+            return res.json({success:send.success, message : send.message})
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.json({ success: false, message: "Une erreur avec le serveur est survenue, veuillez rééssayer plus tard. SI le problème persiste merci de contacter le support" })
+    }
+})
+
+routerApiUser.get("/api/user/delete/:token", async (req, res) => {
+    try {
+        const { token } = req.params;
+
+        const deleted = deleteAccount(token, db)
+
+        if(!deleted.success){
+            return res.send()
+        }
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send(`
+            <h1>❌ Erreur serveur</h1>
+            <p>Veuillez réessayer plus tard.</p>
+        `);
+    }
+});
 
 
 export default routerApiUser

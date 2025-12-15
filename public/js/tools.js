@@ -62,3 +62,28 @@ const scrollTo = () => window.scrollTo({
     top: 0,
     behavior: "smooth"
 });
+
+const firstToUpper = (string) => string[0].toUpperCase() + string.toLowerCase().slice(1)
+
+const dateToFr = (date) => {
+    const ObjectDate = new Date(date);
+    const dateFr = ObjectDate.toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" });
+    return dateFr
+}
+
+async function checkCalendarSync(host) {
+    const googleSync = await fetch(`${host}/api/calendar/google/sync`, {
+        method: "GET",
+        "Content-type": "application/json"
+    })
+    const google = await googleSync.json()
+    const apple = false;
+    const outlook = false;
+
+    return {
+        google: google.success,
+        googleCreatedAt: google.createdAt,
+        apple,
+        outlook
+    }
+}

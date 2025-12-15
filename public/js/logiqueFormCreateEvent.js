@@ -1,4 +1,5 @@
-// Logique du formulaire de création d'un rdv avec l'affiche du render
+// Logique du formulaire de création d'un rdv avec l'affiche du render//
+//A supprimer???
 $("#btn-submit-form-create-event").on("click", async function (e) {
     e.preventDefault();
     const htmlMessageAlert = $("#message-alert")

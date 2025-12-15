@@ -7,6 +7,9 @@
     --gradient-title: linear-gradient(to right, rgba(113, 106, 249, 1) 0%, rgba(91, 9, 121, 1) 100%);
     --color-nav: rgb(44, 44, 44);
 
+    --background-primary: linear-gradient(135deg, #f8f9fc 0%, #f0f2f8 50%, #e8ebf5 100%);
+    --background-secondary: #e0e7fd;
+
     --primary-color: #716af9;
     --primary-hover: #5247c7;
 
@@ -17,7 +20,6 @@
     --success-color: #10815c;
     --error-color: #a35454;
     --warning-color: rgb(171, 106, 106);
-    --background-color: #f8fafc;
     --card-background: #ffffff;
 
     --text-primary: #1f2937;
@@ -33,6 +35,19 @@
     --border-radius: 12px;
     --border-radius-small: 8px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+
+
+    --switch-width: 52px;
+    --switch-height: 28px;
+    --switch-radius: 999px;
+    --knob-size: 22px;
+    --track-off: #e4e7eb;
+    --track-on: #22c55e;
+    --knob: #ffffff;
+    --transition-time: 180ms;
+    --shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -72,6 +87,10 @@ a {
     color: black;
 }
 
+
+
+
+/* BODY */
 body {
     margin: 0;
     padding: 0;
@@ -82,12 +101,43 @@ body {
 
 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, var(--background-color) 0%, #e0e7ff 100%);
+    background: var(--background-primary);
     min-height: 100vh;
 
     line-height: 1.6;
     color: var(--text-primary);
 }
+
+body::before {
+    content: '';
+    position: fixed;
+    top: -20%;
+    left: -10%;
+    width: 40%;
+    height: 40%;
+    background: radial-gradient(circle, rgba(113, 106, 249, 0.08) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -20%;
+    right: -10%;
+    width: 45%;
+    height: 45%;
+    background: radial-gradient(circle, rgba(91, 9, 121, 0.06) 0%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* /BODY */
+
+
+
 
 main {
     display: flex;
@@ -95,7 +145,7 @@ main {
 
     width: 100%;
     align-items: center;
-    padding-bottom:50px;
+    padding-bottom: 50px;
 }
 
 .content {
@@ -388,6 +438,108 @@ input {
     cursor: pointer;
 }
 
+.input-checkbox-switch {
+    width: 40px;
+    height: 20px;
+}
+
+
+
+
+
+
+
+/* input checkbox switch */
+/*                       
+<label class="switch" for="">
+    <input type="checkbox" class="input-checkbox-switch" id=""
+        name="" />
+    <span class="track" aria-hidden="true" />
+</label>
+
+Conteneur clicable */
+.switch {
+    display: inline-block;
+    line-height: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* masquer l'input natif visuellement mais laisser accessible */
+.input-checkbox-switch {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* piste (track) */
+.switch .track {
+    display: inline-block;
+    width: var(--switch-width);
+    height: var(--switch-height);
+    background: var(--track-off);
+    border-radius: var(--switch-radius);
+    position: relative;
+    transition: background var(--transition-time) ease, box-shadow var(--transition-time) ease;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.03);
+    vertical-align: middle;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+/* le bouton (knob) via pseudo-élément */
+.switch .track::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    /* position off */
+    transform: translateY(-50%);
+    width: var(--knob-size);
+    height: var(--knob-size);
+    background: var(--knob);
+    border-radius: 50%;
+    box-shadow: var(--shadow);
+    transition: transform var(--transition-time) cubic-bezier(.2, .8, .2, 1), left var(--transition-time) ease, background var(--transition-time) ease;
+    will-change: transform, left;
+}
+
+/* état checked : changer couleur et pousser le knob */
+.input-checkbox-switch:checked+.track {
+    background: var(--track-on);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.12);
+}
+
+.input-checkbox-switch:checked+.track::after {
+    left: calc(100% - 3px - var(--knob-size));
+    /* position on */
+}
+
+/* focus-visible pour accessibilité clavier */
+.input-checkbox-switch:focus-visible+.track {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 99, 255, 0.18);
+}
+
+/* option : petite variante */
+.switch.small .track {
+    --switch-width: 40px;
+    --switch-height: 22px;
+    --knob-size: 18px;
+}
+
+/* option : désactivé */
+.input-checkbox-switch:disabled+.track {
+    opacity: 0.6;
+    cursor: not-allowed;
+    filter: grayscale(0.2);
+}
+
+
+
+
+
 
 /* progress bar */
 progress {
@@ -404,16 +556,40 @@ progress {
     overflow: hidden;
 }
 
-progress::-webkit-progress-bar {
-    background-color: #eee;
+
+#strength-bar::-webkit-progress-value {
+    transition: 0.3s ease;
 }
 
-progress::-webkit-progress-value {
-    background-color: var(--primary-color);
-    transition: width 0.3s ease;
+.strength-1::-webkit-progress-value {
+    background-color: #a35454;
 }
 
-progress::-moz-progress-bar {
-    background-color: var(--primary-color);
-    transition: width 0.3s ease;
+.strength-2::-webkit-progress-value {
+    background-color: orange;
+}
+
+.strength-3::-webkit-progress-value {
+    background-color: yellowgreen;
+}
+
+.strength-4::-webkit-progress-value {
+    background-color: green;
+}
+
+/* Firefox */
+.strength-1::-moz-progress-bar {
+    background-color: #a35454;
+}
+
+.strength-2::-moz-progress-bar {
+    background-color: orange;
+}
+
+.strength-3::-moz-progress-bar {
+    background-color: yellowgreen;
+}
+
+.strength-4::-moz-progress-bar {
+    background-color: green;
 }

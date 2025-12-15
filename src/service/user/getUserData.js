@@ -1,9 +1,8 @@
 import user from "../../models/utilisateurTable.js"
 
-export async function getUserData(req = null, db, id) {
+export async function getUserData(db, id) {
     const User = user(db);
-    const userId = req?.userId ?? id;
-    const data = await User.findByPk(userId);
+    const data = await User.findByPk(id);
     
     return data
 }

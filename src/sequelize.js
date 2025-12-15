@@ -4,14 +4,19 @@ dotenv.config();
 
 import { Sequelize } from "sequelize";
 import userTable from "./models/utilisateurTable.js";
-import tokenTable from "./models/tokenTable.js";
-import { klendyxPropositionRdvTable } from "./models/klendyxPropositionRdvTable.js";
-import { creditTable } from "./models/creditTable.js";
-import { commentTable } from "./models/commentTable.js";
-import { contactFavTable } from "./models/contactFavTable.js";
 import { userSessionTable } from "./models/userSessionTable.js";
+import { userPreferenceTable } from "./models/userPreferenceTable.js";
+import { creditTable } from "./models/creditTable.js";
+
+import { contactFavTable } from "./models/contactFavTable.js";
+
+import tokenTable from "./models/tokenTable.js";
+
 import { matchingEventTable } from "./models/matchingEventTable.js";
 import { eventKlendyxTable } from "./models/eventKlendyxTable.js";
+import { klendyxPropositionRdvTable } from "./models/klendyxPropositionRdvTable.js";
+
+import { commentTable } from "./models/commentTable.js";
 import { rappelRdvTable } from "./models/rappelRdvTable.js";
 
 
@@ -47,6 +52,7 @@ export async function initDb() {
     matchingEventTable(db)
     eventKlendyxTable(db)
     rappelRdvTable(db)
+    userPreferenceTable(db)
 
     let force = process.env.SEQUELIZE_FORCE
     force === "true" ? (force = true, console.log("🗑️  Sequelize remise à zero de la db")) : force = false

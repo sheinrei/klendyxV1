@@ -19,9 +19,7 @@ export async function resetPassword(db, req, userId) {
         return { success: false, message: "Utilisateur introuvable" }
     }
 
-
     const match = await bcrypt.compare(lastPassword, dataUser.mdp);
-
     if (!match) {
         return { success: false, message: "L'ancien mot de passe de correspond pas" }
     } else {
@@ -31,8 +29,7 @@ export async function resetPassword(db, req, userId) {
                 where: { id: userId }
             }
         )
-
-        return { success: true, message: "Mot de passe modifié avec succès.", email: dataUser.email, dataUser }
+        return { success: true, message: "Votre mot de passe a été modifié avec succès, une notification du changement de mot de passe vous a été envoyé par email", email: dataUser.email, dataUser }
     }
 
 }

@@ -72,7 +72,8 @@ async function checkCalendarSync(host) {
         method: "GET",
         "Content-type": "application/json"
     })
-    const google = await googleSync.json()
+    const dataGoogle = await googleSync.json()
+    const google = dataGoogle.success
 
     const apple = false;
     const outlook = false;

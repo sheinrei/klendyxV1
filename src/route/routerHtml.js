@@ -43,7 +43,7 @@ router.get("/creer-rdv", (req, res) => {
     sendFile("./public/pageHtml/createRdv.html", res);
 })
 
-router.get("/valider-rdv/:token/:id/:idEvent", (req, res)=>{
+router.get("/valider-rdv/:token/:id/:idEvent", (req, res) => {
     sendFile("./public/pageHtml/reponsePropositionRdv.html", res)
 })
 
@@ -53,7 +53,7 @@ router.get("/agenda", (req, res) => {
 
 
 router.get("/mon-compte", (req, res) => {
-    sendFile("./public/pageHtml/configCompte.html", res);
+    sendFile("./public/pageHtml/parametreCompte.html", res);
 })
 
 
@@ -76,5 +76,6 @@ router.get("/confidentialite", (req, res) => {
 router.get("/condition-utilisation", (req, res) => {
     sendFile("./public/pageHtml/conditionUtilisation.html", res);
 })
+
 //export à la fin du fichier
 export default router

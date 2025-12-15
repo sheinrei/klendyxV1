@@ -153,7 +153,7 @@ async function checkCalendarSync(host) {
     const apple = false;
     const outlook = false;
 
-    if (!google) {
+    if (!google.success) {
         $("#external-calendar-save-google").remove()
     }
     if (!apple) {

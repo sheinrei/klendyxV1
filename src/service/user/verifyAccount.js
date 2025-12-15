@@ -1,6 +1,8 @@
 import tableToken from "./../../models/tokenTable.js"
 import tableUser from "./../../models/utilisateurTable.js";
 import { initCreditUser } from "../credit/initCreditUser.js";
+import { createUserPreference } from "../userPreference/crudUserPreference.js";
+
 
 export default async function verifyAccount(token, id, db) {
 
@@ -24,14 +26,17 @@ export default async function verifyAccount(token, id, db) {
             }
         })
         let initCredit;
+        createUserPreference(db, idUser)
         try {
             initCredit = await initCreditUser(db, idUser)
         } catch (err) {
             console.log(err)
         }
+
         if (!initCredit.success) {
             return { success: false, message: "Echec lors de l'initialisation des crédits" }
         }
+
         return { success: true, message: "Compte validé avec succes" }
     }
 }

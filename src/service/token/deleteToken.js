@@ -11,7 +11,7 @@ export async function deleteTokenAccessGoogle(idUser, db) {
     })
 
     if (deletedToken) {
-        console.log("Token effacé")
+        return ({success:true, message : "La synchronisation de votre compte google a été supprimer"})
     }
 }
 

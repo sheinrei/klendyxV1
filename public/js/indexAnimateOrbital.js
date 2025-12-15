@@ -12,8 +12,8 @@ const agendaIcon = document.getElementById('agenda-icon');
 
 // Variables d'état pour l'animation
 let angleEmail = 0;
-let angleSms = Math.PI / 2; // 90 degrés de décalage
-let angleAgenda = Math.PI; // 180 degrés de décalage
+let angleSms = Math.PI / 2; // degrés de décalage
+let angleAgenda = Math.PI; // degrés de décalage
 
 // Vitesses de rotation différentes pour chaque icône
 const speedEmail = 0.01;
@@ -26,7 +26,7 @@ const radiusSms = 160;
 const radiusAgenda = 130;
 
 
-// Fonction pour mettre à jour la position des icônes
+// Fonction pour mettre à jour la position des icones
 function updateIcons() {
     // Mettre à jour l'angle pour chaque icône
     angleEmail += speedEmail;

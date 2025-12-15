@@ -107,7 +107,7 @@ export async function sendVerifyAccount(recipient, url) {
 
 
 //Envois l'email de confirmation de changement de mot de passe
-export async function sendPasswordChanged(recipient, User) {
+export async function sendPasswordChanged(recipient, User, urlConnexion) {
 
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",

@@ -93,8 +93,10 @@ routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
         }
 
         const events = await calendar.events.list(option);
-        res.json({ success: true, events })
+        return res.json({ success: true, events })
 
+
+        
     } catch (err) {
         const errorDesc = err?.response?.data?.error_description;
         const errorCode = err?.response?.data?.error;
@@ -122,13 +124,13 @@ routerApiCalendar.get("/google/get", authMiddleware, async (req, res) => {
     }
 });
 
+
+
 //Cherche si un user est sync
 routerApiCalendar.get("/google/sync", authMiddleware, async (req, res) => {
     const user = req.userId
-
     const searchToken = await getToken("RefreshTokenGoogle", user, db)
-
-    return res.json(searchToken.success)
+    return res.json({success : searchToken.success, createdAt : searchToken.createdAt})
 })
 
 
@@ -215,7 +217,15 @@ routerApiCalendar.post("/google/delete", authMiddleware, async (req, res) => {
 
 })
 
-
+//supprimer l'auth google
+routerApiCalendar.post("/google/revok", authMiddleware, async(req,res)=>{
+    const idUser = req.userId
+    const deleted = await deleteTokenAccessGoogle(idUser, db)
+    if(!deleted.success){
+        return res.json({success:false, message: "Une erreur est survenue. Veuillez contacter le service client si le problème persiste."})
+    }
+    return res.json({ success: true, message: deleted.message})
+} )
 
 
 
