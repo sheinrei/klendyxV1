@@ -14,7 +14,7 @@ export async function createEventKlendyx(db, req) {
             hourEnd: req.body.hourEnd,
             allDay: req.body.allDay || false,
             
-        })
+        }) 
 
         if (!create) {
             return { success: false, message: "Une erreur est survenu lors de la création du rendez-vous " }

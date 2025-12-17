@@ -15,6 +15,7 @@ export async function getToken(type, userId, db) {
         success: true,
         access_token: tokenData.access_token,
         refresh_token: tokenData.refresh_token,
+        expiry_date : tokenData.expiry_date,
         totalToken : tokenData,
         createdAt : saved.createdAt
     };

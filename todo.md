@@ -1,4 +1,3 @@
-event validatoin par client cassé!
 
 search google avatar
 dashboard lib hishard
@@ -23,5 +22,8 @@ Event Calendyx:
 ->debounce pour eviter refresh champs de recherche dynamique
 ->throttling
 ->Ou lib lodash
+
+
+
 
 

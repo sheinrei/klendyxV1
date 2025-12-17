@@ -71,19 +71,20 @@ const dateToFr = (date) => {
     return dateFr
 }
 
-async function checkCalendarSync(host) {
-    const googleSync = await fetch(`${host}/api/calendar/google/sync`, {
-        method: "GET",
-        "Content-type": "application/json"
-    })
-    const google = await googleSync.json()
-    const apple = false;
-    const outlook = false;
 
-    return {
-        google: google.success,
-        googleCreatedAt: google.createdAt,
-        apple,
-        outlook
-    }
+
+
+
+
+
+async function checkCalendarSync(host) {
+    
+    const synchro = await fetch(`${host}/api/calendar/all-sync`, {
+        method : "GET",
+        headers : {
+            "Content-Type" : "application/json"
+        }
+    })
+    const data = await synchro.json()
+    return data
 }

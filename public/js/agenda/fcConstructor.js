@@ -1,24 +1,48 @@
 async function getKlendyxRdv(host) {
-    const res = await fetch(`${host}/api/rdv/get`, {
-        method: 'GET',
+    const res = await fetch(`${host}/api/calendar/get-events`, {
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            provider: "klendyx"
+        })
     });
     const data = await res.json();
+    console.log("data de klendyx : ", data)
     return data
 }
 
 async function getGoogleCalendar(host) {
-    const res = await fetch(`${host}/api/calendar/google/get`, {
-        method: 'GET',
+    const res = await fetch(`${host}/api/calendar/get-events`, {
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            provider: "google"
+        })
     });
     const data = await res.json();
-    if (!data.success || data.err === "droit acces") {
-        $("#message-alert-information").append(`<p>${data.message} <a href="${host}/api/calendar/auth">ici</a></p>`).css("display", "block"),
-            $("#sync-google").text("Votre agenda google n'est plus synchronisé")
-        checkCalendarSync(host)
-        return
-    }
+    console.log("data de google : ", data)
     return data
 }
+
+async function getOutlookCalendar(host) {
+    const res = await fetch(`${host}/api/calendar/get-events`, {
+        method: 'POST',
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            provider: "outlook"
+        })
+    });
+    const data = await res.json();
+    console.log("data de outlook : ", data)
+    return data
+}
+
 
 function combineDateAndTime(date, timeString) {
     const [h, m] = timeString.split(":").map(Number);
@@ -68,18 +92,13 @@ async function createEventGoogle(host, summary, description, dateStart, dateEnd)
 }
 
 async function checkCalendarSync(host) {
-    const googleSync = await fetch(`${host}/api/calendar/google/sync`, {
-        method: "GET",
-        "Content-type": "application/json"
-    })
-    const dataGoogle = await googleSync.json()
-    const google = dataGoogle.success
 
+    const google = true;
     const apple = false;
     const outlook = false;
 
     const addClassBadge = (calendar, state) => state ? $(`#sync-${calendar}`).addClass("badge-sync-confirm").text("Actif") : $(`#sync-${calendar}`).addClass("badge-sync-none").text("Inactif")
-    const addButtonSync = (calendar, state) => {if(!state) $(`#items-calendar-sync-${calendar}`).append(`<span style="margin-left:4px" class="btn-sync-calendar" id="btn-sync-calendar-${calendar}">Synchroniser</span>`)}
+    const addButtonSync = (calendar, state) => { if (!state) $(`#items-calendar-sync-${calendar}`).append(`<span style="margin-left:4px" class="btn-sync-calendar" id="btn-sync-calendar-${calendar}">Synchroniser</span>`) }
     addClassBadge("google", google)
     addClassBadge("apple", apple)
     addClassBadge("outlook", outlook)
@@ -182,7 +201,7 @@ $(document).ready(async () => {
             if (calendarSave.apple) {
                 console.log("apple")
             }
-            if(calendarSave.outlook){
+            if (calendarSave.outlook) {
                 console.log("outlook")
             }
             addEventDrop(dateStart, dateEnd, el, info)
@@ -198,8 +217,13 @@ $(document).ready(async () => {
     window.calendar.render()
 
 
+    getKlendyxRdv(host)
+    getOutlookCalendar(host)
     //Check les calendar sync
     const calendarSync = await checkCalendarSync(host)
+
+
+
 
     // ====== Rempli le canlendar avec la data
     let turn = 0;

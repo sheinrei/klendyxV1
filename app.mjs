@@ -16,7 +16,7 @@ import routerApiUserPreference from "./src/api/apiUserPreference.js";
 import routerApiRdv from "./src/api/apiRdv.js";
 import routerApiCredit from "./src/api/apiCredit.js";
 import routerApiEventKlendyx from "./src/api/apiEventKlendyx.js";
-import routerApiCalendar from "./src/api/apiCalendar.js";
+import routerApiCalendarGoogle from "./src/api/apiCalendar.js";
 import routerApiComment from "./src/api/apiComment.js";
 import routerApiContactFav from "./src/api/apiContactFav.js";
 import routerApiMatching from "./src/api/apiMatching.js";
@@ -24,7 +24,6 @@ import routerApiMatching from "./src/api/apiMatching.js";
 import routerApiCalendarOutlook from "./src/api/apiCalendarOutlook.js"
 import routerApiCalendarApple from "./src/api/apiCalendarApple.js"
 
-import routerApiMainCalendar from "./src/api/mainCalendar.js"
 
 
 //connection bdd
@@ -52,16 +51,18 @@ app.use("/", routerHtml);
 app.use("/", routerApiUser);
 app.use("/api/rdv", routerApiRdv)
 app.use("/api/credit", routerApiCredit)
-app.use("/api/event/klendyx", routerApiEventKlendyx)
 app.use("/api/comment", routerApiComment)
 app.use("/api/contact-favori", routerApiContactFav)
 app.use("/api/matching-event", routerApiMatching)
 app.use("/api/userPreference", routerApiUserPreference)
 
-app.use("/api/calendar", routerApiCalendar)
+
+
+
+app.use("/api/calendar", routerApiCalendarGoogle)
+app.use("/api/event/klendyx", routerApiEventKlendyx)
 app.use("/api/calendar/outlook", routerApiCalendarOutlook)
 app.use("/api/calendar/apple", routerApiCalendarApple)
-app.use("/api/main/calendar", routerApiMainCalendar)
 
 
 // Définir __dirname pour les modules ES

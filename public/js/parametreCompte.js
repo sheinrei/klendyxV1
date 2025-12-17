@@ -37,23 +37,20 @@ function hydrateDataUser(data) {
 
 async function hydrateStateSyncCalendar(host) {
 
-    const { google,
-        googleCreatedAt,
-        apple,
-        outlook } = await checkCalendarSync(host)
+    const data = await checkCalendarSync(host);
 
-    $("#state-sync-google").text(google ? `✅ Synchronisé depuis le ${dateToFr(googleCreatedAt)}` : " ❌ Non synchronisé")
-    $("#state-sync-apple").text(apple ? "✅ Synchronisé" : " ❌ Non synchronisé")
-    $("#state-sync-outlook").text(outlook ? "✅ Synchronisé" : "❌ Non synchronisé")
+    $("#state-sync-google").text(data.google.sync ? `✅ Synchronisé depuis le ${dateToFr(data.google.createdAt)}` : " ❌ Non synchronisé")
+    $("#state-sync-outlook").text(data.outlook.sync ? `✅ Synchronisé depuis le ${dateToFr(data.outlook.createdAt)}` : "❌ Non synchronisé")
+    $("#state-sync-apple").text(data.apple.sync ? `✅ Synchronisé depuis le ${dateToFr(data.apple.createdAt)}` : " ❌ Non synchronisé")
 
-    $("#action-sync-google").text(google ? "Révoquer" : "Synchroniser")
-    if (google) $("#action-sync-google").toggleClass("btn-revok-calendar")
+    $("#action-sync-google").text(data.google.sync ? "Révoquer" : "Synchroniser")
+    $("#action-sync-outlook").text(data.outlook.sync ? "Révoquer" : "Synchroniser")
+    $("#action-sync-apple").text(data.apple.sync ? "Révoquer" : "Synchroniser")
 
-    $("#action-sync-apple").text(apple ? "Révoquer" : "Synchroniser")
-    if (apple) $("#action-sync-apple").toggleClass("btn-revok-calendar")
 
-    $("#action-sync-outlook").text(outlook ? "Révoquer" : "Synchroniser")
-    if (outlook) $("#action-sync-outlook").toggleClass("btn-revok-calendar")
+    if (data.google.sync) $("#action-sync-google").toggleClass("btn-revok-calendar")
+    if (data.outlook.sync) $("#action-sync-outlook").toggleClass("btn-revok-calendar")
+    if (data.apple.sync) $("#action-sync-apple").toggleClass("btn-revok-calendar")
 }
 
 async function revokeSyncCalendar(host, calendar) {
@@ -96,7 +93,6 @@ async function setAbbonement(host) {
         }
     })
     const data = await res.json();
-    console.log(data);
     const textDataRefresh = `${dateToFr(data.data.refreshAt.split(" ")[0])} à ${data.data.refreshAt.split(" ")[1].replace(":", "h").slice(0, 3)}00`
 
     $("#user-plan").text(`Votre abbonnement : ${data.data.plan}`)
@@ -142,6 +138,8 @@ $(async () => {
     setAbbonement(host)
     const redirect = window.localStorage.getItem("redirect")
     if (redirect) window.localStorage.removeItem("redirect")
+
+
 
 
 

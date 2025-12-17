@@ -1,6 +1,3 @@
-
-
-
 class ProgressBarPassword {
 
     constructor(element, inputMessageAlert, password) {
