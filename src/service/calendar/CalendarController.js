@@ -112,3 +112,9 @@ export async function getCalendarSync(db, userId) {
         }
     }
 }
+
+export async function revokeCalendar(provider, db, userId){
+
+    const deletedToken = await deleteToken
+
+}

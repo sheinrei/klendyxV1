@@ -24,3 +24,15 @@ export async function deleteToken(token, db) {
         console.log("Token effacé")
     }
 }
+
+export async function deleteTokenSyncCalendar(db, userId, provider){
+    const Token = tokenTable(db);
+    const deletedToken = await Token.destroy({
+        where : {
+            idUser : userId,
+            type : `${provider}Sync`
+        }
+    })
+
+    
+}
