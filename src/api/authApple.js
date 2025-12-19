@@ -1,5 +1,5 @@
 import express from "express";
-const routerApiCalendarApple = express.Router()
+const routerAuthCalendarApple = express.Router()
 //import db from "./../sequelize.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
@@ -9,7 +9,7 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import { createAccount } from "dav";
 
 
-routerApiCalendarApple.post("/auth", authMiddleware, async (req, res) => {
+routerAuthCalendarApple.post("/auth", authMiddleware, async (req, res) => {
     const { email, appPassword } = req.body;
 
     console.log("debut de la route apple")
@@ -49,4 +49,4 @@ routerApiCalendarApple.post("/auth", authMiddleware, async (req, res) => {
 })
 
 
-export default routerApiCalendarApple
+export default routerAuthCalendarApple

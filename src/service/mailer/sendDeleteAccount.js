@@ -45,7 +45,7 @@ export async function sendDeleteAccount(email, url) {
                             
                             <!-- PARAGRAPHE SECONDAIRE -->
                             <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 25px 0;">
-                                Si vous êtes à l'origine de cette demande, cliquez ci-dessous pour confirmer :
+                                Si vous êtes à l'origine de cette demande, cliquez ci-dessous pour confirmer
                             </p>
                             
                             <!-- BOUTON CTA -->
@@ -97,7 +97,7 @@ export async function sendDeleteAccount(email, url) {
     try {
         const info = await transporter.sendMail(mailOptions);
         if (info.messageId) {
-            return { success: true, message: `Email envoyé au destinataire ${email}` }
+            return { success: true, message: `Un email vous a été envoyé à votre adresse ${email}, la suppression de votre compte sera définitive après avoir cliqué sur le bouton depuis cet email.` }
         }
         else {
             return { success: false, message: "Impossible d'envoyer le mail." }

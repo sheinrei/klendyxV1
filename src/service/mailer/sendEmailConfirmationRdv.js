@@ -40,7 +40,7 @@ export async function sendEmailConfirmationRdv(email, title, commentaire, prenom
                             </svg>
 
                             <div style="display:flex; flex-direction:column; align-items:flex-start; margin:0">
-                                <p style="width:100%; margin:0">Horraire</p>
+                                <p style="width:100%; margin:0">Horaire</p>
                                 <p style="width:100%; margin:0">${hourStart.replace(":", "h")} à ${hourEnd.replace(":", "h")}</p>
                             </div>
                         </div>

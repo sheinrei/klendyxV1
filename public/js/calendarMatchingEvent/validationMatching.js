@@ -16,19 +16,19 @@ async function getEventGoogle(host, rangeStart, rangeEnd, idUser) {
     return dataEventGoogle
 }
 
-function setHtmlModaleClickEvent(info){
+function setHtmlModaleClickEvent(info) {
     const data = info.event
     const date = parseDateToFrench(new Date(data.start))
     const start = data.startStr.split("T")[1].replace(":", "h").slice(0, 5);
     const end = data.endStr.split("T")[1].replace(":", "h").slice(0, 5)
     const title = data.title
     const description = data._def.extendedProps.data.description || "Pas de description"
-    
+
 
     return `<div>
                 <p style="width:fit-content;position:relative;left:50%; transform : translateX(-50%); font-size:20px; margin-bottom:25px"><strong> ${firstToUpper(date)} </strong></p>
                 <p>Titre : ${title}</p>
-                <p>Horraire : De ${start} à ${end}</p>
+                <p>horaire : De ${start} à ${end}</p>
                 <p>Description : ${description} </p>
             </div>`
 }
@@ -67,7 +67,7 @@ function setCalendar(start, end) {
             start: start,
             end: end
         },
-        eventClick : function(info){
+        eventClick: function (info) {
             console.log(info);
             const html = setHtmlModaleClickEvent(info)
             createClassiqueModale(html)
@@ -238,7 +238,7 @@ function setDomAfterSubmit(dateString, hourStartString, hourEndString, calendar,
 
 
     //Mettre un texte qui de confirmation a l'event
-    scrollTo(0,0)
+    scrollTo(0, 0)
     const htmlMessageAlert = `<p style="background:white ; color:green; padding: 8px 20px; font-size:18px">
         L’événement a été enregistré avec succès. Tous les participants ont reçu une notification par email.
     </p>`
@@ -383,8 +383,8 @@ $(async function () {
         period === "AM" ? period = "matin" : period = "après-midi";
         const greatHoraire = data.slots[0].period == period ? 0 : 1
 
-        const horraireSelected = data.slots[greatHoraire];
-        const { start, end } = horraireSelected;
+        const horaireSelected = data.slots[greatHoraire];
+        const { start, end } = horaireSelected;
         const dateStart = new Date(start);
         const dateEnd = new Date(end);
         const stringDateStart = dateStart.toLocaleString("fr-FR")
@@ -445,7 +445,7 @@ $(async function () {
         const titleEvent = $("#event-title").text()
 
         $("#btn-confirm-classique-modale").click()
-        
+
         const res = await fetch(`${host}/api/event/matching-event/final`, {
             method: "POST",
             headers: {

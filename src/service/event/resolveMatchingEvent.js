@@ -34,7 +34,7 @@ function calculeTimeDiff(start, end) {
     return diffMiliSeconde / (1000 * 60 * 60);
 }
 
-function hydraterStructureDays(structureDays, contact, data, plageHorraire) {
+function hydraterStructureDays(structureDays, contact, data, plageHoraire) {
     const structure = structureDays;
     contact.forEach((contact) => {
         const indispo = data[contact].indisponible;
@@ -63,22 +63,22 @@ function hydraterStructureDays(structureDays, contact, data, plageHorraire) {
                 });
             }
             if (structureDays[date] && e.allDay) {
-                structureDays[date].preference.push({ user: contact, time: plageHorraire });
+                structureDays[date].preference.push({ user: contact, time: plageHoraire });
             }
         });
     });
     return structure;
 }
 
-function dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHorraire) {
+function dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHoraire) {
     const total = totalTimePref + totalTimeEvent;
     const ratioPref = totalTimePref / total || 1;
     const coefBonus = Math.min(1 + ratioPref, 2);
-    const coefSurcharge = Math.min(1 + (totalTimeEvent / plageHorraire), 2);
+    const coefSurcharge = Math.min(1 + (totalTimeEvent / plageHoraire), 2);
     return { coefBonus, coefSurcharge };
 }
 
-function calculeScoring(structure, arrayDaysValid, plageHorraire) {
+function calculeScoring(structure, arrayDaysValid, plageHoraire) {
     const structureScored = structure;
     arrayDaysValid.forEach((day) => {
         let totalTimePref = 0;
@@ -87,9 +87,9 @@ function calculeScoring(structure, arrayDaysValid, plageHorraire) {
         structureScored[day].events.forEach((event) => { totalTimeEvent += event.time; });
         structureScored[day].preference.forEach((pref) => { totalTimePref += pref.time; });
 
-        const { coefBonus, coefSurcharge } = dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHorraire);
+        const { coefBonus, coefSurcharge } = dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHoraire);
         const score = (totalTimePref * coefBonus - totalTimeEvent * coefSurcharge);
-        structureScored[day].score = ((score / plageHorraire) * 100).toFixed(1);
+        structureScored[day].score = ((score / plageHoraire) * 100).toFixed(1);
     });
     return structureScored;
 }
@@ -210,7 +210,7 @@ function scoreAndSelectBest(slots, preferences) {
     return scoredSlots[0];
 }
 
-function selectedMatchingHorraire(daysSelected, timeRdv, hoursStart, hoursEnd) {
+function selectedMatchingHoraire(daysSelected, timeRdv, hoursStart, hoursEnd) {
     return daysSelected.map(day => {
         const availableSlots = findAvailableSlots(
             day.data.events,
@@ -288,16 +288,16 @@ export function resolveMatchingEvent(
     });
 
     //5. Hydrater la structure des jours dispos
-    const plageHorraire = hoursEnd - hoursStart
-    structureDays = hydraterStructureDays(structureDays, allContacts, data, plageHorraire)
+    const plageHoraire = hoursEnd - hoursStart
+    structureDays = hydraterStructureDays(structureDays, allContacts, data, plageHoraire)
 
     //6. Faire le scoring des jours et conserver les x meilleurs jours
-    structureDays = calculeScoring(structureDays, arrayDaysValide, plageHorraire)
+    structureDays = calculeScoring(structureDays, arrayDaysValide, plageHoraire)
 
     //7. Sélectionner les dates avec le plus gros score
     const daysSelected = selectBestDayScoring(structureDays, numberDayReturn, arrayDaysValide);
     //8. Trouver les meilleurs créneaux horaires pour chaque jour
-    const finalResult = selectedMatchingHorraire(daysSelected, timeRdv, hoursStart, hoursEnd);
+    const finalResult = selectedMatchingHoraire(daysSelected, timeRdv, hoursStart, hoursEnd);
     return finalResult;
 
 }

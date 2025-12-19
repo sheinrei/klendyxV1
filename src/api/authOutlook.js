@@ -1,5 +1,5 @@
 import express from "express";
-const routerApiCalendarOutlook = express.Router()
+const routerAuthCalendarOutlook = express.Router()
 
 import db from "./../sequelize.js";
 
@@ -20,7 +20,7 @@ const cca = new msal.ConfidentialClientApplication({
 
 
 // ---- 1️⃣ Route OAuth: rediriger l'utilisateur ----
-routerApiCalendarOutlook.get("/auth", authMiddleware, async (req, res) => {
+routerAuthCalendarOutlook.get("/auth", authMiddleware, async (req, res) => {
     try {
         const authUrl = await cca.getAuthCodeUrl({
             scopes: ["User.Read", "Calendars.ReadWrite"],
@@ -38,7 +38,7 @@ routerApiCalendarOutlook.get("/auth", authMiddleware, async (req, res) => {
 
 
 // ---- 2️⃣ Callback OAuth ----
-routerApiCalendarOutlook.get("/callback", async (req, res) => {
+routerAuthCalendarOutlook.get("/callback", async (req, res) => {
 
     const tokenRequest = {
         code: req.query.code,
@@ -74,4 +74,4 @@ routerApiCalendarOutlook.get("/callback", async (req, res) => {
 
 
 
-export default routerApiCalendarOutlook
+export default routerAuthCalendarOutlook

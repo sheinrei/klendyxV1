@@ -25,8 +25,13 @@ export default async function authenticateUser(req, db) {
     const token = jwt.sign(
         { userId: stored.id },
         process.env.JWT_SECRET,
-        { expiresIn: "2h" }
+        { expiresIn: "4h" }
     );
 
-    return { success: true, message: "Connexion réussie !", token, idUser: stored.id };
+    return {
+        success: true,
+        message: "Connexion réussie !",
+        token,
+        idUser: stored.id
+    };
 }

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klendyx - Matching rendez-vous</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
 
     <!-- css -->
     <link rel="stylesheet" href="/css/generic.css">
@@ -96,8 +97,7 @@
                                         fill="currentColor" />
                                 </svg>
                                 Vos données restent privées.
-                                <a href="/confidentialite"
-                                    class="privacy-link">Politique de confidentialité</a>
+                                <a href="/confidentialite" class="privacy-link">Politique de confidentialité</a>
                             </p>
 
                         </div>
@@ -156,22 +156,22 @@
 
                     <section class="frame-calendar-tool">
                         <div>
-                            <span class="title-tools">Définir une plage d'horraire</span>
+                            <span class="title-tools">Définir une plage d'horaire</span>
                             <div>
                                 <div class="radio-group no-select">
                                     <label>
-                                        <input type="radio" name="plage-horraire-setup" value="indispo"
-                                            id="plage-horraire-setup-indisponible">
+                                        <input type="radio" name="plage-horaire-setup" value="indispo"
+                                            id="plage-horaire-setup-indisponible">
                                         <span>Indisponible</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="plage-horraire-setup" value="dispo"
-                                            id="plage-horraire-setup-disponible">
+                                        <input type="radio" name="plage-horaire-setup" value="dispo"
+                                            id="plage-horaire-setup-disponible">
                                         <span>Disponible</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="plage-horraire-setup" value="dispoPref"
-                                            id="plage-horraire-setup-preference">
+                                        <input type="radio" name="plage-horaire-setup" value="dispoPref"
+                                            id="plage-horaire-setup-preference">
                                         <span>Préférence</span>
                                     </label>
                                 </div>
@@ -179,52 +179,47 @@
 
 
                                 <div class="frame-label-day">
-                                    <label for="horraire-lundi" class="day-select" id="label-horraire-lundi">Lu</label>
-                                    <input style="display:none" type="checkbox" name="horraire-lundi"
-                                        id="horraire-lundi">
+                                    <label for="horaire-lundi" class="day-select" id="label-horaire-lundi">Lu</label>
+                                    <input style="display:none" type="checkbox" name="horaire-lundi" id="horaire-lundi">
 
-                                    <label for="horraire-mardi" class="day-select" id="label-horraire-mardi">Ma</label>
-                                    <input style="display:none" type="checkbox" name="horraire-mardi"
-                                        id="horraire-mardi">
+                                    <label for="horaire-mardi" class="day-select" id="label-horaire-mardi">Ma</label>
+                                    <input style="display:none" type="checkbox" name="horaire-mardi" id="horaire-mardi">
 
-                                    <label for="horraire-mercredi" class="day-select"
-                                        id="label-horraire-mercredi">Me</label>
-                                    <input style="display:none" type="checkbox" name="horraire-mercredi"
-                                        id="horraire-mercredi">
+                                    <label for="horaire-mercredi" class="day-select"
+                                        id="label-horaire-mercredi">Me</label>
+                                    <input style="display:none" type="checkbox" name="horaire-mercredi"
+                                        id="horaire-mercredi">
 
-                                    <label for="horraire-jeudi" class="day-select" id="label-horraire-jeudi">Je</label>
-                                    <input style="display:none" type="checkbox" name="horraire-jeudi"
-                                        id="horraire-jeudi">
+                                    <label for="horaire-jeudi" class="day-select" id="label-horaire-jeudi">Je</label>
+                                    <input style="display:none" type="checkbox" name="horaire-jeudi" id="horaire-jeudi">
 
-                                    <label for="horraire-vendredi" class="day-select"
-                                        id="label-horraire-vendredi">Ve</label>
-                                    <input style="display:none" type="checkbox" name="horraire-vendredi"
-                                        id="horraire-vendredi">
+                                    <label for="horaire-vendredi" class="day-select"
+                                        id="label-horaire-vendredi">Ve</label>
+                                    <input style="display:none" type="checkbox" name="horaire-vendredi"
+                                        id="horaire-vendredi">
 
-                                    <label for="horraire-samedi" class="day-select"
-                                        id="label-horraire-samedi">Sa</label>
-                                    <input style="display:none" type="checkbox" name="horraire-samedi"
-                                        id="horraire-samedi">
+                                    <label for="horaire-samedi" class="day-select" id="label-horaire-samedi">Sa</label>
+                                    <input style="display:none" type="checkbox" name="horaire-samedi"
+                                        id="horaire-samedi">
 
-                                    <label for="horraire-dimanche" class="day-select"
-                                        id="label-horraire-dimanche">Di</label>
-                                    <input style="display:none" type="checkbox" name="horraire-dimanche"
-                                        id="horraire-dimanche">
+                                    <label for="horaire-dimanche" class="day-select"
+                                        id="label-horaire-dimanche">Di</label>
+                                    <input style="display:none" type="checkbox" name="horaire-dimanche"
+                                        id="horaire-dimanche">
                                 </div>
 
                                 <div class="row-input-time">
-                                    <label for="horraire-time-start">Disponible de </label>
-                                    <input type="time" value="08:00" id="horraire-time-start"
-                                        name="horraire-time-start">
-                                    <label for="horraire-time-end">à</label>
-                                    <input type="time" value="12:00" id="horraire-time-end" name="horraire-time-end">
+                                    <label for="horaire-time-start">Disponible de </label>
+                                    <input type="time" value="08:00" id="horaire-time-start" name="horaire-time-start">
+                                    <label for="horaire-time-end">à</label>
+                                    <input type="time" value="12:00" id="horaire-time-end" name="horaire-time-end">
                                 </div>
                             </div>
 
-                            <button id="btn-submit-horraire" class="btn-primary">Ajouter</button>
+                            <button id="btn-submit-horaire" class="btn-primary">Ajouter</button>
                         </div>
 
-                        <div id="collection-horraire">
+                        <div id="collection-horaire">
 
                         </div>
 

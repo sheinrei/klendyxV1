@@ -2,11 +2,11 @@ function resetDomExternal() {
     $("#external-title").val("")
     $("#external-description").val("")
     $("#external-img-choice").css("display", "none")
-    $("#external-calendyx").prop("checked", false)
+    $("#external-klendyx").prop("checked", false)
     $("#external-google").prop("checked", false)
     $("#external-apple").prop("checked", false)
-    $("#external-horraire-start").val("12:00")
-    $("#external-horraire-end").val("13:00")
+    $("#external-horaire-start").val("12:00")
+    $("#external-horaire-end").val("13:00")
 }
 
 function setHtmlExternalFav(data) {
@@ -143,19 +143,19 @@ $(function () {
         const imgAlt = $("#external-img-choice").attr("alt")
         const imgHtml = imgSrc ? `<img width="38" height="38" src="${imgSrc}" alt="${imgAlt}" />` : `${img["none"]}`
         const description = $("#external-description").val();
-        const hourStart = $("#external-horraire-start").val()
-        const hourEnd = $("#external-horraire-end").val()
-        const calendyx = $("#external-calendyx").is(":checked")
+        const hourStart = $("#external-horaire-start").val()
+        const hourEnd = $("#external-horaire-end").val()
+        const klendyx = $("#external-klendyx").is(":checked")
         const google = $("#external-google").is(":checked")
         const apple = $("#external-apple").is(":checked")
         const outlook = $("#external-outlook").is(":checked")
-        const calendarSave = { calendyx, google, apple, outlook }
-        const html = setHtmlExternalFav({title, description, hourStart, hourEnd, calendarSave, imgSrc, imgAlt, imgHtml})
+        const calendarSave = { klendyx, google, apple, outlook }
+        const html = setHtmlExternalFav({ title, description, hourStart, hourEnd, calendarSave, imgSrc, imgAlt, imgHtml })
         if (!title.length) {
             return createClassiqueModale("Veuillez saisir un titre")
         }
-        if(hourStart.split(":")[0] > hourEnd.split(":")[0]){
-            return createClassiqueModale("Erreur dans l'horraire, le début ne pas pas être après la fin")
+        if (hourStart.split(":")[0] > hourEnd.split(":")[0]) {
+            return createClassiqueModale("Erreur dans l'horaire, le début ne pas pas être après la fin")
         }
         addExternalFavLocalStorage({ title, description, hourStart, hourEnd, calendarSave, imgSrc, imgAlt, imgHtml })
 

@@ -36,10 +36,10 @@ function createFcDayModale(infos) {
 
                      <div class="external-form-group-calendar">
 
-                                    <div class="external-input-row" id="external-calendar-save-calendyx">
-                                        <input type="checkbox" id="external-calendyx" name="external-calendyx"
+                                    <div class="external-input-row" id="external-calendar-save-klendyx">
+                                        <input type="checkbox" id="external-klendyx" name="external-klendyx"
                                             style="display:none">
-                                        <label class="external-label-calendar" for="external-calendyx" title="Calendyx">
+                                        <label class="external-label-calendar" for="external-klendyx" title="klendyx">
                                             <img width="38" height="38" src="./../images/litleLogo.png"
                                                 alt="google-logo" />
                                             <span class="badge">✔️</span>
@@ -119,13 +119,13 @@ $(document).on("click", "#btn-submit-event", async (e) => {
     const timeStart = $("#time-start").val()
     const timeEnd = $("#time-end").val()
 
-    const originCalendyx = $("#origin-calendyx").is(":checked")
+    const originklendyx = $("#origin-klendyx").is(":checked")
     const originGoogle = $("#origin-google").is(":checked")
     const originApple = $("#origin-apple").is(":checked")
 
     const repeatEvery = $("#repeat-every").val()
     console.log({
-        originCalendyx,
+        originklendyx,
         originGoogle,
         originApple,
         timeStart,
@@ -151,7 +151,7 @@ $(document).on("click", "#btn-submit-event", async (e) => {
         })
         console.log(res);
     }
-    if (originCalendyx) {
+    if (originklendyx) {
 
     }
 })

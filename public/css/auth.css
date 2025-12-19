@@ -111,7 +111,43 @@
     }
 }
 
+/* 2FA */
+
+.frame-2FA{
+    width: 90%;
+    margin:auto;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-2FA{
+    width: 100%;
+    text-align: left;
+}
+
+.header-2FA p{
+    margin:0
+}
+
+.form-2FA{
+    display:inline-flex;
+    justify-content: center;
+    gap:20px;
+    margin : 25px 0
+}
+
+.input-2FA{
+    max-width: 45px;
+    height:65px;
+    border-radius:10px;
+    font-size:20px;
+    text-align: center;
+}
+
+
 /* Formulaires */
+
 .auth-form {
     display: flex;
     flex-direction: column;
@@ -181,6 +217,9 @@
     color: var(--text-secondary);
     opacity: 0.7;
 }
+
+
+
 
 /* Section professionnelle */
 .icone-toggle{
@@ -261,6 +300,7 @@
     }
 
     .tab-btn {
+        
         padding: 0.625rem 0.75rem;
         font-size: 0.8125rem;
     }

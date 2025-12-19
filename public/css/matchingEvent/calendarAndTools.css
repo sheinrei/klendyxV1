@@ -2,13 +2,13 @@ body {
     justify-content: center !important;
 }
 
-#message-alert{
-    display:none;
-    padding:8px 15px;
+#message-alert {
+    display: none;
+    padding: 8px 15px;
     background-color: #ffffff;
     width: fit-content;
-    position:relative;
-    left:50%;
+    position: relative;
+    left: 50%;
     transform: translateX(-50%);
     color: rgb(80, 146, 80);
 }
@@ -133,7 +133,7 @@ body {
 
 
 
-/* Radio group pour les input radio "pref" "dispo" dans la plage horraire */
+/* Radio group pour les input radio "pref" "dispo" dans la plage horaire */
 .radio-group {
     display: flex;
     gap: 12px;

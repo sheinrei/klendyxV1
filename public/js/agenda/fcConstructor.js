@@ -192,8 +192,8 @@ $(document).ready(async () => {
             const summary = el.dataset.title
             const description = el.dataset.describe
             console.log(calendarSave)
-            if (calendarSave.calendyx) {
-                console.log("calendyx")
+            if (calendarSave.klendyx) {
+                console.log("klendyx")
             }
             if (calendarSave.google) {
                 createEventGoogle(host, summary, description, dateStart, dateEnd);
@@ -252,13 +252,13 @@ $(document).ready(async () => {
             turn++
         })
     }
-    const eventCalendyx = await getKlendyxRdv(host)
+    const eventklendyx = await getKlendyxRdv(host)
 
 
     window.calendar.batchRendering(() => {
-        //calendyx
-        if (eventCalendyx.event) {
-            eventCalendyx.event.data.map((element) => {
+        //klendyx
+        if (eventklendyx.event) {
+            eventklendyx.event.data.map((element) => {
                 window.calendar.addEvent({
                     start: element.dateDebut,
                     end: element.dateFin,
@@ -269,7 +269,7 @@ $(document).ready(async () => {
                     extendedProps: {
                         data: element,
                         description: element.messageEvent,
-                        origin: "calendyx",
+                        origin: "klendyx",
                     },
 
                     backgroundColor: "#3788d8",

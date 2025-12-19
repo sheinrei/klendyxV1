@@ -1,12 +1,11 @@
 import express from "express";
-const routerApiCalendarGoogle = express.Router()
+const routerAuthCalendarGoogle = express.Router()
 import db from "./../sequelize.js";
 
 import { google } from "googleapis";
 import { saveToken } from "../service/token/saveToken.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { getToken } from "../service/token/getToken.js";
-import { deleteTokenAccessGoogle } from "../service/token/deleteToken.js";
 
 
 
@@ -15,7 +14,7 @@ import { deleteTokenAccessGoogle } from "../service/token/deleteToken.js";
 const oauth2Client = new google.auth.OAuth2(
     process.env.O2AUTH_ID_CLIENT,
     process.env.O2AUTH_CLIENT_SECRET,
-    `${process.env.HOST}/api/calendar/oauth2callback` // callback URL
+    `${process.env.HOST}/api/calendar/google/callback` // callback URL
 );
 const scopes = ["https://www.googleapis.com/auth/calendar"];
 
@@ -24,7 +23,7 @@ const scopes = ["https://www.googleapis.com/auth/calendar"];
 
 
 // 🔹 Étape 1 — Rediriger vers Google pour autorisation
-routerApiCalendar.get("/auth", authMiddleware, (req, res) => {
+routerAuthCalendarGoogle.get("/auth", authMiddleware, (req, res) => {
     const userId = req.userId;
     const authUrl = oauth2Client.generateAuthUrl({
         access_type: "offline",
@@ -38,7 +37,7 @@ routerApiCalendar.get("/auth", authMiddleware, (req, res) => {
 
 
 // 🔹 Étape 2 — Callback après autorisation
-routerApiCalendar.get("/oauth2callback", async (req, res) => {
+routerAuthCalendarGoogle.get("/callback", async (req, res) => {
     const { code, state } = req.query;
     const { invite } = JSON.parse(state);
     const { tokens } = await oauth2Client.getToken(code);
@@ -70,23 +69,17 @@ routerApiCalendar.get("/oauth2callback", async (req, res) => {
 
 
 
-//Cherche si un user est sync
-routerApiCalendar.get("/google/sync", authMiddleware, async (req, res) => {
-    const user = req.userId
-    const searchToken = await getToken("RefreshTokenGoogle", user, db)
-    return res.json({success : searchToken.success, createdAt : searchToken.createdAt})
-})
 
 
-//supprimer l'auth google
-routerApiCalendar.post("/google/revok", authMiddleware, async(req,res)=>{
-    const idUser = req.userId
-    const deleted = await deleteTokenAccessGoogle(idUser, db)
-    if(!deleted.success){
-        return res.json({success:false, message: "Une erreur est survenue. Veuillez contacter le service client si le problème persiste."})
-    }
-    return res.json({ success: true, message: deleted.message})
-} )
+
+
+
+
+
+
+
+
+
 
 
 
@@ -97,7 +90,7 @@ routerApiCalendar.post("/google/revok", authMiddleware, async(req,res)=>{
 //Section get en mode invite (non connecté)
 
 //redirect invite
-routerApiCalendar.get("/google/auth/invite", (req, res) => {
+routerAuthCalendarGoogle.get("/invite", (req, res) => {
 
     const oauth2Client = new google.auth.OAuth2(
         process.env.O2AUTH_ID_CLIENT,
@@ -118,7 +111,7 @@ routerApiCalendar.get("/google/auth/invite", (req, res) => {
 
 
 //get en mode invite
-routerApiCalendar.get("/google/get/invite", async (req, res) => {
+routerAuthCalendarGoogle.get("/google/get/invite", async (req, res) => {
     try {
         const oauth2Client = new google.auth.OAuth2(
             process.env.O2AUTH_ID_CLIENT,
@@ -193,4 +186,4 @@ routerApiCalendar.get("/google/get/invite", async (req, res) => {
     }
 });
 
-export default routerApiCalendarGoogle;
+export default routerAuthCalendarGoogle;

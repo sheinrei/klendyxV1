@@ -1,5 +1,5 @@
 
-async function calendyxDeleteEvent(token, idEvent) {
+async function klendyxDeleteEvent(token, idEvent) {
     const config = await getConfig()
     const host = config.host
 
@@ -22,7 +22,7 @@ async function googleDeleteEvent(token, idEvent) {
     const config = await getConfig()
     const host = config.host
 
-    
+
     const res = await fetch(`${host}/api/calendar/google/delete`, {
         method: "POST",
         headers: {
@@ -55,8 +55,8 @@ $(document).on("click", "#btn-delete-event", async () => {
                 $(".close-modale").closest(".event-modale").remove()
             }
             break
-        case "calendyx":
-            deleted = await calendyxDeleteEvent(token, idEvent)
+        case "klendyx":
+            deleted = await klendyxDeleteEvent(token, idEvent)
             if (deleted.success) {
                 $(".close-modale").closest(".event-modale").remove()
             }

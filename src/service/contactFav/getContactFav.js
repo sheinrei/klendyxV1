@@ -12,7 +12,7 @@ export async function getContactFav(db, req) {
 
 
     if (getContact) {
-        return { success: true, message: "Contact récupéré avec succes !", getContact }
+        return { success: true, message: "Contact récupéré avec succes !", data : getContact }
     }
 
     return { sucess: false, message: "Problème survenu avec le serveur, impossible de récuperer les contacts" }

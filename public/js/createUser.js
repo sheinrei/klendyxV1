@@ -78,7 +78,7 @@ $(document).ready(() => {
 
             success: function (res) {
                 if (res.success === true) {
-                    MessageAlert.create("success", "#input-message-alert", message)
+                    MessageAlert.create("success", "#input-message-alert", res.message)
                     scrollTo()
                     $("#nom").val("")
                     $("#prenom").val("")

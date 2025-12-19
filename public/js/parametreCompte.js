@@ -47,18 +47,19 @@ async function hydrateStateSyncCalendar(host) {
     $("#action-sync-outlook").text(data.outlook.sync ? "Révoquer" : "Synchroniser")
     $("#action-sync-apple").text(data.apple.sync ? "Révoquer" : "Synchroniser")
 
+    console.log(data.outlook.sync)
 
-    if (data.google.sync) $("#action-sync-google").toggleClass("btn-revok-calendar")
-    if (data.outlook.sync) $("#action-sync-outlook").toggleClass("btn-revok-calendar")
-    if (data.apple.sync) $("#action-sync-apple").toggleClass("btn-revok-calendar")
-}
+    data.google.sync
+        ? $("#action-sync-google").addClass("btn-revok-calendar")
+        : $("#action-sync-google").removeClass("btn-revok-calendar")
 
-async function revokeSyncCalendar(host, calendar) {
-    const revoke = await fetch(`${host}/api/calendar/${calendar}/revok`, {
-        method: "POST"
-    })
-    const res = await revoke.json()
-    return res
+    data.outlook.sync
+        ? $("#action-sync-outlook").addClass("btn-revok-calendar")
+        : $("#action-sync-outlook").removeClass("btn-revok-calendar")
+
+    data.apple.sync
+        ? $("#action-sync-apple").addClass("btn-revok-calendar")
+        : $("#action-sync-apple").removeClass("btn-revok-calendar")
 }
 
 async function updateDataUser(host, data) {
@@ -102,22 +103,25 @@ async function setAbbonement(host) {
     $("#user-date-refresh-credit").text(textDataRefresh)
 }
 
-async function syncApple(host) {
+async function revokeCalendar(host, provider) {
 
-    const sync = await fetch(`${host}/api/calendar/apple/auth`, {
+
+    const revoked = await fetch(`${host}/api/calendar/revoke-sync`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email: "l.beaute@laposte.net",
-            appPassword: "moxi-twyp-icae-aiii",
+            provider
         })
     })
-    const res = await sync.json()
-    return res
-}
 
+    const data = await revoked.json();
+    return {
+        success: data.success,
+        message: data.message,
+    }
+}
 
 
 
@@ -199,6 +203,26 @@ $(async () => {
     })
 
     //gestion DOM password
+    let stateShowLastPassword = false
+    let stateShowNewPassword = false
+    let stateShowNewPasswordConfirm = false
+
+    $("#show-input-user-last-password").on("click", () => {
+        $("#last-password").prop("type", stateShowLastPassword ? "password" : "text")
+        stateShowLastPassword = !stateShowLastPassword
+    })
+
+    $("#show-input-user-new-password").on("click", () => {
+        $("#new-password").prop("type", stateShowNewPassword ? "password" : "text")
+        stateShowNewPassword = !stateShowNewPassword
+    })
+
+    $("#show-input-user-new-password-confirm").on("click", () => {
+        $("#new-password-confirm").prop("type", stateShowNewPasswordConfirm ? "password" : "text")
+        stateShowNewPasswordConfirm = !stateShowNewPasswordConfirm
+    })
+
+
     $("#new-password").on("input", function () {
         const password = $(this).val()
         const ProgressBar = new ProgressBarPassword("progress-bar-password", "input-message-alert-password", password)
@@ -290,6 +314,8 @@ $(async () => {
         console.log(data)
     })
 
+
+    // === Sécurité ===
     //Préférence 2FA
     $("#user-2FA").on("change", async function () {
         const state = $(this).is(":checked");
@@ -308,21 +334,31 @@ $(async () => {
         console.log(resJson)
     })
 
+    $("#btn-export-data-user").on("click", function (e) {
+        e.preventDefault();
 
-    // === gestion sync des calendar ===
+        window.location.href = "/api/user/export-data"
+    })
+
+$("#btn-get-invoice").on("click", function(e){
+    e.preventDefault();
+    createClassiqueModale("Cette fonctionalité n'est pas encore implémenté")
+})
+
+
+    // === gestion bouton sync des calendar ===
     $("#action-sync-google").on("click", async function (e) {
         e.preventDefault();
         switch ($(this).text()) {
             case "Révoquer":
-                const revoke = await revokeSyncCalendar(host, "google");
-                revoke.success ? MessageAlert.create("information", "#input-message-alert-calendar", revoke.message)
-                    : MessageAlert.create("warning", "#input-message-alert-calendar", revoke.message)
-                await hydrateStateSyncCalendar(host)
+                const revoke = await revokeCalendar(host, "google");
+                MessageAlert.create(revoke.success ? "information" : "warning", "#input-message-alert-calendar", revoke.message)
+                hydrateStateSyncCalendar(host)
                 break;
 
             case "Synchroniser":
                 window.localStorage.setItem("redirect", "/mon-compte")
-                window.location.href = `${host}/api/calendar/auth`
+                window.location.href = `${host}/api/calendar/google/auth`
                 break;
             default:
                 return;
@@ -339,8 +375,7 @@ $(async () => {
                 break;
 
             case "Synchroniser":
-                const sync = await syncApple(host);
-                console.log(sync)
+                createClassiqueModale("Cette fonctionalité n'est pas encore implémenté")
                 break;
             default:
                 return;
@@ -350,17 +385,18 @@ $(async () => {
     $("#action-sync-outlook").on("click", async function (e) {
         e.preventDefault();
         switch ($(this).text()) {
-            case "Révoquer":
-                const revoke = await revokeSyncCalendar(host, "outlook");
-                revoke.success ? MessageAlert.create("information", "#input-message-alert-calendar", revoke.message)
-                    : MessageAlert.create("warning", "#input-message-alert-calendar", revoke.message)
 
+            case "Révoquer":
+                const revoke = await revokeCalendar(host, "outlook");
+                MessageAlert.create(revoke.success ? "information" : "warning", "#input-message-alert-calendar", revoke.message)
+                hydrateStateSyncCalendar(host)
                 break;
 
             case "Synchroniser":
                 window.localStorage.setItem("redirect", "/mon-compte")
                 window.location.href = `${host}/api/calendar/outlook/auth`
                 break;
+
             default:
                 return;
         }
@@ -368,20 +404,28 @@ $(async () => {
 
 
 
-    //irreversible
+    // === irreversible === 
+    //ouvre la modale pour confirmation
     $("#btn-delete-user").on("click", async function (e) {
         e.preventDefault();
-        createClassiqueModale("Attention vous êtes sur le point de supprimer votre compte")
+        createClassiqueModale("<p id='message-modale'>Attention vous êtes sur le point de supprimer votre compte</p>")
         $(".classique-modale-footer").append("<button class='btn-primary' id='btn-confirm-delete'>Confirmer</button>")
     })
 
+    //Déclanche l'envoie du mail début de delete complet
     $(document).on("click", "#btn-confirm-delete", async function (e) {
         e.preventDefault();
         console.log("delete")
         const sendDelete = await fetch(`${host}/api/user/send-delete`, {
-            method: "POST"
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
         const resSend = await sendDelete.json()
-        console.log(resSend)
+        if (resSend.success) {
+            $("#btn-confirm-delete").remove();
+            $("#message-modale").text(resSend.message)
+        }
     })
 })

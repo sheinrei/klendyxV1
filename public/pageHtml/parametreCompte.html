@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Klendyx – Paramètres de votre compte</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
+
     <meta name="description"
         content="Gérez vos informations personnelles, modifiez vos préférences et sécurisez votre compte Klendyx depuis la page de paramètres.">
     <meta name="keywords"
@@ -376,7 +378,7 @@
                                 <p class="card-title">Exporter mes données</p>
                                 <p class="card-subtitle">Obtenez une copie de toutes vos données (RGPD)</p>
                             </div>
-                            <button class="btn-black">
+                            <button class="btn-black" id="btn-export-data-user">
                                 Exporter
                             </button>
                         </div>
@@ -397,9 +399,9 @@
                                 <p class="card-subtitle">Etat de la synchronisation avec votre compte Google Calendar
                                 </p>
                                 <div class="input-row">
-                                    <p>Etat :
+                                    <span>Etat :
                                         <span id="state-sync-google">Synchro</span>
-                                    </p>
+                                    </span>
                                 </div>
                             </div>
                             <button class="btn-sync-calendar" id="action-sync-google">Synchroniser</button>
@@ -415,9 +417,9 @@
                                 <p class="card-subtitle">Etat de la synchronisation avec votre compte Apple
                                 </p>
                                 <div class="input-row">
-                                    <p>Etat :
+                                    <span>Etat :
                                         <span id="state-sync-apple">Synchronisé</span>
-                                    </p>
+                                    </span>
                                 </div>
                             </div>
                             <button class="btn-sync-calendar" id="action-sync-apple">Revoker la synchronisation</button>
@@ -434,9 +436,9 @@
                                 <p class="card-subtitle">Etat de la synchronisation avec votre compte Outlook
                                 </p>
                                 <div class="input-row">
-                                    <p>Etat :
+                                    <span>Etat :
                                         <span id="state-sync-outlook">Synchro</span>
-                                    </p>
+                                    </span>
                                 </div>
                             </div>
                             <button class="btn-sync-calendar" id="action-sync-outlook">Revoker la
@@ -492,13 +494,19 @@
 
                             <div>
                                 <p class="card-title">Vos crédits</p>
-                                <p class="card-subtitle">Détail de vos crédits, le rafraichissement de vos crédits
-                                    s'éffectue toute les semaines</p>
+
+                                <p class="card-subtitle">
+                                    Détail de vos crédits, le rafraichissement de vos crédits
+                                    s'éffectue toute les semaines
+                                </p>
+
                                 <div>
-                                    <p>Email : <span id="user-credit-email"></span></p>
-                                    <p>Sms : <span id="user-credit-sms"></span></p>
-                                    <p>rafraichissement de vos crédit hebdomadaire le <span
-                                            id="user-date-refresh-credit"></span></p>
+                                    <p>Envoie d'email restant: <span id="user-credit-email"></span></p>
+                                    <p>Envoie de sms restant: <span id="user-credit-sms"></span></p>
+                                    <span>
+                                        Rafraichissement de vos crédit hebdomadaire le
+                                        <strong><span id="user-date-refresh-credit"></span></strong>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -520,7 +528,7 @@
                                 <p class="card-subtitle">Obtenez l'hitorique complet de vos factures klendyx</p>
                             </div>
 
-                            <button class="btn-black">Obtenir</button>
+                            <button class="btn-black" id="btn-get-invoice">Obtenir</button>
                         </div>
                     </div>
                 </section>
@@ -566,7 +574,7 @@
                                     <p class="card-subtitle">Cette action supprimera définitivement votre compte ainsi
                                         que toutes les données lui appartenant</p>
                                 </div>
-                                
+
                                 <button class="btn-black" id="btn-delete-user">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

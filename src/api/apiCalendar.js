@@ -1,7 +1,7 @@
 import express from "express"
 import authMiddleware from "../middleware/authMiddleware.js"
 import db from "./../sequelize.js";
-import { getAllEvents, createEvent, updateEvent, deleteEvent, getCalendarSync } from "../service/calendar/CalendarController.js";
+import { getAllEvents, createEvent, updateEvent, deleteEvent, getCalendarSync, revokeCalendar } from "../service/calendar/CalendarController.js";
 
 const routerApiCalendar = express.Router()
 
@@ -125,6 +125,25 @@ routerApiCalendar.get("/all-sync", authMiddleware, async (req, res) => {
             error: err.message
         })
     }
+})
 
+routerApiCalendar.post("/revoke-sync", authMiddleware, async(req,res)=>{
+    try{
+        
+        const provider = req.body.provider;
+        const userId = req.userId;
+
+        const revoke = await revokeCalendar(provider, db, userId);
+        
+        return res.json(revoke)
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            success : false,
+            message : `Une erreur est survenue lors de la suppression de la synchronisation avec votre agenda ${provider} , veuillez réessayer plus tard, si le problème persiste merci de contacter notre support`,
+            error : err.message
+        })
+    }
 })
 export default routerApiCalendar

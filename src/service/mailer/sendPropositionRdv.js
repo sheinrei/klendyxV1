@@ -42,7 +42,7 @@ export async function sendPropositionRdv(url, email, prenom, nameInitialisateur,
                             </svg>
 
                             <div style="display:flex; flex-direction:column; align-items:flex-start; margin:0">
-                                <p style="margin:0;width:100%">Horraire</p>
+                                <p style="margin:0;width:100%">Horaire</p>
                                 <p style="margin:0;width:100%">${hourStart.replace(":", "h")} à ${hourEnd.replace(":", "h")}</p>
                             </div>
                         </div>

@@ -217,8 +217,8 @@ function addDaysEventIndispo(dayNumber, state, dayStart, dayEnd, color, calendar
     }
 }
 
-//Ajout dans le FC des events sur une plage horraire
-function addDaysEventDispoHorraire(dayNumber, setup, hourStart, hourEnd, dayStart, dayEnd, color, calendar) {
+//Ajout dans le FC des events sur une plage horaire
+function addDaysEventDispohoraire(dayNumber, setup, hourStart, hourEnd, dayStart, dayEnd, color, calendar) {
     const dayInInterval = [];
     const startDate = new Date(dayStart);
     const endDate = new Date(dayEnd);
@@ -282,7 +282,7 @@ function hydraterJsonUndisponibility(json, calendar, origin) {
                 json[origin].preference.push({ start, end, allDay });
                 break
             default:
-                json[origin].indisponible.push({start : e.startStr, end : e.endStr, allDay})
+                json[origin].indisponible.push({ start: e.startStr, end: e.endStr, allDay })
         }
     })
 
@@ -358,40 +358,40 @@ $(async () => {
     });
 
 
-    //Gestion des plage horraires
+    //Gestion des plage horaires
     //Gestion color du label feat checkbox
     days.forEach(day => {
-        $(`#horraire-${day.id}`).on("click", () => {
-            const state = $(`#horraire-${day.id}`).is(":checked");
-            $(`#label-horraire-${day.id}`).css("background", state ? "linear-gradient(135deg, #007bff 0%, #0056b3 100%)" : "white")
+        $(`#horaire-${day.id}`).on("click", () => {
+            const state = $(`#horaire-${day.id}`).is(":checked");
+            $(`#label-horaire-${day.id}`).css("background", state ? "linear-gradient(135deg, #007bff 0%, #0056b3 100%)" : "white")
         })
     })
 
     //Ajout dans les events
-    $("#btn-submit-horraire").on("click", (e) => {
+    $("#btn-submit-horaire").on("click", (e) => {
         e.preventDefault();
         const arrayDays = [];
 
         days.forEach((day) => {
-            if ($(`#horraire-${day.id}`).is(":checked")) {
+            if ($(`#horaire-${day.id}`).is(":checked")) {
                 arrayDays.push(day.numberDay)
             }
         })
 
-        const setupDisponible = $("#plage-horraire-setup-disponible").is(":checked")
-        const setupIndisponible = $("#plage-horraire-setup-indisponible").is(":checked")
-        const setupPreference = $("#plage-horraire-setup-preference").is(":checked")
+        const setupDisponible = $("#plage-horaire-setup-disponible").is(":checked")
+        const setupIndisponible = $("#plage-horaire-setup-indisponible").is(":checked")
+        const setupPreference = $("#plage-horaire-setup-preference").is(":checked")
 
-        const horraireStart = $("#horraire-time-start").val()
-        const horraireEnd = $("#horraire-time-end").val()
-        if (setupDisponible) addDaysEventDispoHorraire(arrayDays, "disponible", horraireStart, horraireEnd, dayStart, dayEnd, color, calendar)
-        if (setupIndisponible) addDaysEventDispoHorraire(arrayDays, "indisponible", horraireStart, horraireEnd, dayStart, dayEnd, color, calendar)
-        if (setupPreference) addDaysEventDispoHorraire(arrayDays, "preference", horraireStart, horraireEnd, dayStart, dayEnd, color, calendar)
+        const horaireStart = $("#horaire-time-start").val()
+        const horaireEnd = $("#horaire-time-end").val()
+        if (setupDisponible) addDaysEventDispohoraire(arrayDays, "disponible", horaireStart, horaireEnd, dayStart, dayEnd, color, calendar)
+        if (setupIndisponible) addDaysEventDispohoraire(arrayDays, "indisponible", horaireStart, horaireEnd, dayStart, dayEnd, color, calendar)
+        if (setupPreference) addDaysEventDispohoraire(arrayDays, "preference", horaireStart, horaireEnd, dayStart, dayEnd, color, calendar)
 
         //remise à 0 de l'affichage des labels
         days.forEach((day) => {
-            $(`#horraire-${day.id}`).prop("checked", false);
-            $(`#label-horraire-${day.id}`).css("backgroundColor", "white")
+            $(`#horaire-${day.id}`).prop("checked", false);
+            $(`#label-horaire-${day.id}`).css("backgroundColor", "white")
         })
     })
 
@@ -418,7 +418,7 @@ $(async () => {
 
         //Mettre à jours dans la base
         const updated = await updateJsonUndisponibility(host, jsonUpdated, urlToken)
-        if (updated.success){
+        if (updated.success) {
             scrollTo(0, 0)
             $("#message-alert").css("display", "block").text("Vos disponibilités ont bien été mises à jour. Vous recevrez une notification par email lorsque la date de cet événement aura été déterminée.")
             $("#btn-submit-matching").remove()

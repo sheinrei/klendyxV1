@@ -2,6 +2,7 @@ import tokenTable from "../../models/tokenTable.js";
 
 
 export async function getToken(type, userId, db) {
+    
     const Token = tokenTable(db);
 
     const saved = await Token.findOne({

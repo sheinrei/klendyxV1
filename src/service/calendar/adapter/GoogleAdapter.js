@@ -12,7 +12,7 @@ class GoogleAdapter extends CalendarAdapter {
         this.oauth2Client = new google.auth.OAuth2(
             process.env.O2AUTH_ID_CLIENT,
             process.env.O2AUTH_CLIENT_SECRET,
-            `${process.env.HOST}/api/calendar/oauth2callback`
+            `${process.env.HOST}/api/calendar/google/callback`
         );
         this.scope = ["https://www.googleapis.com/auth/calendar"];
         this.calendar = google.calendar({ version: "v3", auth: this.oauth2Client });
@@ -20,7 +20,7 @@ class GoogleAdapter extends CalendarAdapter {
     }
 
     async setCredentials() {
-        const token = await getToken("RefreshTokenGoogle", this.userId, this.db);
+        const token = await getToken("GoogleSync", this.userId, this.db);
         if (!token) {
             throw new Error(`Token google introuvable dans la base de donnée`)
         }
@@ -103,39 +103,48 @@ class GoogleAdapter extends CalendarAdapter {
 
     async getAllEvents() {
 
-        await this.setCredentials();
+        try {
+            await this.setCredentials();
 
-        const now = new Date();
-        const lastMounth = new Date(now);
-        lastMounth.setDate(now.getDate() - 30);
+            const now = new Date();
+            const lastMounth = new Date(now);
+            lastMounth.setDate(now.getDate() - 30);
 
-        const option = {
-            calendarId: "primary",
-            timeMin: lastMounth.toISOString(),
-            //timeMax: rangeMax ? new Date(rangeMax).toISOString() : undefined,
-            fields: "items(id,summary,start,end, description)",
-            maxResults: 400,
-            singleEvents: true,
-            orderBy: "startTime",
+            const option = {
+                calendarId: "primary",
+                timeMin: lastMounth.toISOString(),
+                //timeMax: rangeMax ? new Date(rangeMax).toISOString() : undefined,
+                fields: "items(id,summary,start,end, description)",
+                maxResults: 400,
+                singleEvents: true,
+                orderBy: "startTime",
+            }
+
+            const events = await this.calendar.events.list(option);
+
+            const arrayEvent = [];
+
+            events.data.items.forEach(event => {
+                arrayEvent.push(this._normalizeOutput(event))
+            })
+            return {
+                success: true,
+                message: "La liste de tout les évènements Google a été récupéré avec succès",
+                data: {
+                    events: arrayEvent,
+                    count: arrayEvent.length,
+                    origin: "google"
+                }
+            }
+        }catch(err){
+            console.log(err)
+            return {
+                success:false,
+                message : "Une erreur est survenue et ne pouvons pas récupérer vos évènements de l'agenda google, veuillez réessayer plus tard. Si le problème persiste merci de contacter le support Klendyx.",
+                error : err.message
+            }
         }
 
-        const events = await this.calendar.events.list(option);
-
-        const arrayEvent = [];
-
-        events.data.items.forEach(event=>{
-            arrayEvent.push(this._normalizeOutput(event))
-        })
-
-        return {
-            success: true,
-            message: "La liste de tout les évènements Google a été récupéré avec succès",
-            data : {
-                events : arrayEvent,
-                count : arrayEvent.length,
-                origin : "google"
-            } 
-        }
     }
 
 

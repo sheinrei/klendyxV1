@@ -1,3 +1,4 @@
+import { deleteTokenSyncCalendar } from "../token/deleteToken.js";
 import { getToken } from "../token/getToken.js";
 import { getCalendarAdapter } from "./CalendarFactory.js";
 
@@ -10,8 +11,7 @@ export async function getAllEvents(provider, db, userId) {
         const allEvents = await adapter.getAllEvents();
 
         return {
-            success: true,
-            data: allEvents
+            data : allEvents
         }
 
     } catch (err) {
@@ -22,7 +22,6 @@ export async function getAllEvents(provider, db, userId) {
         }
     }
 }
-
 
 
 export async function createEvent(provider, db, userId, eventData) {
@@ -44,6 +43,7 @@ export async function createEvent(provider, db, userId, eventData) {
     }
 }
 
+
 export async function updateEvent(provider, db, userId, eventData, eventId) {
     try {
 
@@ -62,6 +62,7 @@ export async function updateEvent(provider, db, userId, eventData, eventId) {
         }
     }
 }
+
 
 export async function deleteEvent(provider, db, userId, eventId) {
     try {
@@ -82,12 +83,11 @@ export async function deleteEvent(provider, db, userId, eventId) {
     }
 }
 
-export async function getCalendarSync(db, userId) {
 
+export async function getCalendarSync(db, userId) {
     try {
         const google = await getToken("GoogleSync", userId, db);
         const outlook = await getToken("OutlookSync", userId, db);
-        const apple = false;
 
         return {
             google: {
@@ -95,13 +95,13 @@ export async function getCalendarSync(db, userId) {
                 createdAt: google.createdAt || null
             },
             outlook: {
-                sync : outlook.success,
-                createdAt : outlook.createdAt || null
+                sync: outlook.success,
+                createdAt: outlook.createdAt || null
             },
             klendyx: true,
-            apple : {
-                sync : false,
-                createdAt : null
+            apple: {
+                sync: false,
+                createdAt: null
             }
         }
     } catch (err) {
@@ -113,8 +113,25 @@ export async function getCalendarSync(db, userId) {
     }
 }
 
-export async function revokeCalendar(provider, db, userId){
 
-    const deletedToken = await deleteToken
+export async function revokeCalendar(provider, db, userId) {
+
+    try {
+        const deletedToken = await deleteTokenSyncCalendar(db, userId, provider)
+
+        return {
+            success : deletedToken.success,
+            message : deletedToken.message
+        }
+    } catch (err) {
+        console.log(err)
+        return {
+            success: false,
+            message: `"Une erreur est survenue lors de la suppression de la synchronisation avec votre agenda ${provider} , veuillez réessayer plus tard, si le problème persiste merci de contacter notre support`,
+            error: err.message
+        }
+    }
+
+
 
 }

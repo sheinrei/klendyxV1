@@ -41,12 +41,12 @@ function controleInput(nom, prenom, email, validEmail, phone, dayStart, hourStar
     }
 
     if (!hourStart) {
-        invalidInput("#data-rdv-horraire-start", "Veuillez saisir l'heure de début")
+        invalidInput("#data-rdv-horaire-start", "Veuillez saisir l'heure de début")
         return false
     }
 
     if (!hourEnd) {
-        invalidInput("#data-rdv-horraire-end", "Veuillez saisir l'heure de fin")
+        invalidInput("#data-rdv-horaire-end", "Veuillez saisir l'heure de fin")
         return false
     }
 
@@ -90,8 +90,8 @@ function resetCss() {
     $("#data-rdv-phone").css("border", "1px solid var(--border-color")
     $("#data-rdv-title").css("border", "1px solid var(--border-color")
     $("#data-rdv-day-start").css("border", "1px solid var(--border-color")
-    $("#data-rdv-horraire-start").css("border", "1px solid var(--border-color")
-    $("#data-rdv-horraire-end").css("border", "1px solid var(--border-color")
+    $("#data-rdv-horaire-start").css("border", "1px solid var(--border-color")
+    $("#data-rdv-horaire-end").css("border", "1px solid var(--border-color")
     $(".label-full-row").css("border", "1px solid var(--border-color")
 
 }
@@ -117,8 +117,8 @@ function resetFormulaire() {
     $("#data-rdv-email").val("")
     $("#data-rdv-phone").val("")
     $("#data-rdv-day-start").val("")
-    $("#data-rdv-horraire-start").val("")
-    $("#data-rdv-horraire-end").val("")
+    $("#data-rdv-horaire-start").val("")
+    $("#data-rdv-horaire-end").val("")
     $("#data-rdv-title").val("")
     $("#data-rdv-commentaire").val("")
 
@@ -126,7 +126,7 @@ function resetFormulaire() {
     $("#recapitulatif-client").text("--")
     $("#recapitulatif-date").text("--")
     $("#recapitulatif-titre").text("--")
-    $("#recapitulatif-horraire").text("--")
+    $("#recapitulatif-horaire").text("--")
     $("#credit-sms-preview").text($("#credit-sms-after").text())
     $("#credit-email-preview").text($("#credit-email-after").text())
 
@@ -223,8 +223,8 @@ $("#btn-submit-rdv").on("click", async function (e) {
     let phone = $("#data-rdv-phone").val()
 
     const dayStart = $("#data-rdv-day-start").val()
-    const hourStart = $("#data-rdv-horraire-start").val()
-    const hourEnd = $("#data-rdv-horraire-end").val()
+    const hourStart = $("#data-rdv-horaire-start").val()
+    const hourEnd = $("#data-rdv-horaire-end").val()
 
     const title = $("#data-rdv-title").val();
     const commentaire = $("#data-rdv-commentaire").val()

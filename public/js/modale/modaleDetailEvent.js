@@ -19,7 +19,7 @@ function createModaleDetailEvent(infos) {
             description = extProps.data.description ?? "Aucune description"
             break
         }
-        case "calendyx": {
+        case "klendyx": {
             start = extProps.data.dateDebut
             end = extProps.data.dateFin
             title = extProps.data.titleEvent
@@ -91,25 +91,25 @@ function createModaleDetailEvent(infos) {
                     </div>
 
 
-                    <div class="info-item" style="${origin === "calendyx" ? "dispay:flex" : "display:none"}">
+                    <div class="info-item" style="${origin === "klendyx" ? "dispay:flex" : "display:none"}">
                         <svg class="info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                         <div class="info-content">
                             <div class="info-label">Etat du rendez-vous</div>
-                            <div class="info-value" id="calendyx-state-rdv">${extProps.data.state}</div>
+                            <div class="info-value" id="klendyx-state-rdv">${extProps.data.state}</div>
                         </div>
                     </div>
 
-                    <div class="info-item" style="${origin === "calendyx" && extProps.data.response ? "dispay:flex" : "display:none"}">
+                    <div class="info-item" style="${origin === "klendyx" && extProps.data.response ? "dispay:flex" : "display:none"}">
                         <img width="20" height="20" src="https://img.icons8.com/ios/50/email-open.png" alt="email-open"/>   
                         <div class="info-content">
                             <div class="info-label">Réponse </div>
-                            <div class="info-value" id="calendyx-state-rdv" 
+                            <div class="info-value" id="klendyx-state-rdv" 
                             style="padding:4px; border:1px solid black;width:fit-content; color:white; border-radius:5px;background-color:${extProps.data.response === "Refusé" ? "red" : "green"}">
                             ${extProps.data.response}</div>
 
-                            <div class="info-value" id="calendyx-state-rdv"
+                            <div class="info-value" id="klendyx-state-rdv"
                                 style="${extProps.data.messageReturn ? "dispay:flex" : "display:none"}">
                             Message retourné :<br>${extProps.data.messageReturn}
                             </div>

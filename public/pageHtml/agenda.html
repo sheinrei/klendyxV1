@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Klendyx Agenda – gérer votre emploi du temps facilement</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
+
     <meta name="description"
         content="Retrouvez et gérez tous vos événements d’agenda en quelques clics : synchronisez vos agendas favoris (Google, Apple, Outlook), planifiez vos rendez-vous et organisez votre emploi du temps facilement avec Klendyx.">
     <meta name="keywords"
@@ -123,7 +125,7 @@
 
                     <div class="frame-item-calendar-sync">
 
-                        <div class="items-calendar-sync" >Google Calendar
+                        <div class="items-calendar-sync">Google Calendar
                             <div id="items-calendar-sync-google"><span id="sync-google"></span></div>
                         </div>
 
@@ -280,7 +282,7 @@
                                 <div class="external-element-fav">
                                     <div class="fc-event" id="summary-reunion" data-title="Réunion" data-describe=""
                                         data-start="12:00" data-end="13:00"
-                                        data-calendarsave='{"calendyx":true, "google":false, "apple":false, "outlook":false}'
+                                        data-calendarsave='{"klendyx":true, "google":false, "apple":false, "outlook":false}'
                                         data-image='{"src":"https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png", "alt":"external-meeting-time-management-xnimrodx-lineal-color-xnimrodx"}'>
                                         <img width="38" height="38"
                                             src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png"
@@ -296,7 +298,7 @@
                                 <div class="external-element-fav">
                                     <div class="fc-event" id="summary-reunion" data-title="Passer un appel"
                                         data-describe="" data-start="12:00" data-end="13:00"
-                                        data-calendarsave='{"calendyx":true, "google":false, "apple":false, "outlook":false}'
+                                        data-calendarsave='{"klendyx":true, "google":false, "apple":false, "outlook":false}'
                                         data-image='{"src":"https://img.icons8.com/doodle/48/apple-phone.png", "alt":"apple-phone"}'>
                                         <img width="38" height="38"
                                             src="https://img.icons8.com/doodle/48/apple-phone.png" alt="apple-phone" />
@@ -339,20 +341,20 @@
 
                             <span class="divider"></span>
 
-                            <!-- External horraire-->
+                            <!-- External horaire-->
                             <div class="external-form">
                                 <h3>Horaire</h3>
                                 <div class="external-input-row">
-                                    <div class="external-horraire-block">
-                                        <label for="external-horraire-start">Début</label>
-                                        <input type="time" value="12:00" id="external-horraire-start"
-                                            name="external-horraire-start">
+                                    <div class="external-horaire-block">
+                                        <label for="external-horaire-start">Début</label>
+                                        <input type="time" value="12:00" id="external-horaire-start"
+                                            name="external-horaire-start">
                                     </div>
 
-                                    <div class="external-horraire-block">
-                                        <label for="external-horraire-end">Fin</label>
-                                        <input type="time" value="13:00" id="external-horraire-end"
-                                            name="external-horraire-end">
+                                    <div class="external-horaire-block">
+                                        <label for="external-horaire-end">Fin</label>
+                                        <input type="time" value="13:00" id="external-horaire-end"
+                                            name="external-horaire-end">
                                     </div>
                                 </div>
                             </div>
@@ -364,10 +366,10 @@
                                 <h3>Enregistrer sur le calendrier</h3>
                                 <div class="external-form-group-calendar">
 
-                                    <div class="external-input-row" id="external-calendar-save-calendyx">
-                                        <input type="checkbox" id="external-calendyx" name="external-calendyx"
+                                    <div class="external-input-row" id="external-calendar-save-klendyx">
+                                        <input type="checkbox" id="external-klendyx" name="external-klendyx"
                                             style="display:none">
-                                        <label class="external-label-calendar" for="external-calendyx" title="Klendyx">
+                                        <label class="external-label-calendar" for="external-klendyx" title="Klendyx">
                                             <img width="38" height="38" src="./../images/litleLogo.png"
                                                 alt="google-logo" />
                                             <span class="badge">✔️</span>
@@ -423,6 +425,15 @@
     </main>
     </section>
 
+
+    <script>
+        $(function () {
+            const redirect = window.localStorage.getItem("redirect")
+            if (redirect) {
+                window.location.href = redirect
+            }
+        })
+    </script>
 </body>
 
 </html>

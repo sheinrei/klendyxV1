@@ -118,7 +118,7 @@ class OutlookAdapter extends CalendarAdapter {
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(`Outlook API Error: ${error.error?.message || response.statusText}`);
+                throw new Error(`Erreur avec l'api Outlook: ${error.error?.message || response.statusText}`);
             }
 
             const data = await response.json();
@@ -126,7 +126,17 @@ class OutlookAdapter extends CalendarAdapter {
             data.value.forEach(event => {
                 eventArray.push(this._normalizeOutput(event))
             });
-            return eventArray;
+
+
+            return {
+                success: true,
+                message: "La liste de tout les évènements Google a été récupéré avec succès",
+                data: {
+                    events: eventArray,
+                    count: eventArray.length,
+                    origin: "outlook"
+                }
+            }
 
         } catch (err) {
             throw new Error(`Erreur lors de la récupération des événements Outlook : ${err.message}`);

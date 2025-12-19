@@ -44,6 +44,13 @@ class CalendarAdapter {
     async deleteEvent(idEvent) {
         throw new Error('deleteEvent() doit être implémentée');
     }
+
+    /**
+     * Normalise la sorti des données events
+     */
+    _normalizeOutput(eventData){
+        throw new Error("_normalizeOutput doit être implémenté")
+    }
 }
 
 export default CalendarAdapter;

@@ -11,12 +11,12 @@ function setDataRecapitulatif(stateToggleRappel) {
     if (date === "[Date]") date = "--"
 
 
-    let textHorraire = "";
-    const horraireStart = $("#data-rdv-horraire-start").val()
-    const horraireEnd = $("#data-rdv-horraire-end").val()
-    if (horraireStart) textHorraire += horraireStart.replace(":", "h");
-    if (horraireStart && horraireEnd) textHorraire += " à "
-    if (horraireEnd) textHorraire += horraireEnd.replace(":", "h")
+    let texthoraire = "";
+    const horaireStart = $("#data-rdv-horaire-start").val()
+    const horaireEnd = $("#data-rdv-horaire-end").val()
+    if (horaireStart) texthoraire += horaireStart.replace(":", "h");
+    if (horaireStart && horaireEnd) texthoraire += " à "
+    if (horaireEnd) texthoraire += horaireEnd.replace(":", "h")
 
     const title = $("#data-rdv-title").val()
     let timeRappel;
@@ -29,7 +29,7 @@ function setDataRecapitulatif(stateToggleRappel) {
     $("#recapitulatif-client").text(client || "--")
     $("#recapitulatif-method-contact").text(textContact || "--")
     $("#recapitulatif-date").text(date)
-    $("#recapitulatif-horraire").text(textHorraire || "--")
+    $("#recapitulatif-horaire").text(texthoraire || "--")
     $("#recapitulatif-titre").text(title)
     $("#recapitulatif-rappel").text(timeRappel || "Désactivé")
 
@@ -57,8 +57,8 @@ function setDataPrevisualisationEmail(nameInitialisateur) {
     const prenom = $("#data-rdv-prenom").val();
     const title = $("#data-rdv-title").val();
     const dateDebut = $("#data-rdv-day-start").val();
-    const hourStart = $("#data-rdv-horraire-start").val();
-    const hourEnd = $("#data-rdv-horraire-end").val();
+    const hourStart = $("#data-rdv-horaire-start").val();
+    const hourEnd = $("#data-rdv-horaire-end").val();
     const hour = `${hourStart} - ${hourEnd}`;
     const commentaire = $("#data-rdv-commentaire").val()
 
@@ -114,16 +114,16 @@ function setDataPrevisualisationSms(nameInitialisateur) {
 
     const title = $("#data-rdv-title").val() || "[Titre]";
     const dateDebut = parseDateToFr($("#data-rdv-day-start").val());
-    const hourStart = $("#data-rdv-horraire-start").val();
-    const hourEnd = $("#data-rdv-horraire-end").val();
-    const horraire = hourStart && hourEnd ? `${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}` : "[Heure] à [Heure]"
+    const hourStart = $("#data-rdv-horaire-start").val();
+    const hourEnd = $("#data-rdv-horaire-end").val();
+    const horaire = hourStart && hourEnd ? `${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}` : "[Heure] à [Heure]"
 
     const methodConfirmation = $("#method-rdv-confirmation").is(":checked")
     const methodProposition = $("#method-rdv-proposition").is(":checked")
     let text = ""
-    if (methodConfirmation) text = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirmé le ${dateDebut} de ${horraire}
+    if (methodConfirmation) text = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirmé le ${dateDebut} de ${horaire}
     `
-    if (methodProposition) text = `Bonjour, ${nameInitialisateur} vous propose un rendez-vous "${title}" le ${dateDebut} de ${horraire}. Merci de le confirmer en cliquant sur ce lien : klendyx.com
+    if (methodProposition) text = `Bonjour, ${nameInitialisateur} vous propose un rendez-vous "${title}" le ${dateDebut} de ${horaire}. Merci de le confirmer en cliquant sur ce lien : klendyx.com
     `
     $("#sms-count-length").text(text.length)
     $("#previsualisation-phone-body-sms").text(text)

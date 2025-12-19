@@ -4,7 +4,7 @@ dashboard lib hishard
 jstour
 
 responciv calendar en semaine sur largeur <>
-Event Calendyx: 
+Event klendyx: 
 	->Ajouter la possibilité d'envoyer plusieurs contacte à la fois
 	->Methode contacte : faire un front plus propre selon la selection de sms ou email
 
@@ -14,7 +14,7 @@ Event Calendyx:
 	->Sms calculer la length total < 160 pour rester sur un seul sms
 	->Sms Url pour redirect user vallidation event trop long voir pour le racourcir avec un token auth 16?
 
-	->Email faire un jolie html pour chaque email avec les code couleurs de Calendyx
+	->Email faire un jolie html pour chaque email avec les code couleurs de klendyx
 
 	faire le scrollTo quand form submit
 

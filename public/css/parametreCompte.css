@@ -67,7 +67,7 @@ label {
 }
 
 
-.card-parametre-compte:hover{
+.card-parametre-compte:hover {
   box-shadow: var(--shadow-medium);
 }
 
@@ -76,7 +76,8 @@ label {
   background-color: #FEFEFF;
 }
 
-.card-parametre-compte p,.card-parametre-compte-danger p {
+.card-parametre-compte p,
+.card-parametre-compte-danger p {
   margin: 0;
   display: flex;
   align-items: center;
@@ -142,15 +143,15 @@ label {
   color: var(--main-purple);
 }
 
-.svg-card-title-danger{
+.svg-card-title-danger {
   background-color: var(--warning-color);
-  color:black;
+  color: black;
 }
 
 .svg-card-danger {
   color: var(--warning-color);
   background-color: white;
-  padding:0;
+  padding: 0;
 }
 
 .btn-update-profil {
@@ -185,7 +186,7 @@ input[type="password"] {
   height: 28px;
   border-radius: 8px;
   border: 2px solid var(--border-color);
-  padding-left: 10px;
+  padding-left: 12px;
   font-size: 18px;
 }
 
@@ -213,6 +214,7 @@ input[type="password"] {
 /* button */
 
 .btn-black {
+  display: inline-flex;
   border: 2px solid var(--border-color);
   background-color: #6B7280;
   border-radius: 12px;
@@ -259,8 +261,17 @@ input[type="password"] {
   background: linear-gradient(90deg, #dc7777, #710e28) !important;
 }
 
+#btn-delete-user {
+  background-color: #f64b4b;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px
+}
 
+#btn-delete-user:hover {
+  background-color: var(--warning-color);
 
+}
 
 
 /* text */
@@ -273,14 +284,14 @@ input[type="password"] {
   color: var(--text-secondary);
 }
 
-h2 {
+.main-frame h2 {
   position: relative;
   display: flex;
   flex-direction: row;
   margin-left: 10px
 }
 
-h2::before {
+.main-frame h2::before {
   content: "";
   position: absolute;
   top: 0;
@@ -288,4 +299,62 @@ h2::before {
   height: 100%;
   width: 5px;
   background-color: var(--main-purple)
+}
+
+
+@media(max-width:1024px) {
+  .main-frame {
+    background: red
+  }
+}
+
+
+
+@media(max-width:768px) {
+  .main-frame {
+    background: blue;
+    width: 90%;
+    padding: 20px;
+  }
+
+  .logo-name{
+    left:50%;
+    transform: translateX(-50%);
+  }
+
+  .input-row{
+    flex-direction: column;
+  }
+
+  .svg-card-title{
+    display:none
+  }
+  .frame-row img, .frame-row svg{
+    display:none
+  }
+  .frame-row{
+    flex-direction: column;
+  }
+
+  button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    width: 100%;
+  }
+
+}
+
+@media(max-width:480px) {
+  .main-frame {
+    background: green;
+    width: 100%;
+    padding: 10px;
+    margin: auto
+  }
+
+  .card-parametre-compte, .card-parametre-compte-danger {
+    padding: 8px;
+  }
 }

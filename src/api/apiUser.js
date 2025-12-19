@@ -9,7 +9,7 @@ import verifyAccount from "./../service/user/verifyAccount.js";
 //securité
 import authMiddleware, { authMiddlewareOptional } from "./../middleware/authMiddleware.js";
 //token
-import { deleteToken } from "./../service/token/deleteToken.js";
+import { deleteAllUserTokenByType, deleteToken } from "./../service/token/deleteToken.js";
 import generateToken from "./../service/token/generateToken.js"
 //NodeMailer
 import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "../service/mailer/sendPassword.js";
@@ -24,6 +24,18 @@ import { sendDeleteAccount } from "../service/mailer/sendDeleteAccount.js";
 import { deleteAccount } from "../service/user/deleteAccount.js";
 
 
+
+import { getAllEvents } from "../service/calendar/CalendarController.js";
+import { getUserPreference } from "../service/userPreference/crudUserPreference.js";
+import { getContactFav } from "../service/contactFav/getContactFav.js";
+import { getCredit } from "../service/credit/getCredit.js";
+import { getRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
+import { getAllMatchingEvent } from "../service/event/getMatchingEvent.js";
+import { getAllPropositionRdv } from "../service/event/getPropositionRdv.js";
+import { create2FA } from "../service/user/create2FA.js";
+import { getToken } from "../service/token/getToken.js";
+
+import jwt from "jsonwebtoken";
 
 
 
@@ -44,7 +56,10 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     const url = `${process.env.HOST}/user-verify/${token.token}/${id}`;
     await sendVerifyAccount(user.user.email, url);
 
-    res.json({ success: true, message: "Votre compte a été créé avec succès, pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé." })
+    return res.json({
+        success: true,
+        message: "Votre compte a été créé avec succès, pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé."
+    })
 })
 
 
@@ -163,23 +178,62 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
 
 //Auth utilisateur
 routerApiUser.post("/api/user/connect", async (req, res) => {
-    const auth = await authenticateUser(req, db);
 
-    if (!auth.success) {
-        return res.json({ success: false, message: auth.message })
-    }
+    try {
 
-    await createUserSession(db, auth.idUser)
+        const auth = await authenticateUser(req, db);
 
-    if (auth.success) {
-        res.cookie("token", auth.token, {
-            httpOnly: true,
-            secure: process.env.ENV === "production",
-            sameSite: "strict",
-            path: "/",
-            maxAge: 1000 * 60 * 60 * 2 // ms * s * m * h
+        if (!auth.success) {
+            return res.json({
+                success: false,
+                message: auth.message
+            })
+        }
+
+        console.log("succes auth =>", auth)
+        const userId = auth.idUser
+        await createUserSession(db, userId)
+
+        const userPreference = await getUserPreference(db, userId);
+
+        const user2FA = userPreference.data.doubleAuth
+
+
+        if (user2FA) {
+            const sending = await create2FA(db, userId);
+
+            return res.json({
+                success: sending.success,
+                message: sending.message,
+                "2FA": true,
+                id: userId
+            })
+
+
+        }
+
+
+        if (auth.success) {
+            res.cookie("token", auth.token, {
+                httpOnly: true,
+                secure: process.env.ENV === "production",
+                sameSite: "strict",
+                path: "/",
+                maxAge: 1000 * 60 * 60 * 4 // ms * s * m * h
+            })
+            return res.json({
+                success: true,
+                message: auth.message,
+                //token: auth.token
+            })
+        }
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: process.env.MESSAGE_ERREUR_SERVEUR,
+            error: err.message
         })
-        return res.json({ success: true, message: auth.message, token: auth.token })
     }
 
 })
@@ -222,6 +276,8 @@ routerApiUser.get("/api/user/data", authMiddleware, async (req, res) => {
 })
 
 
+
+
 routerApiUser.get("/api/user/session", authMiddlewareOptional, async (req, res) => {
     if (!req.userId) {
         return res.json({ logged: false })
@@ -233,6 +289,8 @@ routerApiUser.get("/api/user/session", authMiddlewareOptional, async (req, res) 
         : res.json({ logged: false })
 })
 
+
+
 routerApiUser.post("/api/user/send-delete", authMiddleware, async (req, res) => {
 
     try {
@@ -243,9 +301,10 @@ routerApiUser.post("/api/user/send-delete", authMiddleware, async (req, res) => 
         const email = dataUser.email
         const url = `${process.env.HOST}/api/user/delete/${token.token}`
 
+
         if (token.token) {
             const send = await sendDeleteAccount(email, url);
-            return res.json({success:send.success, message : send.message})
+            return res.json({ success: send.success, message: send.message })
         }
 
     } catch (err) {
@@ -254,15 +313,19 @@ routerApiUser.post("/api/user/send-delete", authMiddleware, async (req, res) => 
     }
 })
 
+
+
 routerApiUser.get("/api/user/delete/:token", async (req, res) => {
     try {
         const { token } = req.params;
 
-        const deleted = deleteAccount(token, db)
+        const deleted = await deleteAccount(token, db)
 
-        if(!deleted.success){
-            return res.send()
-        }
+
+        return res.send(`
+            <p>${deleted.message}</p>
+            `)
+
 
     } catch (err) {
         console.log(err);
@@ -273,5 +336,123 @@ routerApiUser.get("/api/user/delete/:token", async (req, res) => {
     }
 });
 
+
+
+
+//generer un pdf 
+routerApiUser.get("/api/user/export-data", authMiddleware, async (req, res) => {
+
+    const userId = req.userId;
+
+    const dataUser = await getUserData(db, userId);
+    const dataPreference = await getUserPreference(db, userId);
+    const dataContactFavori = await getContactFav(db, req);
+    const dataEventKlendyx = await getAllEvents("klendyx", db, userId);
+    const dataCredit = await getCredit(db, userId)
+    const dataRappelRdv = await getRappelRdv(db, userId);
+    const dataMatchingEvent = await getAllMatchingEvent(db, userId);
+
+    const dataPropositionRdv = await getAllPropositionRdv(db, req);
+
+    const data = {
+        userData: {
+            nom: dataUser.nom,
+            prenom: dataUser.prenom,
+            email: dataUser.email,
+            raisonSocial: dataUser.raisonSocial,
+            siren: dataUser.siren,
+            abbonnement: dataUser.abonnement,
+            createdAt: dataUser.createdAt,
+            updatedAt: dataUser.updatedAt
+        },
+        userPreference: {
+            emailnotification: dataPreference.data.emailNotification,
+            doubleAuth: dataPreference.data.doubleAuth
+        },
+
+        favoriteContacts: dataContactFavori.data,
+
+        proposedAppointment: dataPropositionRdv.data,
+
+        klendyxEvent: {
+            totalEvent: dataEventKlendyx.data.data.count,
+            event: dataEventKlendyx.data.data.events
+        },
+
+        appointmentReminder: dataRappelRdv,
+        klendyxMatchingEvent: dataMatchingEvent,
+
+        userCredit: {
+            plan: dataCredit.pan,
+            sms: dataCredit.sms,
+            email: dataCredit.mail,
+            createdAt: dataCredit.createdAt,
+            updatedAt: dataCredit.updatedAt,
+        }
+
+    };
+
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=rgpd.json"
+    );
+
+    res.send(JSON.stringify(data, null, 2));
+})
+
+
+
+routerApiUser.post("/api/user/auth-2FA", async (req, res) => {
+
+    try {
+        const userId = req.body.userId;
+        const code = req.body.code;
+        const token = await getToken("2FA", userId, db);
+
+
+        if (token.totalToken == code) {
+
+            const jwtToken = jwt.sign(
+                { userId: userId },
+                process.env.JWT_SECRET,
+                { expiresIn: "4h" }
+            );
+
+            res.cookie("token", jwtToken, {
+                httpOnly: true,
+                secure: process.env.ENV === "production",
+                sameSite: "strict",
+                path: "/",
+                maxAge: 1000 * 60 * 60 * 4 // ms * s * m * h
+            })
+
+
+            //delete le token
+            await deleteAllUserTokenByType(db, userId, "2FA")
+
+
+            return res.json({
+                success: true,
+                message: "Double authentification réussis"
+            })
+
+        } else {
+            return res.json({
+                success: false,
+                message: "Le code que vous avez saisis ne correspond pas"
+            })
+        }
+
+    } catch (err) {
+        console.log(err);
+        return {
+            success: false,
+            message: process.env.MESSAGE_ERREUR_SERVEUR,
+            error: err.message
+        }
+    }
+
+})
 
 export default routerApiUser

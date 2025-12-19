@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription confirmée</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
+
 
     <link rel="stylesheet" href="/css/generic.css">
     <link rel="stylesheet" href="/css/user/verifyAccount.css">
@@ -25,44 +27,40 @@
         </div>
 
         <h1 class="title">Compte activé avec succès !</h1>
-        <p class="subtitle">Ton compte est maintenant opérationnel 🎉</p>
+        <p class="subtitle">Votre compte est maintenant opérationnel</p>
         <div class="info-box">
             <strong>✅ Validation confirmée</strong>
             <p>
-                Ton adresse email a été vérifiée avec succès.
-                Tu peux maintenant te connecter et profiter de toutes les fonctionnalités de la plateforme.
+                Votre adresse email a été vérifiée avec succès.
+                Vous pouvez maintenant vous connecter et profiter de toutes les fonctionnalités de la plateforme
+                Klendyx.
             </p>
         </div>
 
         <p style="font-size: 0.875rem; margin-bottom: 1.5rem;">
-            Prêt à commencer ? Connecte-toi dès maintenant pour explorer ton espace.
+            Prêt à commencer ? Connectez-vous dès maintenant pour explorer votre espace.
         </p>
 
-        <a href="https://klendyx.beaute-laurent.fr" class="btn">
+        <a href="https://klendyx.com/connexion" class="btn">
             Se connecter
         </a>
 
         <p class="footer-text">
-            Un problème ? <a href="https://klendyx.beaute-laurent.fr">Contacte notre support</a>
+            Un problème ? <a href="https://klendyx.com.contact">Contactez le support</a>
         </p>
     </div>
 
     <script>
 
-            const url = window.location.href;
-            const token = url.split("/")[4];
-            const id = url.split("/")[5];
+        const url = window.location.href;
+        const token = url.split("/")[4];
+        const id = url.split("/")[5];
 
-            
-            const verifyRes = fetch(`/user/verify/${token}/${id}`, {
-                method: "GET",
-                "ContentType": "application/json"
-            }).then((verify)=>{
-                const data = verify.json()
-                .then((data)=>{
-                    console.log(data)
-                })
-            })
+
+        const verifyRes = fetch(`/user/verify/${token}/${id}`, {
+            method: "GET",
+            "ContentType": "application/json"
+        })
     </script>
 </body>
 

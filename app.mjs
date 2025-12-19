@@ -15,14 +15,16 @@ import routerApiUser from "./src/api/apiUser.js";
 import routerApiUserPreference from "./src/api/apiUserPreference.js";
 import routerApiRdv from "./src/api/apiRdv.js";
 import routerApiCredit from "./src/api/apiCredit.js";
-import routerApiEventKlendyx from "./src/api/apiEventKlendyx.js";
-import routerApiCalendarGoogle from "./src/api/apiCalendar.js";
 import routerApiComment from "./src/api/apiComment.js";
 import routerApiContactFav from "./src/api/apiContactFav.js";
 import routerApiMatching from "./src/api/apiMatching.js";
 
-import routerApiCalendarOutlook from "./src/api/apiCalendarOutlook.js"
-import routerApiCalendarApple from "./src/api/apiCalendarApple.js"
+
+import routerApiCalendar from "./src/api/apiCalendar.js";
+
+import routerAuthCalendarGoogle from "./src/api/authGoogle.js"
+import routerAuthCalendarOutlook from "./src/api/authOutlook.js"
+import routerAuthCalendarApple from "./src/api/authApple.js"
 
 
 
@@ -58,11 +60,10 @@ app.use("/api/userPreference", routerApiUserPreference)
 
 
 
-
-app.use("/api/calendar", routerApiCalendarGoogle)
-app.use("/api/event/klendyx", routerApiEventKlendyx)
-app.use("/api/calendar/outlook", routerApiCalendarOutlook)
-app.use("/api/calendar/apple", routerApiCalendarApple)
+app.use("/api/calendar", routerApiCalendar)
+app.use("/api/calendar/google", routerAuthCalendarGoogle)
+app.use("/api/calendar/outlook", routerAuthCalendarOutlook)
+app.use("/api/calendar/apple", routerAuthCalendarApple)
 
 
 // Définir __dirname pour les modules ES
@@ -100,7 +101,7 @@ app.post(`/webhook/:token`, (req, res) => {
         log("=== Déclenchement du déploiement ===");
 
         const commands = [
-            "cd /home/buyu3307/calendyx.beaute-laurent.fr/production",
+            "cd /home/buyu3307/klendyx.beaute-laurent.fr/production",
             "git fetch origin",
             "git reset --hard origin/production",
             "mkdir -p tmp",
