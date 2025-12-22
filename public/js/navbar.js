@@ -207,7 +207,7 @@ $(async function () {
 
     const Navbar = {
         minWidth: 55,
-        speed: 11,
+        speed: 16,
 
         initialWidth: navbar.width(),
         startWidth: 0,

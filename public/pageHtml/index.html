@@ -64,10 +64,8 @@
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
     <script src="./js/sessionExpire.js" defer></script>
-    <script src="./js/indexAnimateOrbital.js" defer></script>
+    <script src="./js/indexAnimate.js" defer></script>
 
-
-    <!-- https://lovable.dev/projects/8a132f0e-0dd0-4a04-8696-e77603e8672e -->
 
 </head>
 
@@ -89,88 +87,38 @@
                 </div>
 
                 <div class="index-top-row">
-                    <div class="index-frame-top-link">
-                        <p>
-                            Klendyx simplifie la prise de rendez-vous et la gestion de vos agendas pour vous faire
-                            gagner du temps précieux !<br><br><br>
-                            Partagez vos disponibilités, laissez vos contacts choisir leur créneau, et tout se
-                            synchronise automatiquement dans vos agendas.<br>
-                            Rappels par email et SMS — tout est conçu pour rendre la planification rapide,
-                            fluide et fiable.
-
-                        </p>
-                        <div>
-                            <a href="/connexion" class="index-btn-link">Essayer gratuitement</a>
-                            <a href="/connexion" class="index-btn-link">Découvrir nos plans d'abbonnement</a>
-                        </div>
-                    </div>
+                    <a class="btn-joins-us" href="/connexion">
+                        Essayer Gratuitement
+                    </a>
 
 
-                    <div class="animation-container">
-                        <!-- Orbits -->
-                        <div class="orbit orbit-1"></div>
-                        <div class="orbit orbit-2"></div>
-                        <div class="orbit orbit-3"></div>
-
-                        <!-- Centre avec votre logo -->
-                        <div class="center-logo">
-                            <!-- Logo de remplacement (votre logo sera chargé ici) -->
-                            <img src="./../images/litleLogo.png" alt="">
-                        </div>
-
-                        <!-- Icônes gravitantes -->
-                        <div class="orbiting-icon icon-email" id="email-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-
-                        <div class="orbiting-icon icon-sms" id="sms-icon">
-                            <i class="fas fa-comment-alt"></i>
-                        </div>
-
-                        <div class="orbiting-icon icon-agenda" id="agenda-icon">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="index-frame-middle">
-                <h2>Nos utilisateurs àdore ces fonctionalités</h2>
-
-                <div class="frame-row">
-                    <div class="card">
-                        <p>Synchronisation et gestion d'agenda</p>
-
-                        <p>
-
-                        </p>
-                    </div>
-                    <img class="index-image" src="./../images/workingCalendar.jpg" alt="images de working">
+                    <a class="btn-discover" href="#frame-plan">
+                        Découvrez les plans d'abonnements
+                    </a>
                 </div>
 
+                <!-- hero img-->
+                <div class="frame-hero-img">
 
-                <div class="frame-row">
-                    <img class="index-image" src="./../images/workingImage.jpg" alt="images de working">
-                    <div class="card">
-                        <p>Matching de rendez-vous</p>
-                        <p>Trouver un moment commun pour se retrouver est devenu difficile.<br>
-                            Que vous soyez deux ou plusieurs la fonctionalités matching de rendez-vous vous permettra de
-                            choisir le meilleurs mouvement
-                            qui correspond à tout le monde.
-                            Simple d'utilisation en quelques clics saisis le ou les destinataire avec la plage de date
-                            et un email est automatiquement
-                            envoyé à chacun.<br>
-                            Les participents au matching de rendez-vous renseigne leurs disponilités et leurs
-                            péférences.<br>
-                            Quand tout les participents auront remplis leurs disponibilité l'algorithme Klendyx définira
-                            les meilleurs chréno d'horaire et il
-                            ne vous reste plus qu'à valider.<br>
-                            Un email de validation sera envoyé aux participents avec la date que vous avez choisis.
-                        </p>
+                    <div class="card-hero-floating">
+                        <span class="card-hero-floating-badge">✔️</span>
+                        <div class="card-hero-floating-text">
+                            <p>Synchronisation des agendas</p>
+                            <p>Synchronisés</p>
+                        </div>
+                    </div>
+
+                    <div class="card-hero-floating">
+                        <span class="card-hero-floating-badge">+3</span>
+                        <div class="card-hero-floating-text">
+                            <p>Mes rendez-vous</p>
+                            <p>Confirmé</p>
+                        </div>
                     </div>
                 </div>
 
             </section>
+
 
 
 
@@ -936,9 +884,229 @@
                 </div>
             </section>
 
+            <!-- frame plan-->
+            <section class="frame-plan" id="frame-plan">
+                <header>
+                    <h2 class="index-frame-bottom-title">Découvrez nos plans d'abonnements</h2>
+                    <p class="index-frame-bottom-subtitle" style="text-align: center; width:100%">Votre abonnement
+                        adapté à vos services</p>
+                </header>
+
+                <!-- plan abonnement row 1-->
+                <div class="frame-row plan-row-1">
+
+                    <!-- Essais gatuit-->
+                    <div class="card card-spacing">
+                        <div>
+
+                            <header>
+                                <p class="plan-name">
+                                    <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-rocket w-4 h-4 text-foreground">
+                                        <path
+                                            d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z">
+                                        </path>
+                                        <path
+                                            d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z">
+                                        </path>
+                                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+                                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                                    </svg>
+                                    Essais gratuit
+                                </p>
+                                <p class="price"><span class="price-number">Gratuit</span></p>
+                                <p>Pour découvrir l’essentiel sans engagement</p>
+                            </header>
+                            <div>
+                                <ul>
+                                    <li class="li-plan-activ li-plan">Envoie d'email par mois 20</li>
+                                    <li class="li-plan-inactiv li-plan">Envoie de sms par mois 5</li>
+                                    <li class="li-plan">Synchronisation de vos agendas en ligne</li>
+                                    <li class="li-plan">Rappel de rendez-vous</li>
+                                    <li class="li-plan">Mention Klendyx sur vos envoies</li>
+                                    <li class="li-plan">Pas de matching de rdv</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Démarrer l'essais gratuit</button>
+                    </div>
+
+                    <!-- Starter-->
+                    <div class="card card-spacing">
+                        <div>
+
+                            <header>
+                                <p class="plan-name">
+                                    <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-zap w-4 h-4 text-primary">
+                                        <path
+                                            d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
+                                        </path>
+                                    </svg>
+                                    Starter
+                                </p>
+                                <p class="price"><span class="price-number">19€</span>/mois</p>
+                                <p>Pour démarrer sereinement et gagner en efficacité</p>
+                            </header>
+                            <div>
+                                <ul>
+                                    <li class="li-plan">Envoie d'email par mois 200</li>
+                                    <li class="li-plan">Envoie de sms par mois 50</li>
+                                    <li class="li-plan">Synchronisation de vos agenda en ligne</li>
+                                    <li class="li-plan">Rappel de rendez-vous</li>
+                                    <li class="li-plan">Matching de rdv avec 1 destinataire</li>
+                                    <li class="li-plan">Mention Klendyx sur vos envoies</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Commencer maintenant</button>
+                    </div>
+
+                    <!-- Pro -->
+                    <div class="card card-spacing">
+                        <div>
+
+                            <header>
+                                <p class="plan-name">
+                                    <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                                        <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                                        <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                                        <path d="M10 6h4"></path>
+                                        <path d="M10 10h4"></path>
+                                        <path d="M10 14h4"></path>
+                                        <path d="M10 18h4"></path>
+                                    </svg>
+                                    Pro
+                                </p>
+                                <p class="price"><span class="price-number">49€</span>/mois</p>
+                                <p>Pour aller plus loin avec des fonctionnalités avancées</p>
+                            </header>
+
+                            <div>
+                                <ul>
+                                    <li class="li-plan">Envoie d'email par mois 1000</li>
+                                    <li class="li-plan">Envoie de sms par mois 200</li>
+                                    <li class="li-plan">Synchronisation de vos agenda en ligne</li>
+                                    <li class="li-plan">Rappel de rendez-vous</li>
+                                    <li class="li-plan">Matching de rdv jusqu'à 3 destinataires</li>
+                                    <li class="li-plan">Pas de mention Klendyx sur vos envoies</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Commencer maintenant</button>
+                    </div>
+                </div>
+
+                <!-- plan abonnement row 2-->
+                <div class="frame-row">
+
+                    <!-- Ultimage-->
+                    <div class="card card-spacing">
+                        <div>
+
+                            <header>
+                                <p class="plan-name">
+                                    <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z">
+                                        </path>
+                                        <path d="M5 21h14"></path>
+                                    </svg>
+                                    Ultimate
+                                </p>
+                                <p class="price"><span class="price-number">94€</span>/mois</p>
+                                <p>La puissance maximale pour couvrir tout vos besoins !</p>
+                            </header>
+
+                            <div>
+                                <ul>
+                                    <li class="li-plan">Envoie d'email par mois Illimité</li>
+                                    <li class="li-plan">Envoie de sms par mois 500</li>
+                                    <li class="li-plan">Synchronisation de vos agenda en ligne</li>
+                                    <li class="li-plan">Rappel de rendez-vous</li>
+                                    <li class="li-plan">Matching de rdv sans limite de destinataires</li>
+                                    <li class="li-plan">Pas de mention Klendyx sur vos envoies</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Commencer maintenant</button>
+                    </div>
+
+
+                    <!-- custom rechargement-->
+                    <div class="card card-spacing">
+                        <div>
+                            <header>
+                                <p class="plan-name">
+                                    <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
+                                        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
+                                        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
+                                        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle>
+                                        <path
+                                            d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z">
+                                        </path>
+                                    </svg>
+                                    Custom
+                                </p>
+                                <p><strong>A la carte</strong></p>
+                                <p>Faite votre abonnement sur mesure</p>
+                            </header>
+
+                            <div>
+                                <ul>
+                                    <li class="li-plan">Définir un nombre d'envoie d'email</li>
+                                    <li class="li-plan">Définir un nombre d'envoie de sms</li>
+                                    <li class="li-plan">Retirer la mention Klendyx sur vos envoies</li>
+                                    <li class="li-plan">Augmentez le nombre maximum de destinataire pour un matching de
+                                        rendez-vous</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Commencer maintenant</button>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- section footer-->
+            <section class="index-frame-footer">
+                <header>
+                    <p class="index-frame-bottom-title">
+                        Reprenez le contrôle de vos rendez-vous
+                    </p>
+                    <p class="index-frame-bottom-subtitle" style="padding : 0 40px; box-sizing: content-box;">
+                        Centralisez vos agendas, automatisez vos prises de rendez-vous
+                        et gagnez du temps dès aujourd’hui.
+                    </p>
+                </header>
+
+                <div>
+                    <a class="btn-joins-us" href="connexion">
+                        <span id="arrow-boucing-left">➔</span>
+                        Essayer gratuitement
+                        <span id="arrow-boucing-right" style="transform: rotate(180deg);">➔</span>
+                    </a>
+
+                    <p class="cta-note">
+                        Aucune carte bancaire requise • Essai gratuit
+                    </p>
+                </div>
+            </section>
         </section>
     </section>
-
 
 
 </body>
