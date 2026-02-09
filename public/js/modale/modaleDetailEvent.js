@@ -3,58 +3,43 @@ function createModaleDetailEvent(infos) {
     $(".event-modale").remove()
     const def = infos.event._def
     const extProps = def.extendedProps;
-    const origin = extProps.origin
 
-    let start;
-    let end;
-    let title;
-    let description;
-    let id = extProps?.data?.id || 0;
+    const {dateStart, dateEnd, eventId, title, description, provider } = extProps.data
 
-    switch (origin) {
-        case "google": {
-            start = extProps.data.start.dateTime;
-            end = extProps.data.end.dateTime;
-            title = def.title
-            description = extProps.data.description ?? "Aucune description"
-            break
-        }
-        case "klendyx": {
-            start = extProps.data.dateDebut
-            end = extProps.data.dateFin
-            title = extProps.data.titleEvent
-            description = def.extendedProps.description
-            break
-        }
-    }
-
-    let duree = (new Date(end) - new Date(start)) / 3600000;
-
-
+    let duree = (new Date(dateEnd) - new Date(dateStart)) / 3600000;
     duree = parsingHours(duree)
 
-    const htmlModale = `<div class="event-modale">
+    
+    const dateToString = date =>{
+        const ObjectDate = new Date (date)
+        const string = ObjectDate.toLocaleTimeString()
+        return string.slice(0,5).replace(":", "h")
+    } 
 
+    const dateStartString = dateToString(dateStart)
+    const dateEndString = dateToString(dateEnd)
+
+    const horraire = `De ${dateStartString} à ${dateEndString}`
+    
+    const htmlModale = `<div class="event-modale">
             <div class="modal-header">
                 <div class="modal-title-section">
-                    <h2 class="event-title" id="eventTitle">${title}</h2>
+                    <h2 class="event-title" id="eventTitle">${firstToUpper(title)}</h2>
                 </div>
                 <button class="close-modale" id="btn-close-modale">&times;</button>
+                <input type="hidden" id="fc-ext-props"  />
+                <input type="hidden" id="fc-id-event" value="${extProps.fcId}"/>
             </div>
 
             <div class="modal-body">
                 <div class="event-info-grid">
-
-                    <input type="hidden" id="event-id" value='${id}'>
-                    <input type="hidden" id="origin-event" value="${origin}">
-                    <input type="hidden" id="fc-event-id" value="${infos.event.id}">
 
 
                     <div class="info-item">
                         <img width="20" height="20" src="https://img.icons8.com/ios/50/calendar--v1.png" alt="calendar--v1"/>
                         <div class="info-content">
                             <div class="info-label">Origine de l'evenement</div>
-                            <div class="info-value" id="eventStart">Agenda ${origin}</div>
+                            <div class="info-value" id="eventStart">Agenda ${provider}</div>
                         </div>
                     </div>
 
@@ -65,8 +50,8 @@ function createModaleDetailEvent(infos) {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                         <div class="info-content">
-                            <div class="info-label">Date de début</div>
-                            <div class="info-value" id="eventStart">${start ? parsingDate(start) : "Pas de date"}</div>
+                            <div class="info-label">Date</div>
+                            <div class="info-value" id="eventDate">${dateToFr(dateStart)}</div>
                         </div>
                     </div>
 
@@ -75,8 +60,8 @@ function createModaleDetailEvent(infos) {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <div class="info-content">
-                            <div class="info-label">Date de fin</div>
-                            <div class="info-value" id="eventEnd">${end ? parsingDate(end) : "Pas de date"}</div>
+                            <div class="info-label">Horraire</div>
+                            <div class="info-value" id="event-horraire">${horraire}</div>
                         </div>
                     </div>
 
@@ -86,7 +71,7 @@ function createModaleDetailEvent(infos) {
                         </svg>
                         <div class="info-content">
                             <div class="info-label">Durée</div>
-                            <div class="info-value" id="eventDuration">${duree ? duree : "Toute la journée."}</div>
+                            <div class="info-value" id="eventDuration">${duree}</div>
                         </div>
                     </div>
 
@@ -120,7 +105,7 @@ function createModaleDetailEvent(infos) {
 
                 <div class="event-description">
                     <div class="info-label" style="margin-bottom: 8px;">Description</div>
-                    <p id="eventDescription">${description}</p>
+                    <p id="eventDescription">${description || "Aucune description saisie"}</p>
                 </div>
             </div>
 
@@ -134,6 +119,7 @@ function createModaleDetailEvent(infos) {
 
 
     $("body").append(htmlModale)
+    $("#fc-ext-props").val(JSON.stringify(extProps.data))
 }
 
 

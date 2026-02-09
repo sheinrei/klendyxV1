@@ -304,7 +304,7 @@ input[type="password"] {
 
 @media(max-width:1024px) {
   .main-frame {
-    background: red
+    width: 90%;
   }
 }
 
@@ -312,8 +312,7 @@ input[type="password"] {
 
 @media(max-width:768px) {
   .main-frame {
-    background: blue;
-    width: 90%;
+    width: 100%;
     padding: 20px;
   }
 
@@ -348,7 +347,6 @@ input[type="password"] {
 
 @media(max-width:480px) {
   .main-frame {
-    background: green;
     width: 100%;
     padding: 10px;
     margin: auto

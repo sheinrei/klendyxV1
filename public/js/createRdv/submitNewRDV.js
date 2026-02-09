@@ -151,7 +151,41 @@ function toRFC3339WithOffset(date) {
         `${sign}${hhOffset}:${mmOffset}`;
 }
 
-async function saveInGoogle(host, dayStart, hourStart, hourEnd, title, description) {
+async function saveInCalendar(host, provider, dayStart, hourStart, hourEnd, title, description) {
+
+    const [year, month, day] = dayStart.split('-').map(Number);
+    const [hStart, mStart] = hourStart.split(':').map(Number);
+    const [hEnd, mEnd] = hourEnd.split(':').map(Number);
+
+    const startDate = new Date(year, month - 1, day, hStart, mStart);
+    const endDate = new Date(year, month - 1, day, hEnd, mEnd);
+
+    const dateStartRFC = toRFC3339WithOffset(startDate);
+    const dateEndRFC = toRFC3339WithOffset(endDate);
+
+    const eventData = {
+        title : title,
+        description : description,
+        dateStart : dateStartRFC,
+        dateEnd : dateEndRFC,
+        allDay : false,
+    }
+
+    const saved = await fetch(`${host}/api/calendar/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": 'application/json'
+        },
+        body: JSON.stringify({
+            provider, eventData
+        })
+    })
+    const resSaved = await saved.json();
+    return resSaved
+}
+
+
+/* async function saveInGoogle(host, dayStart, hourStart, hourEnd, title, description) {
     const [year, month, day] = dayStart.split('-').map(Number);
     const [hStart, mStart] = hourStart.split(':').map(Number);
     const [hEnd, mEnd] = hourEnd.split(':').map(Number);
@@ -206,6 +240,10 @@ async function saveInKlendyx(host, title, description, dayStart, hourStart, hour
     const resSavedKlendyx = await savedKlendyx.json()
     return resSavedKlendyx
 }
+ */
+
+
+
 
 
 $("#btn-submit-rdv").on("click", async function (e) {
@@ -265,18 +303,29 @@ $("#btn-submit-rdv").on("click", async function (e) {
     const klendyxSave = $("#external-klendyx").is(":checked")
     const outlookSave = $("#external-outlook").is(":checked")
     const appleSave = $("#external-apple").is(":checked")
-
     const description = `Rendez-vous "${title}" avec ${nom + " " + prenom} commentaire envoyé : ${commentaire || "aucun"}`
 
+    const provider = []
+
+
     if (googleSave) {
-        const saved = await saveInGoogle(host, dayStart, hourStart, hourEnd, title, description);
-        messageResult += `<p>${saved.message}</p>`
+        provider.push("google")
     }
     if (klendyxSave) {
-        const saved = await saveInKlendyx(host, title, description, dayStart, hourStart, hourEnd);
-        messageResult += `<p>${saved.message}</p>`
+        provider.push("klendyx")
+    }
+    if (outlookSave) {
+        provider.push("outlook")
+    }
+    if (appleSave) {
+        provider.push("apple")
     }
 
+    for (const calendar of provider){
+        const saved = await saveInCalendar(host, calendar, dayStart, hourStart, hourEnd, title, description)
+        messageResult += `<p>${saved.data.message}</p>`
+    }
+    
 
 
     //Send email/sms du rendez-vous

@@ -24,6 +24,7 @@ class KlendyxAdapter extends CalendarAdapter {
                 allDay: eventData.allDay ?? false,
             });
 
+            console.log("creation de l'event klendyx :", create)
             if (!create) {
                 return {
                     success: false,
@@ -33,7 +34,7 @@ class KlendyxAdapter extends CalendarAdapter {
             return {
                 success: true,
                 message: "Le nouvel évènement a été ajouté dans votre agenda klendyx avec succès.",
-                data: create
+                eventId: create.id
             }
 
 
@@ -46,23 +47,34 @@ class KlendyxAdapter extends CalendarAdapter {
 
     async updateEvent(eventData, idEvent) {
         try {
-            const [update] = this.Model.update(
-                eventData,
+            const update = await this.Model.update(
+                {
+                    summary: eventData.title,
+                    hourStart: eventData.dateStart,
+                    hourEnd: eventData.dateEnd,
+                    describe: eventData.description
+                },
                 { where: { userId: this.userId, id: idEvent } })
 
-            if (update === 0) {
+            if (update[0] === 0) {
                 return {
                     success: false,
                     message: "Une erreur est survenue lors de la mise à jour de l'event"
                 }
             }
 
+            console.log(update)
             return {
                 success: true,
                 message: "L'évènement a été mis à jour avec succès",
             }
         } catch (err) {
-            throw new Error(`Erreur lors de l'update d'un Event Klendyx : ${err.message}`)
+            console.log(`Erreur lors de l'update d'un Event Klendyx : ${err.message}`)
+            return {
+                success: false,
+                messgae: process.env.MESSAGE_ERREUR_SERVEUR,
+                error: err.message || err
+            }
         }
     }
 
@@ -116,14 +128,19 @@ class KlendyxAdapter extends CalendarAdapter {
     }
 
 
-    _normalizeOutput(eventData){
+    _normalizeOutput(eventData) {
+        const eventId = eventData.id;
+        const title = eventData.summary;
+        const description = eventData.describe || "";
+        const dateStart = new Date(eventData.hourStart.split(" ")[0] + "T" + eventData.hourStart.split(" ")[1] + "Z");
+        const dateEnd = new Date(eventData.hourEnd.split(" ")[0] + "T" + eventData.hourEnd.split(" ")[1] + "Z")
         return {
-            eventId : eventData.id,
-            title : eventData.summary,
-            description : eventData.describe || "",
-            dateStart : eventData.hourStart,
-            dateEnd : eventData.hourEnd,
-            provider : "klendyx",
+            eventId,
+            title,
+            description,
+            dateStart: dateStart.toISOString(),
+            dateEnd: dateEnd.toISOString(),
+            provider: "klendyx",
         }
     }
 }

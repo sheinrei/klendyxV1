@@ -38,16 +38,16 @@ class GoogleAdapter extends CalendarAdapter {
             await this.setCredentials()
 
             const event = {
-                summary: eventData.summary,
+                summary: eventData.title,
                 location: 'Google Meet',
                 description: eventData.description,
                 start: {
                     dateTime: eventData.dateStart,
-                    timeZone: 'Europe/Paris',
+                    timeZone: 'UTC',
                 },
                 end: {
                     dateTime: eventData.dateEnd,
-                    timeZone: 'Europe/Paris',
+                    timeZone: 'UTC',
                 },
             };
 
@@ -58,14 +58,18 @@ class GoogleAdapter extends CalendarAdapter {
 
             return {
                 success: true,
-                message: "L'évènement a été ajouté dans votre agenda Google avec succès",
+                message: "L'évènement a été ajouté dans votre agenda Google avec succès.",
                 eventId: eventRes.data.id,
-                data: eventRes.data
             };
 
 
 
         } catch (err) {
+            if (err?.response?.data?.error === 'invalid_grant') {
+                console.log("access token revoke ")
+                throw new Error("Google token expiré ou révoqué → reconnexion requise");
+
+            }
             throw new Error(`Erreur lors de la création d'un évènement Google : ${err.message}`)
         }
     }
@@ -82,19 +86,29 @@ class GoogleAdapter extends CalendarAdapter {
                 eventId: idEvent,
                 resource: {
                     summary: eventData.title,
-                    description: eventData.describe,
+                    description: eventData.description,
                     start: { dateTime: eventData.dateStart, timeZone: 'Europe/Paris' },
                     end: { dateTime: eventData.dateEnd, timeZone: 'Europe/Paris' }
                 }
             });
 
+
+            if(!eventRes.status || eventRes.status < 200 || eventRes.status >= 300) {
+                return {
+                    success: false,
+                    message: "Un incident est survenue, l'évènement google n'a pas pu être mis à jour"
+                }
+            }
             return {
                 success: true,
-                message: "L'évènement Google a été mis à jour avec succès",
-                data: eventRes.data
+                message: "L'évènement a été mis à jour dans votre agenda Google avec succès",
             };
         } catch (err) {
-            throw new Error(`Erreur lors de la mise à jour d'un évènement Google : ${err.message}`)
+            return {
+                success: false,
+                message: process.env.MESSAGE_ERREUR_SERVEUR,
+                code: err.message
+            }
         }
     }
 
@@ -136,18 +150,23 @@ class GoogleAdapter extends CalendarAdapter {
                     origin: "google"
                 }
             }
-        }catch(err){
+        } catch (err) {
+            if (err?.response?.data?.error === 'invalid_grant') {
+                console.log("access token revoke ")
+                return {
+                    success: false,
+                    message: "synchronisation avec le compte Google a été rompu, veuillez resynchroniser votre compte."
+                }
+            }
             console.log(err)
             return {
-                success:false,
-                message : "Une erreur est survenue et ne pouvons pas récupérer vos évènements de l'agenda google, veuillez réessayer plus tard. Si le problème persiste merci de contacter le support Klendyx.",
-                error : err.message
+                success: false,
+                message: "Une erreur est survenue et ne pouvons pas récupérer vos évènements de l'agenda google, veuillez réessayer plus tard. Si le problème persiste merci de contacter le support Klendyx.",
+                error: err.message
             }
         }
 
     }
-
-
 
 
     async deleteEvent(idEvent) {
@@ -168,12 +187,17 @@ class GoogleAdapter extends CalendarAdapter {
     }
 
     _normalizeOutput(eventData) {
+        const eventId = eventData.id;
+        const title = eventData.summary;
+        const description = eventData.description || "";
+        const dateStart = new Date(eventData.start.dateTime);
+        const dateEnd = new Date(eventData.end.dateTime);
         return {
-            eventId: eventData.id,
-            title: eventData.summary,
-            description: eventData.description || "",
-            dateStart: eventData.start.dateTime,
-            dateEnd: eventData.end.dateTime,
+            eventId,
+            title,
+            description,
+            dateStart: dateStart.toISOString(),
+            dateEnd: dateEnd.toISOString(),
             provider: "google",
         }
     }

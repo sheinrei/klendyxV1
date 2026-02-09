@@ -48,8 +48,40 @@ class CalendarAdapter {
     /**
      * Normalise la sorti des données events
      */
-    _normalizeOutput(eventData){
+    _normalizeOutput(eventData) {
         throw new Error("_normalizeOutput doit être implémenté")
+    }
+
+    /**
+     * Relance une opération si une erreur survient
+     * @param {*} fn 
+     * @param {*} maxRetry 
+     * @param {*} delayMs 
+     * @returns 
+     */
+
+    async retryOperation(fn, maxRetry = 3, delayMs = 500) {
+        for (let attempt = 0; attempt < maxRetry; attempt++) {
+            try {
+                return await fn();
+            } catch (err) {
+                // définir ici les erreurs retryables
+                console.log("erreur survenue dans le retry")
+                const retryable = err.code === "ETIMEDOUT" ||
+                    err.code === "ECONNRESET" ||
+                    err.message.includes("timeout") ||
+                    err.message.includes("5xx") ||
+                    err.message.includes("401") ||
+                    err.message.includes("412");
+
+                if (attempt < maxRetry && retryable) {
+                    console.warn(`Tentative ${attempt} échouée, retry dans ${delayMs}ms...`);
+                    await new Promise(r => setTimeout(r, delayMs));
+                    continue;
+                }
+                throw err;
+            }
+        }
     }
 }
 

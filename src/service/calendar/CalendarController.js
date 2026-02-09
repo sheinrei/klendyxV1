@@ -6,7 +6,7 @@ import { getCalendarAdapter } from "./CalendarFactory.js";
 
 export async function getAllEvents(provider, db, userId) {
     try {
-
+        console.log("Recupération des événements du calendar", provider)
         const adapter = getCalendarAdapter(provider, db, userId)
         const allEvents = await adapter.getAllEvents();
 
@@ -29,15 +29,16 @@ export async function createEvent(provider, db, userId, eventData) {
 
         const adapter = getCalendarAdapter(provider, db, userId)
         const event = await adapter.createEvent(eventData)
-
         return {
             success: true,
             data: event
         }
+
     } catch (err) {
+        console.log(err)
         return {
             success: false,
-            message: "erreur survenue lors de la création de l'évènement, veuillez réessayer plus tard, si le problème persiste merci de contacter le support",
+            message: "Une erreur est survenue lors de la création de l'évènement, veuillez réessayer plus tard, si le problème persiste merci de contacter le support",
             error: err.message
         }
     }
@@ -58,7 +59,7 @@ export async function updateEvent(provider, db, userId, eventData, eventId) {
         return {
             success: false,
             message: "erreur survenue lors de la mise à jour de l'évènement, veuillez réessayer plus tard, si le problème persiste merci de contacter le support",
-            error: err.message
+            error: err.message || err
         }
     }
 }
@@ -88,7 +89,7 @@ export async function getCalendarSync(db, userId) {
     try {
         const google = await getToken("GoogleSync", userId, db);
         const outlook = await getToken("OutlookSync", userId, db);
-
+        const apple = await getToken("AppleSync", userId, db)
         return {
             google: {
                 sync: google.success,
@@ -98,10 +99,13 @@ export async function getCalendarSync(db, userId) {
                 sync: outlook.success,
                 createdAt: outlook.createdAt || null
             },
-            klendyx: true,
+            klendyx: {
+                sync : true,
+                createdAt : null
+            },
             apple: {
-                sync: false,
-                createdAt: null
+                sync: apple.success,
+                createdAt: apple.createdAt || null
             }
         }
     } catch (err) {
@@ -131,7 +135,4 @@ export async function revokeCalendar(provider, db, userId) {
             error: err.message
         }
     }
-
-
-
 }

@@ -14,7 +14,6 @@ import { addRevolveMatchingEvent, updateMatchingEvent } from "../service/event/u
 import { resolveMatchingEvent } from "../service/event/resolveMatchingEvent.js";
 import { sendResolvMatching } from "../service/mailer/sendResolvMatching.js";
 import { getUserData } from "../service/user/getUserData.js";
-import { addNewEventGoogle } from "../service/google/addnewEvent.js";
 import { getToken } from "../service/token/getToken.js";
 import { deleteMatchingEvent } from "../service/event/deleteMatchingEvent.js";
 import { sendValidationMatching } from "../service/mailer/sendValidationMatching.js";
@@ -93,30 +92,28 @@ routerApiMatching.post("/final", async (req, res) => {
 
     let eventGoogle = null;
 
-    if (addGoogle) {
-        const tokenGoogle = await getToken("RefreshTokenGoogle", idUser, db);
-        if (tokenGoogle.success) {
-            eventGoogle = await addNewEventGoogle(tokenGoogle, dataEvent, req);
-        }
-    }
+    //Ajouter l'ajout du l'event dans calendar
+    /*
+    
+    */
 
     //delete l'event qui est fini
     const deletedEvent = deleteMatchingEvent(db, token)
-    if(!deletedEvent.successs){
+    if (!deletedEvent.successs) {
         console.log("erreur dans la suppression de l'eventMatching")
     }
 
     const contactSendSuccess = []
     //send email à tout les participants
-    dataEvent.data.contact.forEach((email)=>{
+    dataEvent.data.contact.forEach((email) => {
         const send = sendValidationMatching(email, idUser, titleEvent, dateEventString, hoursStartString, hoursEndString)
-        .then(()=>contactSendSuccess.push(send.success))
+            .then(() => contactSendSuccess.push(send.success))
     })
 
     return res.json({
-        success:true,
-        google : eventGoogle.success,
-        contactSending : contactSendSuccess
+        success: true,
+        google: eventGoogle.success,
+        contactSending: contactSendSuccess
     })
 })
 

@@ -190,7 +190,6 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
             })
         }
 
-        console.log("succes auth =>", auth)
         const userId = auth.idUser
         await createUserSession(db, userId)
 

@@ -15,7 +15,7 @@ export function creditTable(sequelize) {
         plan: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "Free",
+            defaultValue: "Essais gratuit",
         },
         refreshAt: {
             type: DataTypes.DATE,

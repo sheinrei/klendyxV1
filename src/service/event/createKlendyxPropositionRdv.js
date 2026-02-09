@@ -30,7 +30,7 @@ export async function createKlendyxPropositionRdv(db, req) {
             hourStart,
             hourEnd,
             rappel,
-            state: "Creation"
+            state: "En attente de réponse"
         })
 
         if (!create) {

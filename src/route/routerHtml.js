@@ -24,10 +24,10 @@ router.get("/dashboard", (req, res) => {
 })
 
 
-
 router.get("/forgotPassword", (req, res) => {
     sendFile("./public/pageHtml/forgotPassword.html", res);
 })
+
 
 router.get("/user-verify/:token/:id", (req, res) => {
     sendFile("./public/pageHtml/userVerify.html", res)
@@ -43,9 +43,11 @@ router.get("/creer-rdv", (req, res) => {
     sendFile("./public/pageHtml/createRdv.html", res);
 })
 
+
 router.get("/valider-rdv/:token/:id/:idEvent", (req, res) => {
     sendFile("./public/pageHtml/reponsePropositionRdv.html", res)
 })
+
 
 router.get("/agenda", (req, res) => {
     sendFile("./public/pageHtml/agenda.html", res);
@@ -75,6 +77,14 @@ router.get("/confidentialite", (req, res) => {
 
 router.get("/condition-utilisation", (req, res) => {
     sendFile("./public/pageHtml/conditionUtilisation.html", res);
+})
+
+router.get("/auth-icloud", (req, res) => {
+    sendFile("./public/pageHtml/authIcloud.html", res)
+})
+
+router.get("/payment", (req, res) => {
+    sendFile("./public/pageHtml/payment.html", res)
 })
 
 //export à la fin du fichier

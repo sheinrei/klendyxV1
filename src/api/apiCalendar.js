@@ -42,16 +42,16 @@ routerApiCalendar.post("/create", authMiddleware, async (req, res) => {
         const userId = req.userId;
         const provider = req.body.provider;
         const eventData = req.body.eventData;
-
         const createdEvent = await createEvent(provider, db, userId, eventData)
 
         return res.json({
             success: createdEvent.success,
+            message: createdEvent.message,
             data: createdEvent.data,
         })
 
     } catch (err) {
-        console.log(err);
+        console.log(`Erreur survenue lors de la création d'un event avec provider ${provider}, message d'erreur : ${err.message}`);
         return res.status(500).json({
             success: false,
             message: "Une erreur est survenue lors de la création de l'évènement, veuillez réessayer plus tard, si le problème persiste merci de contacter notre support",
@@ -65,18 +65,19 @@ routerApiCalendar.post("/update", authMiddleware, async (req, res) => {
     try {
 
         const userId = req.userId;
-        const eventData = req.body.data;
+        const eventData = req.body.eventData;
         const provider = req.body.provider;
         const eventId = req.body.eventId;
 
-        const updatedEvent = await updateEvent(provider, db, userId, eventData, eventId)
 
+        const updatedEvent = await updateEvent(provider, db, userId, eventData, eventId)
         return res.json({
             success: updatedEvent.success,
-            data: updatedEvent.data
+            message: updatedEvent.data.message
         })
+
     } catch (err) {
-        console.log(err)
+        console.log(err.message)
         return res.status(500).json({
             success: false,
             message: "Une erreur est survenue lors de la mise à jour de l'évènement, veuillez réessayer plus tard, si le problème persiste merci de contacter notre support",
@@ -96,9 +97,11 @@ routerApiCalendar.post("/delete", authMiddleware, async (req, res) => {
 
         const deletedEvent = await deleteEvent(provider, db, userId, eventId)
 
+        console.log(eventId)
         return res.json({
             success: deletedEvent.success,
             data: deletedEvent.data,
+            error: deletedEvent.error || null
         })
 
     } catch (err) {
@@ -127,22 +130,22 @@ routerApiCalendar.get("/all-sync", authMiddleware, async (req, res) => {
     }
 })
 
-routerApiCalendar.post("/revoke-sync", authMiddleware, async(req,res)=>{
-    try{
-        
+routerApiCalendar.post("/revoke-sync", authMiddleware, async (req, res) => {
+    try {
+
         const provider = req.body.provider;
         const userId = req.userId;
 
         const revoke = await revokeCalendar(provider, db, userId);
-        
+
         return res.json(revoke)
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
         return res.status(500).json({
-            success : false,
-            message : `Une erreur est survenue lors de la suppression de la synchronisation avec votre agenda ${provider} , veuillez réessayer plus tard, si le problème persiste merci de contacter notre support`,
-            error : err.message
+            success: false,
+            message: `Une erreur est survenue lors de la suppression de la synchronisation avec votre agenda ${provider} , veuillez réessayer plus tard, si le problème persiste merci de contacter notre support`,
+            error: err.message
         })
     }
 })

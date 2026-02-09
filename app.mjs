@@ -1,16 +1,13 @@
 import express from "express"
-import fs from "fs"
-import path from "path"
-import { fileURLToPath } from "url"
 import cookieParser from "cookie-parser"
 import cors from "cors"
+
 //Partage du .env
 import dotenv from "dotenv"
 dotenv.config()
 
 //router
 import routerHtml from "./src/route/routerHtml.js";
-
 import routerApiUser from "./src/api/apiUser.js";
 import routerApiUserPreference from "./src/api/apiUserPreference.js";
 import routerApiRdv from "./src/api/apiRdv.js";
@@ -18,23 +15,20 @@ import routerApiCredit from "./src/api/apiCredit.js";
 import routerApiComment from "./src/api/apiComment.js";
 import routerApiContactFav from "./src/api/apiContactFav.js";
 import routerApiMatching from "./src/api/apiMatching.js";
-
-
+import routerApiPayment from "./src/api/apiPayment.js"
 import routerApiCalendar from "./src/api/apiCalendar.js";
-
 import routerAuthCalendarGoogle from "./src/api/authGoogle.js"
 import routerAuthCalendarOutlook from "./src/api/authOutlook.js"
 import routerAuthCalendarApple from "./src/api/authApple.js"
-
 
 
 //connection bdd
 import { initDb } from "./src/sequelize.js"
 await initDb()
 
-import { exec } from "child_process";
 
-
+//webhook
+import { uploadGitToProd } from "./src/service/webhookGit.js"
 
 const app = express();
 const port = process.env.PORT;
@@ -48,7 +42,6 @@ app.use(cors({
 app.use(express.static("public"));
 
 
-
 app.use("/", routerHtml);
 app.use("/", routerApiUser);
 app.use("/api/rdv", routerApiRdv)
@@ -58,79 +51,27 @@ app.use("/api/contact-favori", routerApiContactFav)
 app.use("/api/matching-event", routerApiMatching)
 app.use("/api/userPreference", routerApiUserPreference)
 
+//stripe
+app.use("/api/payment", routerApiPayment)
 
+//Calendar
+app.use("/api/calendar", routerApiCalendar) //Instance principal de tout les calendar
+app.use("/api/calendar/google", routerAuthCalendarGoogle)  //sync
+app.use("/api/calendar/outlook", routerAuthCalendarOutlook) //sync
+app.use("/api/calendar/apple", routerAuthCalendarApple) //sync
 
-app.use("/api/calendar", routerApiCalendar)
-app.use("/api/calendar/google", routerAuthCalendarGoogle)
-app.use("/api/calendar/outlook", routerAuthCalendarOutlook)
-app.use("/api/calendar/apple", routerAuthCalendarApple)
+//Gestion des tâches cron
+let cronStarted = false
+cronTask(cronStarted)
 
-
-// Définir __dirname pour les modules ES
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-
+//Get les config non sensible pour le front
 app.get("/config", (req, res) => {
     res.json({ host: process.env.HOST })
 })
 
-
+//Webhook pour mettre à jours serveur prod
 app.post(`/webhook/:token`, (req, res) => {
-    const secret = process.env.WEBHOOK_SECRET
-    const params = req.params.token
-
-    //Ecrire dans le fichier deploy log tout les webhook de github
-    const logFile = path.join(__dirname, 'deploy.log');
-    const timestamp = new Date().toISOString();
-    const log = (message) => {
-        const logMessage = `[${timestamp}] ${message}\n`;
-        fs.appendFileSync(logFile, logMessage);
-    };
-
-    log("*===== Ping de la route =====*")
-
-    if (secret === params) {
-        //verif si c'est bien la branch production
-        const branch = req.body.ref.replace('refs/heads/', '')
-        if (branch !== 'production') {
-            log("=== Pas la branch production on return");
-            return
-        }
-
-        log("=== Déclenchement du déploiement ===");
-
-        const commands = [
-            "cd /home/buyu3307/klendyx.beaute-laurent.fr/production",
-            "git fetch origin",
-            "git reset --hard origin/production",
-            "mkdir -p tmp",
-            "touch tmp/restart.txt"
-        ].join(" && ");
-
-        try {
-            exec(commands, (err, stdout, stderr) => {
-                if (err) {
-                    log(`ERREUR: ${err.message}`);
-                    log(`stderr: ${stderr}`);
-                    return res.status(500).send("Erreur lors du déploiement");
-                }
-
-                log(`Git pull: ${stdout}`);
-                if (stderr) log(`stderr: ${stderr}`);
-                log("=== Déploiement terminé ===\n");
-
-                res.send("Déploiement réussi !");
-            });
-        } catch (err) {
-            log(`Erreur ! Erreur ! Erreur ! ${err}`)
-        }
-
-
-    } else {
-        log("*===== Tentative de route sans le bon Token ! =====*")
-        res.status(403).send("Token invalide");
-    }
+    uploadGitToProd(req, res)
 });
 
 app.listen(port, () => console.log(`Application Node lancé sur : http://localhost:${port}/index`))

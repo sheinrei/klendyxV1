@@ -1,101 +1,96 @@
-async function getKlendyxRdv(host) {
+
+async function fetchProvider(host, provider) {
     const res = await fetch(`${host}/api/calendar/get-events`, {
         method: 'POST',
         headers: {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
-            provider: "klendyx"
+            provider
         })
     });
     const data = await res.json();
-    console.log("data de klendyx : ", data)
     return data
 }
 
-async function getGoogleCalendar(host) {
-    const res = await fetch(`${host}/api/calendar/get-events`, {
-        method: 'POST',
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-            provider: "google"
+async function getCalendarEvents(host, calendarSync) {
+    const providers = ["google", "outlook", "apple", "klendyx"]
+    const promises = providers
+        .filter(p => calendarSync[p]?.sync)
+        .map(async provider => {
+            const data = await fetchProvider(host, provider)
+            return [provider, data]
         })
-    });
-    const data = await res.json();
-    console.log("data de google : ", data)
-    return data
-}
 
-async function getOutlookCalendar(host) {
-    const res = await fetch(`${host}/api/calendar/get-events`, {
-        method: 'POST',
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-            provider: "outlook"
-        })
-    });
-    const data = await res.json();
-    console.log("data de outlook : ", data)
-    return data
+    const results = await Promise.all(promises)
+    return Object.fromEntries(results)
 }
 
 
-function combineDateAndTime(date, timeString) {
+function combineDateAndTimeLocal(date, timeString) {
     const [h, m] = timeString.split(":").map(Number);
-    const d = new Date(date);
-    d.setHours(h, m, 0, 0);
-    return d;
+
+    const year = date.getFullYear();
+    const month = date.getMonth(); // 0-based
+    const day = date.getDate();
+
+    // ⚠️ Date locale explicite
+    return new Date(year, month, day, h, m, 0, 0);
 }
 
-function addEventDrop(start, end, el, info) {
-    info.view.calendar.addEvent({
-        start,
-        end,
-        allDay: false,
-        title: el.dataset.title,
-        color: "white",
+
+
+function createNewEventFC(eventData, turn) {
+    const dateStart = new Date(eventData.dateStart);
+    const dateEnd = new Date(eventData.dateEnd);
+
+    window.calendar.addEvent({
+        start: dateStart,
+        end: dateEnd,
+        title: eventData.title,
+        id: `event-${turn}`,
+
+        extendedProps: {
+            providerId: eventData.eventId,
+            data: eventData,
+            description: eventData.description,
+            origin: eventData.origin,
+            fcId : `event-${turn}`,
+        },
+
         backgroundColor: "#3788d8",
         textColor: "white",
-        id: el.dataset.title,
-        extendedProps: {
-            description: el.dataset.description,
-            calendarSave: JSON.parse(el.dataset.calendarsave),
-            image: JSON.parse(el.dataset.image)
-        }
-    });
+        borderColor: "pink",
+        editable: false,
+        order: turn,
+    })
 }
 
-async function createEventGoogle(host, summary, description, dateStart, dateEnd) {
-    dateStart = formatDateRfc3339(dateStart)
-    dateEnd = formatDateRfc3339(dateEnd)
-    const res = await fetch(`${host}/api/calendar/google/create`, {
-        method: "POST",
 
-        headers: {
-            "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-            summary,
-            description,
-            dateStart,
-            dateEnd
+async function createNewEventInProvider(host, provider, eventData) {
+    try {
+        const createdEvent = await fetch(`${host}/api/calendar/create`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                provider,
+                eventData
+            })
         })
-    })
-    const data = await res.json()
-    if (!data.success) {
-        createClassiqueModale(data.message)
+        const res = await createdEvent.json();
+        createClassiqueModale(res.data.message)
+    } catch (err) {
+        console.log(err)
     }
 }
 
-async function checkCalendarSync(host) {
 
-    const google = true;
-    const apple = false;
-    const outlook = false;
+async function setDOMCalendarSync(calendarSync) {
+    const google = calendarSync.google.sync;
+    const apple = calendarSync.apple.sync;
+    const outlook = calendarSync.outlook.sync;
 
     const addClassBadge = (calendar, state) => state ? $(`#sync-${calendar}`).addClass("badge-sync-confirm").text("Actif") : $(`#sync-${calendar}`).addClass("badge-sync-none").text("Inactif")
     const addButtonSync = (calendar, state) => { if (!state) $(`#items-calendar-sync-${calendar}`).append(`<span style="margin-left:4px" class="btn-sync-calendar" id="btn-sync-calendar-${calendar}">Synchroniser</span>`) }
@@ -137,31 +132,27 @@ async function checkCalendarSync(host) {
             $(externalFav[i]).remove()
         }
     }
-
-
-    return {
-        google,
-        apple,
-        outlook
-    }
 }
 
 
 
 $(document).ready(async () => {
-
     let config = await getConfig()
     let host = config.host
     const today = Date.now()
+
+
 
     // ====== Init du calendrier ======
 
     //Constructeur calendar
     const calendarEl = document.getElementById('calendar');
+    let turn = 0;
     window.calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         dayMaxEvents: 3,
         locale: 'fr',
+        timeZone: "local",
         contentHeight: "auto",
         headerToolbar: {
             left: 'prev next',
@@ -180,31 +171,43 @@ $(document).ready(async () => {
             start: today
         },
         eventClick: (info) => {
-            console.log(info)
             createModaleDetailEvent(info)
         },
 
         drop: (info) => {
             const el = info.draggedEl
-            const dateStart = combineDateAndTime(info.date, el.dataset.start);
-            const dateEnd = combineDateAndTime(info.date, el.dataset.end);
             const calendarSave = JSON.parse(el.dataset.calendarsave);
-            const summary = el.dataset.title
-            const description = el.dataset.describe
-            console.log(calendarSave)
+
+            const startLocal = combineDateAndTimeLocal(info.date, el.dataset.start);
+            const endLocal = combineDateAndTimeLocal(info.date, el.dataset.end);
+
+            const eventData = {
+                dateStart: startLocal.toISOString(),
+                dateEnd: endLocal.toISOString(),
+                title: el.dataset.title,
+                description: el.dataset.describe,
+            }
+
             if (calendarSave.klendyx) {
-                console.log("klendyx")
+                createNewEventInProvider(host, "klendyx", eventData);
+                createNewEventFC(eventData, turn)
+                turn++
             }
             if (calendarSave.google) {
-                createEventGoogle(host, summary, description, dateStart, dateEnd);
+                createNewEventInProvider(host, "google", eventData);
+                createNewEventFC(eventData, turn)
+                turn++
             }
             if (calendarSave.apple) {
-                console.log("apple")
+                createNewEventInProvider(host, "apple", eventData);
+                createNewEventFC(eventData, turn)
+                turn++
             }
             if (calendarSave.outlook) {
-                console.log("outlook")
+                createNewEventInProvider(host, "outlook", eventData);
+                createNewEventFC(eventData, turn)
+                turn++
             }
-            addEventDrop(dateStart, dateEnd, el, info)
         },
 
         dateClick: (info) => {
@@ -213,79 +216,34 @@ $(document).ready(async () => {
         }
     });
 
+
+
+
     //premier rendu por l'ui le temps d'avoir get les données
     window.calendar.render()
 
-
-    getKlendyxRdv(host)
-    getOutlookCalendar(host)
-    //Check les calendar sync
-    const calendarSync = await checkCalendarSync(host)
-
-
+    //rechercher les calendars sync
+    const calendarSync = await checkCalendarSync(host);
+    setDOMCalendarSync(calendarSync)
+    const allEvents = await getCalendarEvents(host, calendarSync);
 
 
     // ====== Rempli le canlendar avec la data
-    let turn = 0;
-    if (calendarSync.google) {
-        const eventDataGoogle = await getGoogleCalendar(host)
-        eventDataGoogle.events.data.items.map((element) => {
-            window.calendar.addEvent({
-                allDay: !!element.start.date,
-                start: element.start.dateTime || element.start.date,
-                end: element.end.dateTime || element.end.date,
-
-                id: element.id,
-                title: element.summary,
-                extendedProps: {
-                    data: element,
-                    origin: "google",
-                },
-
-                color: "white",
-                backgroundColor: "#3788d8",
-                textColor: "white",
-
-                editable: false,
-                order: turn,
-            })
-            turn++
-        })
-    }
-    const eventklendyx = await getKlendyxRdv(host)
-
-
     window.calendar.batchRendering(() => {
-        //klendyx
-        if (eventklendyx.event) {
-            eventklendyx.event.data.map((element) => {
-                window.calendar.addEvent({
-                    start: element.dateDebut,
-                    end: element.dateFin,
-
-                    title: element.titleEvent,
-                    id: element.id,
-
-                    extendedProps: {
-                        data: element,
-                        description: element.messageEvent,
-                        origin: "klendyx",
-                    },
-
-                    backgroundColor: "#3788d8",
-                    textColor: "white",
-                    borderColor: "pink",
-                    editable: false,
-                    order: turn,
-                })
+        for (const [key, val] of Object.entries(allEvents)) {
+            const events = allEvents[key].data.data.events
+            events.forEach(event => {
+                createNewEventFC(event, turn)
                 turn++
             })
         }
+
     })
-
-
-
-    window.calendar.render();
+    window.calendar.render()
 
 })
+
+
+
+
 

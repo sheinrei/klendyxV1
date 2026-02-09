@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification à votre compte Icloud</title>
+    <link rel="stylesheet" href="./css/generic.css">
+    <link rel="stylesheet" href="./css/authIcloud.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/modale/classiqueModale.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/navbar.js" defer></script>
+    <script src="/js/footer.js" defer></script>
+    <script src="/js/submitAuthIcloud.js" defer></script>
+    <script src="/js/modale/classiqueModale.js" defer></script>
+
+</head>
+
+
+<body>
+    <div class="content" id="content">
+        <main>
+
+            <div class="card">
+
+
+                <h1>Connexion à votre compte Icloud</h1>
+                <p class="subtitle">Synchrnonisez votre compte Apple avec Klendyx</p>
+
+                <div class="info-box">
+                    <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="14" x2="12" y2="6" />
+                            <line x1="12" y1="16" x2="12.01" y2="18" />
+                        </svg>
+                        Comment créer un mot de passe d'application
+                    </h3>
+                    <ol>
+                        <li>- Rendez-vous sur <strong><a href="https://account.apple.com/account/manage" target="_blank">account.apple.com</a></strong></li>
+                        <li>- Connectez-vous avec votre identifiant Apple</li>
+                        <li>- Dans la section <strong>"Connexion et sécurité"</strong>, aller sur <strong>Mots de passe pour applications</strong></li>
+                        <li>- Cliquez sur <strong>Générer un mot de passe</strong></li>
+                        <li>- Donnez un nom à votre application (ex: "Klendyx")</li>
+                        <li>- Copiez le mot de passe généré et utilisez-le ci-dessous</li>
+                    </ol>
+                </div>
+
+                <form id="icloudForm">
+                    <div class="form-group">
+                        <label for="email">Identifiant Apple</label>
+                        <input type="email" id="email" name="email" placeholder="votre.email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mot de passe d'application</label>
+                        <input type="password" id="password" name="password" placeholder="xxxx-xxxx-xxxx-xxxx" required>
+                        <div class="helper-text">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg>
+                            <span>Utilisez un mot de passe d'application, pas votre mot de passe iCloud habituel</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" id="btn-submit">Se connecter</button>
+                </form>
+
+                <div class="warning-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 5v2h2v-2h-2z" />
+                    </svg>
+                    <p>Vos identifiants sont uniquement utilisés pour l'authentification avec les services Apple et ne
+                        sont jamais partagés.</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+
+</html>

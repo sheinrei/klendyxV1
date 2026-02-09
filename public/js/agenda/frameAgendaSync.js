@@ -1,4 +1,9 @@
 
+
+
+
+
+
 // == deplier la frame sync calendar ==
 let syncCalendarToogle = true
 $("#retract-frame-calendar-sync").on("click", function (e) {

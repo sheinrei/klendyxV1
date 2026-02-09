@@ -41,7 +41,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
 
 
     const idUser = req.userId
-    const dataUser = await getUserData(req, db, idUser);
+    const dataUser = await getUserData( db, idUser);
     const nameInitialisateur = dataUser.nom + " " + dataUser.prenom;
     let dataReturn = {}
 

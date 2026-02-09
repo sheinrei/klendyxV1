@@ -26,4 +26,10 @@ Event klendyx:
 
 
 
+DASHBOARD
+lib cartJs
+Note pour plus tard :
+new graph, faire un graph en cercle : eventEnvoyé : EventValidé/EventRefusé/EventEnAttente
+Temps avant rechargemet faire un time compteur
 
+demarage de radicale: radicale --auth-type htpasswd --auth-htpasswd-filename radicaleUser

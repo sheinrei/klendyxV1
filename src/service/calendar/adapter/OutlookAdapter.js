@@ -55,13 +55,10 @@ class OutlookAdapter extends CalendarAdapter {
     }
 
 
-
-
-
-
     async createEvent(eventData) {
         try {
             const accessToken = await this.getToken();
+
 
             const event = {
                 subject: eventData.title,
@@ -70,12 +67,12 @@ class OutlookAdapter extends CalendarAdapter {
                     content: eventData.description || ""
                 },
                 start: {
-                    dateTime: eventData.startDate,
-                    timeZone: "Europe/Paris"
+                    dateTime: eventData.dateStart,
+                    timeZone: "UTC"
                 },
                 end: {
-                    dateTime: eventData.endDate,
-                    timeZone: "Europe/Paris"
+                    dateTime: eventData.dateEnd,
+                    timeZone: "UTC"
                 }
             };
 
@@ -94,8 +91,11 @@ class OutlookAdapter extends CalendarAdapter {
             }
 
             const createdEvent = await response.json();
-
-            return createdEvent;
+            return {
+                success: true,
+                message: "L'évènement a été ajouté dans votre agenda Outlook avec succès.",
+                eventId: createdEvent.id,
+            };
 
         } catch (err) {
             throw new Error(`Erreur lors de la création d'un événement Outlook : ${err.message}`);
@@ -130,7 +130,7 @@ class OutlookAdapter extends CalendarAdapter {
 
             return {
                 success: true,
-                message: "La liste de tout les évènements Google a été récupéré avec succès",
+                message: "La liste de tout les évènements Outlook a été récupéré avec succès",
                 data: {
                     events: eventArray,
                     count: eventArray.length,
@@ -144,7 +144,7 @@ class OutlookAdapter extends CalendarAdapter {
     }
 
 
-    async updateEvent(idEvent, eventData) {
+    async updateEvent(eventData, idEvent) {
         try {
             const accessToken = await this.getToken();
 
@@ -181,11 +181,13 @@ class OutlookAdapter extends CalendarAdapter {
                 throw new Error(`Outlook API Error: ${error.error?.message || response.statusText}`);
             }
 
-            const updatedEvent = await response.json();
-            return this._normalizeOutput(updatedEvent);
+            return {
+                success: true,
+                message: "L'évènement a été mis à jour dans votre agenda Outlook avec succès",
+            }
 
         } catch (err) {
-            throw new Error(`Erreur lors de la mise à jour d'un événement Outlook : ${err.message}`);
+            console.log(`Erreur lors de la mise à jour d'un événement Outlook : ${err.message}`);
         }
     }
 
@@ -220,12 +222,15 @@ class OutlookAdapter extends CalendarAdapter {
 
 
     _normalizeOutput(eventData) {
+
+        const dateStart = eventData.start.dateTime.split(".")[0] + "Z"
+        const dateEnd = eventData.end.dateTime.split(".")[0] + "Z"
         return {
             eventId: eventData.id,
             title: eventData.subject,
             description: eventData.body?.content || "",
-            dateStart: eventData.start.dateTime,
-            dateEnd: eventData.end.dateTime,
+            dateStart,
+            dateEnd,
             provider: "outlook",
         };
 

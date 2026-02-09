@@ -86,6 +86,7 @@
 
     <script src="/js/agenda/fcConstructor.js" defer></script>
     <script src="/js/agenda/deleteEvent.js" defer></script>
+    <script src="/js/agenda/updateEvent.js" defer></script>
     <script src="/js/agenda/createMatchingEvent.js" defer></script>
     <script src="/js/agenda/externalEvent.js" defer></script>
     <script src="/js/agenda/swapperForm.js" defer></script>
@@ -427,7 +428,7 @@
 
 
     <script>
-        $(function () {
+        (function () {
             const redirect = window.localStorage.getItem("redirect")
             if (redirect) {
                 window.location.href = redirect

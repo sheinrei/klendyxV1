@@ -12,6 +12,7 @@
   "dependencies": {
     "@azure/msal-node": "^3.8.4",
     "bcrypt": "^6.0.0",
+    "caldav-client": "^1.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -21,8 +22,12 @@
     "googleapis": "^162.0.0",
     "jsonwebtoken": "^9.0.2",
     "mariadb": "^3.4.5",
+    "node-cron": "^4.2.1",
     "nodemailer": "^7.0.6",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "stripe": "^20.1.2",
+    "tsdav": "^2.1.6",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

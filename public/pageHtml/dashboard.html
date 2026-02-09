@@ -21,14 +21,13 @@
 
 
     <!-- script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="./js/config.js"></script>
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
     <script src="./js/deconnectUser.js" defer></script>
     <script src="./js/tools.js"></script>
-    <script src="./js/dashboard/dashboardGet.js" defer></script>
-    <script src="./js/dashboard/dashboardGraph.js" defer></script>
-    <script src="./js/dashboard/dashboardLogique.js" defer></script>
+    <script src="./js/dashboard/dashboardDOM.js" type="module" defer></script>
     <script src="./js/modale/classiqueModale.js" defer></script>
     <script src="./js/sessionExpire.js" defer></script>
 
@@ -43,96 +42,114 @@
 
         <main>
             <header>
-                <h1 class="title">Dashboard</h1>
+                <h1 class="title">Tableau de bord</h1>
+                <p>Retrouvez toute les statistiques de vos événements</p>
             </header>
 
 
-            <section id="credit">
-                <h2>Recap de vos crédits</h2>
-                <ul>
-                    <li>Note pour plus tard :</li>
-                    <li>new graph, faire un graph en cercle : eventEnvoyé : EventValidé/EventRefusé/EventEnAttente</li>
-                    <li>Temps avant rechargemet faire un time compteur</li>
-                    <li>Survole des barGraph afficher la valeur</li>
-                </ul>
-                <div class="frame-cards-credit">
-                    <div class="cards-credit">
-                        <p>Vous avez le plan</p>
-                        <p class="credit-data" id="user-plan"></p>
+
+            <section class="frame-row">
+                <!-- credit -->
+                <section class="frame-abonnement">
+                    <div class="card">
+                        <p>Plan d'abonnement :
+                            <span id="user-abonnement"></span>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Agenda sync-->
+                <section class="frame-calendar">
+                    <div class="card">
+                        <p>Vos Agendas Synchronisés</p>
+
+                        <div class="main-frame-row">
+                            <div>
+                                <div class="card-row">
+                                    <img width="38" height="38" src="https://img.icons8.com/fluency/48/google-logo.png"
+                                        alt="google-logo">
+                                    <span id="user-calendar-sync-google"></span>
+                                </div>
+
+                                <div class="card-row">
+                                    <img width="38" height="38"
+                                        src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
+                                        alt="microsoft-outlook-2019">
+                                    <span id="user-calendar-sync-outlook"></span>
+                                </div>
+
+                                <div class="card-row">
+                                    <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png"
+                                        alt="mac-os">
+                                    <span id="user-calendar-sync-apple"></span>
+                                </div>
+                            </div>
+
+                            <div class="graph-wrapper">
+                                <canvas id="ctx-calendar-count" class="graph"></canvas>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section class="frame-graph-envoie">
+                    <div class="card">
+                        <p>Envoies de sms et email</p>
+                        <div class="graph-wrapper">
+                            <canvas id="graph-envoie" class="graph"></canvas>
+                        </div>
                     </div>
 
-                    <div class="cards-credit">
-                        <p>Temps avant rechargement</p>
-                        <p class="credit-data" id="date-rechargement"></p>
-                    </div>
+                </section>
 
-                    <div class="cards-credit">
-                        <p>Envois d'email restant </p>
-                        <p class="credit-data" id="credit-email"></p>
-                    </div>
-
-                    <div class="cards-credit">
-                        <p>Envois de sms restant </p>
-                        <p class="credit-data" id="credit-sms"></p>
-                    </div>
-                </div>
             </section>
 
-            <section class="frame-graph" id="graph">
+            <secttion class="frame-row">
+                <!-- graph envoie sms/email-->
+                <section>
 
-                <header class="graph-header">
-                    <p>Messages envoyés : <span style="background-color:black; color: white; padding:3px">Mail</span>
-                        <span style="background-color:blue; color: white; padding:3px">Sms</span>
-                    </p>
-
-                    <select name="" id="graph-select">
-                        <option value="jours">jours</option>
-                        <option value="semaine">semaine</option>
-                        <option value="mois">mois</option>
-                        <option value="années">années</option>
-                    </select>
-                </header>
-
-                <div>
-                    <div class="graph-row">
-                        <p class="legend-y">20</p>
+                    <div class="card">
+                        <p>Proposition de rendez-vous</p>
+                        <div class="graph-wrapper">
+                            <canvas id="graph-proposition-rdv" class="graph"></canvas>
+                        </div>
                     </div>
+                </section>
 
-                    <div class="graph-row">
-                        <p class="legend-y">15</p>
+                <!-- event charge -->
+                <section style="width:50%">
+                    <div class="card">
+                        <p>Charge de vos journées</p>
+
+                        <div class="card-row" style="justify-content: space-between;">
+                            <button id="charge-event-previous-week">Semaine precedente</button>
+                            <button id="charge-event-next-week">Semaine suivante</button>
+                        </div>
+
+
+                        <div class="graph-wrapper">
+                            <canvas id="graph-charge-event" class="graph"></canvas>
+                        </div>
                     </div>
+                </section>
+            </secttion>
 
-                    <div class="graph-row">
-                        <p class="legend-y">10</p>
-                    </div>
 
-                    <div class="graph-row">
-                        <p class="legend-y">5</p>
-                    </div>
 
-                    <div class="graph-row">
-                        <p class="legend-y">0</p>
-                    </div>
-                </div>
-
-                <footer class="graph-footer">
-                </footer>
-            </section>
-
-            <section id="event">
+            <section>
                 <header>
-                    <h2 class="title-event">Mes events</h2>
-                    <p class="subtitle-event">Ici vous retrouvez tout les évenements que vous avez déclanché et qui ne
-                        sont pas archivé</p>
+                    <h2>
+                        Etat de vos propositions de rendez-vous
+                    </h2>
+                    <p id="subtitle-proposition-rdv">Vous avez x prosition de rendez-vous en cours</p>
                 </header>
 
-                <div class="frame-append-event">
-                    <!-- append cards event here-->
-                </div>
+                <div id="input-cards-proposition-rdv">
 
+                </div>
             </section>
         </main>
-    </section>
 </body>
 
 </html>

@@ -340,10 +340,10 @@ $(async () => {
         window.location.href = "/api/user/export-data"
     })
 
-$("#btn-get-invoice").on("click", function(e){
-    e.preventDefault();
-    createClassiqueModale("Cette fonctionalité n'est pas encore implémenté")
-})
+    $("#btn-get-invoice").on("click", function (e) {
+        e.preventDefault();
+        createClassiqueModale("Cette fonctionalité n'est pas encore implémenté")
+    })
 
 
     // === gestion bouton sync des calendar ===
@@ -369,13 +369,14 @@ $("#btn-get-invoice").on("click", function(e){
         e.preventDefault();
         switch ($(this).text()) {
             case "Révoquer":
-                const revoke = await revokeSyncCalendar(host, "apple");
+                const revoke = await revokeCalendar(host, "apple");
                 revoke.success ? MessageAlert.create("information", "#input-message-alert-calendar", revoke.message)
                     : MessageAlert.create("warning", "#input-message-alert-calendar", revoke.message)
+                hydrateStateSyncCalendar(host)
                 break;
 
             case "Synchroniser":
-                createClassiqueModale("Cette fonctionalité n'est pas encore implémenté")
+                window.location.href = `${host}/auth-icloud`
                 break;
             default:
                 return;

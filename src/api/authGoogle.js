@@ -47,7 +47,7 @@ routerAuthCalendarGoogle.get("/callback", async (req, res) => {
         if (!invite) {
             const { userId } = JSON.parse(state);
             oauth2Client.setCredentials(tokens);
-            saveToken(userId, "GoogleSync", tokens, db)
+            await saveToken(userId, "GoogleSync", tokens, db)
         }
         if(invite){
             res.cookie("googleAuth", tokens.refresh_token, {

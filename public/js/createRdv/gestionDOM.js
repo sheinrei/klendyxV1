@@ -144,22 +144,16 @@ async function setCredit(host) {
     $("#credit-email-preview").text(currentEmail)
 }
 
-async function checkCalendarSync(host) {
-    const googleSync = await fetch(`${host}/api/calendar/google/sync`, {
-        method: "GET",
-        "Content-type": "application/json"
-    })
-    const google = await googleSync.json()
-    const apple = false;
-    const outlook = false;
+async function setDOMCalendarSync(host) {
+    const sync = await checkCalendarSync(host);
 
-    if (!google.success) {
+    if (!sync.google.sync) {
         $("#external-calendar-save-google").remove()
     }
-    if (!apple) {
+    if (!sync.apple.sync) {
         $("#external-calendar-save-apple").remove()
     }
-    if (!outlook) {
+    if (!sync.outlook.sync) {
         $("#external-calendar-save-outlook").remove()
     }
 }
@@ -180,7 +174,7 @@ $(async function () {
     const nameInitialisateur = resUser.nom + " " + resUser.prenom;
 
     setCredit(host)
-    checkCalendarSync(host)
+    setDOMCalendarSync(host)
 
 
 

@@ -39,7 +39,7 @@ const parsingHours = (time) => {
     } else if (minutes === 0) {
         return `${hours}h`;
     } else {
-        return `${hours}h ${minutes}m`;
+        return `${hours}h${minutes}m`;
     }
 }
 
@@ -78,13 +78,17 @@ const dateToFr = (date) => {
 
 
 async function checkCalendarSync(host) {
-    
-    const synchro = await fetch(`${host}/api/calendar/all-sync`, {
-        method : "GET",
-        headers : {
-            "Content-Type" : "application/json"
-        }
-    })
-    const data = await synchro.json()
-    return data
+
+    try {
+        const synchro = await fetch(`${host}/api/calendar/all-sync`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await synchro.json()
+        return data
+    } catch (err) {
+        console.log(err)
+    }
 }

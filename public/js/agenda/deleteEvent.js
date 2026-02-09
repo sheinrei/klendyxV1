@@ -1,70 +1,40 @@
 
-async function klendyxDeleteEvent(token, idEvent) {
-    const config = await getConfig()
-    const host = config.host
-
-    const res = await fetch(`${host}/api/rdv/delete`, {
-        method: "POST",
-        headers: {
-            "Authorization": "Bearer " + token,
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-            eventId: idEvent
-        })
-    })
-
-    const data = await res.json();
-    return data
-}
-
-async function googleDeleteEvent(token, idEvent) {
-    const config = await getConfig()
-    const host = config.host
-
-
-    const res = await fetch(`${host}/api/calendar/google/delete`, {
-        method: "POST",
-        headers: {
-            "Authorization": "Bearer " + token,
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify({
-            eventId: idEvent
-        })
-    })
-
-    const data = await res.json();
-    return data
-}
-
-
-
 
 $(document).on("click", "#btn-delete-event", async () => {
-    const token = window.localStorage.getItem("token")
-    const origin = $("#origin-event").val()
 
-    const idEvent = String($("#fc-event-id").val())
-    const event = window.calendar.getEventById(idEvent)
-    let deleted;
-    switch (origin) {
-        case "google":
-            deleted = await googleDeleteEvent(token, idEvent);
-            if (deleted.success) {
-                $(".close-modale").closest(".event-modale").remove()
-            }
-            break
-        case "klendyx":
-            deleted = await klendyxDeleteEvent(token, idEvent)
-            if (deleted.success) {
-                $(".close-modale").closest(".event-modale").remove()
-            }
-            break
-    }
+    try {
 
-    if (event && deleted.success) {
-        event.remove()
+
+        const data = $("#fc-ext-props").val();
+        const extendedProps = JSON.parse(data)
+        const fcId = $("#fc-id-event").val()
+        const eventId = extendedProps.eventId
+        const provider = extendedProps.provider
+
+        const event = window.calendar.getEventById(fcId)
+
+        let config = await getConfig()
+        let host = config.host
+
+        const deletedEvent = await fetch(`${host}/api/calendar/delete`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                provider,
+                eventId
+            })
+        })
+        const res = await deletedEvent.json();
+        if (res.success) {
+            event.remove();
+            $(".event-modale").remove()
+            createClassiqueModale(res.data.message)
+        }
+        console.log(res)
+    } catch (err) {
+        console.log(err)
     }
 
 })
