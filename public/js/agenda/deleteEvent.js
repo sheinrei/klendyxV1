@@ -16,8 +16,8 @@ $(document).on("click", "#btn-delete-event", async () => {
         let config = await getConfig()
         let host = config.host
 
-        const deletedEvent = await fetch(`${host}/api/calendar/delete`, {
-            method: "POST",
+        const deletedEvent = await fetch(`${host}/api/calendar/${eventId}`, {
+            method: "DELETE",
             headers: {
                 "Content-type": "application/json"
             },

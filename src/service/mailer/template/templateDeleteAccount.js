@@ -1,11 +1,7 @@
-import { createTransporter } from "./createTransporter.js";
 
 
-export async function sendDeleteAccount(email, url) {
 
-    const transporter = createTransporter();
-
-    const html = `
+export const templateDeleteAccount = `
 <body style="margin: 0;padding: 0;width: 100% !important;background-color: #f8fafc;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tr>
@@ -52,7 +48,7 @@ export async function sendDeleteAccount(email, url) {
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 25px 0;">
                                 <tr>
                                     <td style="border-radius: 8px; background-color: #ee6e6eff;">
-                                        <a href="${url}" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px;">
+                                        <a href="{url}" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px;">
                                             Confirmer la suppression
                                         </a>
                                     </td>
@@ -80,29 +76,3 @@ export async function sendDeleteAccount(email, url) {
     </table>
 </body>
 `;
-
-
-
-
-
-    const mailOptions = {
-        from: '"Klendyx" <no-reply@monapp.com>',
-        to: email,
-        subject: "Suppression de votre compte Kledyx",
-        text: "Confirmer la suppression de votre compte Klendyx",
-        html: html,
-    };
-
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        if (info.messageId) {
-            return { success: true, message: `Un email vous a été envoyé à votre adresse ${email}, la suppression de votre compte sera définitive après avoir cliqué sur le bouton depuis cet email.` }
-        }
-        else {
-            return { success: false, message: "Impossible d'envoyer le mail." }
-        }
-    } catch (err) {
-        console.log("Échec de l'envoi, erreur :", err);
-    }
-}

@@ -96,15 +96,14 @@ $(document).on("click", "#btn-submit-update-event", async function (e) {
 
     let config = await getConfig()
     let host = config.host
-    const updatedEvent = await fetch(`${host}/api/calendar/update`, {
-        method: "POST",
+    const updatedEvent = await fetch(`${host}/api/calendar/${eventId}`, {
+        method: "PUT",
         headers: {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
             provider,
             eventData,
-            eventId
         })
     })
 

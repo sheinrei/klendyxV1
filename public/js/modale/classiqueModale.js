@@ -1,5 +1,4 @@
 function createClassiqueModale(content) {
-
     const html = `
         <div class="classique-modale-overlay">
             <div class="classique-modale">
@@ -23,21 +22,18 @@ function createClassiqueModale(content) {
             </div>
         </div>
     `
-
     $("body").append(html);
 
     // Animation d'entrée
     setTimeout(() => {
         $(".classique-modale-overlay").addClass("active");
     }, 10);
-
     // Fermeture au clic sur l'overlay
     $(".classique-modale-overlay").on("click", function (e) {
         if (e.target === this) {
             closeClassiqueModale();
         }
     });
-
     $("#btn-close-classique-modale, #btn-confirm-classique-modale").on("click", closeClassiqueModale);
 }
 
@@ -47,3 +43,5 @@ function closeClassiqueModale() {
         $(".classique-modale-overlay").remove();
     }, 300);
 }
+
+

@@ -1,7 +1,6 @@
-//Design Pattern factory
+
 
 class MessageAlert {
-
     static create(type, input, message) {
         const element = document.createElement("p")
         element.className = "message-alert"
@@ -30,3 +29,4 @@ class MessageAlert {
         $(".message-alert").remove()
     }
 }
+

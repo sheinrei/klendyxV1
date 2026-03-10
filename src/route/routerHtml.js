@@ -87,5 +87,5 @@ router.get("/payment", (req, res) => {
     sendFile("./public/pageHtml/payment.html", res)
 })
 
-//export à la fin du fichier
+//export du router pour l'envoyer dans le principal de config express
 export default router

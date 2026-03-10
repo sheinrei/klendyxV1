@@ -89,7 +89,6 @@ function controlleInput(){
         return false
     }
     return true
-
 }
 
 function resetDomAfterSubmit(today){

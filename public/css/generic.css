@@ -3,42 +3,30 @@
     --main-border-color: black;
     --main-bg: white;
     --footer-bg: rgb(198, 198, 198);
-
     --gradient-title: linear-gradient(to right, rgba(113, 106, 249, 1) 0%, rgba(91, 9, 121, 1) 100%);
     --color-nav: rgb(44, 44, 44);
-
     --background-primary: linear-gradient(135deg, #f8f9fc 0%, #f0f2f8 50%, #e8ebf5 100%);
     --background-secondary: #e0e7fd;
-
     --primary-color: #716af9;
     --primary-hover: #5247c7;
-
     --secondary-color: #6b7280;
-
     --input-color: #F8FAFC;
-
     --success-color: #10815c;
     --error-color: #a35454;
     --warning-color: rgb(171, 106, 106);
     --card-background: #ffffff;
-
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-light: #b3b7be;
-
     --border-color: #e5e7eb;
     --border-focus: #7b75e3;
-
     --shadow-light: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     --border-radius: 12px;
     --border-radius-small: 8px;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-
     --btn-radius : 10px;
-
     --switch-width: 52px;
     --switch-height: 28px;
     --switch-radius: 999px;
@@ -97,7 +85,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background: var(--background-primary);
@@ -524,13 +511,11 @@ progress {
     width: 70%;
     height: 14px;
     -webkit-appearance: none;
-    /* pour Chrome/Safari */
     appearance: none;
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;
 }
-
 
 #strength-bar::-webkit-progress-value {
     transition: 0.3s ease;

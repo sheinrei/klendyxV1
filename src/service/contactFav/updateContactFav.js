@@ -3,7 +3,6 @@ import { contactFavTable } from "../../models/contactFavTable.js";
 export async function updateContactFav(db, req) {
 
     const Contact = contactFavTable(db);
-
     const update = await Contact.update({
         nom: req.body.nom,
         prenom: req.body.prenom,
@@ -20,3 +19,4 @@ export async function updateContactFav(db, req) {
     }
     return{success:false, message : "Erreur lors de la modification, veuillez réessayer plus tard."}
 }
+

@@ -3,12 +3,28 @@ import tokenTable from "./../../models/tokenTable.js"
 
 
 export async function deleteToken(token, db) {
-    const Token = tokenTable(db);
-    const deletedToken = await Token.destroy({
-        where: { token }
-    })
-    if (deletedToken) {
-        console.log("Token effacé")
+    try {
+        const Token = tokenTable(db);
+        const deletedToken = await Token.destroy({
+            where: { token }
+        })
+        if (!deletedToken) {
+            return {
+                success: false,
+                message: `Token : ${token} n'as pas pu être supprimé`
+            }
+        }
+        return {
+            success: true,
+            message: `Token : ${token} supprimé avec succès`
+        }
+    } catch (err) {
+        console.warn(`Une erreur est survenue lors de la suppression d'un token, error : ${err}`)
+        return {
+            success: false,
+            error: err,
+            message: "Une erreur est survenue lors de la suppression d'un token"
+        }
     }
 }
 

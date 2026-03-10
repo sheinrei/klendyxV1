@@ -1,11 +1,14 @@
 import GraphFactory from "./GraphFactory.js";
 
-
+/**
+ * Création de graphique via la librairie Chart.js
+ */
 
 class GraphController {
 
     constructor() {
         this.graphs = {}
+        this.numberGraph = 0
     }
 
     createGraph(type, ctx, labels, data, title, name) {

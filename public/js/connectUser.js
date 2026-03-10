@@ -29,8 +29,7 @@ $(document).ready(async function () {
 
             success: function (data) {
                 if (data["2FA"]) {
-
-                    console.log(data)
+                    
                     const html = `<div class="frame-2FA">
                     <div class="header-2FA">
                         <p style="font-size:18px"><strong>Vérification en deux étapes</strong></p>

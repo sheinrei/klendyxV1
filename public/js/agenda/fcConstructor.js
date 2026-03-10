@@ -55,7 +55,7 @@ function createNewEventFC(eventData, turn) {
             data: eventData,
             description: eventData.description,
             origin: eventData.origin,
-            fcId : `event-${turn}`,
+            fcId: `event-${turn}`,
         },
 
         backgroundColor: "#3788d8",
@@ -80,9 +80,17 @@ async function createNewEventInProvider(host, provider, eventData) {
             })
         })
         const res = await createdEvent.json();
+
+        if (!res.success) {
+            createClassiqueModale("Une erreur est survenue lors de la création de l'évènement.")
+            return
+        }
+
         createClassiqueModale(res.data.message)
+
     } catch (err) {
-        console.log(err)
+        console.warn(`Echec lors de la requette création d'un event dans le provider ${provider}`)
+        createClassiqueModale("Une erreur est survenue lors de la création de l'évènement.")
     }
 }
 

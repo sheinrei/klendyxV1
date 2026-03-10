@@ -1,3 +1,5 @@
+const currentYear = new Date().getFullYear()
+
 const htmlFooter = `
     <footer class="footer">
         <div class="footer-container">
@@ -63,7 +65,7 @@ const htmlFooter = `
             </div>
 
             <div class="footer-bottom">
-                <p class="footer-copyright">© 2025 Klendyx. Tous droits réservés.</p>
+                <p class="footer-copyright">© ${currentYear} Klendyx. Tous droits réservés.</p>
                 <div class="footer-meta">
                     <span>Fait avec ❤️ en France</span>
                 </div>

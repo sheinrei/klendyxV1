@@ -33,7 +33,6 @@ $(document).ready(() => {
         const email = $("#email").val()
         const mdp = $("#mdp").val()
         const mdpConfirm = $("#mdpConfirm").val()
-
         const raisonSocial = $("#raisonSocial").val()
         const siren = $("#siren").val()
         const cgu = $("#cgu").is(":checked")
@@ -103,3 +102,4 @@ $(document).ready(() => {
         })
     })
 })
+

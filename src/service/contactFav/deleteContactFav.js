@@ -13,3 +13,5 @@ export async function deleteContactFav(db, req) {
     }
     return {success: false, message : "Erreur survenu nous n'avons pas pu supprimer ce contact."}
 }
+
+

@@ -12,6 +12,7 @@ function searchAllDaysInterval(start, end) {
     return dayInInterval;
 }
 
+
 function dropIndispoDays(contacts, dayInInterval, data) {
     const arrayIndisponibleAllDay = new Set();
 
@@ -296,8 +297,10 @@ export function resolveMatchingEvent(
 
     //7. Sélectionner les dates avec le plus gros score
     const daysSelected = selectBestDayScoring(structureDays, numberDayReturn, arrayDaysValide);
+
     //8. Trouver les meilleurs créneaux horaires pour chaque jour
     const finalResult = selectedMatchingHoraire(daysSelected, timeRdv, hoursStart, hoursEnd);
+    
     return finalResult;
 
 }

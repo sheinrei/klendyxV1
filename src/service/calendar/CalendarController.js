@@ -10,10 +10,15 @@ export async function getAllEvents(provider, db, userId) {
         const adapter = getCalendarAdapter(provider, db, userId)
         const allEvents = await adapter.getAllEvents();
 
+        if(!allEvents.success){
+            return {
+                success: false,
+            }
+        }
         return {
+            success:true,
             data : allEvents
         }
-
     } catch (err) {
         return {
             success: false,

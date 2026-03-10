@@ -1,17 +1,8 @@
-import { createTransporter } from "./createTransporter.js";
-import { createOption } from "./createMailOption.js";
 
-
-export async function sendPropositionRdv(url, email, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd) {
-
-    const transporter = createTransporter()
-    const day = new Date(dayStart.replace(":", "-"))
-
-
-    const html = `<div style="margin:20px">
+export const templatePropositionRdv = `<div style="margin:20px">
                     <header style="margin-bottom:30px">
-                        <p>Bonjour ${prenom},</p>
-                        <p>${nameInitialisateur} vous propose un rendez-vous "${title}" </p>
+                        <p>Bonjour {PRENOM},</p>
+                        <p>{NAME_INITIALISATEUR} vous propose un rendez-vous "{TITLE}" </p>
                     </header>
 
                     <p style="margin-bottom:20px">Information du rendez-vous :</p>
@@ -29,7 +20,7 @@ export async function sendPropositionRdv(url, email, prenom, nameInitialisateur,
 
                             <div style="display:flex; flex-direction:column; align-items:flex-start; margin:0">
                                 <p style="margin:0;width:100%">Date</p>
-                                <p style="margin:0;width:100%">${day.toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" })}</p>
+                                <p style="margin:0;width:100%">{DAY}</p>
                             </div>
                         </div>
 
@@ -43,19 +34,19 @@ export async function sendPropositionRdv(url, email, prenom, nameInitialisateur,
 
                             <div style="display:flex; flex-direction:column; align-items:flex-start; margin:0">
                                 <p style="margin:0;width:100%">Horaire</p>
-                                <p style="margin:0;width:100%">${hourStart.replace(":", "h")} à ${hourEnd.replace(":", "h")}</p>
+                                <p style="margin:0;width:100%">{HOUR_START} à {HOUR_END}</p>
                             </div>
                         </div>
 
                     </div>
 
                     <div>
-                        ${commentaire ? `<p style="margin-bottom:15px">Information complémentaire : ${commentaire} </p>` : ""}
+                        {COMMENTAIRE}
                     </div>
 
                     <p style="margin-bottom:15px">Merci de renseigner votre réponse en cliquant sur le boutton ci dessous  : </p>
 
-                    <a href="${url}"
+                    <a href="{URL}"
                             style="
                                 padding: 8px 15px;
                                 background: linear-gradient(to right, rgba(113,106,249,1) 0%, rgba(91,9,121,1) 100%);
@@ -77,15 +68,8 @@ export async function sendPropositionRdv(url, email, prenom, nameInitialisateur,
 
 
 
-    const mailOptions = createOption(email, nameInitialisateur, html, title)
 
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log(info)
-        if (info.messageId) {
-            return { success: true, message: `L'email de proposition du rendez-vous a été envoyé au destinataire ${email} avec succès.` }
-        }
-    } catch (err) {
-        return { success: false, message: "Erreur survenue avec le serveur." }
-    }
-}
+
+
+
+

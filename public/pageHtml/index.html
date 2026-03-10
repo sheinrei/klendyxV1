@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Titre & Description (SEO classique) -->
+    <!-- Titre & Description -->
     <title>Klendyx – Gérez vos rendez-vous et votre emploi du temps facilement</title>
     <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
 
@@ -20,7 +20,7 @@
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://cklendyx/index">
+    <link rel="canonical" href="https://klendyx/index">
 
     <!-- Extras utiles -->
     <meta name="theme-color" content="#ffffff">
@@ -73,13 +73,13 @@
 
 
 <body>
-    <section class="content" id="content">
+    <div class="content" id="content">
 
-        <section class="index-content">
+        <div class="index-content">
             <!-- frame top -->
-            <section class="index-frame-top">
+            <section class="index-frame-top" aria-labelledby="hero-title">
                 <div>
-                    <h1 class="index-title">Planifiez vos rendez-vous sans effort</h1>
+                    <h1 class="index-title" id="hero-title">Planifiez vos rendez-vous sans effort</h1>
                     <p class="index-subtitle">
                         Klendyx transforme la gestion de vos rendez-vous en une expérience simple et
                         professionnelle. Email, SMS, synchronisation de vos agendas — tout en un seul endroit.
@@ -87,20 +87,20 @@
                 </div>
 
                 <div class="index-top-row">
-                    <a class="btn-joins-us" href="/connexion">
+                    <a class="btn-joins-us" href="/connexion" aria-label="Essayer Klendyx gratuitement">
                         Essayer Gratuitement
                     </a>
 
-
-                    <a class="btn-discover" href="#frame-plan">
+                    <a class="btn-discover" href="#frame-plan" aria-label="Voir les plans d'abonnements disponibles">
                         Découvrez les plans d'abonnements
                     </a>
                 </div>
 
                 <!-- hero img-->
-                <div class="frame-hero-img">
+                <div class="frame-hero-img" role="img"
+                    aria-label="Aperçu de l'interface Klendyx avec synchronisation des agendas et confirmation de rendez-vous">
 
-                    <div class="card-hero-floating">
+                    <div class="card-hero-floating" aria-hidden="true">
                         <span class="card-hero-floating-badge">✔️</span>
                         <div class="card-hero-floating-text">
                             <p>Synchronisation des agendas</p>
@@ -108,7 +108,7 @@
                         </div>
                     </div>
 
-                    <div class="card-hero-floating">
+                    <div class="card-hero-floating" aria-hidden="true">
                         <span class="card-hero-floating-badge">+3</span>
                         <div class="card-hero-floating-text">
                             <p>Mes rendez-vous</p>
@@ -123,10 +123,10 @@
 
 
             <!-- frame bottom-->
-            <section class="index-frame-bottom">
+            <div class="index-frame-bottom">
                 <div>
                     <header>
-                        <p class="index-frame-bottom-title">
+                        <p class="index-frame-bottom-title" id="features-title">
                             Tout ce dont vous avez besoin
                         </p>
                         <p class="index-frame-bottom-subtitle">
@@ -134,10 +134,10 @@
                         </p>
                     </header>
 
-                    <div>
+                    <div role="list" aria-labelledby="features-title">
                         <div class="frame-row">
                             <!-- rappel de rdv-->
-                            <div class="index-card-services">
+                            <div class="index-card-services" role="listitem">
                                 <div class="card-svg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="100%"
                                         height="100%" preserveAspectRatio="xMidYMid meet" role="img"
@@ -227,14 +227,15 @@
 
 
                                 </div>
-                                <p class="card-title">Rappel de rendez-vous par email et sms</p>
+                                <p class="card-title" id="feature-reminder-title">Rappel de rendez-vous par email et sms
+                                </p>
                                 <p>
                                     Programmez un rendez-vous et envoyer une notification par email et sms
                                 </p>
                             </div>
 
 
-                            <div class="index-card-services">
+                            <div class="index-card-services" role="listitem">
                                 <!-- matching -->
                                 <div class="card-svg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="100%"
@@ -242,12 +243,12 @@
                                         aria-label="Matching intelligent de rendez-vous">
 
                                         <defs>
-                                            <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+                                            <linearGradient id="bgGrad1" x1="0" y1="0" x2="1" y2="1">
                                                 <stop offset="0%" stop-color="#FBFDFF" />
                                                 <stop offset="100%" stop-color="#EEF9F7" />
                                             </linearGradient>
 
-                                            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <filter id="softShadow1" x="-20%" y="-20%" width="140%" height="140%">
                                                 <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#2c6fb6"
                                                     flood-opacity="0.08" />
                                             </filter>
@@ -261,14 +262,14 @@
                                         </defs>
 
                                         <!-- Background -->
-                                        <rect width="100%" height="100%" rx="12" fill="url(#bgGrad)" />
+                                        <rect width="100%" height="100%" rx="12" fill="url(#bgGrad2)" />
 
                                         <!-- Decorative shapes -->
                                         <circle cx="48" cy="28" r="28" fill="#D8F5EF" opacity="0.35" />
                                         <circle cx="312" cy="28" r="22" fill="#E8F2FF" opacity="0.28" />
 
                                         <!-- Calendrier gauche -->
-                                        <g transform="translate(40,30)" filter="url(#softShadow)">
+                                        <g transform="translate(40,30)" filter="url(#softShadow1)">
                                             <rect x="0" y="0" width="50" height="55" rx="6" fill="#fff" stroke="#E6EEF8"
                                                 stroke-width="1.4" />
                                             <!-- En-tête calendrier -->
@@ -332,7 +333,7 @@
                                         </g>
 
                                         <!-- Utilisateur/Profil droite -->
-                                        <g transform="translate(140,30)" filter="url(#softShadow)">
+                                        <g transform="translate(140,30)" filter="url(#softShadow1)">
                                             <rect x="0" y="0" width="50" height="55" rx="6" fill="#fff" stroke="#E6EEF8"
                                                 stroke-width="1.4" />
 
@@ -406,7 +407,7 @@
                             </div>
 
 
-                            <div class="index-card-services">
+                            <div class="index-card-services" role="listitem">
                                 <!-- planification rapide-->
                                 <div class="card-svg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="100%"
@@ -537,7 +538,7 @@
 
 
                         <div class="frame-row">
-                            <div class="index-card-services">
+                            <div class="index-card-services" role="listitem">
                                 <!-- sync des calendar-->
                                 <div class="card-svg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="100%"
@@ -545,12 +546,12 @@
                                         aria-label="Synchronisation calendriers Google, Outlook et iCal">
 
                                         <defs>
-                                            <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+                                            <linearGradient id="bgGrad2" x1="0" y1="0" x2="1" y2="1">
                                                 <stop offset="0%" stop-color="#FBFDFF" />
                                                 <stop offset="100%" stop-color="#EEF9F7" />
                                             </linearGradient>
 
-                                            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <filter id="softShadow2" x="-20%" y="-20%" width="140%" height="140%">
                                                 <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#2c6fb6"
                                                     flood-opacity="0.08" />
                                             </filter>
@@ -571,7 +572,7 @@
                                         <circle cx="312" cy="28" r="22" fill="#E8F2FF" opacity="0.28" />
 
                                         <!-- Google Calendar (gauche) -->
-                                        <g transform="translate(30,35)" filter="url(#softShadow)">
+                                        <g transform="translate(30,35)" filter="url(#softShadow2)">
                                             <rect width="40" height="45" rx="6" fill="#fff" stroke="#E6EEF8"
                                                 stroke-width="1.6" />
                                             <!-- En-tête rouge Google -->
@@ -602,7 +603,7 @@
                                         </g>
 
                                         <!-- Outlook Calendar (droite haut) -->
-                                        <g transform="translate(290,35)" filter="url(#softShadow)">
+                                        <g transform="translate(290,35)" filter="url(#softShadow2)">
                                             <rect width="40" height="45" rx="6" fill="#fff" stroke="#E6EEF8"
                                                 stroke-width="1.6" />
                                             <!-- En-tête bleu Outlook -->
@@ -633,7 +634,7 @@
                                         </g>
 
                                         <!-- Calendrier central (hub de synchronisation) -->
-                                        <g transform="translate(146,25)" filter="url(#softShadow)">
+                                        <g transform="translate(146,25)" filter="url(#softShadow2)">
                                             <rect width="68" height="55" rx="8" fill="#fff" stroke="#7AC88E"
                                                 stroke-width="2" />
                                             <rect width="68" height="14" rx="6" fill="#E9FBF0" />
@@ -710,7 +711,7 @@
                             </div>
 
 
-                            <div class="index-card-services">
+                            <div class="index-card-services" role="listitem">
                                 <!-- dashboard -->
                                 <div class="card-svg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="100%"
@@ -763,7 +764,7 @@
                             </div>
 
 
-                            <div class="index-card-services">
+                            <div class="index-card-services" role="listitem">
                                 <!-- RGPD -->
                                 <div class="card-svg">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="100%"
@@ -771,12 +772,12 @@
                                         aria-label="Protection des données - conformité RGPD">
 
                                         <defs>
-                                            <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+                                            <linearGradient id="bgGrad3" x1="0" y1="0" x2="1" y2="1">
                                                 <stop offset="0%" stop-color="#FBFDFF" />
                                                 <stop offset="100%" stop-color="#EEF9F7" />
                                             </linearGradient>
 
-                                            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <filter id="softShadow3" x="-20%" y="-20%" width="140%" height="140%">
                                                 <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#2c6fb6"
                                                     flood-opacity="0.06" />
                                             </filter>
@@ -790,7 +791,7 @@
                                         </defs>
 
                                         <!-- Background -->
-                                        <rect width="100%" height="100%" rx="12" fill="url(#bgGrad)" />
+                                        <rect width="100%" height="100%" rx="12" fill="url(#bgGrad3)" />
 
                                         <!-- Decorative shapes (soft) -->
                                         <circle cx="48" cy="28" r="28" fill="#D8F5EF" opacity="0.35" />
@@ -800,7 +801,7 @@
                                         <g transform="translate(28,30)" opacity="0.95">
                                             <!-- document -->
                                             <rect x="0" y="0" width="56" height="72" rx="6" fill="#fff" stroke="#E6EEF8"
-                                                stroke-width="1.4" filter="url(#softShadow)" />
+                                                stroke-width="1.4" filter="url(#)" />
                                             <rect x="6" y="8" width="44" height="12" rx="3" fill="#F4FAF9" />
                                             <rect x="6" y="26" width="44" height="6" rx="3" fill="#F4FAF9"
                                                 opacity="0.9" />
@@ -882,29 +883,29 @@
 
                     </div>
                 </div>
-            </section>
+            </div>
 
             <!-- frame plan-->
-            <section class="frame-plan" id="frame-plan">
+            <section class="frame-plan" id="frame-plan" aria-labelledby="plans-title">
                 <header>
-                    <h2 class="index-frame-bottom-title">Découvrez nos plans d'abonnements</h2>
+                    <h2 class="index-frame-bottom-title" id="plans-title">Découvrez nos plans d'abonnements</h2>
                     <p class="index-frame-bottom-subtitle" style="text-align: center; width:100%">Votre abonnement
                         adapté à vos services</p>
                 </header>
 
                 <!-- plan abonnement row 1-->
-                <div class="frame-row plan-row-1">
+                <div class="frame-row plan-row-1" role="list" aria-label="Plans d'abonnements">
 
                     <!-- Essais gatuit-->
-                    <div class="card card-spacing">
+                    <div class="card card-spacing" role="listitem" aria-labelledby="plan-free-title">
                         <div>
 
                             <header>
-                                <p class="plan-name">
+                                <p class="plan-name" id="plan-free-title">
                                     <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-rocket w-4 h-4 text-foreground">
+                                        aria-hidden="true" focusable="false">
                                         <path
                                             d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z">
                                         </path>
@@ -917,32 +918,37 @@
                                     Essais gratuit
                                 </p>
                                 <p class="price"><span class="price-number">Gratuit</span></p>
-                                <p>Pour découvrir l’essentiel sans engagement</p>
+                                <p>Pour découvrir l'essentiel sans engagement</p>
                             </header>
                             <div>
-                                <ul>
-                                    <li class="li-plan-activ li-plan">Envoie d'email par mois 20</li>
-                                    <li class="li-plan-inactiv li-plan">Envoie de sms par mois 5</li>
+                                <ul aria-label="Fonctionnalités incluses dans le plan Essais gratuit">
+                                    <li class="li-plan-activ li-plan">Envoie d'email par semaine : 20</li>
+                                    <li class="li-plan-inactiv li-plan">Envoie de sms par semaine : 5</li>
                                     <li class="li-plan">Synchronisation de vos agendas en ligne</li>
-                                    <li class="li-noplan">Rappel de rendez-vous</li>
-                                    <li class="li-noplan">Mention Klendyx sur vos envoies</li>
-                                    <li class="li-noplan">Pas de matching de rdv</li>
+                                    <li class="li-plan" aria-label="Non inclus : Rappel de rendez-vous">Rappel de
+                                        rendez-vous</li>
+                                    <li class="li-noplan" aria-label="Non inclus : Mention Klendyx sur vos envoies">
+                                        Retirer la mention Klendyx sur vos envoies</li>
+                                    <li class="li-noplan" aria-label="Non inclus : Matching de rendez-vous">Pas de
+                                        matching de rdv</li>
                                 </ul>
                             </div>
                         </div>
-                        <button class="btn btn-primary">Démarrer l'essais gratuit</button>
+                        <button class="btn btn-primary"
+                            aria-label="Démarrer l'essai gratuit du plan Essais gratuit">Démarrer l'essais
+                            gratuit</button>
                     </div>
 
                     <!-- Starter-->
-                    <div class="card card-spacing">
+                    <div class="card card-spacing" role="listitem" aria-labelledby="plan-starter-title">
                         <div>
 
                             <header>
-                                <p class="plan-name">
+                                <p class="plan-name" id="plan-starter-title">
                                     <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="lucide lucide-zap w-4 h-4 text-primary">
+                                        aria-hidden="true" focusable="false">
                                         <path
                                             d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
                                         </path>
@@ -953,28 +959,32 @@
                                 <p>Pour démarrer sereinement et gagner en efficacité</p>
                             </header>
                             <div>
-                                <ul>
-                                    <li class="li-plan">Envoie d'email par mois 200</li>
-                                    <li class="li-plan">Envoie de sms par mois 50</li>
+                                <ul aria-label="Fonctionnalités incluses dans le plan Starter">
+                                    <li class="li-plan">Envoie d'email par mois : 200</li>
+                                    <li class="li-plan">Envoie de sms par mois : 50</li>
                                     <li class="li-plan">Synchronisation de vos agenda en ligne</li>
                                     <li class="li-plan">Rappel de rendez-vous</li>
                                     <li class="li-plan">Matching de rdv avec 1 destinataire</li>
-                                    <li class="li-noplan">Mention Klendyx sur vos envoies</li>
+                                    <li class="li-noplan"
+                                        aria-label="Non inclus : Pas de mention Klendyx sur vos envoies">Retirer la
+                                        mention Klendyx sur vos envoies</li>
                                 </ul>
                             </div>
                         </div>
-                        <button class="btn btn-primary">Commencer maintenant</button>
+                        <button class="btn btn-primary"
+                            aria-label="Commencer avec le plan Starter à 19€ par mois">Commencer maintenant</button>
                     </div>
 
                     <!-- Pro -->
-                    <div class="card card-spacing">
+                    <div class="card card-spacing" role="listitem" aria-labelledby="plan-pro-title">
                         <div>
 
                             <header>
-                                <p class="plan-name">
+                                <p class="plan-name" id="plan-pro-title">
                                     <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        aria-hidden="true" focusable="false">
                                         <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
                                         <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
                                         <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
@@ -990,9 +1000,9 @@
                             </header>
 
                             <div>
-                                <ul>
-                                    <li class="li-plan">Envoie d'email par mois 1000</li>
-                                    <li class="li-plan">Envoie de sms par mois 200</li>
+                                <ul aria-label="Fonctionnalités incluses dans le plan Pro">
+                                    <li class="li-plan">Envoie d'email par mois : 1000</li>
+                                    <li class="li-plan">Envoie de sms par mois : 200</li>
                                     <li class="li-plan">Synchronisation de vos agenda en ligne</li>
                                     <li class="li-plan">Rappel de rendez-vous</li>
                                     <li class="li-plan">Matching de rdv jusqu'à 3 destinataires</li>
@@ -1000,22 +1010,24 @@
                                 </ul>
                             </div>
                         </div>
-                        <button class="btn btn-primary">Commencer maintenant</button>
+                        <button class="btn btn-primary" aria-label="Commencer avec le plan Pro à 49€ par mois">Commencer
+                            maintenant</button>
                     </div>
                 </div>
 
                 <!-- plan abonnement row 2-->
-                <div class="frame-row">
+                <div class="frame-row" role="list" aria-label="Plans d'abonnements avancés">
 
                     <!-- Ultimage-->
-                    <div class="card card-spacing">
+                    <div class="card card-spacing" role="listitem" aria-labelledby="plan-ultimate-title">
                         <div>
 
                             <header>
-                                <p class="plan-name">
+                                <p class="plan-name" id="plan-ultimate-title">
                                     <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        aria-hidden="true" focusable="false">
                                         <path
                                             d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z">
                                         </path>
@@ -1028,9 +1040,9 @@
                             </header>
 
                             <div>
-                                <ul>
+                                <ul aria-label="Fonctionnalités incluses dans le plan Ultimate">
                                     <li class="li-plan">Envoie d'email par mois Illimité</li>
-                                    <li class="li-plan">Envoie de sms par mois 500</li>
+                                    <li class="li-plan">Envoie de sms par mois : 500</li>
                                     <li class="li-plan">Synchronisation de vos agenda en ligne</li>
                                     <li class="li-plan">Rappel de rendez-vous</li>
                                     <li class="li-plan">Matching de rdv sans limite de destinataires</li>
@@ -1038,18 +1050,20 @@
                                 </ul>
                             </div>
                         </div>
-                        <button class="btn btn-primary">Commencer maintenant</button>
+                        <button class="btn btn-primary"
+                            aria-label="Commencer avec le plan Ultimate à 94€ par mois">Commencer maintenant</button>
                     </div>
 
 
                     <!-- custom rechargement-->
-                    <div class="card card-spacing">
+                    <div class="card card-spacing" role="listitem" aria-labelledby="plan-custom-title">
                         <div>
                             <header>
-                                <p class="plan-name">
+                                <p class="plan-name" id="plan-custom-title">
                                     <svg class="svg-title-card-plan" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        aria-hidden="true" focusable="false">
                                         <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle>
                                         <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle>
                                         <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle>
@@ -1065,16 +1079,18 @@
                             </header>
 
                             <div>
-                                <ul>
+                                <ul aria-label="Options configurables dans le plan Custom">
                                     <li class="li-plan-custom">Définir un nombre d'envoie d'email</li>
                                     <li class="li-plan-custom">Définir un nombre d'envoie de sms</li>
                                     <li class="li-plan-custom">Retirer la mention Klendyx sur vos envoies</li>
-                                    <li class="li-plan-custom">Augmentez le nombre maximum de destinataire pour un matching de
+                                    <li class="li-plan-custom">Augmentez le nombre maximum de destinataire pour un
+                                        matching de
                                         rendez-vous</li>
                                 </ul>
                             </div>
                         </div>
-                        <button class="btn btn-primary">Commencer maintenant</button>
+                        <button class="btn btn-primary" aria-label="Commencer avec le plan Custom sur mesure">Commencer
+                            maintenant</button>
                     </div>
                 </div>
 
@@ -1082,31 +1098,32 @@
 
 
             <!-- section footer-->
-            <section class="index-frame-footer">
+            <div class="index-frame-footer" role="complementary" aria-labelledby="footer-cta-title">
                 <header>
-                    <p class="index-frame-bottom-title">
+                    <p class="index-frame-bottom-title" id="footer-cta-title">
                         Reprenez le contrôle de vos rendez-vous
                     </p>
                     <p class="index-frame-bottom-subtitle" style="padding : 0 40px; box-sizing: content-box;">
                         Centralisez vos agendas, automatisez vos prises de rendez-vous
-                        et gagnez du temps dès aujourd’hui.
+                        et gagnez du temps dès aujourd'hui.
                     </p>
                 </header>
 
                 <div>
-                    <a class="btn-joins-us" href="connexion">
-                        <span id="arrow-boucing-left">➔</span>
+                    <a class="btn-joins-us" href="connexion"
+                        aria-label="Essayer Klendyx gratuitement, sans carte bancaire requise">
+                        <span id="arrow-boucing-left" aria-hidden="true">➔</span>
                         Essayer gratuitement
-                        <span id="arrow-boucing-right" style="transform: rotate(180deg);">➔</span>
+                        <span id="arrow-boucing-right" style="transform: rotate(180deg);" aria-hidden="true">➔</span>
                     </a>
 
                     <p class="cta-note">
                         Aucune carte bancaire requise • Essai gratuit
                     </p>
                 </div>
-            </section>
-        </section>
-    </section>
+            </div>
+        </div>
+    </div>
 
 
 </body>

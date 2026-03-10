@@ -27,3 +27,4 @@ export function getCalendarAdapter (provider, db, userId) {
             throw new Error(`Provider Calendar non supporté : ${provider}`)
     }
 }
+

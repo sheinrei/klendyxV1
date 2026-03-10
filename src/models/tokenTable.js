@@ -20,7 +20,6 @@ export default (sequelize) => {
             type: DataTypes.TEXT,
             allowNull: false,
         }
-
     }, {
         sequelize,
         timestamps: true,

@@ -44,7 +44,7 @@ routerApiCalendar.post("/create", authMiddleware, async (req, res) => {
         const eventData = req.body.eventData;
         const createdEvent = await createEvent(provider, db, userId, eventData)
 
-        return res.json({
+        return res.status(201).json({
             success: createdEvent.success,
             message: createdEvent.message,
             data: createdEvent.data,
@@ -61,17 +61,22 @@ routerApiCalendar.post("/create", authMiddleware, async (req, res) => {
 
 })
 
-routerApiCalendar.post("/update", authMiddleware, async (req, res) => {
+routerApiCalendar.put("/:eventId", authMiddleware, async (req, res) => {
     try {
-
         const userId = req.userId;
         const eventData = req.body.eventData;
         const provider = req.body.provider;
-        const eventId = req.body.eventId;
+        const eventId = req.params.eventId;
 
 
         const updatedEvent = await updateEvent(provider, db, userId, eventData, eventId)
-        return res.json({
+        if (!updatedEvent.success) {
+            return res.status(400).json({
+                success: false,
+                message: updatedEvent.message
+            })
+        }
+        return res.status(200).json({
             success: updatedEvent.success,
             message: updatedEvent.data.message
         })
@@ -88,17 +93,22 @@ routerApiCalendar.post("/update", authMiddleware, async (req, res) => {
 
 
 
-routerApiCalendar.post("/delete", authMiddleware, async (req, res) => {
+routerApiCalendar.delete("/:eventId", authMiddleware, async (req, res) => {
     try {
 
         const userId = req.userId;
         const provider = req.body.provider;
-        const eventId = req.body.eventId;
+        const { eventId } = req.params;
 
         const deletedEvent = await deleteEvent(provider, db, userId, eventId)
 
-        console.log(eventId)
-        return res.json({
+        if (!deletedEvent.success) {
+            return res.status(400).json({
+                success: false,
+                message: deletedEvent.message
+            })
+        }
+        return res.status(200).json({
             success: deletedEvent.success,
             data: deletedEvent.data,
             error: deletedEvent.error || null

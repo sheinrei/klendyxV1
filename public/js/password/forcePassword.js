@@ -66,3 +66,5 @@ function checkPassword(password) {
 
     MessageAlert.create("warning", "#input-message-alert-password", message)
 }
+
+

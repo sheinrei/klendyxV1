@@ -5,7 +5,6 @@ import bcrypt from "bcrypt"
 export default async function createUser(req, db) {
 
     const User = user(db);
-
     let { nom, prenom, email, mdp, raisonSocial, siren } = req.body;
 
     const mdpHash = await bcrypt.hash(mdp, 10)

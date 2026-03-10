@@ -2,18 +2,23 @@
 import tokenTable from "./../../models/tokenTable.js"
 
 
-export async function saveToken(userId, typeToken, token, db) {
-    console.log("Sauvegarde d'un token en cours")
-    const instanceToken = tokenTable(db)
+export async function updateToken(userId, typeToken, token, db) {
+
+    console.log("Update d'un token en cours")
+
     try {
-        const save = await instanceToken.create({
+
+        const instanceToken = tokenTable(db)
+        const update = await instanceToken.update({
             idUser: userId,
             type: typeToken,
             token: JSON.stringify(token)
         })
+
+        console.log(update)
         return {
             success: true,
-            message: "Token enregistré dans la base",
+            message: `Token ${typeToken} modifié avec succès pour l'userId ${userId}`,
             save
         }
     } catch (err) {

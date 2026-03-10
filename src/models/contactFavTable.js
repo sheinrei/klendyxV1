@@ -32,3 +32,4 @@ export function contactFavTable(sequelize) {
         timestamps: false
     })
 }
+

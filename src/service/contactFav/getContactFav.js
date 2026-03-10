@@ -1,5 +1,6 @@
-import { contactFavTable } from "../../models/contactFavTable.js";
-import { Op } from "sequelize";
+import { contactFavTable } from "../../models/contactFavTable.js"
+import { Op } from "sequelize"
+
 export async function getContactFav(db, req) {
 
     const Contact = contactFavTable(db);
@@ -18,7 +19,7 @@ export async function getContactFav(db, req) {
     return { sucess: false, message: "Problème survenu avec le serveur, impossible de récuperer les contacts" }
 }
 
-//recherche dynamique dans un champs input
+//recherche dynamique 
 export async function getDynamicContactFav(db, req) {
     const Contact = contactFavTable(db);
 

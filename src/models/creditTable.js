@@ -15,13 +15,12 @@ export function creditTable(sequelize) {
         plan: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "Essais gratuit",
+            defaultValue: "essais gratuit",
         },
         refreshAt: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
         },
         sms: {
             type: DataTypes.INTEGER,
@@ -40,3 +39,4 @@ export function creditTable(sequelize) {
         deletedAt: false
     })
 }
+

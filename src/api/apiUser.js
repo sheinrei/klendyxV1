@@ -11,8 +11,6 @@ import authMiddleware, { authMiddlewareOptional } from "./../middleware/authMidd
 //token
 import { deleteAllUserTokenByType, deleteToken } from "./../service/token/deleteToken.js";
 import generateToken from "./../service/token/generateToken.js"
-//NodeMailer
-import { sendVerifyAccount, sendPasswordChanged, sendForgotPassword } from "../service/mailer/sendPassword.js";
 //instance bdd
 import db from "./../sequelize.js"
 import sendFile from "./../service/sendFile.js";
@@ -20,7 +18,7 @@ import { deleteUserSession } from "../service/userSession/deleteUserSession.js";
 import { createUserSession } from "../service/userSession/createUserSession.js";
 import { getUserSession } from "../service/userSession/getUserSession.js";
 import { updateUserData } from "../service/user/updateUser.js";
-import { sendDeleteAccount } from "../service/mailer/sendDeleteAccount.js";
+import { KlendyxMailer } from "./../service/mailer/ClassMailer.js"
 import { deleteAccount } from "../service/user/deleteAccount.js";
 
 
@@ -29,7 +27,7 @@ import { getAllEvents } from "../service/calendar/CalendarController.js";
 import { getUserPreference } from "../service/userPreference/crudUserPreference.js";
 import { getContactFav } from "../service/contactFav/getContactFav.js";
 import { getCredit } from "../service/credit/getCredit.js";
-import { getRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
+import { getUserRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
 import { getAllMatchingEvent } from "../service/event/getMatchingEvent.js";
 import { getAllPropositionRdv } from "../service/event/getPropositionRdv.js";
 import { create2FA } from "../service/user/create2FA.js";
@@ -54,7 +52,8 @@ routerApiUser.post("/api/user/create", async (req, res) => {
     console.log(token)
     //envoyer l'email
     const url = `${process.env.HOST}/user-verify/${token.token}/${id}`;
-    await sendVerifyAccount(user.user.email, url);
+    const mailer = new KlendyxMailer(user.user.email)
+    const send = await mailer.sendVerifyAccount(url)
 
     return res.json({
         success: true,
@@ -75,9 +74,9 @@ routerApiUser.post("/api/user/connected/reset-password", authMiddleware, async (
     const urlConnexion = `${process.env.HOST}/connexion`
 
     if (changePassword.success) {
-        const recipient = changePassword.email;
-        await sendPasswordChanged(recipient, dataUser, urlConnexion);
-
+        const email = changePassword.email;
+        const mailer = new KlendyxMailer(email)
+        const sending = await mailer.sendPasswordChanged(dataUser, urlConnexion)
         return res.json({ success: true, message: changePassword.message });
     } else {
         return res.json({ success: false, message: changePassword.message });
@@ -115,7 +114,8 @@ routerApiUser.post("/api/user/email/new-password", async function (req, res) {
     }
     //envoyer un email
     const url = `${process.env.HOST}/api/user/resetpassword/${token.token}/${id}`;
-    const sending = await sendForgotPassword(email, url);
+    const mailer = new KlendyxMailer(email)
+    const sending = await mailer.sendForgotPassword(url);
     if (!sending) {
         return res.json({ success: false, message: "Echec lors de l'envois de l'email" })
     }
@@ -223,7 +223,6 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
             return res.json({
                 success: true,
                 message: auth.message,
-                //token: auth.token
             })
         }
 
@@ -293,7 +292,6 @@ routerApiUser.get("/api/user/session", authMiddlewareOptional, async (req, res) 
 routerApiUser.post("/api/user/send-delete", authMiddleware, async (req, res) => {
 
     try {
-        console.log("send delete")
         const id = req.userId;
         const token = await generateToken(id, "deleteAccount", db);
         const dataUser = await getUserData(db, id)
@@ -302,7 +300,8 @@ routerApiUser.post("/api/user/send-delete", authMiddleware, async (req, res) => 
 
 
         if (token.token) {
-            const send = await sendDeleteAccount(email, url);
+            const mailer = new KlendyxMailer(email)
+            const send = await mailer.sendDeleteAccount(url);
             return res.json({ success: send.success, message: send.message })
         }
 
@@ -348,7 +347,7 @@ routerApiUser.get("/api/user/export-data", authMiddleware, async (req, res) => {
     const dataContactFavori = await getContactFav(db, req);
     const dataEventKlendyx = await getAllEvents("klendyx", db, userId);
     const dataCredit = await getCredit(db, userId)
-    const dataRappelRdv = await getRappelRdv(db, userId);
+    const dataRappelRdv = await getUserRappelRdv(db, userId);
     const dataMatchingEvent = await getAllMatchingEvent(db, userId);
 
     const dataPropositionRdv = await getAllPropositionRdv(db, req);

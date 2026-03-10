@@ -36,9 +36,21 @@ export function rappelRdvTable(sequelize) {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        success: {
-            type: DataTypes.BOOLEAN,
+        state: {
+            type: DataTypes.JSON,
             allowNull: true,
+            defaultValue: {
+                "sms": {
+                    "sent": false,
+                    "sentAt": null,
+                    "error": null
+                },
+                "email": {
+                    "sent": false,
+                    "sentAt": null,
+                    "error": null
+                }
+            }
         }
 
 

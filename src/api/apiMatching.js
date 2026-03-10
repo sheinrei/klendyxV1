@@ -8,15 +8,12 @@ import authMiddleware from "./../middleware/authMiddleware.js";
 import db from "./../sequelize.js";
 
 import { createMatchingEvent } from "../service/event/createMatchingEvent.js";
-import { sendMatchingEvent } from "../service/mailer/sendMatchingEvent.js";
 import { getMatchingEvent } from "../service/event/getMatchingEvent.js";
 import { addRevolveMatchingEvent, updateMatchingEvent } from "../service/event/updateMatchingEvent.js";
 import { resolveMatchingEvent } from "../service/event/resolveMatchingEvent.js";
-import { sendResolvMatching } from "../service/mailer/sendResolvMatching.js";
+import { KlendyxMailer } from "../service/mailer/ClassMailer.js";
 import { getUserData } from "../service/user/getUserData.js";
-import { getToken } from "../service/token/getToken.js";
 import { deleteMatchingEvent } from "../service/event/deleteMatchingEvent.js";
-import { sendValidationMatching } from "../service/mailer/sendValidationMatching.js";
 
 
 
@@ -30,7 +27,8 @@ routerApiMatching.post("/create", authMiddleware, async (req, res) => {
         }
         for (const contact of contacts) {
             const url = `${process.env.HOST}/matching-rdv/${create.token}/${contact}`
-            const send = await sendMatchingEvent(req, url, contact)
+            const mailer = new KlendyxMailer(contact)
+            const send = await mailer.sendNewMatchingEvent(req, url)
             console.log(send)
         }
     } catch (err) {
@@ -72,8 +70,8 @@ routerApiMatching.post("/update", async (req, res) => {
             const userOrigin = await getUserData(req, db, idUserOrigin)
             const email = userOrigin.email
             const url = `${process.env.HOST}/matching-rdv/validate?token=${updated.data.token}`
-            const title = updated.eventTitle
-            const sending = await sendResolvMatching(email, title, url);
+            const mailer = new KlendyxMailer(email)
+            const sending = await mailer.sendResolvMatching(url);
         }
     }
     return res.json({ success: true, message: updated.message, })
@@ -88,7 +86,7 @@ routerApiMatching.post("/final", async (req, res) => {
     }
 
     //Enregistrer l'event dans le calendar google de l'initialisateur
-    const idUser = dataEvent.data.idUser
+    const userId = dataEvent.data.idUser
 
     let eventGoogle = null;
 
@@ -106,7 +104,8 @@ routerApiMatching.post("/final", async (req, res) => {
     const contactSendSuccess = []
     //send email à tout les participants
     dataEvent.data.contact.forEach((email) => {
-        const send = sendValidationMatching(email, idUser, titleEvent, dateEventString, hoursStartString, hoursEndString)
+        const mailer = new KlendyxMailer(email)
+        const send = mailer.sendValidationMatching(userId, titleEvent, dateEventString, hoursStartString, hoursEndString)
             .then(() => contactSendSuccess.push(send.success))
     })
 

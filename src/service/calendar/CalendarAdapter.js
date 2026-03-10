@@ -2,15 +2,12 @@
 
 
 /**
- * Classe de base définissant le "contrat" 
- * que TOUS les adapters doivent respecter
+ * Classe de base définissant le contrat que Ttous les adapters doivent respecter
  */
-
-
 class CalendarAdapter {
 
-    /**
-     * Crée un événement
+    /** 
+     * Création d'un nouvel évènement
      * @param {Object} eventData - { title, dateStart, dateEnd, description }
      * @returns {Promise<Object>} L'événement créé
      */
@@ -18,71 +15,42 @@ class CalendarAdapter {
         throw new Error('createEvent() doit être implémentée');
     }
 
-
     /**
-     * Met à jour un événement
-     * @param {*} eventData - { title, dateStart, dateEnd, description }
-     * @param {*} idEvent 
-     * 
+     * Mise à jour un événement
+     * @param {object} eventData - { title, dateStart, dateEnd, description }
+     * @param {string} idEvent - L'id de l'evenement à mettre à jour
+     * @returns {Promise<Object>} {Success: boolean, message : string}
      */
     async updateEvent(eventData, idEvent) {
         throw new Error('updateEvent() doit être implémentée');
     }
 
-
     /**
-     * Récupère tous les événements du provider
+     * Récupère tout les évènements d'un provider
+     * @returns {Promise<Object>} {success:boolean, message:string, data : object}
      */
     async getAllEvents() {
         throw new Error('getAllEvents() doit être implémentée');
     }
 
-
     /**
-     * Supprime un événement depuis son id
+     * Supprime un événement depuis son id  
+     * @param {string} idEvent 
+     * @returns {Promise<Object>} {Success: boolean, message : string}
      */
     async deleteEvent(idEvent) {
         throw new Error('deleteEvent() doit être implémentée');
     }
 
     /**
-     * Normalise la sorti des données events
+     * Normalisation des données event
+     * @param {*} eventData - Data brut reçu par la réponse api
+     * @returns {object} {eventId: string , title:string, description:string , dateStart: date, dateEnd:date, provider:string}
      */
     _normalizeOutput(eventData) {
         throw new Error("_normalizeOutput doit être implémenté")
     }
-
-    /**
-     * Relance une opération si une erreur survient
-     * @param {*} fn 
-     * @param {*} maxRetry 
-     * @param {*} delayMs 
-     * @returns 
-     */
-
-    async retryOperation(fn, maxRetry = 3, delayMs = 500) {
-        for (let attempt = 0; attempt < maxRetry; attempt++) {
-            try {
-                return await fn();
-            } catch (err) {
-                // définir ici les erreurs retryables
-                console.log("erreur survenue dans le retry")
-                const retryable = err.code === "ETIMEDOUT" ||
-                    err.code === "ECONNRESET" ||
-                    err.message.includes("timeout") ||
-                    err.message.includes("5xx") ||
-                    err.message.includes("401") ||
-                    err.message.includes("412");
-
-                if (attempt < maxRetry && retryable) {
-                    console.warn(`Tentative ${attempt} échouée, retry dans ${delayMs}ms...`);
-                    await new Promise(r => setTimeout(r, delayMs));
-                    continue;
-                }
-                throw err;
-            }
-        }
-    }
 }
+
 
 export default CalendarAdapter;

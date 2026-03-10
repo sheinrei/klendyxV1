@@ -42,7 +42,7 @@ class AppleAdapter extends CalendarAdapter {
         }
     }
 
-    formatICalDate(date) {
+    _formatICalDate(date) {
         const dateParse = new Date(date)
         return dateParse.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     }
@@ -86,33 +86,24 @@ class AppleAdapter extends CalendarAdapter {
 
 
     async createEvent(eventData) {
-        console.log("created event , eventData : ", eventData)
         try {
             const client = await this.createClient()
             const eventId = uuidv4();
-
-
-
             const icsData = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Klendyx//CalDAV Test//EN
 BEGIN:VEVENT
 UID:${eventId}
-DTSTAMP:${this.formatICalDate(new Date())}
-DTSTART:${this.formatICalDate(eventData.dateStart)}
-DTEND:${this.formatICalDate(eventData.dateEnd)}
+DTSTAMP:${this._formatICalDate(new Date())}
+DTSTART:${this._formatICalDate(eventData.dateStart)}
+DTEND:${this._formatICalDate(eventData.dateEnd)}
 SUMMARY:${eventData.title}
 DESCRIPTION:${eventData.description}
 LOCATION:Bureau
 STATUS:CONFIRMED
 END:VEVENT
-END:VCALENDAR`;
-
-
-
-
-
-            let calendars = await client.fetchCalendars();
+END:VCALENDAR`
+            const calendars = await client.fetchCalendars();
             const createdEvent = await client.createCalendarObject({
                 calendar: calendars[0],
                 filename: `${eventId}.ics`,
@@ -124,9 +115,12 @@ END:VCALENDAR`;
                 message: "L'évènement a été ajouté dans votre agenda Apple avec succès.",
                 eventId,
             }
-
         } catch (err) {
-            throw new Error(`Erreur lors de la création d'évènement apple : ${err.message}`)
+            console.warn(`Une erreur est survenue lors de la création d'un event Apple`)
+            return {
+                success : false,
+                error : err
+            }
         }
     }
 
@@ -152,7 +146,7 @@ END:VCALENDAR`;
 
             console.log("les data que l'on a récupéré sur l'event à update : ", icsData);
 
-            icsData = icsData.replace(/DTSTAMP:.*\r?\n/, `DTSTAMP:${this.formatICalDate(new Date())}\r\n`);
+            icsData = icsData.replace(/DTSTAMP:.*\r?\n/, `DTSTAMP:${this._formatICalDate(new Date())}\r\n`);
 
             if (eventData.title) {
                 icsData = icsData.replace(/SUMMARY:.*\r?\n/, `SUMMARY:${eventData.title}\r\n`);
@@ -161,10 +155,10 @@ END:VCALENDAR`;
                 icsData = icsData.replace(/DESCRIPTION:.*\r?\n/, `DESCRIPTION:${eventData.description}\r\n`);
             }
             if (eventData.dateStart) {
-                icsData = icsData.replace(/DTSTART:.*\r?\n/, `DTSTART:${this.formatICalDate(eventData.dateStart)}\r\n`);
+                icsData = icsData.replace(/DTSTART:.*\r?\n/, `DTSTART:${this._formatICalDate(eventData.dateStart)}\r\n`);
             }
             if (eventData.dateEnd) {
-                icsData = icsData.replace(/DTEND:.*\r?\n/, `DTEND:${this.formatICalDate(eventData.dateEnd)}\r\n`);
+                icsData = icsData.replace(/DTEND:.*\r?\n/, `DTEND:${this._formatICalDate(eventData.dateEnd)}\r\n`);
             }
 
             console.log("le fichier ics modifié  ", icsData)

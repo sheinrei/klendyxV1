@@ -16,21 +16,18 @@ import { decrementCredit } from "../service/credit/decrementCredit.js";
 import { deleteEvent } from "../service/event/deleteEvent.js";
 import { getUserData } from "../service/user/getUserData.js";
 
-import { sendSmsPropositionRdv } from "../service/sms/sendSmsPropositionRdv.js";
-import { sendPropositionRdv } from "../service/mailer/sendPropositionRdv.js";
-import { sendSmsConfirmationRdv } from "../service/sms/sendSmsConfirmationRdv.js";
-import { sendEmailConfirmationRdv } from "../service/mailer/sendEmailConfirmationRdv.js";
 
+import { SmsSender } from "../service/sms/smsSender.js";
+
+import { KlendyxMailer } from "../service/mailer/ClassMailer.js";
 import { createRappelRdv } from "../service/rappelRdv/createRappelRdv.js";
-import { sendPropositionRdvResolv } from "../service/mailer/sendPropositionRdvResolv.js";
-
 
 
 
 //Envois de rendez-vous
 routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
     const { methodRdvProposition, methodRdvConfirmation,
-        nom,prenom,
+        nom, prenom,
         email, phone,
         dayStart, hourStart, hourEnd,
         title, commentaire,
@@ -41,7 +38,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
 
 
     const idUser = req.userId
-    const dataUser = await getUserData( db, idUser);
+    const dataUser = await getUserData(db, idUser);
     const nameInitialisateur = dataUser.nom + " " + dataUser.prenom;
     let dataReturn = {}
 
@@ -74,7 +71,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
         if (methodContactSms) {
             try {
                 const message = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirme le ${dayStart} de ${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}`;
-                const sendSms = await sendSmsConfirmationRdv(phone, message);
+                const Sender = new SmsSender(phone, message)
+                const sendSms = await Sender.sendSms()
                 console.log(sendSms)
                 dataReturn["sms"] = {
                     success: sendSms.success,
@@ -93,7 +91,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
         }
         if (methodContactEmail) {
             try {
-                const sendEmail = await sendEmailConfirmationRdv(email, title, commentaire, prenom, nameInitialisateur, dayStart, hourStart, hourEnd);
+                const mailer = new KlendyxMailer(email)
+                const sendEmail = await mailer.sendConfirmationRdv(title, commentaire, prenom, nameInitialisateur, dayStart, hourStart, hourEnd);
                 dataReturn["email"] = {
                     success: sendEmail.success,
                     message: sendEmail.message
@@ -119,7 +118,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
 
         if (methodContactEmail) {
             try {
-                const send = await sendPropositionRdv(url, email, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd);
+                const mailer = new KlendyxMailer(email)
+                const send = await mailer.sendPropositionRdv(url, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd);
                 dataReturn["email"] = {
                     success: send.success,
                     message: send.message
@@ -144,11 +144,14 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
                 `
 
             try {
-                const sendSms = await sendSmsPropositionRdv(phone, textSms);
-                console.log(sendSms)
+
+                const sender = new SmsSender(phone, textSms)
+                const result = await sender.sendSms()
+
+                console.log(result)
                 dataReturn["sms"] = {
-                    success: sendSms.success,
-                    message: sendSms.message
+                    success: result.success,
+                    message: result.message
                 }
                 if (send.success) {
                     await decrementCredit(db, req, "sms")
@@ -176,8 +179,8 @@ routerApiRdv.post("/reponsePropositionRdv", async (req, res) => {
     if (!searchProposition.success) {
         return res.json({ success: false, message: searchProposition.message })
     }
-    if(searchProposition.data.recipientReponse !== null){
-        return res.json({success:false, message : "Une réponse pour cet événement a déjà été renseigné, impossible de le changer"})
+    if (searchProposition.data.recipientReponse !== null) {
+        return res.json({ success: false, message: "Une réponse pour cet événement a déjà été renseigné, impossible de le changer" })
     }
 
     const update = await updatePropositionRdv(req, db);
@@ -188,8 +191,9 @@ routerApiRdv.post("/reponsePropositionRdv", async (req, res) => {
         const email = dataUser.email;
         const nameInitialisateur = `${dataUser.nom} ${dataUser.prenom}`;
         const recipientPropositionFullName = searchProposition.data.recipientName;
-        sendPropositionRdvResolv(req, email,nameInitialisateur, recipientPropositionFullName )
-        return res.json({ success: true, message: update.message })
+        const mailer = new KlendyxMailer(email)
+        const sending = await mailer.sendResolvPropositionRdv(req, nameInitialisateur, recipientPropositionFullName)
+        return res.json({ success: sending.success, message: sending.message })
     }
 })
 

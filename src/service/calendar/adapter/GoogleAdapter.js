@@ -1,6 +1,11 @@
+import { deleteTokenSyncCalendar } from "../../token/deleteToken.js";
 import { getToken } from "../../token/getToken.js";
+import { updateToken } from "../../token/updateToken.js";
 import CalendarAdapter from "../CalendarAdapter.js"
 import { google } from "googleapis";
+
+
+
 
 
 class GoogleAdapter extends CalendarAdapter {
@@ -21,9 +26,43 @@ class GoogleAdapter extends CalendarAdapter {
 
     async setCredentials() {
         const token = await getToken("GoogleSync", this.userId, this.db);
+
         if (!token) {
-            throw new Error(`Token google introuvable dans la base de donnée`)
+            throw new Error(`Token google introuvable dans la base de donnée`);
         }
+
+        // Vérifie si le token est expiré
+        const isExpired = !token.expiry_date || token.expiry_date <= Date.now();
+        console.log("Validité du token :", isExpired)
+        if (isExpired) {
+
+            console.log("Access token expire refresh en cours")
+
+            try {
+                const { credentials } = await this.oauth2Client.refreshToken(token.refresh_token)
+                const newToken = {
+                    access_token: credentials.access_token,
+                    refresh_token: credentials.refresh_token ?? token.refresh_token,
+                    expiry_date: credentials.expiry_date ?? Date.now() + 3600 * 1000
+                }
+                await updateToken("GoogleSync", this.userId, newToken, this.db)
+
+            } catch (error) {
+
+                if (error.response?.data?.error === "invalid_grant") {
+
+                    console.log("Refresh token invalide → reconnect Google nécessaire")
+
+                    await deleteTokenSyncCalendar(this.db, this.userId, "google")
+
+                    throw new Error("GOOGLE_RECONNECT_REQUIRED")
+                }
+
+                throw error
+            }
+            return;
+        }
+
         this.oauth2Client.setCredentials({
             access_token: token.access_token,
             refresh_token: token.refresh_token,
@@ -49,28 +88,22 @@ class GoogleAdapter extends CalendarAdapter {
                     dateTime: eventData.dateEnd,
                     timeZone: 'UTC',
                 },
-            };
-
-            const eventRes = await this.calendar.events.insert({
+            }
+            const eventRes = this.calendar.events.insert({
                 calendarId: "primary",
                 resource: event,
             });
-
             return {
                 success: true,
                 message: "L'évènement a été ajouté dans votre agenda Google avec succès.",
                 eventId: eventRes.data.id,
-            };
-
-
-
-        } catch (err) {
-            if (err?.response?.data?.error === 'invalid_grant') {
-                console.log("access token revoke ")
-                throw new Error("Google token expiré ou révoqué → reconnexion requise");
-
             }
-            throw new Error(`Erreur lors de la création d'un évènement Google : ${err.message}`)
+        } catch (err) {
+            console.warn(`Une erreur est survenue lors de la création d'un event Google`)
+            return {
+                success: false,
+                error: err,
+            }
         }
     }
 
@@ -78,10 +111,9 @@ class GoogleAdapter extends CalendarAdapter {
 
     async updateEvent(eventData, idEvent) {
         try {
-
             await this.setCredentials()
 
-            const eventRes = await this.calendar.events.update({
+            const eventRes = this.calendar.events.update({
                 calendarId: "primary",
                 eventId: idEvent,
                 resource: {
@@ -90,10 +122,9 @@ class GoogleAdapter extends CalendarAdapter {
                     start: { dateTime: eventData.dateStart, timeZone: 'Europe/Paris' },
                     end: { dateTime: eventData.dateEnd, timeZone: 'Europe/Paris' }
                 }
-            });
+            })
 
-
-            if(!eventRes.status || eventRes.status < 200 || eventRes.status >= 300) {
+            if (!eventRes.status || eventRes.status < 200 || eventRes.status >= 300) {
                 return {
                     success: false,
                     message: "Un incident est survenue, l'évènement google n'a pas pu être mis à jour"

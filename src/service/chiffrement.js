@@ -14,8 +14,6 @@ export function encrypt(string) {
             cipher.final()
         ]);
 
-
-
         return {
             iv: iv.toString('hex'),
             content: encrypted.toString('hex'),
@@ -30,7 +28,6 @@ export function decrypt(encrypted) {
     try {
         const ALGO = 'aes-256-gcm';
         const KEY = Buffer.from(process.env.SECRET_KEY, 'hex');
-
         const decipher = crypto.createDecipheriv(
             ALGO,
             KEY,

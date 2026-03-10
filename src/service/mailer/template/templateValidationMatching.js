@@ -1,17 +1,6 @@
-import { createTransporter } from "./createTransporter.js";
-import { createOption } from "./createMailOption.js";
-import { getUserData } from "../user/getUserData.js";
-import db from "../../sequelize.js";
-
-export async function sendValidationMatching(email, id, titleEvent, dateEvent, hoursStart, hoursEnd) {
-
-    const transporter = createTransporter()
-    const dataInitialisateur = await getUserData(null, db, id)
-
-    const initialisateur = dataInitialisateur.nom + " " + dataInitialisateur.prenom
 
 
-    const html = `
+export const templateValidationMatching = `
     <body style="margin: 0;padding: 0;width: 100% !important;background-color: #f8fafc;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
             <tr>
@@ -37,13 +26,13 @@ export async function sendValidationMatching(email, id, titleEvent, dateEvent, h
                                 
                                 <!-- PARAGRAPHE PRINCIPAL -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    Votre rendez-vous avec ${initialisateur} a été confirmé.
+                                    Votre rendez-vous avec {initialisateur} a été confirmé.
                                 </p>
                                 
                                 <!-- PARAGRAPHE SECONDAIRE (optionnel) -->
                                 <p style="font-size: 16px; line-height: 1.6; color: #1f2937; margin: 0 0 20px 0;">
-                                    Votre rdv : ${titleEvent}<br>
-                                    Date :  ${dateEvent} de ${hoursStart} à ${hoursEnd}
+                                    Votre rdv : {titleEvent}<br>
+                                    Date :  {dateEvent} de {hoursStart} à {hoursEnd}
                                 </p>
                                 
 
@@ -70,15 +59,3 @@ export async function sendValidationMatching(email, id, titleEvent, dateEvent, h
     </body>
     `;
 
-
-    const mailOptions = createOption(email, initialisateur, html, titleEvent)
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        if (info.messageId) {
-            return { success: true, message: `Email envoyé au destinataire ${email}` }
-        }
-    } catch (err) {
-        return { success: false, message: "Erreur survenue avec le serveur." }
-    }
-}

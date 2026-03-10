@@ -4,7 +4,6 @@ import { DataTypes } from "sequelize"
  * Table utilisateur
  * user()
  */
-
 export default (sequelize) => {
     return sequelize.define("utilisateur", {
         id: {

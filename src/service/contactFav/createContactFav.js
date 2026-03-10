@@ -4,9 +4,7 @@ export async function createContactFav(db, req) {
 
     const Contact = contactFavTable(db);
 
-
     const create = await Contact.create({
-
         idUser : req.userId,
         nom : req.body.nom,
         prenom : req.body.prenom,
@@ -19,3 +17,4 @@ export async function createContactFav(db, req) {
     }
     return {success: false, message: "Echec lors de la création du nouveau contact"}
 }
+

@@ -1,11 +1,5 @@
-import { createTransporter } from "./createTransporter.js";
 
-export async function sendResolvMatching(email, eventTitle, url) {
-
-    const transporter = createTransporter()
-    const titleEvent = eventTitle
-
-    const html = `
+export const templateResolvMatching = `
         <body style="margin: 0;padding: 0;width: 100% !important;background-color: #f8fafc;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
                 <tr>
@@ -50,7 +44,7 @@ export async function sendResolvMatching(email, eventTitle, url) {
                                     <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 0 25px 0;">
                                         <tr>
                                             <td style="border-radius: 8px; background-color: #716af9;">
-                                                <a href="${url}" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px;">
+                                                <a href="{url}" style="display: inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color: #ffffff; text-decoration: none; border-radius: 8px;">
                                                     📅 Choisir une date
                                                 </a>
                                             </td>
@@ -78,25 +72,3 @@ export async function sendResolvMatching(email, eventTitle, url) {
             </table>
         </body>
         `;
-
-
-    const mailOptions = {
-        from: '"Klendyx" <no-reply@Klendyx.com>',
-        to: email,
-        subject: `Votre demande de matching de rendez-vous Klendyx est resolue`,
-        text: titleEvent,
-        html: html,
-    }
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        if (info.messageId) {
-            return { success: true, message: `Email envoyé au destinataire ${email}` }
-        }
-        else {
-            return { success: false, message: "Impossible d'envoyer le mail." }
-        }
-    } catch (err) {
-        return { success: false, message: "Erreur survenue avec le serveur." }
-    }
-}

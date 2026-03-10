@@ -2,9 +2,7 @@ import express from "express"
 import cookieParser from "cookie-parser"
 import cors from "cors"
 
-//Partage du .env
-import dotenv from "dotenv"
-dotenv.config()
+
 
 //router
 import routerHtml from "./src/route/routerHtml.js";
@@ -24,14 +22,17 @@ import routerAuthCalendarApple from "./src/api/authApple.js"
 
 //connection bdd
 import { initDb } from "./src/sequelize.js"
-await initDb()
 
 
 //webhook
 import { uploadGitToProd } from "./src/service/webhookGit.js"
+import { cronTask } from "./src/service/cronTask/cronStart.js";
+
+
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser())
@@ -40,6 +41,7 @@ app.use(cors({
     credentials: true,
 }))
 app.use(express.static("public"));
+
 
 
 app.use("/", routerHtml);
@@ -60,9 +62,7 @@ app.use("/api/calendar/google", routerAuthCalendarGoogle)  //sync
 app.use("/api/calendar/outlook", routerAuthCalendarOutlook) //sync
 app.use("/api/calendar/apple", routerAuthCalendarApple) //sync
 
-//Gestion des tâches cron
-let cronStarted = false
-cronTask(cronStarted)
+
 
 //Get les config non sensible pour le front
 app.get("/config", (req, res) => {
@@ -74,4 +74,16 @@ app.post(`/webhook/:token`, (req, res) => {
     uploadGitToProd(req, res)
 });
 
-app.listen(port, () => console.log(`Application Node lancé sur : http://localhost:${port}/index`))
+app.listen(port, async () => {
+    try {
+        console.log(`Application Node lancé sur : http://localhost:${port}/index`)
+        //Lancement des tâches cron
+        cronTask(true)
+        //Connexion de la base de donnée
+        await initDb()
+    } catch (err) {
+        console.warn(err)
+    }
+})
+
+
