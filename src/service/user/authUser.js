@@ -32,6 +32,6 @@ export default async function authenticateUser(req, db) {
         success: true,
         message: "Connexion réussie !",
         token,
-        idUser: stored.id
+        userId: stored.id
     };
 }

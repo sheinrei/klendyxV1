@@ -11,8 +11,8 @@ import { deleteUserPreference, getUserPreference, updateUserPreference } from ".
 
 routerApiUserPreference.get("/get", authMiddleware, async (req, res) => {
     try {
-        const idUser = req.userId;
-        const get = await getUserPreference(db, idUser);
+        const userId = req.userId;
+        const get = await getUserPreference(db, userId);
         return res.json({ success: get.success, message: get.message, data: get.data })
 
     } catch (err) {
@@ -25,9 +25,9 @@ routerApiUserPreference.get("/get", authMiddleware, async (req, res) => {
 
 routerApiUserPreference.post("/update", authMiddleware, async (req, res) => {
     try {
-        const idUser = req.userId;
+        const userId = req.userId;
         const data = req.body.data
-        const updated = await updateUserPreference(db, idUser, data)
+        const updated = await updateUserPreference(db, userId, data)
         return res.json({ success: updated.success, message: updated.message })
 
     } catch (err) {
@@ -39,8 +39,8 @@ routerApiUserPreference.post("/update", authMiddleware, async (req, res) => {
 
 routerApiUserPreference.post("/delete", authMiddleware, async (req, res) => {
     try {
-        const idUser = req.userId;
-        const deleted = await deleteUserPreference(db, idUser)
+        const userId = req.userId;
+        const deleted = await deleteUserPreference(db, userId)
         return res.json({ success: deleted.success, message: updated.message })
 
     } catch (err) {

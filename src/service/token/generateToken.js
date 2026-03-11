@@ -8,7 +8,7 @@ export default async function generateToken(userId, typeToken, db) {
 
     try {
         const newToken = await instanceToken.create({
-            idUser: userId,
+            userId: userId,
             type: typeToken,
             token,
         })
@@ -16,11 +16,11 @@ export default async function generateToken(userId, typeToken, db) {
             return ({ success: true, token })
         }
 
-        return({ success: false, message : "Echec lors de la création du token" })
+        return ({ success: false, message: "Echec lors de la création du token" })
 
     } catch (err) {
         console.log(err)
-        return ({success:false, message : "Erreur lors de la création du token", err})
+        return ({ success: false, message: "Erreur lors de la création du token", err })
     }
 }
 

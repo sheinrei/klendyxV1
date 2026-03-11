@@ -11,7 +11,7 @@ export async function createMatchingEvent(db, req) {
 
 
     const create = MatchingEvent.create({
-        idUser: req.userId,
+        userId: req.userId,
         eventTitle: req.body.eventTitle,
         description: req.body.description,
         eventAddress: req.body.eventAddress ?? null,

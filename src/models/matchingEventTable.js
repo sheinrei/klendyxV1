@@ -8,7 +8,7 @@ export function matchingEventTable(sequelize) {
             primaryKey: true,
             autoIncrement: true,
         },
-        idUser: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -38,7 +38,7 @@ export function matchingEventTable(sequelize) {
             type: DataTypes.DATE,
             allowNull: false,
         },
-        
+
         rangeHoursStart: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -64,9 +64,9 @@ export function matchingEventTable(sequelize) {
             allowNull: false,
             unique: true,
         },
-        resolve : {
-            type : DataTypes.JSON,
-            allowNull : true,
+        resolve: {
+            type: DataTypes.JSON,
+            allowNull: true,
         }
 
 

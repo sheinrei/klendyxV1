@@ -22,12 +22,7 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.D
     dialectOptions: {
         useUTC: true,
         dateStrings: true,
-        typeCast: function (field, next) {
-            if (field.type === "DATETIME") {
-                return field.string(); 
-            }
-            return next();
-        }
+        typeCast: true,
     }
 });
 
@@ -49,11 +44,13 @@ export async function initDb() {
     rappelRdvTable(db)
 
     let force = process.env.SEQUELIZE_FORCE
+    let alter = process.env.SEQUELIZE_ALTER
     force === "true" ? (force = true, console.log("Sequelize remise à zero de la db")) : force = false
+    alter === "true" ? (alter = true, console.log("Sequelize modification des models activée")) : alter = false
     try {
         await db.authenticate();
         console.log("✅ Connection à la DB réussie");
-        await db.sync({ force });
+        await db.sync({ force, alter });
         console.log("✅ DB synchronisée");
     } catch (err) {
         console.error("❌ Impossible de se connecter à la DB", err);

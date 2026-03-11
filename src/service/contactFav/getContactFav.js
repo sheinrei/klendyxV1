@@ -1,23 +1,31 @@
 import { contactFavTable } from "../../models/contactFavTable.js"
 import { Op } from "sequelize"
 
-export async function getContactFav(db, req) {
+export async function getAllContactFav(db, userId) {
+    try {
+        const Contact = contactFavTable(db);
+        const getContacts = await Contact.findAll({
+            where: { userId } 
+        });
 
-    const Contact = contactFavTable(db);
+        const success = getContacts.length > 0;
 
-    const idUser = req.userId
-
-    const getContact = await Contact.findAll({
-        where: { idUser: idUser }
-    })
-
-
-    if (getContact) {
-        return { success: true, message: "Contact récupéré avec succes !", data : getContact }
+        return {
+            success,
+            message: success ? "Contacts récupérés avec succès." : "Aucun contact disponible.",
+            data: getContacts
+        };
+    } catch (err) {
+        console.warn(`Erreur lors de la récupération des contacts favoris, error : ${err}`);
+        return {
+            success: false,
+            message: "Erreur lors de la récupération des contacts favoris.",
+            error: err
+        };
     }
-
-    return { sucess: false, message: "Problème survenu avec le serveur, impossible de récuperer les contacts" }
 }
+
+
 
 //recherche dynamique 
 export async function getDynamicContactFav(db, req) {
@@ -28,7 +36,7 @@ export async function getDynamicContactFav(db, req) {
 
     const getContact = await Contact.findAll({
         where: {
-            idUser: id,
+            userId: id,
             [Op.or]: [
                 { nom: { [Op.like]: `%${inputSearch}%` } },
                 { prenom: { [Op.like]: `%${inputSearch}%` } },
@@ -37,7 +45,7 @@ export async function getDynamicContactFav(db, req) {
             ]
         }
     })
-    return {getContact}
+    return { getContact }
 }
 
 

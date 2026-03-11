@@ -7,7 +7,7 @@ export async function saveToken(userId, typeToken, token, db) {
     const instanceToken = tokenTable(db)
     try {
         const save = await instanceToken.create({
-            idUser: userId,
+            userId: userId,
             type: typeToken,
             token: JSON.stringify(token)
         })

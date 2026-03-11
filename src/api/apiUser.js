@@ -25,7 +25,7 @@ import { deleteAccount } from "../service/user/deleteAccount.js";
 
 import { getAllEvents } from "../service/calendar/CalendarController.js";
 import { getUserPreference } from "../service/userPreference/crudUserPreference.js";
-import { getContactFav } from "../service/contactFav/getContactFav.js";
+import { getAllContactFav } from "../service/contactFav/getContactFav.js";
 import { getCredit } from "../service/credit/getCredit.js";
 import { getUserRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
 import { getAllMatchingEvent } from "../service/event/getMatchingEvent.js";
@@ -190,7 +190,7 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
             })
         }
 
-        const userId = auth.idUser
+        const userId = auth.userId
         await createUserSession(db, userId)
 
         const userPreference = await getUserPreference(db, userId);
@@ -344,7 +344,7 @@ routerApiUser.get("/api/user/export-data", authMiddleware, async (req, res) => {
 
     const dataUser = await getUserData(db, userId);
     const dataPreference = await getUserPreference(db, userId);
-    const dataContactFavori = await getContactFav(db, req);
+    const dataContactFavori = await getAllContactFav(db, req);
     const dataEventKlendyx = await getAllEvents("klendyx", db, userId);
     const dataCredit = await getCredit(db, userId)
     const dataRappelRdv = await getUserRappelRdv(db, userId);

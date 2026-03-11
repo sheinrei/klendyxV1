@@ -18,13 +18,13 @@ async function deleteAllTable(id, db) {
 
     try {
         await Promise.all([
-            contactFavTable(db).destroy({ where: { idUser: id } }),
+            contactFavTable(db).destroy({ where: { userId: id } }),
             creditTable(db).destroy({ where: { userId: id } }),
             eventKlendyxTable(db).destroy({ where: { userId: id } }),
             klendyxPropositionRdvTable(db).destroy({ where: { userId: id } }),
-            matchingEventTable(db).destroy({ where: { idUser: id } }),
-            rappelRdvTable(db).destroy({ where: { idUser: id } }),
-            tokenTable(db).destroy({ where: { idUser: id } }),
+            matchingEventTable(db).destroy({ where: { userId: id } }),
+            rappelRdvTable(db).destroy({ where: { userId: id } }),
+            tokenTable(db).destroy({ where: { userId: id } }),
             userPreferenceTable(db).destroy({ where: { userId: id } }),
             userSessionTable(db).destroy({ where: { userId: id } }),
             utilisateurTable(db).destroy({ where: { id } }),
@@ -48,9 +48,9 @@ export async function deleteAccount(token, db) {
 
     const TableToken = tokenTable(db);
     const deletedToken = await TableToken.findOne({ where: { token: token } });
-    const idUser = deletedToken.idUser;
+    const userId = deletedToken.userId;
 
-    const deleted = await deleteAllTable(idUser, db)
+    const deleted = await deleteAllTable(userId, db)
     return {
         success: deleted.success,
         message: deleted.success

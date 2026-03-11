@@ -7,7 +7,7 @@ export async function getUserRappelRdv(db, userId) {
     const Table = rappelRdvTable(db)
 
     const getAllRappel = await Table.findAll({
-        where: { idUser: userId }
+        where: { userId: userId }
     })
 
     return {
@@ -25,7 +25,7 @@ export async function getAllRappelRdv(db) {
 
         return {
             success: true,
-            data : getAllRappelRdv
+            data: getAllRappelRdv
         }
 
     } catch (err) {

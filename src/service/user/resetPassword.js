@@ -45,7 +45,7 @@ export async function confirmTokenResetPassword(tokenUrl, id, db) {
         return false
     }
 
-    if (valid.id && valid.type === "forgotPassword" && valid.idUser == id) {
+    if (valid.id && valid.type === "forgotPassword" && valid.userId == id) {
         console.log("match connexion sécurisé")
         return true
     } else {
@@ -55,7 +55,7 @@ export async function confirmTokenResetPassword(tokenUrl, id, db) {
 
 export async function changePassword(id, password, db) {
 
-    if (!id || !password) return {success:false, message:"Id ou password inexistant", data:{id, password}}
+    if (!id || !password) return { success: false, message: "Id ou password inexistant", data: { id, password } }
 
 
     const User = user(db);
@@ -70,9 +70,9 @@ export async function changePassword(id, password, db) {
 
         if (change) return { success: true, message: "Changement du mot de passe effectué." }
 
-    }catch (err) {
-    return { success: false, message: "Erreur lors du changement de mot de passe, veuillez ressayer plus tard." }
-}
+    } catch (err) {
+        return { success: false, message: "Erreur lors du changement de mot de passe, veuillez ressayer plus tard." }
+    }
 
 
 }

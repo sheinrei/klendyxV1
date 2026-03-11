@@ -15,7 +15,7 @@ const CREDIT_RESSOURCE = [
 
 
 export async function refreshUserCredit() {
-    console.log("Déclanchement du refresh des tokens des utilisateurs")
+    console.log("Déclanchement du refresh de crédit users")
     const now = Date.now()
 
     const allCredit = await getAllCredit(db);

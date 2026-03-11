@@ -8,7 +8,7 @@ export function rappelRdvTable(sequelize) {
             primaryKey: true,
             autoIncrement: true,
         },
-        idUser: {
+        userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },

@@ -7,9 +7,9 @@ export function contactFavTable(sequelize) {
             primaryKey: true,
             autoIncrement: true,
         },
-        idUser: {
+        userId: {
             type: DataTypes.INTEGER,
-            allowNull:false,
+            allowNull: false,
         },
         nom: {
             type: DataTypes.STRING,
@@ -26,7 +26,7 @@ export function contactFavTable(sequelize) {
         phone: {
             type: DataTypes.STRING,
             allowNull: true,
-            defaultValue:"Non renseigné"
+            defaultValue: "Non renseigné"
         },
     }, {
         timestamps: false

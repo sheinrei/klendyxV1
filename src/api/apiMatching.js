@@ -56,7 +56,7 @@ routerApiMatching.post("/update", async (req, res) => {
     }
     const undisponibility = updated.data.undisponibility
     const allValidate = Object.values(undisponibility).every(objet => objet.validate === true)
-    let idUserOrigin = updated.data.idUser
+    let userIdOrigin = updated.data.userId
 
 
     //Lancement process si tout le monde a répondu à rempli ses dispos
@@ -67,7 +67,7 @@ routerApiMatching.post("/update", async (req, res) => {
         const update = await addRevolveMatchingEvent(db, matching, req)
 
         if (update.success) {
-            const userOrigin = await getUserData(req, db, idUserOrigin)
+            const userOrigin = await getUserData(req, db, userIdOrigin)
             const email = userOrigin.email
             const url = `${process.env.HOST}/matching-rdv/validate?token=${updated.data.token}`
             const mailer = new KlendyxMailer(email)
@@ -86,7 +86,7 @@ routerApiMatching.post("/final", async (req, res) => {
     }
 
     //Enregistrer l'event dans le calendar google de l'initialisateur
-    const userId = dataEvent.data.idUser
+    const userId = dataEvent.data.userId
 
     let eventGoogle = null;
 

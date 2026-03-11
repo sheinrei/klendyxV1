@@ -1,12 +1,12 @@
 
-async function getEventGoogle(host, rangeStart, rangeEnd, idUser) {
+async function getEventGoogle(host, rangeStart, rangeEnd, userId) {
     const rangeEndInclude = new Date(rangeEnd);
     rangeEndInclude.setUTCDate(rangeEndInclude.getUTCDate() + 1);
     rangeEndInclude.setUTCHours(0, 0, 0, 0);
 
     const rangeEndMax = rangeEndInclude.toISOString()
 
-    const resEventGoogle = await fetch(`${host}/api/calendar/google/get/invite?rangeMin=${rangeStart}&rangeMax=${rangeEndMax}&userId=${idUser}`, {
+    const resEventGoogle = await fetch(`${host}/api/calendar/google/get/invite?rangeMin=${rangeStart}&rangeMax=${rangeEndMax}&userId=${userId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -351,8 +351,8 @@ $(async function () {
 
 
     //chercher les infos des events google
-    const idUser = data.event.data.idUser;
-    const dataEventGoogle = await getEventGoogle(host, rangeStart, rangeEnd, idUser)
+    const userId = data.event.data.userId;
+    const dataEventGoogle = await getEventGoogle(host, rangeStart, rangeEnd, userId)
 
 
     //hydrater le FC

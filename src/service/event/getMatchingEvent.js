@@ -32,7 +32,7 @@ export async function getAllMatchingEvent(db, userId) {
     try {
         const Event = matchingEventTable(db);
         const allEvent = await Event.findAll({
-            where: { idUser: userId }
+            where: { userId: userId }
         })
 
         return {

@@ -1,11 +1,11 @@
 import { userPreferenceTable } from "../../models/userPreferenceTable.js";
 
 
-export async function createUserPreference(db, idUser) {
+export async function createUserPreference(db, userId) {
     try {
         const Table = userPreferenceTable(db);
         const created = Table.create({
-            userId: idUser
+            userId: userId
         })
         if (created)
             return { success: true, message: "Les préférence de l'utilisateur ont été créer avec succès" }
@@ -17,11 +17,11 @@ export async function createUserPreference(db, idUser) {
     }
 }
 
-export async function getUserPreference(db, idUser) {
+export async function getUserPreference(db, userId) {
     try {
         const Table = userPreferenceTable(db);
         const get = await Table.findOne({
-            where: { userId: idUser }
+            where: { userId: userId }
         })
 
         if (get)
@@ -34,13 +34,13 @@ export async function getUserPreference(db, idUser) {
     }
 }
 
-export async function updateUserPreference(db, idUser, data) {
+export async function updateUserPreference(db, userId, data) {
     try {
         const Table = userPreferenceTable(db);
         console.log(data)
         const updated = await Table.update(
             data,
-            { where: { id: idUser } }
+            { where: { id: userId } }
         )
         if (updated)
             return { success: true, message: "Les préférences ont été mises à jour avec succès" }
@@ -53,11 +53,11 @@ export async function updateUserPreference(db, idUser, data) {
 
 }
 
-export async function deleteUserPreference(db, idUser) {
+export async function deleteUserPreference(db, userId) {
     try {
         const Table = userPreferenceTable(db);
         const deleted = await Table.destroy({
-            where: { id: idUser }
+            where: { id: userId }
         })
         if (deleted)
             return { success: true, message: "Toute les préférences ont bien été supprimées" }

@@ -37,8 +37,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
         timeRappel } = req.body;
 
 
-    const idUser = req.userId
-    const dataUser = await getUserData(db, idUser);
+    const userId = req.userId
+    const dataUser = await getUserData(db, userId);
     const nameInitialisateur = dataUser.nom + " " + dataUser.prenom;
     let dataReturn = {}
 
@@ -52,7 +52,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
         const dayStartFr = date.toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" })
         const message = `Bonjour ${prenom}, rappel de votre rendez-vous avec ${nameInitialisateur} le ${dayStartFr} de ${hourStart.replace(":", "h")} à ${hourEnd.replace(":", "h")}`
 
-        const createRappel = await createRappelRdv(db, idUser, phone, email, method, date, timeRappel, message)
+        const createRappel = await createRappelRdv(db, userId, phone, email, method, date, timeRappel, message)
 
         if (createRappel.success && rappelEmail) {
             decrementCredit(db, req, "mail")
@@ -113,8 +113,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
 
     if (methodRdvProposition) {
         const createProposition = await createKlendyxPropositionRdv(db, req);
-        const token = await generateToken(idUser, "validationEventEmail", db);
-        const url = `${process.env.HOST}/valider-rdv/${token.token}/${idUser}/${createProposition.create.id}`;
+        const token = await generateToken(userId, "validationEventEmail", db);
+        const url = `${process.env.HOST}/valider-rdv/${token.token}/${userId}/${createProposition.create.id}`;
 
         if (methodContactEmail) {
             try {

@@ -6,9 +6,9 @@ import OutlookAdapter from "./adapter/OutlookAdapter.js";
 
 /**
  * Définis et init le bon adapter selon le provider
- * @param {*} provider -string- "klendyx"/"google"/"outlook"/"apple"
- * @param {*} db 
- * @param {*} userId 
+ * @param {string} provider -string- "klendyx"/"google"/"outlook"/"apple"
+ * @param {Object} db - Instance de la base de données
+ * @param {number} userId - Id de l'utilisateur
  * @returns 
  */
 

@@ -26,7 +26,7 @@ import { initDb } from "./src/sequelize.js"
 
 //webhook
 import { uploadGitToProd } from "./src/service/webhookGit.js"
-import { cronTask } from "./src/service/cronTask/cronStart.js";
+import { startCronTask } from "./src/service/cronTask/cronStart.js";
 
 
 
@@ -78,7 +78,7 @@ app.listen(port, async () => {
     try {
         console.log(`Application Node lancé sur : http://localhost:${port}/index`)
         //Lancement des tâches cron
-        cronTask(true)
+        startCronTask(true)
         //Connexion de la base de donnée
         await initDb()
     } catch (err) {

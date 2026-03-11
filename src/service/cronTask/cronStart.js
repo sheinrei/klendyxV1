@@ -16,7 +16,6 @@ import { cronLogger } from "./../logger/cronLogger.js"
 // │ │ │ │ │ │ |
 // * * * * * * *
 */
-
 const CRON_RESSOURCE = [
     {
         fonction: declencherNotificationsRdv,
@@ -30,7 +29,7 @@ const CRON_RESSOURCE = [
     },
     {
         fonction: refreshUserCredit,
-        schedule: "* * 6 * * * * ", //Toutes les jours à 6 heures
+        schedule: "0 0 */6 * * * * ", //Toutes les 6 heures
         jobName: "Refresh Credit User"
     }
 ]
@@ -62,7 +61,7 @@ function initCron({ timeLine, Fn, jobName }) {
 }
 
 
-export const cronTask = async (started) => {
+export const startCronTask = async (started) => {
     if (!started) return
 
     CRON_RESSOURCE.forEach((task) => {
@@ -72,5 +71,5 @@ export const cronTask = async (started) => {
             jobName: task.jobName
         })
     })
-
 }
+

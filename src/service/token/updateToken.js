@@ -10,7 +10,7 @@ export async function updateToken(userId, typeToken, token, db) {
 
         const instanceToken = tokenTable(db)
         const update = await instanceToken.update({
-            idUser: userId,
+            userId: userId,
             type: typeToken,
             token: JSON.stringify(token)
         })

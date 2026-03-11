@@ -2,11 +2,11 @@ import { rappelRdvTable } from "../../models/rappelRdvTable.js";
 
 
 
-export async function createRappelRdv(db, idUser, phone, email, method, dayEvent, timeBefore, message) {
+export async function createRappelRdv(db, userId, phone, email, method, dayEvent, timeBefore, message) {
 
     const Table = rappelRdvTable(db)
     const create = await Table.create({
-        idUser,
+        userId,
         phone,
         email,
         method,

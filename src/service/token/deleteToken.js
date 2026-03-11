@@ -34,7 +34,7 @@ export async function deleteTokenSyncCalendar(db, userId, provider) {
         const Token = tokenTable(db);
         const deletedToken = await Token.destroy({
             where: {
-                idUser: userId,
+                userId: userId,
                 type: `${provider}Sync`
             }
         })
@@ -68,7 +68,7 @@ export async function deleteAllUserTokenByType(db, userId, type) {
         const Token = tokenTable(db);
         const deletedToken = await Token.destroy({
             where: {
-                idUser: userId,
+                userId: userId,
                 type: type
             },
         })
