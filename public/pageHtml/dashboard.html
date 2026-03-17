@@ -8,29 +8,30 @@
     <title>Klendyx - Tableau de bord</title>
     <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
 
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
 
     <!-- css -->
-    <link rel="stylesheet" href="./../css/dashboard.css">
     <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
     <link rel="stylesheet" href="./css/generic.css">
     <link rel="stylesheet" href="./css/navbar.css">
     <link rel="stylesheet" href="./css/footer.css">
+    <link rel="stylesheet" href="./../css/dashboard.css">
 
 
     <!-- script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="./js/config.js"></script>
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
-    <script src="./js/deconnectUser.js" defer></script>
-    <script src="./js/tools.js"></script>
-    <script src="./js/dashboard/dashboardDOM.js" type="module" defer></script>
     <script src="./js/modale/classiqueModale.js" defer></script>
+    <script src="./js/deconnectUser.js" defer></script>
     <script src="./js/sessionExpire.js" defer></script>
-
+    <script src="./../js/messageAlert.js"></script>
+    <script src="./js/dashboard/dashboardDOM.js" type="module"></script>
 
 </head>
 
@@ -38,118 +39,323 @@
 
 
 <body>
-    <section class="content" id="content">
+    <main class="content" id="content" style="flex-direction: row;align-items: flex-start;">
 
-        <main>
-            <header>
-                <h1 class="title">Tableau de bord</h1>
-                <p>Retrouvez toute les statistiques de vos événements</p>
+        <div class="page-content">
+
+            <!-- Header et bar de navigation de la page-->
+            <header class="dashboard-header" role="banner">
+                <h1>Tableau de bord</h1>
+                <nav role="tablist" aria-label="Navigation du tableau de bord">
+                    <button id="btn-link-rappel-rdv" class="btn-link btn-link-activ" role="tab" aria-selected="true">
+                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                        </svg>
+                        <span>Rappels de rendez-vous</span>
+                    </button>
+
+                    <button id="btn-link-proposition-rdv" class="btn-link" role="tab">
+                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path
+                                d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z">
+                            </path>
+                            <path d="m21.854 2.147-10.94 10.939"></path>
+                        </svg>
+                        <span>Propositions de rendez-vous</span>
+                    </button>
+
+                    <button id="btn-link-abonnement" class="btn-link" role="tab">
+                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                            <line x1="2" x2="22" y1="10" y2="10"></line>
+                        </svg>
+                        <span>Crédit et abonnement</span>
+                    </button>
+
+                    <button id="btn-link-agenda" class="btn-link" role="tab">
+                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+                            <path d="M18 17V9"></path>
+                            <path d="M13 17V5"></path>
+                            <path d="M8 17v-3"></path>
+                        </svg>
+                        <span>Agenda et statistiques</span>
+                    </button>
+                </nav>
             </header>
 
+            <div id="input-message-alert" aria-hidden="true" style="margin-top:10px"></div>
 
 
-            <section class="frame-row">
-                <!-- credit -->
-                <section class="frame-abonnement">
-                    <div class="card">
-                        <p>Plan d'abonnement :
-                            <span id="user-abonnement"></span>
-                        </p>
+            <!--SECTION RAPPEL DE RENDEZ-VOUS-->
+            <div class="sub-section" id="section-rappel-rdv" aria-live="polite" role="tabpanel"
+                aria-labelledby="btn-link-rappel-rdv">
+                <div class="flex-row" style="justify-content: space-between;">
+                    <h2>Rappels de rendez-vous</h2>
+                    <div>
+                        <button class="btn-primary" id="btn-create-rappel">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                            </svg>
+                            Créer un rappel
+                        </button>
                     </div>
-                </section>
+                </div>
 
-                <!-- Agenda sync-->
-                <section class="frame-calendar">
-                    <div class="card">
-                        <p>Vos Agendas Synchronisés</p>
-
-                        <div class="main-frame-row">
-                            <div>
-                                <div class="card-row">
-                                    <img width="38" height="38" src="https://img.icons8.com/fluency/48/google-logo.png"
-                                        alt="google-logo">
-                                    <span id="user-calendar-sync-google"></span>
-                                </div>
-
-                                <div class="card-row">
-                                    <img width="38" height="38"
-                                        src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
-                                        alt="microsoft-outlook-2019">
-                                    <span id="user-calendar-sync-outlook"></span>
-                                </div>
-
-                                <div class="card-row">
-                                    <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png"
-                                        alt="mac-os">
-                                    <span id="user-calendar-sync-apple"></span>
-                                </div>
-                            </div>
-
-                            <div class="graph-wrapper">
-                                <canvas id="ctx-calendar-count" class="graph"></canvas>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-                <section class="frame-graph-envoie">
-                    <div class="card">
-                        <p>Envoies de sms et email</p>
-                        <div class="graph-wrapper">
-                            <canvas id="graph-envoie" class="graph"></canvas>
-                        </div>
-                    </div>
-
-                </section>
-
-            </section>
-
-            <secttion class="frame-row">
-                <!-- graph envoie sms/email-->
-                <section>
-
-                    <div class="card">
-                        <p>Proposition de rendez-vous</p>
-                        <div class="graph-wrapper">
-                            <canvas id="graph-proposition-rdv" class="graph"></canvas>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- event charge -->
-                <section style="width:50%">
-                    <div class="card">
-                        <p>Charge de vos journées</p>
-
-                        <div class="card-row" style="justify-content: space-between;">
-                            <button id="charge-event-previous-week">Semaine precedente</button>
-                            <button id="charge-event-next-week">Semaine suivante</button>
-                        </div>
+                <div class="header-tag">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true" focusable="false">
+                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                    </svg>
+                    <span id="tag-rappel-attente"></span>
+                </div>
+                <div id="section-card-rappel" aria-live="polite">
+                </div>
+            </div>
 
 
-                        <div class="graph-wrapper">
-                            <canvas id="graph-charge-event" class="graph"></canvas>
-                        </div>
-                    </div>
-                </section>
-            </secttion>
+            <!--SECTION PROPOSITION DE RENDEZ-VOUS-->
+            <div class="sub-section" id="section-proposition-rdv" style="display:none" aria-live="polite"
+                role="tabpanel" aria-labelledby="btn-link-proposition-rdv">
+                <h2>Proposition de rendez-vous</h2>
 
-
-
-            <section>
-                <header>
-                    <h2>
-                        Etat de vos propositions de rendez-vous
-                    </h2>
-                    <p id="subtitle-proposition-rdv">Vous avez x prosition de rendez-vous en cours</p>
-                </header>
-
-                <div id="input-cards-proposition-rdv">
+                <div id="section-card-proposition" aria-live="polite">
 
                 </div>
-            </section>
-        </main>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <!--SECTION CREDIT ET ABONNEMENT-->
+            <div class="sub-section" id="section-crédit-abonnement" style="display:none" aria-live="polite"
+                role="tabpanel" aria-labelledby="btn-link-abonnement">
+                <h2>Crédit et abonnement</h2>
+
+                <div class="flex-row alert-container">
+                    <svg class="svg" style="color:#308CE9" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                    <p id="credit-header-date-refresh" class="alert-dashboard"></p>
+                </div>
+
+
+                <div class="flex-row">
+                    <!--CARD SMS-->
+                    <div class="card">
+                        <div style="display:flex; flex-direction: column;">
+                            <div class="flex-row" style="justify-content:flex-start">
+                                <div class="svg-container">
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                                        focusable="false">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </div>
+
+                                <div style="display:flex; flex-direction: column;">
+                                    <span class="card-title">Crédits SMS</span>
+                                    <span id="text-credit-sms"></span>
+                                </div>
+                            </div>
+
+                            <progress id="progress-credit-sms" aria-label="Utilisation des crédits SMS" value="0"
+                                max="100"></progress>
+                            <span id="credit-sms-used" class="subtitle"></span>
+                        </div>
+                    </div>
+
+                    <!--CARD EMAIL-->
+                    <div class="card">
+                        <div style="display:flex; flex-direction: column;">
+                            <div class="flex-row" style="justify-content:flex-start">
+                                <div class="svg-container">
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                                        focusable="false">
+                                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                    </svg>
+                                </div>
+
+                                <div style="display:flex; flex-direction: column;">
+                                    <span class="card-title">Crédits Email</span>
+                                    <span id="text-credit-email"></span>
+                                </div>
+                            </div>
+
+                            <progress id="progress-credit-email" aria-label="Utilisation des crédits email" value="0"
+                                max="100"></progress>
+                            <span id="credit-email-used" class="subtitle"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--CARD Abonnement-->
+                <div class="card" style="margin-top:20px">
+                    <div style="display:flex; flex-direction: column;">
+                        <div class="flex-row" style="justify-content:flex-start">
+                            <div class="svg-container">
+                                <svg class="svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                    <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                                    <line x1="2" x2="22" y1="10" y2="10"></line>
+                                </svg>
+                            </div>
+
+                            <div style="display:flex; flex-direction: column;">
+                                <span id="plan-name" class="card-title"></span>
+                                <span class="subtitle" id="credit-text-billing"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-row" style="justify-content:flex-start; margin-top:20px">
+                        <button class="btn-primary">Voir les tarifs</button>
+                        <button class="btn-primary">Changer mon abonnement</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <!--SECTION AGENDA-->
+            <div class="sub-section" id="section-agenda" style="display:none" aria-live="polite" role="tabpanel"
+                aria-labelledby="btn-link-agenda">
+                <h2>Agenda et statistiques</h2>
+
+                <div class="card" style="margin-bottom:20px">
+                    <div class="flex-row" style="justify-content: flex-start;margin-bottom:20px">
+                        <svg class="svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+                        </svg>
+                        <span class="card-title">État de synchronisation</span>
+                    </div>
+
+                    <div class="flex-row">
+                        <!--sync google-->
+                        <div class="card flex-col" id="card-sync-google">
+                            <span id="badge-sync-google" role="status"></span>
+                            <div class="flex-row" style="justify-content: space-between;">
+
+                                <div class="flex-col" style="justify-content: center;">
+                                    <span class="card-title">Calendrier Google</span>
+                                    <span id="date-sync-google" class="subtitle"></span>
+                                </div>
+
+                                <button class="btn-primary" id="btn-sync-calendar-google" style="display:none">
+                                    Se connecter
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                        <!--sync outlook-->
+                        <div class="card flex-col" id="card-sync-outlook">
+                            <span id="badge-sync-outlook" role="status"></span>
+                            <div class="flex-row" style="justify-content: space-between;">
+
+                                <div class="flex-col" style="justify-content: center;">
+                                    <span class="card-title">Calendrier Outlook</span>
+                                    <span id="date-sync-outlook" class="subtitle"></span>
+                                </div>
+
+                                <button class="btn-primary" id="btn-sync-calendar-outlook" style="display:none">
+                                    Se connecter
+                                </button>
+
+                            </div>
+                        </div>
+
+                        <!--sync icloud-->
+                        <div class="card flex-col" id="card-sync-apple">
+                            <span id="badge-sync-apple" role="status"></span>
+                            <div class="flex-row" style="justify-content: space-between;">
+
+                                <div class="flex-col" style="justify-content: center;">
+                                    <span class="card-title">Calendrier iCloud</span>
+                                    <span id="date-sync-apple" class="subtitle"></span>
+                                </div>
+
+                                <button class="btn-primary" id="btn-sync-calendar-apple" style="display:none">
+                                    Se connecter
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- Section graph des agenda-->
+                <!--Card charge event-->
+                <div class="card card-graph-event">
+                    <div class="flex-row">
+                        <span class="card-title">Charge de la semaine</span>
+                        <div class="graph-week-navigator">
+                            <button id="charge-event-previous-week" aria-label="Semaine précédente">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                    <path d="m15 18-6-6 6-6"></path>
+                                </svg>
+                            </button>
+                            <span id="week-title" class="subtitle" role="caption">Date
+                                semaine</span>
+                            <button id="charge-event-next-week" aria-label="Semaine suivante">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                    <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <canvas id="graph-charge-event" role="img"
+                        aria-label="Graphique de la charge de rendez-vous par semaine"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>

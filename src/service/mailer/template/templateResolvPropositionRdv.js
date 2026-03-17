@@ -1,17 +1,42 @@
-export const templateResolvPropositionRdv = `<div style="margin:20px">
-                    <header style="margin-bottom:30px">
-                        <p>Bonjour {NAME_INITIALISATEUR}</p>
-                    </header>
-                    
-                    <div>
-                        <p>{RECIPIENT_FULL_NAME} a répondu à votre demande de rendez-vous</p>
-                        <p>Réponse : {RESPONSE_PROPOSITION}</p>
-                        <p>Commentaire saisis avec la réponse : {COMMENTAIRE}</p>
+export const templateResolvPropositionRdv = `
+<tr style="padding:20px">
+    <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#333333;line-height:1.6;">
+        
+        <table width="100%" cellpadding="0" cellspacing="0">
 
-                    </div>
+            <tr>
+                <td style="padding-bottom:25px;">
+                    Bonjour {NAME_INITIALISATEUR},
+                </td>
+            </tr>
 
-                    <div style="margin-top:15px">
-                        <p>A bientôt,</p>
-                        <p>Votre équipe</p>
-                    </div>
-                </div>`
+            <tr>
+                <td style="padding-bottom:10px;">
+                    {RECIPIENT_FULL_NAME} a répondu à votre demande de rendez-vous.
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding-bottom:10px;">
+                    <strong>Réponse :</strong> {RESPONSE_PROPOSITION}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding-bottom:20px;">
+                    <strong>Commentaire :</strong> {COMMENTAIRE}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    À bientôt,<br/>
+                    Votre équipe
+                </td>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+`

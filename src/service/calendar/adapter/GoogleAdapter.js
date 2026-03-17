@@ -27,38 +27,31 @@ class GoogleAdapter extends CalendarAdapter {
     async setCredentials() {
         const token = await getToken("GoogleSync", this.userId, this.db);
 
-        if (!token) {
-            throw new Error(`Token google introuvable dans la base de donnée`);
-        }
+        if (!token) throw new Error(`Token google introuvable dans la base de donnée`);
 
-        // Vérifie si le token est expiré
+
+        //detection si le token est expiré on en demande un nouveau
         const isExpired = !token.expiry_date || token.expiry_date <= Date.now();
-        console.log("Validité du token :", isExpired)
+
         if (isExpired) {
-
-            console.log("Access token expire refresh en cours")
-
             try {
-                const { credentials } = await this.oauth2Client.refreshToken(token.refresh_token)
+                const { tokens } = await this.oauth2Client.refreshToken(token.refresh_token);
                 const newToken = {
-                    access_token: credentials.access_token,
-                    refresh_token: credentials.refresh_token ?? token.refresh_token,
-                    expiry_date: credentials.expiry_date ?? Date.now() + 3600 * 1000
-                }
-                await updateToken("GoogleSync", this.userId, newToken, this.db)
+                    access_token: tokens.access_token,
+                    refresh_token: tokens.refresh_token ?? token.refresh_token,
+                    expiry_date: tokens.expiry_date ?? Date.now() + 3600 * 1000,
+                };
+                //Mettre a jour le token en bdd
+                await updateToken(this.userId, "GoogleSync", newToken, this.db);
+
+                this.oauth2Client.setCredentials(newToken);
 
             } catch (error) {
-
                 if (error.response?.data?.error === "invalid_grant") {
-
-                    console.log("Refresh token invalide → reconnect Google nécessaire")
-
-                    await deleteTokenSyncCalendar(this.db, this.userId, "google")
-
-                    throw new Error("GOOGLE_RECONNECT_REQUIRED")
+                    await deleteTokenSyncCalendar(this.db, this.userId, "google");
+                    throw new Error("GOOGLE_RECONNECT_REQUIRED");
                 }
-
-                throw error
+                throw error;
             }
             return;
         }
@@ -89,7 +82,7 @@ class GoogleAdapter extends CalendarAdapter {
                     timeZone: 'UTC',
                 },
             }
-            const eventRes = this.calendar.events.insert({
+            const eventRes = await this.calendar.events.insert({
                 calendarId: "primary",
                 resource: event,
             });
@@ -113,7 +106,7 @@ class GoogleAdapter extends CalendarAdapter {
         try {
             await this.setCredentials()
 
-            const eventRes = this.calendar.events.update({
+            const eventRes = await this.calendar.events.update({
                 calendarId: "primary",
                 eventId: idEvent,
                 resource: {

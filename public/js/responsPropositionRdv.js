@@ -1,3 +1,13 @@
+
+export async function getConfig() {
+  const res = await fetch("/config");
+  const data = await res.json();
+  return {
+    host: data.host,
+  };
+}
+
+
 //gestion du formulaire de confirmation d'un event par un client de user
 async function updatingProposition(responseUser) {
     const config = await getConfig()

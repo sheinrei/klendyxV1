@@ -18,6 +18,7 @@ class GraphController {
         graph.show()
     }
 
+    
     updateGraph(name, newLabels, newData) {
         if (!this.graphs[name]) {
             throw new Error(`Le graphique ${name} n'existe pas`)

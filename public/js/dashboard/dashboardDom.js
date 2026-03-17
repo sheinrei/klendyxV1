@@ -1,295 +1,329 @@
-import GraphController from "./GraphController.js";
-import {
-    getCurrentCredit,
-    getDataCalendar,
-    getPropositionRdv,
-} from "./fetchData.js";
+import { getAllRappelRdv, deleteRappel, getPropositionRdv, getCurrentCredit, getSyncProvider, createRappelRdv, deletePropositionRdv, updatePropositionRdv } from "./fetchData.js";
+import { setRappelCard, setTagRappelAttente } from "./rappelRdvComponent.js"
+import { setPropositionCard } from "./PropositionRdvComponent.js"
+import GraphChargeWeek from "./GraphChargeWeek.js";
+import { rappelFormHTML, btnSubmitNewRappel, setTemplateFormUpdateProposition } from "./templateFormModale.js";
 
-
-
-function getCountHoursEventInDay(event) {
-    const start = new Date(event.dateStart);
-    const end = new Date(event.dateEnd);
-    const diff = end.getTime() - start.getTime();
-    return (diff / 1000 / 60 / 60)
+// NAVIGATION des sections
+const sections = {
+    "rappel-rdv": "#section-rappel-rdv",
+    "proposition-rdv": "#section-proposition-rdv",
+    "abonnement": "#section-crédit-abonnement",
+    "agenda": "#section-agenda"
 };
 
+// gestion des hide de chaque sections
+const showSection = (sectionSelector) => {
+    Object.values(sections).forEach(e => $(e).hide());
+    $(sectionSelector).show();
+    $("button").removeClass("btn-link-activ")
+};
 
-
-function setDateWeek(switchWeek = 0) {
-    const week = [];
-    const today = new Date();
-
-    const currentDay = today.getDay();
-    const currentDate = today.getDate();
-
-    const mondayDate = currentDay === 0
-        ? currentDate - 6
-        : currentDate - (currentDay - 1);
-
-
-    for (let i = 0; i < 7; i++) {
-        const date = new Date(today);
-        date.setDate(mondayDate + i + (switchWeek * 7));
-        week.push(date.toLocaleDateString());
-    }
-
-
-    return week;
-}
-
-function setDOMCredit(data) {
-    $("#input-refresh-credit-date").text(data.refreshAt)
-    $("#input-current-sms-count").text(data.sms)
-    $("#input-current-email-count").text(data.mail)
-    $("#user-abonnement").text(data.plan)
-}
-
-async function setDOMCalendarSync(graphController, calendar) {
-    const textGoogleSync = calendar.google.sync ? "Synchronisé" : "Non synchronisé";
-    $("#user-calendar-sync-google").text(textGoogleSync);
-    $("#user-calendar-sync-outlook").text(calendar.outlook.sync ? "Synchronisé" : "Non synchronisé");
-    $("#user-calendar-sync-apple").text(calendar.apple.sync ? "Synchronisé" : "Non synchronisé");
-    const dataGraph = []
-    const labels = []
-    if (calendar.google.sync) {
-        const data = await getDataCalendar("google");
-        dataGraph.push(data.data.data.count);
-        labels.push("Google")
-
-    }
-    if (calendar.outlook.sync) {
-        const data = await getDataCalendar("outlook");
-        dataGraph.push(data.data.data.count);
-        labels.push("Outlook")
-    }
-    if (calendar.apple.sync) {
-        const data = await getDataCalendar("apple");
-        dataGraph.push(data.data.data.count);
-        labels.push("Apple")
-    }
-    const dataKlendyx = await getDataCalendar("klendyx")
-    dataGraph.push(dataKlendyx.data.data.count);
-    labels.push("Klendyx")
-    const ctx = document.getElementById("ctx-calendar-count")
-    graphController.createGraph("doughnut", ctx, labels, dataGraph, "calendarSync")
-}
-
-function setGraphEnvoie(graphController) {
-    const dataGraph = [12, 13, 12, 2, 12, 2, 1]
-    const labels = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
-    const ctx = document.getElementById("graph-envoie");
-    graphController.createGraph("bar", ctx, labels, dataGraph, "envoieGraph")
-}
-
-async function setGraphPropositionRdv(graphController) {
-    const ctx = document.getElementById("graph-proposition-rdv");
-    let labels = ["En attente", "Accepté", "Refusé"];
-    let dataGraph = [0, 0, 0]
-    const data = await getPropositionRdv()
-
-    if (data.data.length == 0) {
-        dataGraph = [1];
-        labels = ["Aucune Proposition de rendez-vous"]
-    }
-
-    data.data.forEach(proposition => {
-        if (!proposition.recipientResponse) {
-            dataGraph[0] += 1;
-            return
-        }
-        switch (proposition.recipientReponse) {
-            case "Accepté":
-                dataGraph[1] += 1;
-                break;
-            case "Refusé":
-                dataGraph[2] += 1;
-                break
-        }
-
-    })
-
-    graphController.createGraph("doughnut", ctx, labels, dataGraph, "propositionRdvGraph")
-}
-
-
-async function hydrateDataAndLabelsChargeWeek(dataCalendar, weekNumber) {
-    const labels = setDateWeek(weekNumber);
-    let data = [0, 0, 0, 0, 0, 0, 0];
-
-
-    Object.entries(dataCalendar).forEach(([provider, events]) => {
-
-        for (let i = 0; i < events.length; i++) {
-            const date = new Date(events[i].dateStart).toLocaleDateString();
-
-            for (let d = 0; d < labels.length; d++) {
-                if (date === labels[d]) {
-                    const minute = getCountHoursEventInDay(events[i]);
-                    data[d] += minute;
-                }
-            }
-        }
+// Boucle complette pour les events de click navgation
+Object.entries(sections).forEach(([key, selector]) => {
+    $(`#btn-link-${key}`).on("click", function () {
+        showSection(selector)
+        $(this).addClass("btn-link-activ")
     });
-
-    return {
-        labels,
-        data
-    }
-}
-
-
-async function setGraphChargeEvent(graphController, dataCalendar, weekNumber) {
-    const ctx = document.getElementById("graph-charge-event");
-    const prepareGraph = await hydrateDataAndLabelsChargeWeek(dataCalendar, weekNumber)
-    graphController.createGraph("line", ctx, prepareGraph.labels, prepareGraph.data, "Heures", "chargeEventGraph")
-}
-
-
-async function getAllDataCalendar(calendar) {
-    try {
-        const allData = {}
-        if (calendar.google.sync) {
-            const dataCalendar = await getDataCalendar("google");
-            allData["google"] = dataCalendar.data.data.events
-        }
-        if (calendar.outlook.sync) {
-            const dataCalendar = await getDataCalendar("google");
-            allData["outlook"] = dataCalendar.data.data.events
-        }
-        if (calendar.apple.sync) {
-            const dataCalendar = await getDataCalendar("apple");
-            allData["apple"] = dataCalendar.data.data.events
-        }
-        const dataCalendar = await getDataCalendar("klendyx");
-        allData["klendyx"] = dataCalendar.data.data.events;
-        console.log("Toute les data des events", allData)
-        return allData
-    } catch (err) {
-        console.log(err)
-        throw new Error(`Echec lors de la récupération de tout les évènements des calendars. Erreur : ${err.message}, liste des calendar Sync : ${calendar.apple}`)
-    }
-}
-
-
-async function setDOMPrositionRDV(data) {
-    if (!data.data.length) {
-        $("#subtitle-proposition-rdv").text("Vous n'avez pas de prosition de rendez-vous en cours");
-        return
-    }
-    $("#subtitle-proposition-rdv").text(`Vous avez ${data.data.length} prosition${data.data.length <= 1 ? "" : "s"} de rendez-vous en cours`);
-
-    data.data.forEach(proposition => {
-        const html = `<div class="card-proposition">
-        <header>
-        <p>Proposition créé le  ${dateToFr(proposition.createdAt)}</p>
-        </header>
-
-            <p>Destinataire :<strong> ${proposition.recipientName} </strong></p>
-            <p>Prosition de rendez-vous envoyé par ${proposition.methodContactEmail ? "email" : "sms"}</p>
-
-            <p>Détail du rendez-vous : </p>
-            <ul>
-                <li>Titre : ${proposition.title} </li>
-                <li>Date : ${dateToFr(proposition.dayStart)}</li>
-                <li>Horaire: de ${proposition.hourStart.replace(":", "h")} à  ${proposition.hourEnd.replace(":", "h")}</li>
-                <li>Commentaire ajouté : ${proposition.commentaire || "aucun"}</li>
-                <li>Etat de l'avancement : ${proposition.state}</li>
-            </ul>
-
-            <footer style="display:flex;flex-direction:row; justify-content:center;gap:20px; background-color:#FFFFFF">
-                <button class="btn-proposition delete-proposition" data-id="${proposition.id}">Supprimer la proposition</button>
-                <button class="btn-proposition resend-proposition" data-id="${proposition.id}">Renvoyer la proposition</button>
-            </footer>
-        </div>`
-        $("#input-cards-proposition-rdv").append(html)
-    });
-}
-
-
-
-// === Initialisation ===
-$(async function () {
-
-    const res = await fetch("/config");
-    const data = await res.json();
-    const host = data.host
-
-
-
-    // === Graphique ===
-    const graphController = new GraphController();
-    const credit = await getCurrentCredit()
-    setDOMCredit(credit.credit.data)
-    const calendarSync = await checkCalendarSync(host)
-    setDOMCalendarSync(graphController, calendarSync)
-
-    setGraphEnvoie(graphController)
-    setGraphPropositionRdv(graphController)
-
-    setDateWeek()
-    const dataCalendar = await getAllDataCalendar(calendarSync)
-
-    let weekNumber = 0
-    setGraphChargeEvent(graphController, dataCalendar, weekNumber)
-
-    const dataProposition = await getPropositionRdv();
-
-    setDOMPrositionRDV(dataProposition)
+});
 
 
 
 
+//DOM Section rappel rdv
+const rappelsRdv = await getAllRappelRdv()
 
-    // event 
-    $("#charge-event-previous-week").on("click", async function (e) {
-        e.preventDefault();
-        $(this).prop('disabled', true)
-        weekNumber--
-        const prepareGraph = await hydrateDataAndLabelsChargeWeek(dataCalendar, weekNumber)
-        graphController.updateGraph("chargeEventGraph", prepareGraph.labels, prepareGraph.data);
-        $(this).prop('disabled', false)
-    })
-
-    $("#charge-event-next-week").on("click", async function (e) {
-        e.preventDefault();
-        $(this).prop('disabled', true)
-        weekNumber++
-        const prepareGraph = await hydrateDataAndLabelsChargeWeek(dataCalendar, weekNumber)
-        graphController.updateGraph("chargeEventGraph", prepareGraph.labels, prepareGraph.data)
-        $(this).prop('disabled', false)
-    })
-
-
-    $(document).on("click", `.delete-proposition`, async function (e) {
-        e.preventDefault();
-        const propositionId = $(this).data("id")
-        const deleted = await fetch(`${host}/api/rdv/delete`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                eventId: propositionId
-            })
-        })
-        const data = await deleted.json()
-        if (data.success) {
-            createClassiqueModale("La prosition de rendez-vous a été supprimé avec succes");
-            const card = $(this).closest(".card-proposition");
-            $(card).remove()
-        } else {
-            createClassiqueModale(`${data.message}`)
-        }
-
-    })
-
-    $(document).on("click", `.resend-proposition`, async function (e) {
-        e.preventDefault();
-        const propositionId = $(this).data("id")
-
-        console.log(propositionId)
-    })
-
+rappelsRdv.data.map(rappel => {
+    const htmlElement = setRappelCard(rappel)
+    $("#section-card-rappel").append(htmlElement)
 
 })
+
+setTagRappelAttente(rappelsRdv)
+
+
+//DOM Event listener delete global
+$("body").on("click", ".btn-delete", async function (e) {
+    e.preventDefault()
+    const id = $(this).data("id");
+    const section = $(this).data("section")
+    if (section == "rappel-rdv") {
+        const deleted = await deleteRappel(id)
+
+        if (deleted.success) {
+            $(this).closest(".card-row").remove()
+            MessageAlert.create("information", "#input-message-alert", deleted.message)
+            const dataRappelUpdate = await getAllRappelRdv()
+            setTagRappelAttente(dataRappelUpdate)
+
+        }
+    }
+    if (section == "proposition-rdv") {
+
+        const deleted = await deletePropositionRdv(id)
+        MessageAlert.create("information", "#input-message-alert", deleted.message)
+        MessageAlert.removeMessage()
+        if (deleted.success) {
+            $(this).closest(".card").remove()
+        }
+    }
+})
+
+
+
+
+//Gestion création new rdv
+$("#btn-create-rappel").on("click", () => {
+    createClassiqueModale(rappelFormHTML)
+    $(".classique-modale-footer").append(btnSubmitNewRappel)
+
+})
+
+
+
+
+//Event listener submit new rappel rdv
+$("body").on("click", "#btn-submit-new-rappel", async () => {
+    const phone = $("#rappel-phone").val()
+    const email = $("#rappel-email").val()
+    const method = $("#rappel-method").val()
+    const dayEvent = $("#rappel-date").val()
+    const hourBefore = $("#rappel-hour-before").val()
+    const hourStart = $("#rappel-hour-start").val()
+    const hourEnd = $("#rappel-hour-end").val()
+    const nom = $("#rappel-nom").val()
+    const prenom = $("#rappel-prenom").val()
+
+    if (!prenom || !nom) {
+        MessageAlert.create("error", "#modale-input-message-alert", "Veuillez saisir le nom et prénom du destinataire.")
+        MessageAlert.removeMessage()
+        return
+    }
+
+    if (!dayEvent) {
+        MessageAlert.create("error", "#modale-input-message-alert", "Veuillez saisir une date.")
+        MessageAlert.removeMessage()
+        return
+    }
+
+    if (!hourStart || !hourEnd) {
+        MessageAlert.create("error", "#modale-input-message-alert", "Veuillez saisir une heure de début et de fin.")
+        MessageAlert.removeMessage()
+        return
+    }
+    if (!phone && !method.includes("sms")) {
+        console.log("pas de sms")
+
+        MessageAlert.create("error", "#modale-input-message-alert", "Veuillez saisir un numéro de téléphone si la méthode d'envoi est définie avec SMS.")
+        $(".classique-modale").scrollTop($(".classique-modale-header").scrollTop() + 100);
+
+        MessageAlert.removeMessage()
+        return
+    }
+
+    if (!email && method.includes("email")) {
+        MessageAlert.create("error", "#modale-input-message-alert", "Veuillez saisir un email si la méthode d'envoi est définie avec Email.")
+        MessageAlert.removeMessage()
+        return
+    }
+
+
+
+
+
+
+    const created = await createRappelRdv(phone, email, method, dayEvent, hourBefore, hourStart, hourEnd, nom, prenom);
+
+    if (!created.success) {
+        MessageAlert.create("error", "#input-message-alert", created.message)
+        setTimeout(() => {
+            MessageAlert.removeMessage()
+        }, 5000)
+    }
+
+    closeClassiqueModale()
+
+    console.log("id qui veitn d'être créé", created.id)
+
+    const dataCard = {
+        method,
+        state: created.state,
+        id: created.id,
+        dayEvent: created.dayEvent,
+        recipientNom: nom,
+        recipientPrenom: prenom
+    }
+
+    const newCard = setRappelCard(dataCard)
+    $("#section-card-rappel").append(newCard)
+    const numberCard = $(".card-row")
+    $("#tag-rappel-attente").text(`${numberCard.length} rappel en attente`)
+    //message alerte
+    MessageAlert.create("success", "#input-message-alert", created.message)
+    setTimeout(() => {
+        MessageAlert.removeMessage()
+    }, 5000)
+})
+
+
+
+
+
+
+
+
+/* ===============================
+DOM Section Proposition rdv
+=============================== */
+
+//création et injection des cards proposition
+const propositions = await getPropositionRdv()
+propositions.data.map(proposition => {
+    const html = setPropositionCard(proposition)
+    $("#section-card-proposition").append(html)
+})
+
+
+
+//event listener update proposition
+$(".btn-update-proposition").on("click", function (e) {
+    const id = $(this).data("id");
+    const thisEvent = propositions.data.filter(p => p.id == id)
+    console.log("Cet event a update : ", thisEvent)
+    createClassiqueModale(setTemplateFormUpdateProposition(thisEvent[0]))
+    $(".classique-modale-footer").append(`<button class="btn-primary" id="submit-update-proposition">Valider et envoyer</button>`)
+})
+
+$("body").on("click", "#submit-update-proposition", async () => {
+    console.log("updating purpose")
+    const title = $("#update-proposition-title").val()
+    const recipientName = $("#update-proposition-recipient-name").val()
+    const dayStart = $("#update-proposition-day-start").val();
+    const hourStart = $("#update-proposition-hour-start").val()
+    const hourEnd = $("#update-proposition-hour-end").val();
+    const method = $("#update-proposition-method").val();
+    const recipientEmail = $("#update-proposition-email").val()
+    const recipientPhone = $("#update-proposition-phone").val()
+
+    const methodContactSms = method.includes("sms")
+    const methodContactEmail = method.includes("email")
+
+    await updatePropositionRdv({ title, recipientName, dayStart, hourEnd, hourStart, recipientEmail, recipientPhone, methodContactSms, methodContactEmail })
+})
+
+
+
+
+
+
+/* ===============================
+DOM Section section credit
+=============================== */
+
+const plansAbonnement = {
+    "essais gratuit": {
+        sms: 5,
+        email: 20,
+        price: "0€/semaine"
+    },
+    "starter": {
+        sms: 50,
+        email: 200,
+        price: "19€/mois"
+    },
+    "pro": {
+        sms: 200,
+        email: 1000,
+        price: "49€/mois"
+    },
+    "ultimate": {
+        sms: 500,
+        email: 99999,
+        price: "94€/mois"
+    }
+}
+
+//recuperation des données
+const credit = await getCurrentCredit()
+const { sms, email, refreshAt, plan } = credit.data
+
+//mapping sur les deux cards de credit
+for (const method of ["sms", "email"]) {
+    const credit = method === "sms" ? sms : email
+
+    //max value de la progress
+    $(`#progress-credit-${method}`).attr("max", plansAbonnement[plan][method])
+
+    //Texte liée aux crédits
+    $(`#text-credit-${method}`).text(`${credit} restants sur ${plansAbonnement[plan][method]}`)
+
+    //value de la progress
+    $(`#progress-credit-${method}`).attr("value", plansAbonnement[plan][method] - credit)
+
+    //text credit used/period
+    $(`#credit-${method}-used`).text(`${plansAbonnement[plan][method] - credit} ${method} envoyés ${plan == "essais gratuit" ? "cette semaine" : "ce mois"}`)
+}
+
+
+$("#credit-header-date-refresh").text(`Votre abonnement se renouvelle automatiquement le ${new Date(refreshAt).toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" })}`)
+$("#plan-name").text(`Abonnement : ${plan} `)
+$("#credit-text-billing").text(`${plansAbonnement[plan].price} · Renouvelé le ${new Date(refreshAt).toLocaleDateString("FR-fr")}`)
+
+
+
+
+/* ===============================
+DOM Section section agenda
+=============================== */
+const calendarSync = await getSyncProvider()
+
+const badgeConnected = `
+<div class="badge-calendar-sync-active" role="status" aria-label="Calendrier connecté">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+        viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="m9 12 2 2 4-4"></path>
+    </svg>
+    <span>Connecté</span>
+</div>`;
+
+const badgeNotConnected = `
+<div class="badge-calendar-sync-none" role="status" aria-label="Calendrier non connecté">
+    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+        viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+     </svg>
+    <span>Non connecté</span>
+</div>`;
+
+for (const provider of ["google", "apple", "outlook"]) {
+
+    const isSync = calendarSync[provider]?.sync
+
+    //badge selon state synchronisation
+    $(`#badge-sync-${provider}`).append(isSync ? badgeConnected : badgeNotConnected)
+
+    //css de la cards selon state synchronisation
+    $(`#card-sync-${provider}`).addClass(isSync ? "card-sync-active" : "card-sync-none")
+
+    //Date de la synchronisation
+    $(`#date-sync-${provider}`).text(isSync ? `Depuis le ${calendarSync[provider]?.createdAt}` : `Non connecté`)
+
+    //affichage du bouton pour synchroniser
+    $(`#btn-sync-calendar-${provider}`).css("display", isSync ? "none" : "block");
+
+}
+
+
+$("#sync-calendar-google").on("click", () => window.location.href = "/api/calendar/google/auth")
+$("#sync-calendar-outlook").on("click", () => window.location.href = "/api/calendar/outlook/auth")
+$("#sync-calendar-apple").on("click", () => window.location.href = "/auth-icloud")
+
+//graph
+const graph = new GraphChargeWeek(calendarSync);
+graph.init();

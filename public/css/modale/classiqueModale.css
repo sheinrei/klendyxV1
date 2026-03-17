@@ -88,23 +88,22 @@
     gap: 12px;
 }
 
-.btn-primary {
-    background: #3b82f6;
-    color: white;
-    border: none;
-    padding: 10px 24px;
+/* FORMULAIRE DANS MODALE */
+.modale-label {
+    display: block;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.modale-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    font-size: 14px;
+    border: 1px solid #e5e7eb;
     border-radius: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
+    outline: none;
+    background: #fff;
+    color: #111;
 }
-
-.btn-primary:hover {
-    background: #2563eb;
-}
-
-.btn-primary:active {
-    transform: scale(0.98);
-}
-

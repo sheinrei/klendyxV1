@@ -14,9 +14,9 @@ import generateToken from "./../service/token/generateToken.js"
 //instance bdd
 import db from "./../sequelize.js"
 import sendFile from "./../service/sendFile.js";
-import { deleteUserSession } from "../service/userSession/deleteUserSession.js";
-import { createUserSession } from "../service/userSession/createUserSession.js";
-import { getUserSession } from "../service/userSession/getUserSession.js";
+import { UserSession } from "../service/userSession/ClassUserSession.js";
+
+
 import { updateUserData } from "../service/user/updateUser.js";
 import { KlendyxMailer } from "./../service/mailer/ClassMailer.js"
 import { deleteAccount } from "../service/user/deleteAccount.js";
@@ -24,7 +24,9 @@ import { deleteAccount } from "../service/user/deleteAccount.js";
 
 
 import { getAllEvents } from "../service/calendar/CalendarController.js";
-import { getUserPreference } from "../service/userPreference/crudUserPreference.js";
+
+import { UserPreference } from "../service/userPreference/ClassUserPreference.js";
+
 import { getAllContactFav } from "../service/contactFav/getContactFav.js";
 import { getCredit } from "../service/credit/getCredit.js";
 import { getUserRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
@@ -57,7 +59,7 @@ routerApiUser.post("/api/user/create", async (req, res) => {
 
     return res.json({
         success: true,
-        message: "Votre compte a été créé avec succès, pour finaliser votre inscription merci de valider votre compte via l'email qui vous a été envoyé."
+        message: "Votre compte a été créé avec succès. Pour finaliser votre inscription, veuillez valider votre compte via l’email qui vous a été envoyé."
     })
 })
 
@@ -191,9 +193,10 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
         }
 
         const userId = auth.userId
-        await createUserSession(db, userId)
+        const Session = new UserSession(userId).createUserSession()
+        
 
-        const userPreference = await getUserPreference(db, userId);
+        const userPreference = await new UserPreference(userId).getUserPreference()
 
         const user2FA = userPreference.data.doubleAuth
 
@@ -247,8 +250,7 @@ routerApiUser.post("/api/user/logout", authMiddleware, async (req, res) => {
         maxAge: 0
     })
 
-    await deleteUserSession(db, req)
-
+    new UserSession(req.userId).deleteUserSession()
     res.json({ message: "Utilisateur deconnecté" })
 })
 
@@ -281,7 +283,7 @@ routerApiUser.get("/api/user/session", authMiddlewareOptional, async (req, res) 
         return res.json({ logged: false })
     }
     const id = req.userId
-    const session = await getUserSession(db, req)
+    const session = await new UserSession(id).getUserSession()
     return session.logged
         ? res.json({ logged: true })
         : res.json({ logged: false })
@@ -343,7 +345,7 @@ routerApiUser.get("/api/user/export-data", authMiddleware, async (req, res) => {
     const userId = req.userId;
 
     const dataUser = await getUserData(db, userId);
-    const dataPreference = await getUserPreference(db, userId);
+    const dataPreference = await new UserPreference(userId).getUserPreference();
     const dataContactFavori = await getAllContactFav(db, req);
     const dataEventKlendyx = await getAllEvents("klendyx", db, userId);
     const dataCredit = await getCredit(db, userId)

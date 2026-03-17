@@ -57,6 +57,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="./js/config.js" defer></script>
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
@@ -75,15 +77,15 @@
 
 
 <body>
-    <section id="content" class="content">
+    <div id="content" class="content">
 
-        <main>
+        <div class="main">
 
             <header>
                 <div class="header-logo" style="margin-right: 20px;">
                     <img width="50" height="50"
                         src="https://img.icons8.com/external-xnimrodx-blue-xnimrodx/64/external-correct-calendar-xnimrodx-blue-xnimrodx.png"
-                        alt="external-correct-calendar-xnimrodx-blue-xnimrodx" />
+                        alt="external-correct-calendar-xnimrodx-blue-xnimrodx">
                 </div>
                 <div class="header-content">
                     <h1 class="header-title">Créer un rendez-vous</h1>
@@ -94,11 +96,11 @@
 
 
 
-            <section class="main-content-rdv">
+            <div class="main-content-rdv">
 
-                <section class="content-create-rdv-left">
+                <div class="content-create-rdv-left">
 
-                    <section class="card-rdv">
+                    <div class="card-rdv">
                         <div class="card-row-title">
                             <svg class="card-svg-title" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor"
@@ -115,15 +117,15 @@
 
                         <div class="frame-select-method-rdv">
 
-                            <label for="method-rdv-confirmation" class="card-select-method-rdv">
+                            <div class="card-select-method-rdv">
                                 <div class="card-row-title">
                                     <input type="radio" name="method-rdv" id="method-rdv-confirmation" checked>
                                     <span class="card-title">Confirmation</span>
                                 </div>
                                 <p>Confirme un rendez-vous avec la date et l'heure</p>
-                            </label>
+                            </div>
 
-                            <label for="method-rdv-proposition" class="card-select-method-rdv">
+                            <div class="card-select-method-rdv">
                                 <div class="card-row-title">
                                     <input type="radio" id="method-rdv-proposition" name="method-rdv">
                                     <span class="card-title">Proposition</span>
@@ -134,12 +136,12 @@
                                     tableau de
                                     bord
                                 </p>
-                            </label>
+                            </div>
                         </div>
-                    </section>
+                    </div>
 
                     <!-- search bar -->
-                    <section class="card-rdv frame-card-recapitulatif" id="frame-searching-bar">
+                    <div class="card-rdv frame-card-recapitulatif" id="frame-searching-bar">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -153,10 +155,10 @@
                             <input type="text" placeholder="Nom, prénom, email ou téléphonne" id="search-bar"
                                 autocomplete="one-time-code">
                         </div>
-                    </section>
+                    </div>
 
                     <!--info client -->
-                    <section class="card-rdv" id="frame-info-client">
+                    <div class="card-rdv" id="frame-info-client">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -223,11 +225,11 @@
                             <input type="text" id="data-rdv-phone" name="data-rdv-phone" placeholder="06 12 34 56 78">
                         </div>
 
-                    </section>
+                    </div>
 
 
                     <!--detail du rdv-->
-                    <section class="card-rdv" id="frame-detail-rdv">
+                    <div class="card-rdv" id="frame-detail-rdv">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -316,10 +318,10 @@
                                 placeholder="Informations supplémentaires"></textarea>
                         </div>
 
-                    </section>
+                    </div>
 
                     <!--methode contact -->
-                    <section class="card-rdv">
+                    <div class="card-rdv">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -353,11 +355,11 @@
                                 <span>Envoyer par SMS</span>
                             </label>
                         </div>
-                    </section>
+                    </div>
 
 
                     <!-- rappel rdv -->
-                    <section class="card-rdv" id="frame-rappel">
+                    <div class="card-rdv" id="frame-rappel">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -409,18 +411,18 @@
                                 <span>Envoyer le rappel par email</span>
                             </label>
                         </div>
-                    </section>
-                </section>
+                    </div>
+                </div>
 
 
 
 
 
 
-                <section class="content-create-rdv-right">
+                <div class="content-create-rdv-right">
 
                     <!--recap general-->
-                    <section class="card-rdv">
+                    <div class="card-rdv">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -447,7 +449,6 @@
                                             stroke-linecap="round"></path>
                                         <circle cx="10" cy="15" r="1.5" fill="currentColor"></circle>
                                         <circle cx="14" cy="15" r="1.5" fill="currentColor"></circle>
-                                    </svg>
                                     </svg>
                                     <span>Méthode rdv</span>
                                 </div>
@@ -635,9 +636,9 @@
 
 
 
-                    </section>
+                    </div>
 
-                    <section class="card-rdv" id="frame-sync-calendar">
+                    <div class="card-rdv" id="frame-sync-calendar">
                         <div class="card-row-title">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -658,7 +659,7 @@
                                 <input type="checkbox" id="external-klendyx" name="external-klendyx"
                                     style="display:none">
                                 <label class="external-label-calendar" for="external-klendyx" title="Klendyx">
-                                    <img width="38" height="38" src="./../images/litleLogo.png" alt="klendyx-logo" />
+                                    <img width="38" height="38" src="./../images/litleLogo.png" alt="klendyx-logo">
                                     <span class="badge">✔️</span>
                                 </label>
                             </div>
@@ -668,7 +669,7 @@
                                 <input type="checkbox" id="external-google" name="external-google" style="display:none">
                                 <label class="external-label-calendar" for="external-google" title="Google">
                                     <img width="38" height="38" src="https://img.icons8.com/fluency/48/google-logo.png"
-                                        alt="google-logo" />
+                                        alt="google-logo">
                                     <span class="badge">✔️</span>
                                 </label>
                             </div>
@@ -678,7 +679,7 @@
                                 <input type="checkbox" id="external-apple" name="external-apple" style="display:none">
                                 <label class="external-label-calendar" for="external-apple" title="Apple">
                                     <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png"
-                                        alt="mac-os" />
+                                        alt="mac-os">
                                     <span class="badge">✔️</span>
                                 </label>
                             </div>
@@ -690,24 +691,24 @@
                                 <label class="external-label-calendar" for="external-outlook" title="Outlook">
                                     <img width="38" height="38"
                                         src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
-                                        alt="microsoft-outlook-2019" />
+                                        alt="microsoft-outlook-2019">
                                     <span class="badge">✔️</span>
                                 </label>
                             </div>
                         </div>
 
-                    </section>
+                    </div>
 
                     <button class="btn btn-primary" id="btn-submit-rdv">Créer le rendez-vous </button>
 
 
                     <!--previsu sms-->
-                    <section class="card-rdv" id="previsualisation-sms">
+                    <div class="card-rdv" id="previsualisation-sms">
                         <div class="card-row-title"
                             style="border-bottom:2px solid var(--border-color); padding-bottom:15px">
-                            <svg aria-colcount="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24"
-                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" class="svg-selected">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="svg-selected">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                             </svg>
                             <span class="card-title">Apercu SMS</span>
@@ -775,10 +776,10 @@
                                 <p>Message</p>
                             </div>
                         </div>
-                    </section>
+                    </div>
 
                     <!--previsu email-->
-                    <section class="card-rdv" id="previsualisation-email">
+                    <div class="card-rdv" id="previsualisation-email">
                         <div class="card-row-title"
                             style="border-bottom:2px solid var(--border-color); padding-bottom:15px">
                             <svg class="card-svg-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -862,12 +863,12 @@
                                 <p>Votre équipe</p>
                             </div>
                         </div>
-                    </section>
+                    </div>
 
-                </section>
-            </section>
-        </main>
-    </section>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

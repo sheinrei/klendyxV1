@@ -23,8 +23,6 @@
 
 /* Header */
 .navbar-header {
-    display: flex;
-    align-items: center;
     border-bottom: 1px solid var(--border-color);
     gap: 6px;
 }
@@ -155,7 +153,7 @@ a:visited {
     }
 
     .item-nav {
-        margin: 5px
+        margin: 5px;
     }
 
     #content {

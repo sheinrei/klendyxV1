@@ -51,6 +51,7 @@ function checkPassword(password) {
 
     // Met à jour le message et la barre
     $("#strength-bar").prop("value", strength * 25);
+    $("#strength-bar").prop("aria-valuenow", strength * 25);
 
     const progress = document.querySelector("progress")
     if (strength == 1) progress.style.setProperty("--primary-color", "#a35454");

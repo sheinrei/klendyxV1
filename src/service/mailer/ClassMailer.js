@@ -77,6 +77,7 @@ export class KlendyxMailer {
     `
     }
 
+    //Assemble tout les élément pour former le corp complet de l'email
     _createFullHtml(htmlContent) {
         return `<body style="margin:0;padding:0; overflow:hidden;">
         <table width="50%" cellpadding="0" cellspacing="0" style="border:1px solid #b3b7be;border-radius:8px; overflow:hidden;">
@@ -97,6 +98,12 @@ export class KlendyxMailer {
     }
 
 
+    /**
+     * Envoie un email de rappel de rendez-vous
+     * @param {string} emailTitle 
+     * @param {string} htmlContent 
+     * @returns 
+     */
     async sendRappelRdv(emailTitle, htmlContent) {
         try {
             const html = this._createFullHtml(htmlContent)
@@ -109,7 +116,7 @@ export class KlendyxMailer {
             }
             return {
                 success: true,
-                message: `L'email de confirmation du rendez-vous a été envoyé au destinataire ${this.email} avec succès.`
+                message: `L'email de rappel de rendez-vous a été envoyé au destinataire ${this.email} avec succès.`
             }
 
         } catch (err) {
@@ -118,6 +125,11 @@ export class KlendyxMailer {
     }
 
 
+    /**
+     * Envoie un email avce code pour double auth
+     * @param {string} code 
+     * @returns 
+     */
     async send2FA(code) {
         try {
             const html = this._createFullHtml(template2FA.replace(/{code}/, code))
@@ -130,7 +142,7 @@ export class KlendyxMailer {
 
             return {
                 success: sending.messageId ? true : false,
-                message: sending.messageId ? `Email envoyé au destinataire ${this.email}` : `L'email n'a pas pu être envoyé au destinataire ${this.email}`
+                message: sending.messageId ? `L'email de double authentification a envoyé au destinataire ${this.email}` : `L'email n'a pas pu être envoyé au destinataire ${this.email}`
             }
         } catch (err) {
             return this._errorCatching(err)
@@ -138,6 +150,11 @@ export class KlendyxMailer {
     }
 
 
+    /**
+     * Envoie un email avec url pour confirmer suppression d'un compte
+     * @param {string} url 
+     * @returns 
+     */
     async sendDeleteAccount(url) {
         try {
             const html = this._createFullHtml(templateDeleteAccount.replace(/{url}/, url))
@@ -158,6 +175,15 @@ export class KlendyxMailer {
     }
 
 
+    /**
+     * Envoie un email pour notifier la résolution d'un matching de rendez-vous
+     * @param {number} id - userId de l'initialisateur
+     * @param {string} titleEvent - Le titre de l'événement du matching
+     * @param {string} dateEvent - La date de l'événement
+     * @param {string} hoursStart - Heure de détbut
+     * @param {string} hoursEnd - Heure de fin 
+     * @returns 
+     */
     async sendValidationMatching(id, titleEvent, dateEvent, hoursStart, hoursEnd) {
         try {
 
@@ -180,13 +206,19 @@ export class KlendyxMailer {
 
             return {
                 success: sending.messageId ? true : false,
-                message: sending.messageId ? `Un email de confirmation de suppression de votre compte vous a été envoyé par email.` : `L'email n'a pas pu être envoyé à l'adresse : ${this.email}`
+                message: sending.messageId ? `Un email de confirmation de la resolution de matching de rendez-vous a été envoyé à l'initialisateur.` : `L'email n'a pas pu être envoyé à l'adresse : ${this.email}`
             }
         } catch (err) {
             return this._errorCatching(err)
         }
     }
 
+    /**
+     * Envoie un email de confirmation de la resolution de matching à l'initialisateur.
+     * Redirige vers url pour voir le resultat et valider la date de matching
+     * @param {string} url - url de redirection vers la page de resolution matching et confirmation de propositions
+     * @returns 
+     */
     async sendResolvMatching(url) {
         try {
 
@@ -207,6 +239,20 @@ export class KlendyxMailer {
         }
     }
 
+
+
+    /**
+     * Envoie un email de confirmation d'un rendez-vous
+     * Param data pour le template de l'email
+     * @param {*} title 
+     * @param {*} commentaire 
+     * @param {*} prenom 
+     * @param {*} nameInitialisateur 
+     * @param {*} dayStart 
+     * @param {*} hourStart 
+     * @param {*} hourEnd 
+     * @returns 
+     */
     async sendConfirmationRdv(title, commentaire, prenom, nameInitialisateur, dayStart, hourStart, hourEnd) {
         try {
 
@@ -241,6 +287,13 @@ export class KlendyxMailer {
         }
     }
 
+    /**
+     * Envoie un email à l'initialisateur d'une proposition de rendez-vous pour notifier que cette propostion a été répondu.
+     * @param {*} req 
+     * @param {*} nameInitialisateur 
+     * @param {*} recipientFullName 
+     * @returns 
+     */
     async sendResolvPropositionRdv(req, nameInitialisateur, recipientFullName) {
         try {
             const responsProposition = req.body.responseUser == true ? "validé" : "refusé";
@@ -266,19 +319,23 @@ export class KlendyxMailer {
                 message: sending.messageId ? `Un email de confirmation de suppression de votre compte vous a été envoyé par email.` : `L'email n'a pas pu être envoyé à l'adresse : ${this.email}`
             }
         } catch (err) {
+            console.log(err)
             return this._errorCatching(err)
         }
     }
 
-    async sendPropositionRdv(url, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd) {
+
+    async sendPropositionRdv(url,nom, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd) {
         try {
 
-            const day = new Date(dayStart.replace(":", "-"))
+            let day = new Date(dayStart.replace(":", "-"))
             day = day.toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" })
+
+            const recipientFullName = `${prenom} ${nom}`
 
             const html = this._createFullHtml(
                 templatePropositionRdv
-                    .replace(/{prenom}/, prenom)
+                    .replace(/{PRENOM}/, prenom)
                     .replace(/{NAME_INITIALISATEUR}/, nameInitialisateur)
                     .replace(/{TITLE}/, title)
                     .replace(/{DAY}/, day)
@@ -288,7 +345,7 @@ export class KlendyxMailer {
                     .replace(/{URL}/, url)
             )
 
-            const mailOptions = this._createOption(`Votre proposition de rendez-vous avec ${recipientFullName} a été répondu`, html)
+            const mailOptions = this._createOption(`Votre proposition de rendez-vous avec ${recipientFullName}`, html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {
@@ -297,7 +354,7 @@ export class KlendyxMailer {
 
             return {
                 success: sending.messageId ? true : false,
-                message: sending.messageId ? `Un email de confirmation de suppression de votre compte vous a été envoyé par email.` : `L'email n'a pas pu être envoyé à l'adresse : ${this.email}`
+                message: sending.messageId ? `Un email de proposition de rendez-vous a été envoyé avec succès.` : `L'email n'a pas pu être envoyé à l'adresse : ${this.email}`
             }
         } catch (err) {
             return this._errorCatching(err)
@@ -339,6 +396,12 @@ export class KlendyxMailer {
         }
     }
 
+
+    /**
+     * Email envoyé lors de l'inscription pour valider un nouveau compte Klendyx
+     * @param {string} url - url vers la page qui va automatiquement confirmer le nouveau compte
+     * @returns 
+     */
     async sendVerifyAccount(url) {
         try {
             const html = this._createFullHtml(templateVerifyAccount.replace(/{URL}/, url))
@@ -358,11 +421,16 @@ export class KlendyxMailer {
         }
     }
 
+    /**
+     * Envoie un email avec un url pour modifier son mot de passe perdu
+     * @param {string} url - url de redirection vers la page de changement de mot de passe
+     * @returns 
+     */
     async sendForgotPassword(url) {
         try {
 
             const html = this._createFullHtml(templateForgotPassord.replace(/{URL}/, url))
-            const mailOptions = this._createOption(`Modifié votre mot de passe Klendyx`, html)
+            const mailOptions = this._createOption(`Modifiez votre mot de passe Klendyx`, html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {
@@ -378,6 +446,13 @@ export class KlendyxMailer {
         }
     }
 
+    
+    /**
+     * Envoie un email pour notifier à l'utilisateur que son mot de passe Klendyx a été modifié
+     * @param {*} User 
+     * @param {*} url 
+     * @returns 
+     */
     async sendPasswordChanged(User, url) {
         try {
             const prenom = User.prenom

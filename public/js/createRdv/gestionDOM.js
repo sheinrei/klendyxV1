@@ -139,7 +139,7 @@ async function setCredit(host) {
     })
     const resCurrentCredit = await getCurrentCredit.json()
     const currentSms = resCurrentCredit.data.sms
-    const currentEmail = resCurrentCredit.data.mail
+    const currentEmail = resCurrentCredit.data.email
     $("#credit-sms-preview").text(currentSms)
     $("#credit-email-preview").text(currentEmail)
 }

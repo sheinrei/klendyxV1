@@ -9,6 +9,7 @@ import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
 import routerApiUserPreference from "./src/api/apiUserPreference.js";
 import routerApiRdv from "./src/api/apiRdv.js";
+import routerApiRappelRdv from "./src/api/apiRappelRdv.js"
 import routerApiCredit from "./src/api/apiCredit.js";
 import routerApiComment from "./src/api/apiComment.js";
 import routerApiContactFav from "./src/api/apiContactFav.js";
@@ -47,6 +48,7 @@ app.use(express.static("public"));
 app.use("/", routerHtml);
 app.use("/", routerApiUser);
 app.use("/api/rdv", routerApiRdv)
+app.use("/api/rappel-rdv", routerApiRappelRdv)
 app.use("/api/credit", routerApiCredit)
 app.use("/api/comment", routerApiComment)
 app.use("/api/contact-favori", routerApiContactFav)

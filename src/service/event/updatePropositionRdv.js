@@ -19,7 +19,11 @@ export async function updatePropositionRdv(req, db) {
     if (!update) {
         return { success: false, message: "Erreur Serveur, merci de réessayer plus tard." }
     }
-    return { success: true, data:update, message: "Merci pour votre réponse, la notification a bien été prise en compte.\n Un message sera envoyé à l'initialisateur de la demande pour indiquer votre réponse." }
+    return {
+        success: true,
+        data: update,
+        message: "Merci pour votre réponse, la notification a bien été prise en compte.\nUn message sera envoyé à l'initialisateur de la demande pour indiquer votre réponse."
+    }
 }
 
 

@@ -277,11 +277,5 @@ $(async function () {
         }
     });
 
-    //clic sur retractation selon width client
-    const clientWidth = $("html").width();
-    if (clientWidth < 1024 && clientWidth > 560) {
-        $("#navbar-retract").click()
-    }
-
 
 })

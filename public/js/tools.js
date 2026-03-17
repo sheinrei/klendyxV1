@@ -65,6 +65,7 @@ const scrollTo = () => window.scrollTo({
 
 const firstToUpper = (string) => string[0].toUpperCase() + string.toLowerCase().slice(1)
 
+
 const dateToFr = (date) => {
     const ObjectDate = new Date(date);
     const dateFr = ObjectDate.toLocaleDateString("FR-fr", { day: "numeric", month: "long", year: "numeric" });

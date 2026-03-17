@@ -61,6 +61,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="./js/config.js" defer></script>
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
@@ -80,11 +82,11 @@
 <body>
     <section class="content" id="content">
 
-        <main>
+        <div class="main">
             <header>
                 <div class="header-logo" style="margin-right: 20px;">
                     <img width="60" height="60" src="https://img.icons8.com/papercut/60/contact-card.png"
-                        alt="contact-card" />
+                        alt="contact-card">
                 </div>
                 <div class="header-content">
                     <h1 class="header-title">Ajoutez des contacts dans vos favoris</h1>
@@ -94,16 +96,14 @@
             </header>
 
 
+            <div class="frame-contact">
 
-            <section class="frame-contact">
-
-                <section class="frame-add-contact">
+                <div class="frame-add-contact">
 
                     <header class="frame-row">
                         <svg class="contact-main-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-user-plus w-5 h-5 text-primary">
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                             <circle cx="9" cy="7" r="4"></circle>
                             <line x1="19" x2="19" y1="8" y2="14"></line>
@@ -189,10 +189,10 @@
                             Ajouter
                         </button>
                     </form>
-                </section>
+                </div>
 
 
-                <section class="frame-contact-saved">
+                <div class="frame-contact-saved">
                     <header class="frame-row">
                         <div class="contact-saved-header-left">
                             <svg class="contact-main-logo" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -248,12 +248,12 @@
                         </div>
 
                     </div>
-                </section>
+                </div>
 
-            </section>
+            </div>
 
 
-        </main>
+        </div>
     </section>
 </body>
 

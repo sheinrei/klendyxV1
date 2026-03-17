@@ -27,10 +27,10 @@ export function creditTable(sequelize) {
             allowNull: false,
             defaultValue: 5,
         },
-        mail: {
+        email: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 40,
+            defaultValue: 20,
 
         },
     }, {

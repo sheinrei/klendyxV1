@@ -58,6 +58,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="./../js/cdnFullCalendar.js" defer></script>
     <script src="./../js/config.js" defer></script>
     <script src="./../js/navbar.js" defer></script>
@@ -209,7 +211,7 @@
 <body>
     <section class="content" id="content">
 
-        <main>
+        <div class="main">
             <header>
                 <h1>Validez votre rendez-vous.</h1>
                 <p>Retrouvez les meilleurs horaires disponible selectionnés de façon inteligeante par Klendyx.</p>
@@ -219,10 +221,10 @@
             <div class="frame-main-content">
 
                 <div id="data-event-matching"></div>
-                <section class="calendar" id="calendar"></section>
+                <div class="calendar" id="calendar"></div>
             </div>
 
-        </main>
+        </div>
     </section>
 
 

@@ -59,6 +59,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
     <script src="./js/config.js" defer></script>
@@ -83,20 +85,24 @@
                 <header class="auth-header">
                     <h1 class="title">Klendyx</h1>
                     <p class="subtitle">Gérez vos rendez-vous en toute simplicité</p>
-                    <p id="input-message-alert"></p>
+                    <p id="input-message-alert" role="alert" aria-live="polite" aria-atomic="true"></p>
                 </header>
 
 
-                <!-- Swapper connexion/creation compte -->
-                <div class="auth-tabs">
-                    <button class="tab-btn active" data-tab="login">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- Swapper connexion/création compte -->
+                <div class="auth-tabs" role="tablist" aria-label="Formulaires d'authentification">
+                    <button class="tab-btn active" data-tab="login" role="tab" aria-selected="true"
+                        aria-controls="login-tab" id="tab-login">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            aria-hidden="true" focusable="false">
                             <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
                         </svg>
                         Connexion
                     </button>
-                    <button class="tab-btn" data-tab="register">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <button class="tab-btn" data-tab="register" role="tab" aria-selected="false"
+                        aria-controls="register-tab" id="tab-register">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            aria-hidden="true" focusable="false">
                             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                             <circle cx="9" cy="7" r="4" />
                             <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
@@ -106,13 +112,13 @@
                 </div>
 
                 <!-- Formulaire de connexion -->
-                <div class="tab-content active" id="login-tab">
-                    <form id="loginForm" class="auth-form">
+                <div class="tab-content active" id="login-tab" role="tabpanel" aria-labelledby="tab-login">
+                    <form id="loginForm" class="auth-form" novalidate>
                         <div class="form-group">
                             <label for="emailConnect" class="form-label">Adresse email</label>
                             <div class="input-wrapper">
                                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
+                                    stroke-width="2" aria-hidden="true" focusable="false">
                                     <path
                                         d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                     <polyline points="22,6 12,13 2,6" />
@@ -126,27 +132,28 @@
                             <label for="mdpConnect" class="form-label">Mot de passe</label>
                             <div class="input-wrapper">
                                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
+                                    stroke-width="2" aria-hidden="true" focusable="false">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                                     <circle cx="12" cy="16" r="1" />
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                 </svg>
                                 <input type="password" id="mdpConnect" name="mdpConnect"
-                                    placeholder="Votre mot de passe" required>
+                                    placeholder="Votre mot de passe" required 
+                                    autocomplete="current-password">
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">
-                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                aria-hidden="true" focusable="false">
                                 <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
                             </svg>
                             Se connecter
                         </button>
 
-                        <button type="submit" class="btn-google" id="login-google">
-                            <img width="38" height="38" src="https://img.icons8.com/color/48/google-logo.png"
-                                alt="google-logo" >
+                        <button type="button" class="btn-google" id="login-google" hidden>
+                            <img width="38" height="38" src="https://img.icons8.com/color/48/google-logo.png" alt=""
+                                aria-hidden="true">
                             <span>Se connecter avec Google</span>
                         </button>
 
@@ -157,14 +164,15 @@
                 </div>
 
                 <!-- Formulaire de création de compte -->
-                <div class="tab-content" id="register-tab">
-                    <form id="createUserForm" class="auth-form">
-                        <div class="form-row">
+                <div class="tab-content" id="register-tab" role="tabpanel" aria-labelledby="tab-register">
+                    <form id="createUserForm" class="auth-form" novalidate>
+                        <fieldset class="form-row" style="border:none; padding:0; margin:0;">
+                            <legend class="sr-only">Identité</legend>
                             <div class="form-group">
                                 <label for="nom" class="form-label">Nom</label>
                                 <div class="input-wrapper">
                                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                        stroke-width="2" aria-hidden="true" focusable="false">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                         <circle cx="12" cy="7" r="4" />
                                     </svg>
@@ -177,7 +185,7 @@
                                 <label for="prenom" class="form-label">Prénom</label>
                                 <div class="input-wrapper">
                                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                        stroke-width="2" aria-hidden="true" focusable="false">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                         <circle cx="12" cy="7" r="4" />
                                     </svg>
@@ -185,13 +193,13 @@
                                         placeholder="Votre prénom" required>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
 
                         <div class="form-group">
                             <label for="email" class="form-label">Adresse email</label>
                             <div class="input-wrapper">
                                 <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
+                                    stroke-width="2" aria-hidden="true" focusable="false">
                                     <path
                                         d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                                     <polyline points="22,6 12,13 2,6" />
@@ -201,21 +209,22 @@
                             </div>
                         </div>
 
+                        <p id="input-message-alert-password" role="alert" aria-live="polite" aria-atomic="true"></p>
 
-
-                        <p id="input-message-alert-password"></p>
-                        <div class="form-row">
+                        <fieldset class="form-row" style="border:none; padding:0; margin:0;">
+                            <legend class="sr-only">Mot de passe</legend>
                             <div class="form-group">
                                 <label for="mdp" class="form-label">Mot de passe</label>
                                 <div class="input-wrapper">
                                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                        stroke-width="2" aria-hidden="true" focusable="false">
                                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                                         <circle cx="12" cy="16" r="1" />
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                     </svg>
                                     <input type="password" id="mdp" name="mdp" autocomplete="new-password"
-                                        placeholder="Mot de passe" required>
+                                        placeholder="Mot de passe" required
+                                        aria-describedby="strength-desc">
                                 </div>
                             </div>
 
@@ -223,41 +232,44 @@
                                 <label for="mdpConfirm" class="form-label">Confirmer</label>
                                 <div class="input-wrapper">
                                     <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
+                                        stroke-width="2" aria-hidden="true" focusable="false">
                                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                                         <circle cx="12" cy="16" r="1" />
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                                     </svg>
                                     <input type="password" id="mdpConfirm" name="mdpConfirm" autocomplete="new-password"
-                                        placeholder="Confirmer mot de passe" required>
+                                        placeholder="Confirmer mot de passe" required >
                                 </div>
-
                             </div>
-                        </div>
-                        <progress id="strength-bar" max="100" value="0"
-                            title="Force du mot de passe"></progress>
+                        </fieldset>
+
+                        <progress id="strength-bar" max="100" value="0" title="Force du mot de passe"
+                            aria-label="Force du mot de passe" aria-valuemin="0"
+                            aria-valuenow="0"></progress>
+                        <span id="strength-desc" class="sr-only" aria-live="polite"></span>
 
                         <!-- Section professionnelle -->
-                        <div class="professional-section">
-                            <h2 class="section-title">
+                        <fieldset class="professional-section" style="border:none; padding:0; margin:0;">
+                            <legend class="section-title">
                                 <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
+                                    stroke-width="2" aria-hidden="true" focusable="false">
                                     <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
                                     <line x1="8" y1="21" x2="16" y2="21" />
                                     <line x1="12" y1="17" x2="12" y2="21" />
                                 </svg>
                                 Informations professionnelles (optionnel)
                                 <img src="https://img.icons8.com/color/50/circled-chevron-down.png"
-                                    id="toggle-entreprise" alt="image arrow pour plier/deplier un element"
-                                    class="icone-toggle">
-                            </h2>
+                                    id="toggle-entreprise" alt="Déplier les informations professionnelles"
+                                    class="icone-toggle" role="button" tabindex="0" aria-expanded="false"
+                                    aria-controls="entreprise-form">
+                            </legend>
 
-                            <div class="entreprise-form">
+                            <div class="entreprise-form" id="entreprise-form">
                                 <div class="form-group">
                                     <label for="raisonSocial" class="form-label">Raison sociale</label>
                                     <div class="input-wrapper">
                                         <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2">
+                                            stroke-width="2" aria-hidden="true" focusable="false">
                                             <path d="M3 21h18" />
                                             <path d="M5 21V7l8-4v18" />
                                             <path d="M19 21V11l-6-4" />
@@ -271,7 +283,7 @@
                                     <label for="siren" class="form-label">SIREN</label>
                                     <div class="input-wrapper">
                                         <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2">
+                                            stroke-width="2" aria-hidden="true" focusable="false">
                                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                                             <polyline points="14,2 14,8 20,8" />
                                             <line x1="16" y1="13" x2="8" y2="13" />
@@ -279,22 +291,24 @@
                                             <polyline points="10,9 9,9 8,9" />
                                         </svg>
                                         <input type="text" id="siren" name="siren" autocomplete="off"
-                                            placeholder="123 456 789" pattern="[0-9\s]*">
+                                            placeholder="123 456 789" pattern="[0-9\s]*" inputmode="numeric"
+                                            aria-describedby="siren-hint">
                                     </div>
+                                    <span id="siren-hint" class="sr-only">9 chiffres, espaces autorisés</span>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
 
                         <div>
-                            <input id="cgu" name="cgu" type="checkbox">
-                            <label for="cgu">Accepter les </label><a href="/condition-utilisation"
-                                style="font-weight:600; color: var(--primary-color)">conditions générales
-                                d'utilisation</a>
+                            <input id="cgu" name="cgu" type="checkbox" required>
+                            <label for="cgu">Accepter les <a href="/condition-utilisation"
+                                    style="font-weight:600; color: var(--primary-color)">conditions générales
+                                    d'utilisation</a></label>
                         </div>
 
                         <button type="submit" class="btn btn-primary">
-                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                aria-hidden="true" focusable="false">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                                 <circle cx="9" cy="7" r="4" />
                                 <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />

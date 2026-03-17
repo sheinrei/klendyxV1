@@ -56,7 +56,7 @@ export async function declencherNotificationsRdv() {
                 console.warn(`Rappel id=${id} : aucune méthode d'envoi définie`)
                 dataReturn.push({
                     id,
-                    error : `Rappel id=${id} : aucune méthode d'envoi définie`
+                    error: `Rappel id=${id} : aucune méthode d'envoi définie`
                 })
                 continue
             }
@@ -91,7 +91,14 @@ export async function declencherNotificationsRdv() {
                     try {
                         const mailer = new KlendyxMailer(email)
                         const title = "Rappel de votre rendez-vous"
-                        const result = await mailer.sendRappelRdv(title, `<div>${message}</div>`)
+                        const messageHtml = `
+                                        <tr>
+                                            <td style="padding:30px; font-size:16px; color:#333333;">
+                                            <p>${message}</p>
+                                            </td>
+                                        </tr>`
+
+                        const result = await mailer.sendRappelRdv(title, `<div>${messageHtml}</div>`)
                         stateSending.email = {
                             sent: result.success,
                             sentAt: result.success ? new Date().toISOString() : null,

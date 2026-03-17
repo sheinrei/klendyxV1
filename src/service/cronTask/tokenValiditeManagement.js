@@ -6,7 +6,8 @@ import db from "./../../sequelize.js"
 const TOKEN_RESSOURCE = [
     { type: "validationEventEmail", duration: 1000 * 60 * 60 * 24 * 2 }, // 2 jours
     { type: "2FA", duration: 1000 * 60 * 5 }, //5 minutes
-    { type: "deleteAccount", duration: 1000 * 10 }, //1000 * 60 * 60 * 12    12 heures
+    { type: "deleteAccount", duration: 1000 * 60 * 60 * 12 }, //12 heures
+    { type : "forgotPassword", duration : 1000 * 60 * 10 } //10 minutes
 ]
 
 

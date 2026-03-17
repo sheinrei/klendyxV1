@@ -23,10 +23,17 @@ class MessageAlert {
 
         element.textContent = message;
         $(input).append(element)
+        $(".classique-modale-body, html , body").scrollTop(0)
+        $()
     }
 
-    static removeMessage() {
-        $(".message-alert").remove()
+    
+    static removeMessage(delay=5000) {
+        setTimeout(()=>{
+            $(".message-alert").remove()
+        },delay)
     }
 }
+
+window.MessageAlert = MessageAlert
 

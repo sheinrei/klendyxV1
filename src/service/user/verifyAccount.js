@@ -1,7 +1,7 @@
 import tableToken from "./../../models/tokenTable.js"
 import tableUser from "./../../models/utilisateurTable.js";
 import { initCreditUser } from "../credit/initCreditUser.js";
-import { createUserPreference } from "../userPreference/crudUserPreference.js";
+import { UserPreference } from "../userPreference/ClassUserPreference.js";
 
 
 export default async function verifyAccount(token, id, db) {
@@ -26,7 +26,7 @@ export default async function verifyAccount(token, id, db) {
             }
         })
         let initCredit;
-        createUserPreference(db, userId)
+        await new UserPreference(userId).createUserPreference()
         try {
             initCredit = await initCreditUser(db, userId)
         } catch (err) {

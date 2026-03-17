@@ -58,6 +58,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="./js/config.js" defer></script>
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
@@ -73,11 +75,11 @@
     <section class="content" id="content">
 
 
-        <main>
+        <div class="main">
             <header>
                 <div class="header-logo" style="margin-right: 20px;">
                     <img width="60" height="60" src="https://img.icons8.com/papercut/60/secured-letter.png"
-                        alt="secured-letter" />
+                        alt="secured-letter">
                 </div>
                 <div class="header-content">
                     <h1 class="header-title">Contactez-nous</h1>
@@ -86,7 +88,7 @@
             </header>
 
 
-            <section class="main-frame">
+            <div class="main-frame">
                 <section class="contact-frame">
                     <h2>Vous avez des questions? Des remarques ou des idées de features, laissez-nous un message !</h2>
 
@@ -132,12 +134,12 @@
 
                     <button type="submit" id="btn-submit">Envoyer le message</button>
                 </form>
-            </section>
-        </main>
+            </div>
+        </div>
     </section>
 
 
-    <script defer>
+    <script>
         (() => {
             $("#btn-submit").on("click", async (e) => {
                 e.preventDefault()

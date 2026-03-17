@@ -31,6 +31,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="/js/config.js" defer></script>
     <script src="/js/footer.js" defer></script>
     <script src="/js/sessionExpire.js" defer></script>
@@ -61,7 +63,7 @@
                             <h2 class="sync-title">Synchronisation Google Calendar</h2>
                             <img id="retract-sync-google" width="40" height="40"
                                 src="https://img.icons8.com/fluency/48/circled-chevron-up.png"
-                                alt="circled-chevron-up" />
+                                alt="circled-chevron-up" >
                         </div>
 
 
@@ -107,22 +109,22 @@
 
             <p id="message-alert"></p>
 
-            <section class="frame-calendar">
+            <div class="frame-calendar">
                 <div id="calendar">
 
                     <button id="btn-submit-matching" class="btn-primary"
                         style="margin-top:5px;width:fit-content">Valider mes disponibilités</button>
                 </div>
 
-                <section class="calendar-tools">
+                <div class="calendar-tools">
                     <div id="external-events">
                         <span class="title-tools"><strong>Événements à la journée</strong></span>
-                        <div class="fc-event" id="drag-disponible" value="disponible">Disponible</div>
-                        <div class="fc-event" id="drag-preference" value="drag-preference">Date de préférence</div>
-                        <div class="fc-event" id="drag-indisponible" value="drag-indisponible">Indisponible</div>
+                        <div class="fc-event" id="drag-disponible" data-value="disponible">Disponible</div>
+                        <div class="fc-event" id="drag-preference" data-value="drag-preference">Date de préférence</div>
+                        <div class="fc-event" id="drag-indisponible" data-value="drag-indisponible">Indisponible</div>
                     </div>
 
-                    <section class="frame-calendar-tool">
+                    <div class="frame-calendar-tool">
                         <span class="title-tools">Gestion des indisponibilitées</span>
                         <div>
                             <p>Selectionner les jours où vous n'êtes pas disponible</p>
@@ -151,10 +153,10 @@
                             </div>
 
                         </div>
-                    </section>
+                    </div>
 
 
-                    <section class="frame-calendar-tool">
+                    <div class="frame-calendar-tool">
                         <div>
                             <span class="title-tools">Définir une plage d'horaire</span>
                             <div>
@@ -223,9 +225,9 @@
 
                         </div>
 
-                    </section>
-                </section>
-            </section>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </section>

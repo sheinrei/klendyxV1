@@ -1,10 +1,8 @@
 import express from "express";
 const routerApiUserPreference = express.Router()
 
-import db from "./../sequelize.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-import { deleteUserPreference, getUserPreference, updateUserPreference } from "../service/userPreference/crudUserPreference.js";
-
+import { UserPreference } from "../service/userPreference/ClassUserPreference.js";
 
 
 
@@ -12,7 +10,7 @@ import { deleteUserPreference, getUserPreference, updateUserPreference } from ".
 routerApiUserPreference.get("/get", authMiddleware, async (req, res) => {
     try {
         const userId = req.userId;
-        const get = await getUserPreference(db, userId);
+        const get = await new UserPreference(userId).getUserPreference();
         return res.json({ success: get.success, message: get.message, data: get.data })
 
     } catch (err) {
@@ -27,7 +25,7 @@ routerApiUserPreference.post("/update", authMiddleware, async (req, res) => {
     try {
         const userId = req.userId;
         const data = req.body.data
-        const updated = await updateUserPreference(db, userId, data)
+        const updated = await new UserPreference(userId).updateUserPreference(data)
         return res.json({ success: updated.success, message: updated.message })
 
     } catch (err) {
@@ -40,9 +38,8 @@ routerApiUserPreference.post("/update", authMiddleware, async (req, res) => {
 routerApiUserPreference.post("/delete", authMiddleware, async (req, res) => {
     try {
         const userId = req.userId;
-        const deleted = await deleteUserPreference(db, userId)
+        const deleted = await new UserPreference(userId).deleteUserPreference()
         return res.json({ success: deleted.success, message: updated.message })
-
     } catch (err) {
         console.log(err);
         return res.json({ success: false, message: "Une erreur est survenue, rééssayer plus tard si le problème persiste veuillez contacter notre support" })

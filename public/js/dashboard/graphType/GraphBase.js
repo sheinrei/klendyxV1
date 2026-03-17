@@ -55,31 +55,7 @@ class GraphBase {
         }
     }
 
-    setOptions() {
-        return {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                },
-                x: {
-                    ticks : {
-                        color:"black",
-                        font:{
-                            size:16,
-                            weight: "bolder",
-                            family : "Jura"
-                        }
-                    }
-                }
-            },
-            animation: {
-                duration: this.getAnimation().duration,
-                easing: this.getAnimation().easing,
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-        }
-    }
+
 
     destroyGraph() {
         this.chart?.destroy()

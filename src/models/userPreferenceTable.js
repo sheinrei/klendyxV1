@@ -20,6 +20,11 @@ export function userPreferenceTable(sequelize) {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
             allowNull : false
+        },
+        openDyslexie : {
+            type : DataTypes.BOOLEAN,
+            defaultValue : false,
+            allowNull:false
         }
     }, {
         timestamps: false

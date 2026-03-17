@@ -47,8 +47,6 @@ async function hydrateStateSyncCalendar(host) {
     $("#action-sync-outlook").text(data.outlook.sync ? "Révoquer" : "Synchroniser")
     $("#action-sync-apple").text(data.apple.sync ? "Révoquer" : "Synchroniser")
 
-    console.log(data.outlook.sync)
-
     data.google.sync
         ? $("#action-sync-google").addClass("btn-revok-calendar")
         : $("#action-sync-google").removeClass("btn-revok-calendar")
@@ -84,9 +82,10 @@ async function setUserPreference(host) {
     const data = await res.json();
     $("#user-2FA").prop("checked", data.data.doubleAuth);
     $("#user-notification-email").prop("checked", data.data.emailNotification);
+    $("#user-police-dislexique").prop("checked", data.data.openDyslexie)
 }
 
-async function setAbbonement(host) {
+async function setAbonnement(host) {
     const res = await fetch(`${host}/api/credit/get`, {
         method: "GET",
         headers: {
@@ -97,9 +96,9 @@ async function setAbbonement(host) {
     const textDataRefresh = `${dateToFr(data.data.refreshAt.split(" ")[0])} à ${data.data.refreshAt.split(" ")[1].replace(":", "h").slice(0, 3)}00`
 
     $("#user-plan").text(`Votre abbonnement : ${data.data.plan}`)
-
+    console.log(data.data)
     $("#user-credit-sms").text(data.data.sms)
-    $("#user-credit-email").text(data.data.mail)
+    $("#user-credit-email").text(data.data.email)
     $("#user-date-refresh-credit").text(textDataRefresh)
 }
 
@@ -139,7 +138,7 @@ $(async () => {
     hydrateDataUser(dataUser)
     hydrateStateSyncCalendar(host)
     setUserPreference(host)
-    setAbbonement(host)
+    setAbonnement(host)
     const redirect = window.localStorage.getItem("redirect")
     if (redirect) window.localStorage.removeItem("redirect")
 
@@ -314,6 +313,34 @@ $(async () => {
         console.log(data)
     })
 
+    //Préférence activer la police d'aide à la dyslexie
+    $("#user-police-dislexique").on("change", async function () {
+        try {
+            const state = $(this).is(":checked");
+            const updated = await fetch(`${host}/api/userPreference/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    data: {
+                        openDyslexie: state,
+                    }
+                })
+            })
+
+            const data = await updated.json()
+            localStorage.setItem("dyslexicFont", JSON.stringify(state));
+            state ? $("body").addClass("dyslexic-font") : $("body").removeClass("dyslexic-font")
+        } catch (err) {
+            console.error(`Erreur lors de la mise a jour de préférence de la police Dyslexique, error : ${err}`);
+            return {
+                success: false,
+                message: "Erreur lors de la mise a jour de préférence de la police Dyslexique"
+            }
+        }
+    })
+
 
     // === Sécurité ===
     //Préférence 2FA
@@ -336,7 +363,6 @@ $(async () => {
 
     $("#btn-export-data-user").on("click", function (e) {
         e.preventDefault();
-
         window.location.href = "/api/user/export-data"
     })
 

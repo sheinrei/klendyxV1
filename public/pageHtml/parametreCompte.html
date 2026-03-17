@@ -54,6 +54,8 @@
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+    <script src="/js/accessibility.js" defer></script>
+
     <script src="./js/config.js" defer></script>
     <script src="./js/navbar.js" defer></script>
     <script src="./js/footer.js" defer></script>
@@ -76,7 +78,7 @@
                 <h1>Paramètres du compte</h1>
             </header>
 
-            <section class="main-frame">
+            <div class="main-frame">
                 <!-- top card user-->
                 <div class="card-parametre-compte">
                     <div class="row-frame-space-between">
@@ -208,7 +210,7 @@
                                             </div>
                                         </div>
 
-                                        <label for="user-new-password-confirm">Confirmer le nouveau mot de passe</label>
+                                        <label for="new-password-confirm">Confirmer le nouveau mot de passe</label>
                                         <div class="input-row-password">
                                             <input type="password" id="new-password-confirm" name="new-password-confirm"
                                                 autocomplete="one-time-code">
@@ -221,8 +223,8 @@
                                             </svg>
                                         </div>
 
-                                        <progress id="progress-bar-password" max="100" value="0"
-                                            style="display:none" title="Force du mot de passe"></progress>
+                                        <progress id="progress-bar-password" max="100" value="0" style="display:none"
+                                            title="Force du mot de passe"></progress>
 
                                     </div>
                                     <button class="btn-black" id="btn-update-password">Changer</button>
@@ -278,7 +280,7 @@
 
                                 <label class="switch" for="user-enterprise-toggle">
                                     <input type="checkbox" class="input-checkbox-switch" id="user-enterprise-toggle"
-                                        name="user-enterprise-toggle" />
+                                        name="user-enterprise-toggle">
                                     <span class="track" aria-hidden="true"></span>
                                 </label>
                             </div>
@@ -309,7 +311,30 @@
 
                                 <label class="switch" for="user-notification-email">
                                     <input type="checkbox" class="input-checkbox-switch" id="user-notification-email"
-                                        name="user-notification-email" />
+                                        name="user-notification-email">
+                                    <span class="track" aria-hidden="true"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-parametre-compte">
+                        <div class="frame-row">
+                            <svg class="svg-card-title" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                            <div class="input-row">
+                                <div>
+                                    <p class="card-title">Activer la police OpenDyslexic</p>
+                                    <p class="card-subtitle">Améliorer la lisibilité pour les personnes dyslexiques</p>
+                                </div>
+
+                                <label class="switch" for="user-police-dislexique">
+                                    <input type="checkbox" class="input-checkbox-switch" id="user-police-dislexique"
+                                        name="user-police-dislexique">
                                     <span class="track" aria-hidden="true"></span>
                                 </label>
                             </div>
@@ -341,7 +366,7 @@
                                     </div>
                                     <label class="switch" for="user-2FA">
                                         <input type="checkbox" class="input-checkbox-switch" id="user-2FA"
-                                            name="user-2FA" />
+                                            name="user-2FA">
                                         <span class="track" aria-hidden="true"></span>
                                     </label>
                                 </div>
@@ -391,7 +416,7 @@
                     <div class="card-parametre-compte">
                         <div class="frame-row">
                             <img width="38" height="38" src="https://img.icons8.com/fluency/48/google-logo.png"
-                                alt="google-logo" />
+                                alt="google-logo">
                             <div>
                                 <p class="card-title">Google</p>
                                 <p class="card-subtitle">Etat de la synchronisation avec votre compte Google Calendar
@@ -408,8 +433,7 @@
 
                     <div class="card-parametre-compte">
                         <div class="frame-row">
-                            <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png"
-                                alt="mac-os" />
+                            <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png" alt="mac-os">
                             <div>
                                 <p class="card-title">Apple</p>
                                 <p class="card-subtitle">Etat de la synchronisation avec votre compte Apple
@@ -428,7 +452,7 @@
                         <div class="frame-row">
                             <img width="38" height="38"
                                 src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
-                                alt="microsoft-outlook-2019" />
+                                alt="microsoft-outlook-2019">
                             <div>
                                 <p class="card-title">Outlook</p>
                                 <p class="card-subtitle">Etat de la synchronisation avec votre compte Outlook
@@ -593,7 +617,7 @@
 
                 </section>
 
-            </section>
+            </div>
 
         </main>
     </div>

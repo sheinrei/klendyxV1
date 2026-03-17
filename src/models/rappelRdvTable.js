@@ -20,6 +20,14 @@ export function rappelRdvTable(sequelize) {
             type: DataTypes.STRING,
             allowNull: true,
         },
+        recipientPrenom: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        recipientNom: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         method: {
             type: DataTypes.STRING,
             allowNull: false,

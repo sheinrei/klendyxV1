@@ -1,10 +1,9 @@
 // Gestion des onglets
-
 $(document).ready(function () {
     $('.tab-btn').on('click', function () {
         MessageAlert.removeMessage()
         const tabName = $(this).data('tab');
-
+        
         // Retirer la classe active des onglets et contenu
         $('.tab-btn').removeClass('active');
         $('.tab-content').removeClass('active');

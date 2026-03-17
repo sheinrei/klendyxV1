@@ -18,7 +18,7 @@ routerApiCalendar.post("/get-events", authMiddleware, async (req, res) => {
 
         const events = await getAllEvents(provider, db, userId)
 
-        return res.json({
+        return res.status(events.success? 200 : 400).json({
             success: events.success,
             data: events.data,
         })

@@ -8,7 +8,8 @@ tmp/
 sandbox.js
 todo.mk
 plan.json
+cronLog.jsonl
 
 # Dépendances
 node_modules/
-
+radicaleUSer.txt
