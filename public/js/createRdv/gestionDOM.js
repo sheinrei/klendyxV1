@@ -51,6 +51,8 @@ function setDataRecapitulatif(stateToggleRappel) {
 }
 
 
+
+//PREVISU EMAIL
 function setDataPrevisualisationEmail(nameInitialisateur) {
 
     const email = $("#data-rdv-email").val();
@@ -110,6 +112,8 @@ function parseDateToFr(date) {
     return dateParsed
 }
 
+
+//PREVISU SMS
 function setDataPrevisualisationSms(nameInitialisateur) {
 
     const title = $("#data-rdv-title").val() || "[Titre]";
@@ -243,4 +247,8 @@ $(async function () {
     })
 
 
+    //Event pour le choix de la methode, click sur la card pour checked l'input radio
+    $(".card-select-method-rdv").on("click", function () {
+        $(this).find("input[type='radio']").prop("checked", true);
+    })
 })

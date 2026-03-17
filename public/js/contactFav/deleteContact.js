@@ -6,12 +6,10 @@ $(document).on("click", "#btn-delete", async function (e) {
 
     const config = await getConfig()
     const host = config.host;
-    const token = window.localStorage.getItem("token")
 
     const res = await fetch(`${host}/api/contact-favori/delete`, {
         method: "POST",
         headers: {
-            "Authorization": "Bearer " + token,
             "Content-Type": "Application/json"
         },
         body: JSON.stringify({

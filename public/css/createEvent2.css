@@ -3,26 +3,32 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 50px;
     width: 100%;
+    max-width: 100%;
+    gap:30px
 }
 
 .content-create-rdv-left {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 55%;
-    max-width: 600px;
-    min-width: 500px; 
+    padding: 30px;
+    padding-right: 15px;
+    min-width: 0;
+    flex: 1;
+    min-width:460px;
+    max-width : 700px;
 }
 
 .content-create-rdv-right {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 30%;
-    max-width: 390px;
-    min-width: 290px; 
+    padding: 30px;
+    padding-left: 15px;
+    min-width: 370px;
+    max-width: 500px;
+    flex: 1
 }
 
 
@@ -385,7 +391,7 @@ input[type="checkbox"]:checked::before {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap:30px;
+    gap: 30px;
 }
 
 .external-form-group-calendar {
@@ -509,20 +515,15 @@ input[type="checkbox"]:checked+.external-label-calendar .badge {
     color: var(--text-secondary)
 }
 
-@media(max-width : 1200px) {
+
+
+@media(max-width:1024px) {
     .main-content-rdv {
         flex-direction: column;
         align-items: center;
+        justify-content: flex-start;
     }
-
-    .content-create-rdv-left,
-    .content-create-rdv-right {
-         min-width: 100px; 
-        width: 70%;
-    }
-
 }
-
 
 @media(max-width:768px) {
     .main-content-rdv {
@@ -536,6 +537,7 @@ input[type="checkbox"]:checked+.external-label-calendar .badge {
     .content-create-rdv-left,
     .content-create-rdv-right {
         width: 90%;
+        padding: 30px
     }
 
     .form-group-row {
@@ -549,11 +551,26 @@ input[type="checkbox"]:checked+.external-label-calendar .badge {
     }
 }
 
-@media(max-width:500px) {
+@media(max-width:460px) {
+
+
+    .content-create-rdv-right,
+    .content-create-rdv-left {
+        width: 100%;
+        padding: 10px;
+        padding-bottom: 20px;
+        box-sizing: border-box;
+        min-width: 0px
+    }
 
     input,
     .label-full-row {
         font-size: 14px;
         padding: 10px 5px;
+    }
+
+    .frame-select-method-rdv {
+        display: flex;
+        flex-direction: column;
     }
 }

@@ -135,7 +135,7 @@ header {
     justify-content: center;
 
     background-color: var(--main-bg);
-
+    margin-bottom:50px
 }
 
 
@@ -204,7 +204,12 @@ button[type="submit"]:active {
 
 @media(max-width:1024px) {
     .main-frame {
-        width: 80%;
+        width: 85%;
+    }
+
+    .contact-frame{
+        width:100%;
+        padding : 30px 
     }
 }
 

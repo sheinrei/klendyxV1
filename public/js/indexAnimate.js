@@ -13,7 +13,7 @@ function arrowBouncing() {
 
 
 let positionCardFloating = 0;
-let directionCardFloating = 0.20; //vitesse de déplacement
+let directionCardFloating = 0.22; //vitesse de déplacement
 function animateFloatingCard() {
     positionCardFloating += directionCardFloating;
     if (positionCardFloating > 15 || positionCardFloating < 0) { //range max

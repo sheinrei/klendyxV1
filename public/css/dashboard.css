@@ -12,7 +12,13 @@ h1 {
 .dashboard-header {
     border-bottom: 1px solid var(--border-color);
     background-color: white;
-    padding: 12px 32px
+    padding: 12px 24px
+}
+
+.dashboard-header nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px
 }
 
 .btn-link {
@@ -38,6 +44,12 @@ h1 {
     background-color: var(--primary-color);
     color: white
 }
+
+.nav-svg-container {
+    margin-right: 6px;
+}
+
+
 
 
 /* SECTION */
@@ -277,16 +289,14 @@ progress::-moz-progress-bar {
 
 
 .card.card-sync-active {
-    min-width: 285px;
-    max-width: 50%;
+    width: 100%;
     border: 2px solid rgba(43, 171, 111, 0.4);
     background-color: rgba(43, 171, 111, 0.05);
 }
 
 
 .card.card-sync-none {
-    min-width: 285px;
-    max-width: 50%;
+    width: 100%;
     border: 2px solid #EAEBF0;
     background-color: #F8F9FA;
 }
@@ -365,8 +375,28 @@ progress::-moz-progress-bar {
 
 
 /* RESPONCIV */
+@media(min-width:1200px) {
+    .sub-section {
+        padding: 32px 200px
+    }
+}
+
+@media(max-width:1024px) {
+
+    .dashboard-header {
+        padding: 12px 16px
+    }
+
+    .btn-link {
+        padding: 4px 8px
+    }
+}
 
 @media(max-width:768px) {
+
+    .content {
+        flex-direction: column;
+    }
 
     /* SECTION PROPOSITION */
     .card-row {
@@ -389,6 +419,17 @@ progress::-moz-progress-bar {
         flex-direction: column;
         width: 100%;
     }
+
+    /* section credit */
+    .credit-row {
+        flex-direction: column;
+    }
+
+    /* section agenda */
+    .card-graph-event .flex-row {
+        align-items: center;
+        justify-content: space-between;
+    }
 }
 
 @media(max-width:460px) {
@@ -404,6 +445,20 @@ progress::-moz-progress-bar {
         padding: 12px
     }
 
+    /* rappel rdv */
+    .header-row {
+        flex-direction: column;
+        margin-bottom: 20px;
+        justify-content: center !important;
+        gap: 0
+    }
+
+    /* proposition rdv */
+    .proposition-row {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
 
     /* agenda */
 
@@ -412,9 +467,12 @@ progress::-moz-progress-bar {
         max-width: 100%
     }
 
+
+
     .card-graph-event {
         padding-bottom: 90px;
     }
+
 
     .card-graph-event .flex-row {
         flex-direction: column;

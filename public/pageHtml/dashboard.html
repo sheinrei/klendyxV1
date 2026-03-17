@@ -39,7 +39,7 @@
 
 
 <body>
-    <main class="content" id="content" style="flex-direction: row;align-items: flex-start;">
+    <div class="content" id="content">
 
         <div class="page-content">
 
@@ -48,47 +48,55 @@
                 <h1>Tableau de bord</h1>
                 <nav role="tablist" aria-label="Navigation du tableau de bord">
                     <button id="btn-link-rappel-rdv" class="btn-link btn-link-activ" role="tab" aria-selected="true">
-                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
-                        </svg>
-                        <span>Rappels de rendez-vous</span>
+                        <div class="nav-svg-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Rappels de rendez-vous</span>
                     </button>
 
                     <button id="btn-link-proposition-rdv" class="btn-link" role="tab">
-                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <path
-                                d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z">
-                            </path>
-                            <path d="m21.854 2.147-10.94 10.939"></path>
-                        </svg>
-                        <span>Propositions de rendez-vous</span>
+                        <div class="nav-svg-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path
+                                    d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z">
+                                </path>
+                                <path d="m21.854 2.147-10.94 10.939"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Propositions de rendez-vous</span>
                     </button>
 
                     <button id="btn-link-abonnement" class="btn-link" role="tab">
-                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <rect width="20" height="14" x="2" y="5" rx="2"></rect>
-                            <line x1="2" x2="22" y1="10" y2="10"></line>
-                        </svg>
-                        <span>Crédit et abonnement</span>
+                        <div class="nav-svg-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <rect width="20" height="14" x="2" y="5" rx="2"></rect>
+                                <line x1="2" x2="22" y1="10" y2="10"></line>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Crédit et abonnement</span>
                     </button>
 
                     <button id="btn-link-agenda" class="btn-link" role="tab">
-                        <svg style="margin-right:6px" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                            <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
-                            <path d="M18 17V9"></path>
-                            <path d="M13 17V5"></path>
-                            <path d="M8 17v-3"></path>
-                        </svg>
-                        <span>Agenda et statistiques</span>
+                        <div class="nav-svg-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+                                <path d="M18 17V9"></path>
+                                <path d="M13 17V5"></path>
+                                <path d="M8 17v-3"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Agenda et statistiques</span>
                     </button>
                 </nav>
             </header>
@@ -99,7 +107,7 @@
             <!--SECTION RAPPEL DE RENDEZ-VOUS-->
             <div class="sub-section" id="section-rappel-rdv" aria-live="polite" role="tabpanel"
                 aria-labelledby="btn-link-rappel-rdv">
-                <div class="flex-row" style="justify-content: space-between;">
+                <div class="flex-row header-row" style="justify-content: space-between;">
                     <h2>Rappels de rendez-vous</h2>
                     <div>
                         <button class="btn-primary" id="btn-create-rappel">
@@ -164,7 +172,7 @@
                 </div>
 
 
-                <div class="flex-row">
+                <div class="flex-row credit-row">
                     <!--CARD SMS-->
                     <div class="card">
                         <div style="display:flex; flex-direction: column;">
@@ -267,7 +275,7 @@
                         <span class="card-title">État de synchronisation</span>
                     </div>
 
-                    <div class="flex-row">
+                    <div class="flex-col">
                         <!--sync google-->
                         <div class="card flex-col" id="card-sync-google">
                             <span id="badge-sync-google" role="status"></span>
@@ -355,7 +363,7 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </body>
 
 </html>

@@ -57,7 +57,7 @@
 
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous" defer></script>
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="/js/accessibility.js" defer></script>
 
     <script src="./js/config.js" defer></script>
@@ -140,54 +140,54 @@
 
 
     <script>
-        (() => {
-            $("#btn-submit").on("click", async (e) => {
-                e.preventDefault()
-                const config = await getConfig()
-                const host = config.host
+    
+        $("#contact-form").on("submit", async function (e) {
+            e.preventDefault()
+            const config = await getConfig()
+            const host = config.host
 
-                const nom = $("#nom").val();
-                const prenom = $("#prenom").val();
-                const email = $("#email").val();
+            const nom = $("#nom").val();
+            const prenom = $("#prenom").val();
+            const email = $("#email").val();
 
-                const categorie = $("#sujet").val();
-                const message = $("#message").val()
+            const categorie = $("#sujet").val();
+            const message = $("#message").val()
 
-                console.log({
+            console.log({
+                nom,
+                prenom,
+                email,
+                categorie,
+                message
+            })
+
+            const array = [nom, prenom, email, categorie, message];
+
+            if (!array.every((current) => current.length > 0)) {
+                createClassiqueModale("Veuillez remplir tout les champs pour soumettre votre commentaire.")
+                return
+            }
+
+            const res = await fetch(`${host}/api/comment/post`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json",
+                },
+                body: JSON.stringify({
                     nom,
                     prenom,
                     email,
                     categorie,
-                    message
+                    commentaire: message,
                 })
-
-                const array = [nom, prenom, email, categorie, message];
-
-                if (!array.every((current) => current.length > 0)) {
-                    createClassiqueModale("Veuillez remplir tout les champs pour soumettre votre commentaire.")
-                    return
-                }
-
-                const res = await fetch(`${host}/api/comment/post`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "Application/json",
-                    },
-                    body: JSON.stringify({
-                        nom,
-                        prenom,
-                        email,
-                        categorie,
-                        commentaire: message,
-                    })
-                })
-                const data = await res.json()
-                if (data.success) {
-                    createClassiqueModale(data.message)
-                    document.getElementById("contact-form").reset()
-                }
-
             })
+            const data = await res.json()
+            console.log(data)
+            if (data.success) {
+                createClassiqueModale(data.message)
+                document.getElementById("contact-form").reset()
+            }
+
         })
 
     </script>

@@ -4,7 +4,7 @@ import { Op } from "sequelize"
 
 
 /**
- * @typedef {object} ContactFavoriResult
+ * @typedef {Promise<object>} ContactFavoriResult
  * @property {boolean} success - Le resultat du traitement
  * @property {string} message - Message descriptif
  * @property {Object|null} data - Le(s) contact(s) favoris ou null
@@ -127,12 +127,12 @@ export class ContactFavoris {
      */
     async getAllContactFav() {
         try {
-            const [getContacts] = await this.TableContactFavoris.findAll({
-                where: { userId }
+            const getContacts = await this.TableContactFavoris.findAll({
+                where: { userId : this.userId }
             });
             return {
-                success: getContacts > 0,
-                message: getContacts > 0
+                success: !!getContacts,
+                message: getContacts 
                     ? "Contacts récupérés avec succès."
                     : "Aucun contact disponible.",
                 data: getContacts

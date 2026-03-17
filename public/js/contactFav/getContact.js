@@ -8,7 +8,7 @@ async function getContactRender() {
 
     })
     const data = await res.json()
-
+    console.log(data)
     $("#contact-saved-subtitle").text(`${data.data.length} contacts enregistrés`)
 
     for (let i = 0; i < nombreContactAfficghage; i++) {

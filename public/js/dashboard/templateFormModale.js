@@ -119,7 +119,7 @@ export const btnSubmitNewRappel = `
 </button>`
 
 
-
+/* 
 export const setTemplateFormUpdateProposition = (data) => {
 
   const { dayStart, hourStart, hourEnd, title, recipientName, recipientPhone, recipientEmail } = data;
@@ -185,4 +185,4 @@ export const setTemplateFormUpdateProposition = (data) => {
 
     </div>
   `
-}
+} */

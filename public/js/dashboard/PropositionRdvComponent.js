@@ -12,20 +12,6 @@ const frDay = (numericDay) => {
 }
 
 
-const setBtnUpdate = (idProposition) => `
-            <button class="btn-primary btn-update-proposition" data-id=${idProposition} >
-            <div class="svg-container-small">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen h-3.5 w-3.5"
-                    focusable="false" aria-hidden="true">
-                    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path>
-                </svg>
-            </div>
-                Modifier
-            </button>
-`
-
 
 
 const setBtnDelete = (idProposition, state) => `
@@ -109,7 +95,6 @@ const tagRecipientResponse = (data) => {
 
 export const setPropositionCard = (data) => {
 
-    console.log(data)
     const idProposition = data.id
     const { recipientName, dayStart, hourStart, hourEnd } = data
 
@@ -121,7 +106,7 @@ export const setPropositionCard = (data) => {
 
     return `
     <div class='card' style="margin-bottom:12px">
-        <div class="flex-row"  style="justify-content:space-between">
+        <div class="flex-row proposition-row"  style="justify-content:space-between">
             <div class="flex-row">
                 <div class="svg-container">
                     <svg class="svg" xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +127,7 @@ export const setPropositionCard = (data) => {
             <div class="flex-col">
                 <div class="flex-row">
                     ${tagRecipientResponse(data)}
-                    ${data.state === "Repondu" ? setBtnDelete(idProposition, data.state) : setBtnUpdate(idProposition)}
+                    ${data.state === "Repondu" ? setBtnDelete(idProposition, data.state) : ""}
                 </div>
             </div>
         </div>
@@ -183,4 +168,20 @@ const setBtnReSend = (idProposition) => `
             </div>
                 Renvoyer
             </button>
-` */
+`
+
+const setBtnUpdate = (idProposition) => `
+            <button class="btn-primary btn-update-proposition" data-id=${idProposition} >
+            <div class="svg-container-small">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen h-3.5 w-3.5"
+                    focusable="false" aria-hidden="true">
+                    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path>
+                </svg>
+            </div>
+                Modifier
+            </button>
+`
+
+*/

@@ -2,7 +2,7 @@ import { getAllRappelRdv, deleteRappel, getPropositionRdv, getCurrentCredit, get
 import { setRappelCard, setTagRappelAttente } from "./rappelRdvComponent.js"
 import { setPropositionCard } from "./PropositionRdvComponent.js"
 import GraphChargeWeek from "./GraphChargeWeek.js";
-import { rappelFormHTML, btnSubmitNewRappel, setTemplateFormUpdateProposition } from "./templateFormModale.js";
+import { rappelFormHTML, btnSubmitNewRappel, } from "./templateFormModale.js";
 
 // NAVIGATION des sections
 const sections = {
@@ -186,13 +186,13 @@ propositions.data.map(proposition => {
 
 
 //event listener update proposition
-$(".btn-update-proposition").on("click", function (e) {
+/* $(".btn-update-proposition").on("click", function (e) {
     const id = $(this).data("id");
     const thisEvent = propositions.data.filter(p => p.id == id)
     console.log("Cet event a update : ", thisEvent)
     createClassiqueModale(setTemplateFormUpdateProposition(thisEvent[0]))
     $(".classique-modale-footer").append(`<button class="btn-primary" id="submit-update-proposition">Valider et envoyer</button>`)
-})
+}) */
 
 $("body").on("click", "#submit-update-proposition", async () => {
     console.log("updating purpose")

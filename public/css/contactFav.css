@@ -1,12 +1,12 @@
-.frame-contact{
+.frame-contact {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    gap:30px;
-    padding-top: 100px;
-    width:100%;
+    gap: 20px;
+    padding: 30px;
+    width: 100%;
+    margin-bottom: 50px;
 }
 
 
@@ -29,12 +29,12 @@
     border: 1px solid var(--border-color);
     border-radius: 15px;
     padding: 30px;
-    width: 40%;
-    max-width: 350px;
+    width: 100%;
+    max-width: 450px;
+
     display: flex;
     flex-direction: column;
     background-color: white;
-    margin-bottom: 40px;
 }
 
 .frame-row {
@@ -99,8 +99,8 @@ header p:first-child {
 
 .frame-contact-saved {
     border: 1px solid var(--border-color);
-    width: 50%;
-    min-width: 700px;
+    width: 100%;
+    max-width: 800px;
     height: fit-content;
     background-color: white;
     border-radius: 30px;
@@ -132,20 +132,22 @@ header p:first-child {
     align-items: center;
 }
 
-.contact-saved-header-right select{
+.contact-saved-header-right select {
     height: 50px;
-    border-radius:5px;
-    margin-left:5px
+    border-radius: 5px;
+    margin-left: 5px;
+    padding-left: 5px;
+    cursor: pointer;
 }
 
-.searching-bar{
-    display:flex;
+.searching-bar {
+    display: flex;
     flex-direction: row;
     align-items: center;
     height: 100%;
 }
 
-.logo-searching{
+.logo-searching {
     transform: translateX(32px);
 }
 
@@ -153,65 +155,66 @@ header p:first-child {
     background-color: var(--input-color);
     font-size: 18px;
     padding: 14px 20px;
-    padding-left:34px;
+    padding-left: 34px;
     width: 100%;
     border-radius: 8px;
     border: 1px solid #ccc;
 }
 
-
-
-
-
-.contact-table-header, .contact-row {
-    background-color: #F4F7FA;
-    width: calc(100% + 60px);
-    transform: translateX(-30px);
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 1fr;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-
+.svg-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFEEFE;
+    padding: 8px;
+    border-radius: 8px
 }
 
 
-.contact-table-header p, .contact-row p{
+
+.contact-table-header,
+.contact-row {
+    background-color: #F4F7FA;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+    border: 1px solid var(--border-color);
+}
+
+
+.contact-table-header p,
+.contact-row p {
     text-align: center;
 }
 
 
-.contact-row{
-    background-color:white;
-    border-top:none;
+.contact-row {
+    background-color: white;
+    border-top: none;
 }
 
-.contact-row:hover{
-    background-color:rgb(249, 249, 249)
+.contact-row:hover {
+    background-color: rgb(249, 249, 249)
 }
 
 
 
-#btn-delete,#btn-update{
-    border:none;
-    background-color:transparent;
+.btn-contact-delete,
+.btn-contact-update {
+    border: none;
+    background-color: transparent;
     cursor: pointer;
-    padding:6px;
-    border-radius:8px;
+    border-radius: 8px;
 }
 
-#btn-delete:hover{
-    color:red
+.btn-contact-delete:hover {
+    color: red
 }
 
-#btn-update:hover{
-    color:var(--primary-color)
+.btn-contact-update:hover {
+    color: var(--primary-color)
 }
-
-#btn-delete:hover,#btn-update:hover{
-    background-color: rgb(208, 231, 252);
-}
-
 
 
 /* Modale pour update */
@@ -223,7 +226,7 @@ header p:first-child {
 }
 
 .modal-title {
-    font-size: 24px!important;
+    font-size: 24px !important;
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -262,3 +265,91 @@ header p:first-child {
     outline: none;
 }
 
+@media(max-width:800px) {
+    .frame-contact {
+        padding: 20px
+    }
+
+    .frame-add-contact {
+        width: 100%;
+        max-width: none;
+        flex-wrap: nowrap;
+    }
+
+    .frame-contact-saved {
+        max-width: none;
+    }
+
+    .frame-contact-saved header {
+        flex-direction: column;
+        gap: 10px
+    }
+
+    .contact-main-logo {
+        height: 80%;
+        width: fit-content;
+    }
+
+    .searching-bar {
+        width: 100%;
+    }
+
+    .svg-container {
+        padding: 5px
+    }
+}
+
+@media(max-width:480px) {
+
+    .frame-contact,
+    .frame-add-contact,
+    .frame-contact-saved {
+        padding: 6px
+    }
+
+
+
+    .frame-add-contact header {
+        margin-bottom: 0
+    }
+
+    .frame-contact-saved{
+        border-radius:14px
+    }
+
+    .frame-contact-saved header{
+        padding:0
+    }
+
+
+
+    #frame-list-contact {
+        font-size: 14px
+    }
+
+    #search-contact {
+        padding: 8px 30px
+    }
+
+    #nombre-contact-affichage {
+        height: 37px;
+        padding-left: 0
+    }
+
+    .svg-container {
+        padding: 3px;
+        width: 24px;
+        height: 24px;
+        margin-left: 4px
+    }
+
+    .btn-contact-update,
+    .btn-contact-delete {
+        padding: 0
+    }
+
+    .contact-row {
+        padding-right: 4px;
+        font-size: 12px
+    }
+}
