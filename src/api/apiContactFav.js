@@ -1,13 +1,6 @@
 import express from "express";
 const routerApiContactFav = express.Router()
-
-import db from "./../sequelize.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-import { createContactFav } from "../service/contactFav/createContactFav.js";
-import { getDynamicContactFav } from "../service/contactFav/getContactFav.js";
-import { updateContactFav } from "../service/contactFav/updateContactFav.js";
-import { deleteContactFav } from "../service/contactFav/deleteContactFav.js";
-
 import { ContactFavoris } from "../service/contactFav/ClassContactFavoris.js";
 
 
@@ -68,17 +61,26 @@ routerApiContactFav.post("/delete", authMiddleware, async (req, res) => {
         .json({
             success: deleted.success,
             message: deleted.message,
-            data : deleted.data || []
+            data: deleted.data || []
         })
 })
 
 
 routerApiContactFav.post("/search", authMiddleware, async (req, res) => {
-
-    const item = await getDynamicContactFav(db, req)
-
-    return res.json({ data: item.getContact })
+    try {
+        const item = await new ContactFavoris(req.userId).getDynamicContactFav(req.body.searching)
+        console.log(item.data)
+        return res.json({ data: item.data })
+    } catch (err) {
+        console.error(err)
+        return res.status(500).json({
+            success: false,
+            message: "Une erreur est survenue avec le serveur et nous n'avons pas pu traitder votre demande."
+        })
+    }
 })
+
+
 
 
 routerApiContactFav.post("/update", authMiddleware, async (req, res) => {

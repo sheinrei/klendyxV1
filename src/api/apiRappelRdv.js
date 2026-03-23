@@ -6,8 +6,8 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import { getRappelRdvById, getUserRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
 import { deleteRappelRdv } from "../service/rappelRdv/deleteRappelRdv.js";
 import { createRappelRdv } from "../service/rappelRdv/createRappelRdv.js";
-import { getCredit } from "../service/credit/getCredit.js";
-import { decrementCredit, incrementCredit } from "../service/credit/decrementCredit.js";
+import { Credit } from "../service/credit/ClassCredit.js";
+
 
 routerApiRappelRdv.get("/", authMiddleware, async (req, res) => {
     try {
@@ -40,14 +40,16 @@ routerApiRappelRdv.delete("/:rappelId", authMiddleware, async (req, res) => {
         let message;
         const deleted = await deleteRappelRdv(rappelId, db)
         message = deleted.message
-        
-        
-        //check si le rappel a été délancher pour rembourser le credit auquel cas
+
+
+        //check si le rappel a été délanché pour rembourser le credit auquel cas
         if (eventState.sms.sentAt === null && eventState.email.sentAt === null && deleted.success) {
-            thisEvent.data.dataValues.method.split("-").map(m => {
-                incrementCredit(db, req.userId, m)
-            })
-            message += "Les crédits utilisés pour ce rappel de rendez-vous vous ont été restaurés"
+            const array = thisEvent.data.dataValues.method.split("-")
+
+            for(let i = 0; i < array.length ; i++){
+                await new Credit(req.userId).incrementCredit(array[i])
+            }
+                message += "Les crédits utilisés pour ce rappel de rendez-vous ont été restaurés"
         }
 
 
@@ -76,17 +78,18 @@ routerApiRappelRdv.post("/create", authMiddleware, async (req, res) => {
         const userId = req.userId
 
         //check si il y a assez de credits pour l'opération
-        const credit = await getCredit(db, userId)
-
+        const credit = await new Credit(userId).getCredit()
+        console.log(credit)
         const methodIsSms = method.includes("sms")
         const methodIsEmail = method.includes("email")
-        if (methodIsSms && (credit.dataValues.sms < 1)) {
+
+        if (methodIsSms && (credit.data.sms < 1)) {
             return res.status(404).json({
                 success: false,
                 message: "Crédit d'envoi de sms insuffisant pou réaliser un rappel de rendez-vous par SMS."
             })
         }
-        if (methodIsEmail && (credit.dataValues.email < 1)) {
+        if (methodIsEmail && (credit.email < 1)) {
             return res.status(404).json({
                 success: false,
                 message: "Crédit d'envoi d'email insuffisant pou réaliser un rappel de rendez-vous par email."
@@ -96,14 +99,14 @@ routerApiRappelRdv.post("/create", authMiddleware, async (req, res) => {
 
         //créer le rdv dans la base
         const created = await createRappelRdv(db, userId, phone, email, method, dayEvent, timeBefore, hourStart, hourEnd, nom, prenom)
-
+        const CreditInstance = new Credit(userId)
         //si creation success decrement credit selon la method
         if (created.success && methodIsSms) {
-            decrementCredit(db, userId, "sms")
+            await CreditInstance.decrementCredit("sms")
         }
 
         if (created.success && methodIsEmail) {
-            decrementCredit(db, userId, "email")
+            await CreditInstance.decrementCredit("email")
         }
 
         //renvois de la donnee

@@ -1,16 +1,26 @@
+function parseUTCDate(dateStr) {
+    const [datePart, timePart] = dateStr.split(" ");
+    const [y, m, d] = datePart.split("-");
+    const [h, min, s] = timePart.split(":");
+    return new Date(Date.UTC(y, m - 1, d, h, min, s));
+}
+
+
+
+
 function searchAllDaysInterval(start, end) {
     const dayInInterval = [];
-    const startDate = new Date(start.split("T")[0]);
-    const endDate = new Date(end.split("T")[0]);
-    const date = new Date(startDate);
+    const currentDate = new Date(start);
 
-    while (date <= endDate) {
-        dayInInterval.push(date.toISOString().split('T')[0]);
-        date.setDate(date.getDate() + 1);
+    while (currentDate <= end) {
+        dayInInterval.push(new Date(currentDate));
+        currentDate.setUTCDate(currentDate.getUTCDate() + 1);
     }
 
     return dayInInterval;
 }
+
+
 
 
 function dropIndispoDays(contacts, dayInInterval, data) {
@@ -28,12 +38,18 @@ function dropIndispoDays(contacts, dayInInterval, data) {
     return dayInInterval.filter(current => ![...arrayIndisponibleAllDay].includes(current));
 }
 
+
+
+
 function calculeTimeDiff(start, end) {
     const started = new Date(start);
     const ending = new Date(end);
     const diffMiliSeconde = ending - started;
     return diffMiliSeconde / (1000 * 60 * 60);
 }
+
+
+
 
 function hydraterStructureDays(structureDays, contact, data, plageHoraire) {
     const structure = structureDays;
@@ -71,6 +87,9 @@ function hydraterStructureDays(structureDays, contact, data, plageHoraire) {
     return structure;
 }
 
+
+
+
 function dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHoraire) {
     const total = totalTimePref + totalTimeEvent;
     const ratioPref = totalTimePref / total || 1;
@@ -78,6 +97,9 @@ function dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHoraire) {
     const coefSurcharge = Math.min(1 + (totalTimeEvent / plageHoraire), 2);
     return { coefBonus, coefSurcharge };
 }
+
+
+
 
 function calculeScoring(structure, arrayDaysValid, plageHoraire) {
     const structureScored = structure;
@@ -95,6 +117,10 @@ function calculeScoring(structure, arrayDaysValid, plageHoraire) {
     return structureScored;
 }
 
+
+
+
+
 function selectBestDayScoring(structure, numberReturn, arrayDaysValid) {
     const arrayScore = [];
     const bestDays = [];
@@ -107,6 +133,11 @@ function selectBestDayScoring(structure, numberReturn, arrayDaysValid) {
     });
     return bestDays;
 }
+
+
+
+
+
 
 function findAvailableSlots(events, timeRdv, hoursStart, hoursEnd, date) {
     const slots = [];
@@ -147,6 +178,19 @@ function findAvailableSlots(events, timeRdv, hoursStart, hoursEnd, date) {
     return slots;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 function slotsOverlap(slot1, slot2) {
     const start1 = new Date(slot1.start).getTime();
     const end1 = new Date(slot1.end).getTime();
@@ -155,6 +199,15 @@ function slotsOverlap(slot1, slot2) {
 
     return start1 < end2 && end1 > start2;
 }
+
+
+
+
+
+
+
+
+
 
 function calculateOverlap(slot, preference) {
     // Si pas de start/end défini dans la préférence (allDay)
@@ -271,8 +324,8 @@ export function resolveMatchingEvent(
 
 
     // 1. Récupérer tous les jours de l'intervalle
-    const dayInInterval = searchAllDaysInterval(rangeStart.toISOString(), rangeEnd.toISOString());
-
+    const dayInInterval = searchAllDaysInterval(parseUTCDate(rangeStart), parseUTCDate(rangeEnd));
+    console.log(dayInInterval)
     // 2. Ajouter "origin" aux contacts
     const allContacts = [...contacts, "origin"];
 
@@ -300,7 +353,7 @@ export function resolveMatchingEvent(
 
     //8. Trouver les meilleurs créneaux horaires pour chaque jour
     const finalResult = selectedMatchingHoraire(daysSelected, timeRdv, hoursStart, hoursEnd);
-    
+
     return finalResult;
 
 }

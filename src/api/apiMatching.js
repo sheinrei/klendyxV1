@@ -23,19 +23,29 @@ routerApiMatching.post("/create", authMiddleware, async (req, res) => {
         const contacts = req.body.contact
         const create = await createMatchingEvent(db, req)
         if (!create.success) {
-            return res.json({ success: false, message: create.message })
+            return res.status(400).json({ success: false, message: create.message })
         }
         for (const contact of contacts) {
             const url = `${process.env.HOST}/matching-rdv/${create.token}/${contact}`
             const mailer = new KlendyxMailer(contact)
-            const send = await mailer.sendNewMatchingEvent(req, url)
-            console.log(send)
+            const send = await mailer.sendNewMatchingEvent(req, req.userId, url, db)
+            if(!send.success){
+                return res.status(400).json({
+                    success:false,
+                    message : send.message
+                })
+            }
         }
+        return res
+            .status(create.success ? 200 : 400)
+            .json({
+                success: true,
+                messageHtml: "Votre matching event a été créé avec succès.<br> Une notification vous sera envoyée par email lorsque tous les participants auront répondu."
+            })
     } catch (err) {
         console.log(err)
         return res.json({ success: false, message: "Erreur survenu, veuillez réessayer plus tard", err })
     }
-    return res.json({ success: true, messageHtml: "Votre matching event a été créé avec succès.<br> Une notification vous sera envoyée par mail lorsque tous les participants auront rempli leurs disponibilités." })
 })
 
 
@@ -67,7 +77,7 @@ routerApiMatching.post("/update", async (req, res) => {
         const update = await addRevolveMatchingEvent(db, matching, req)
 
         if (update.success) {
-            const userOrigin = await getUserData(req, db, userIdOrigin)
+            const userOrigin = await getUserData(db, userIdOrigin)
             const email = userOrigin.email
             const url = `${process.env.HOST}/matching-rdv/validate?token=${updated.data.token}`
             const mailer = new KlendyxMailer(email)
@@ -79,21 +89,14 @@ routerApiMatching.post("/update", async (req, res) => {
 
 
 routerApiMatching.post("/final", async (req, res) => {
-    const { token, addGoogle, titleEvent, dateEventString, hoursStartString, hoursEndString } = req.body
+    const { token,  titleEvent, dateEventString, hoursStartString, hoursEndString } = req.body
     const dataEvent = await getMatchingEvent(db, token)
     if (!dataEvent) {
         return res.json({ success: false, message: "Cet evenement est déjà cloturé ou n'existe pas." })
     }
 
-    //Enregistrer l'event dans le calendar google de l'initialisateur
     const userId = dataEvent.data.userId
 
-    let eventGoogle = null;
-
-    //Ajouter l'ajout du l'event dans calendar
-    /*
-    
-    */
 
     //delete l'event qui est fini
     const deletedEvent = deleteMatchingEvent(db, token)
@@ -105,13 +108,12 @@ routerApiMatching.post("/final", async (req, res) => {
     //send email à tout les participants
     dataEvent.data.contact.forEach((email) => {
         const mailer = new KlendyxMailer(email)
-        const send = mailer.sendValidationMatching(userId, titleEvent, dateEventString, hoursStartString, hoursEndString)
+        const send = mailer.sendValidationMatching(userId, titleEvent, dateEventString, hoursStartString, hoursEndString, db)
             .then(() => contactSendSuccess.push(send.success))
     })
-
+    console.log("email envoyé aux participants du matching etat envoyé : ", contactSendSuccess)
     return res.json({
         success: true,
-        google: eventGoogle.success,
         contactSending: contactSendSuccess
     })
 })

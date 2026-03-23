@@ -1,19 +1,25 @@
 import express from "express"
 const routerApiCredit = express.Router()
 
-//instance bdd
-import db from "./../sequelize.js";
-//securité
 import authMiddleware from "./../middleware/authMiddleware.js";
-import { getCredit } from "../service/credit/getCredit.js"
-
+import { Credit } from "../service/credit/ClassCredit.js";
 
 
 routerApiCredit.get("/get", authMiddleware, async (req, res) => {
-    const userId = req.userId;
-    const data = await getCredit(db, userId)
-    if (data) {
-        res.json({ success: true, data })
+    try {
+        const data = await new Credit(req.userId).getCredit()
+        return res
+            .status(data.success ? 200 : 400)
+            .json({
+                success:data.success,
+                message : data.message,
+                data: data.data
+            })
+    } catch (err) {
+        return res.status(500).json({
+            success:false,
+            message : "Une erreur avec le serveur est survenu lors de la récupération des crédits."
+        })
     }
 })
 

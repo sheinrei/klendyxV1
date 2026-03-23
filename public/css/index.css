@@ -601,7 +601,7 @@ li {
    ======================================== */
 
 @media (max-width: 1024px) {
-
+    
     .index-frame-top,
     .index-frame-bottom,
     .frame-plan,
@@ -769,7 +769,7 @@ li {
     }
 }
 
-@media (max-width: 460px) {
+@media (max-width: 480px) {
 
     .index-frame-top,
     .index-frame-bottom,

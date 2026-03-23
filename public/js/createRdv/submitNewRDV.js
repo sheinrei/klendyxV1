@@ -137,6 +137,8 @@ function resetFormulaire() {
     setDataPrevisualisationSms("[votre nom]")
 }
 
+
+
 function toRFC3339WithOffset(date) {
     const pad = n => String(n).padStart(2, "0");
 
@@ -150,6 +152,7 @@ function toRFC3339WithOffset(date) {
         `${pad(date.getHours())}:${pad(date.getMinutes())}:00` +
         `${sign}${hhOffset}:${mmOffset}`;
 }
+
 
 async function saveInCalendar(host, provider, dayStart, hourStart, hourEnd, title, description) {
 

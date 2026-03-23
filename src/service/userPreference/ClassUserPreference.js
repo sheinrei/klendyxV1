@@ -63,7 +63,7 @@ export class UserPreference {
      */
     async updateUserPreference(dataDTO) {
         try {
-            const [updated] = await Table.update(
+            const [updated] = await this.TableUserPreference.update(
                 dataDTO,
                 { where: { userId: this.userId } }
             )

@@ -24,7 +24,6 @@ class MessageAlert {
         element.textContent = message;
         $(input).append(element)
         $(".classique-modale-body, html , body").scrollTop(0)
-        $()
     }
 
     

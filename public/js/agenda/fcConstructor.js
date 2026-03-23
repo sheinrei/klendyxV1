@@ -82,14 +82,13 @@ async function createNewEventInProvider(host, provider, eventData) {
         const res = await createdEvent.json();
 
         if (!res.success) {
-            createClassiqueModale("Une erreur est survenue lors de la création de l'évènement.")
-            return
+            return createClassiqueModale("Une erreur est survenue lors de la création de l'évènement.")
         }
 
         createClassiqueModale(res.data.message)
 
     } catch (err) {
-        console.warn(`Echec lors de la requette création d'un event dans le provider ${provider}`)
+        console.error(`Echec lors de la requette création d'un event dans le provider ${provider}`)
         createClassiqueModale("Une erreur est survenue lors de la création de l'évènement.")
     }
 }
@@ -152,12 +151,12 @@ $(document).ready(async () => {
 
 
     // ====== Init du calendrier ======
-
+    const clientWidth = window.innerWidth
     //Constructeur calendar
     const calendarEl = document.getElementById('calendar');
     let turn = 0;
     window.calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
+        initialView: clientWidth > 760 ? 'dayGridMonth' : "dayGridWeek",
         dayMaxEvents: 3,
         locale: 'fr',
         timeZone: "local",
@@ -183,6 +182,7 @@ $(document).ready(async () => {
         },
 
         drop: (info) => {
+            console.log(info)
             const el = info.draggedEl
             const calendarSave = JSON.parse(el.dataset.calendarsave);
 
@@ -196,27 +196,15 @@ $(document).ready(async () => {
                 description: el.dataset.describe,
             }
 
-            if (calendarSave.klendyx) {
-                createNewEventInProvider(host, "klendyx", eventData);
-                createNewEventFC(eventData, turn)
-                turn++
-            }
-            if (calendarSave.google) {
-                createNewEventInProvider(host, "google", eventData);
-                createNewEventFC(eventData, turn)
-                turn++
-            }
-            if (calendarSave.apple) {
-                createNewEventInProvider(host, "apple", eventData);
-                createNewEventFC(eventData, turn)
-                turn++
-            }
-            if (calendarSave.outlook) {
-                createNewEventInProvider(host, "outlook", eventData);
-                createNewEventFC(eventData, turn)
-                turn++
+            for(const provider of ["klendyx", "google", "apple", "outlook"]){
+                if(calendarSave[provider]){
+                    createNewEventInProvider(host, provider, eventData);
+                    createNewEventFC(eventData, turn)
+                    turn++
+                }
             }
         },
+        
 
         dateClick: (info) => {
             //Modale clique sur un day retirer la fonctionalité?
@@ -249,8 +237,23 @@ $(document).ready(async () => {
     })
     window.calendar.render()
 
-})
 
+
+    //Fix du calendar quand les largeur sont update
+    $(window).on("resize", function () {
+        console.log("resize du fc")
+        const currentWidth = window.innerWidth
+        
+        window.calendar.changeView(currentWidth < 768 ?  "dayGridWeek" : 'dayGridMonth')
+        
+        window.calendar.updateSize();
+    })
+
+    const navbar = document.querySelector('.navbar');
+    navbar.addEventListener('transitionend', () => {
+        window.calendar.updateSize();
+    });
+})
 
 
 

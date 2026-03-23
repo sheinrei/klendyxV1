@@ -8,7 +8,6 @@ async function getContactRender() {
 
     })
     const data = await res.json()
-    console.log(data)
     $("#contact-saved-subtitle").text(`${data.data.length} contacts enregistrés`)
 
     for (let i = 0; i < nombreContactAfficghage; i++) {
@@ -50,7 +49,7 @@ $("#search-contact").on("input", async function () {
         })
 
         const data = await res.json();
-        console.log(data.data)
+        console.log(data)
 
         data.data.forEach(element => {
             addContactDOM(element.id, element.nom, element.prenom, element.email, element.phone)

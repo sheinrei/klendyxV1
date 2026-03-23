@@ -83,7 +83,7 @@ function setDataPrevisualisationEmail(nameInitialisateur) {
     if (methodRdvProposition) {
         $("#email-content-header").text(`${nameInitialisateur || "[Votre nom]"} vous propose un rendez vous "${title || "[Titre]"}"`)
         const textProposition = `Merci de renseigner votre réponse en cliquant sur le bouton ci dessous`
-        const btnProposition = `    <button style="
+        const btnProposition = `<button style="
                                         padding: 5px 10px;
                                         background: linear-gradient(to right, rgba(113,106,249,1) 0%, rgba(91,9,121,1) 100%);
                                         border-radius: 7px;

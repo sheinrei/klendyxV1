@@ -1,9 +1,26 @@
-.frame-calendar {
+#main-content {
     width: 100%;
+}
+
+.frame-top {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    gap: 1rem
+}
+
+.frame-external {
+    width: 35%
+}
+
+.frame-calendar {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 20px
+    align-items: center;
+    gap: 1rem
 }
 
 #calendar {
@@ -16,17 +33,7 @@
     height: fit-content;
 }
 
-.calendar-tools {
-    display: flex;
-    flex-direction: column;
-    width: 27%;
-    max-width: 400px;
-    border: 1px solid var(--border-color);
-    border-radius: 15px;
-    box-shadow: var(--shadow-medium);
-    overflow: hidden;
-    height: fit-content;
-}
+
 
 /* === main frame === */
 /* Formulaire Match Event */
@@ -34,52 +41,100 @@
     background: var(--card-background);
     box-sizing: border-box;
     width: 100%;
-    display: none;
     flex-direction: column;
-    padding: 15px
+    padding: 20px
 }
 
-/*formulaire External drag */
-#external-events {
-    background-color: var(--card-background);
+.header-form {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding:15px
-}
-
-/*=== swaper de formulaire ===*/
-.swapper-calendar-tool {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    background-color: #FFFFFF;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-.swapper-title {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    background-color: #E2EBF3;
-    width: 40%;
-    height: 50px;
-    display: flex;
+    flex-direction: row;
+    gap: 12px;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-
-    font-size: larger;
-    font-weight: 600;
-    font-family: "Anton";
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+    border-bottom: none;
 }
 
-.swapper-title:hover{
-    background-color: #b1ceed;
-    transform: translateY(-2px);
+.form-matching-container {
+    padding: 20px
 }
 
-.swapper-activ {
-    border: 2px solid rgb(202, 202, 202) !important;
-    background-color: #b1ceed;
+
+
+@media(max-width:1024px) {}
+
+@media(max-width:768px) {
+    .frame-top {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .frame-external {
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    .frame-external-fc {
+        display: flex;
+        flex-direction: row !important;
+    }
+
+    .external-element-fav {
+        width: fit-content !important;
+    }
+
+    .external-title {
+        font-size: 14px
+    }
+
+    #calendar {
+        width: 100%;
+    }
+}
+
+@media(max-width:480px) {
+
+    /* EXTERNAL EVENTS*/
+    .external-events {
+        margin-bottom: 0 !important
+    }
+
+    .frame-external-fc {
+        display: flex;
+        flex-direction: column !important;
+        column-gap: 2px
+    }
+
+    /* FC CALENDAR */
+    #calendar {
+        padding: 8px
+    }
+
+    .fc-toolbar-header {
+        margin-bottom: 12px
+    }
+
+    .fc-toolbar-title {
+        font-size: 16px !important
+    }
+
+    .fc-button {
+        font-size: 14px !important;
+        padding: 4px !important
+    }
+
+    .frame-calendar {
+        padding: 0
+    }
+
+    .frame-top,
+    .form-matching-container {
+        padding: 5px !important
+    }
+
+    .frame-external-fc {
+        flex-direction: column;
+    }
 }

@@ -30,6 +30,7 @@
     width: var(--navbar-width-retracted);
     border-radius: 0 0 12px 0;
     max-height: fit-content;
+    border-bottom:1px solid var(--border-color)
 }
 
 

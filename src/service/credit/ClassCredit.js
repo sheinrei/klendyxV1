@@ -43,6 +43,7 @@ export class Credit {
 
 
 
+    //Mise à jour des crédit d'un utilisateur
     async updateUserCredit(data) {
         try {
             const [updateCredits] = await this.TableCredit.update(data, {
@@ -63,6 +64,10 @@ export class Credit {
     }
 
 
+    /**
+     * Récupère tout les crédits avec condition sur refreshAt > now()
+     * @returns {Promise<object>} - object key = success, message, data
+     */
     async getAllCredit() {
         try {
             const data = await this.TableCredit.findAll({
@@ -105,7 +110,11 @@ export class Credit {
         }
     }
 
-
+    /**
+     * 
+     * @param {string} plateform - la plateform à decrementer : "email" | "sms" 
+     * @returns 
+     */
     async decrementCredit(plateform) {
         try {
             const decrement = await this.TableCredit.decrement(plateform, { by: 1, where: { userId: this.userId } })

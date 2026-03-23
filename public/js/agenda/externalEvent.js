@@ -18,11 +18,29 @@ function setHtmlExternalFav(data) {
             data-end="${hourEnd}"
             data-calendarSave='${JSON.stringify(calendarSave)}'
             data-image='${JSON.stringify({ src: imgSrc, alt: imgAlt })}'>
-        
+
+                <svg class="grip-vertical" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                        <circle cx="9" cy="12" r="1"></circle>
+                        <circle cx="9" cy="5" r="1"></circle>
+                        <circle cx="9" cy="19" r="1"></circle>
+                        <circle cx="15" cy="12" r="1"></circle>
+                        <circle cx="15" cy="5" r="1"></circle>
+                        <circle cx="15" cy="19" r="1"></circle>
+                    </svg>
                         ${imgHtml}
-                        <span>${title}</span>
+                        <span class="external-title">${title}</span>
                         </div>
-                        <span class="external-event-delete" title="supprimer des favoris"><img width="38" height="38" src="https://img.icons8.com/?size=100&id=tC7FD0dyIjSg&format=png&color=000000" alt="trash"></span>
+                        <span class="external-event-delete" title="supprimer des favoris">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btn-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">
+                                <path d="M3 6h18"></path>
+                                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                <line x1="10" x2="10" y1="11" y2="17"></line>
+                                <line x1="14" x2="14" y1="11" y2="17"></line>
+                            </svg>
+                        </span>
                     </div></div>`
 }
 
@@ -152,10 +170,16 @@ $(function () {
         const calendarSave = { klendyx, google, apple, outlook }
         const html = setHtmlExternalFav({ title, description, hourStart, hourEnd, calendarSave, imgSrc, imgAlt, imgHtml })
         if (!title.length) {
-            return createClassiqueModale("Veuillez saisir un titre")
+            return createClassiqueModale("Veuillez saisir un titre.")
         }
         if (hourStart.split(":")[0] > hourEnd.split(":")[0]) {
-            return createClassiqueModale("Erreur dans l'horaire, le début ne pas pas être après la fin")
+            return createClassiqueModale("Erreur dans l'horaire, le début ne pas pas être après la fin.")
+        }
+
+        const ctrlOneCalendarSave = [klendyx, google, apple, outlook].reduce((accu, current) => current == true ? accu += 1 : accu += 0, 0)
+
+        if (!ctrlOneCalendarSave) {
+            return createClassiqueModale("Veuillez saisir au moins un agenda dans lequel sauvegarder votre événement.")
         }
         addExternalFavLocalStorage({ title, description, hourStart, hourEnd, calendarSave, imgSrc, imgAlt, imgHtml })
 
@@ -166,14 +190,27 @@ $(function () {
 
 
 
-    //supprimer un dragable
+    //supprimer raccourci dragable du dom et localStorage
     $(document).on("click", ".external-event-delete", function () {
         const el = $(this).closest(".external-element-fav");
-        const fcEvent = el.find(".fc-event");
-        const title = fcEvent[0].dataset.title
-        const start = fcEvent[0].dataset.start
-        const end = fcEvent[0].dataset.end
-        deleteExternalFavLocalStorage({ title, start, end })
+        if (!el.length) return
+
+        const fcEvent = el.find(".fc-event").first()
+        if (!fcEvent.length) {
+            console.warn("Aucun fc-event trouvé pour cet external-element-fav");
+            return;
+        }
+
+        const title = fcEvent.data("title")
+        const start = fcEvent.data("start");
+        const end = fcEvent.data("end");
+
+        if (!title || !start || !end) {
+            console.warn("Certains data-attributes sont manquants:", { title, start, end });
+            return;
+        }
+
+        deleteExternalFavLocalStorage({ title, start, end });
         el.remove();
-    })
+    });
 })

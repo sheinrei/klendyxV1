@@ -151,7 +151,7 @@ export class ContactFavoris {
      */
     async getDynamicContactFav(inputSearch) {
         try {
-            const [getContact] = await this.TableContactFavoris.findAll({
+            const getContact = await this.TableContactFavoris.findAll({
                 where: {
                     userId: this.userId,
                     [Op.or]: [
@@ -163,8 +163,8 @@ export class ContactFavoris {
                 }
             })
             return {
-                success: getContact > 0,
-                message : getContact > 0
+                success: !!getContact,
+                message : getContact
                     ? "La liste des contacts favoris a été récupéré avec succès."
                     : "Aucun contact favoris n'a été trouvé.",
                 data : getContact

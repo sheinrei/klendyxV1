@@ -12,10 +12,10 @@ import { createKlendyxPropositionRdv } from "../service/event/createKlendyxPropo
 import generateToken from "../service/token/generateToken.js";
 import { updatePropositionRdv, updateStateEvent } from "../service/event/updatePropositionRdv.js";
 import { getAllPropositionRdv, getPropositionRdvById } from "../service/event/getPropositionRdv.js";
-import { decrementCredit } from "../service/credit/decrementCredit.js";
 import { deletePropositionRdv } from "../service/event/deletePropositionRdv.js";
 import { getUserData } from "../service/user/getUserData.js";
 
+import { Credit } from "../service/credit/ClassCredit.js";
 
 import { SmsSender } from "../service/sms/smsSender.js";
 import { KlendyxMailer } from "../service/mailer/ClassMailer.js";
@@ -42,6 +42,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
     const nameInitialisateur = dataUser.nom + " " + dataUser.prenom;
     let dataReturn = {}
 
+    const CreditInstance = new Credit(userId)
+
     //rempli la bdd rappel de rdv
     if (rappel) {
         let method = ""
@@ -52,12 +54,11 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
 
         //creation du rappel de rendez-vous dans la table
         const createRappel = await createRappelRdv(db, userId, phone, email, method, date, timeRappel, hourStart, hourEnd, nom, prenom)
-
         if (createRappel.success && rappelEmail) {
-            decrementCredit(db, userId, "mail")
+            await CreditInstance.decrementCredit("email")
         }
         if (createRappel.success && rappelSms) {
-            decrementCredit(db, userId, "sms")
+            await CreditInstance.decrementCredit("sms")
         }
         dataReturn["rappel"] = {
             success: createRappel.success,
@@ -69,7 +70,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
     if (methodRdvConfirmation) {
         if (methodContactSms) {
             try {
-                const message = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirme le ${dayStart} de ${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}`;
+                const message = `Bonjour, votre rendez-vous "${title}" avec ${nameInitialisateur} est confirme le ${new Date(dayStart).toLocaleDateString("FR-fr", { day: "numeric", month: "long" })} de ${hourStart.replace(":", "h")} a ${hourEnd.replace(":", "h")}`;
                 const Sender = new SmsSender(phone, message)
                 const sendSms = await Sender.sendSms()
                 console.log(sendSms)
@@ -78,7 +79,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
                     message: sendSms.message
                 }
                 if (sendSms.success) {
-                    await decrementCredit(db, userId, "sms")
+                    await CreditInstance.decrementCredit("sms")
                 }
             } catch (err) {
                 console.log(err)
@@ -97,9 +98,8 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
                     message: sendEmail.message
                 }
                 if (sendEmail.success) {
-                    await decrementCredit(db, userId, "mail")
+                    await CreditInstance.decrementCredit("email")
                 }
-
             } catch (err) {
                 console.log(err)
                 dataReturn["email"] = {
@@ -125,7 +125,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
                     message: send.message
                 }
                 if (send.success) {
-                    await decrementCredit(db, userId, "mail")
+                    await CreditInstance.decrementCredit("email")
                 }
             } catch (err) {
                 console.log(err)
@@ -154,7 +154,7 @@ routerApiRdv.post('/sending', authMiddleware, async (req, res) => {
                     message: result.message
                 }
                 if (send.success) {
-                    await decrementCredit(db, userId, "sms")
+                    await CreditInstance.decrementCredit("sms")
                 }
 
             } catch (err) {
@@ -268,7 +268,7 @@ routerApiRdv.put("/:methodContactSms/:methodContactEmail/:recipientPhone/:recipi
             hourEnd
         } = req.params
 
-        
+
         console.log({
             methodContactSms,
             methodContactEmail,

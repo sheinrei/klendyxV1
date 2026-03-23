@@ -1,6 +1,4 @@
-import { getAllCredit } from "../credit/getCredit.js"
-import { updateUserCredit } from "../credit/updateCredit.js"
-import db from "./../../sequelize.js"
+import { Credit } from "../credit/ClassCredit.js"
 
 
 
@@ -18,7 +16,7 @@ export async function refreshUserCredit() {
     console.log("Déclanchement du refresh de crédit users")
     const now = Date.now()
 
-    const allCredit = await getAllCredit(db);
+    const allCredit = await new Credit().getAllCredit()
     if (!allCredit.success) {
         return {
             success: false,
@@ -47,9 +45,9 @@ export async function refreshUserCredit() {
                 continue
             }
 
-            const updated = await updateUserCredit(userId, db, {
+            const updated = await new Credit(userId).updateUserCredit({
                 sms: planConfig.smsCredit,
-                mail: planConfig.emailCredit,
+                email: planConfig.emailCredit,
                 refreshAt: newRefreshDate,
             })
 

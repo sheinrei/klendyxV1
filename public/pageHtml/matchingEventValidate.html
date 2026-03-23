@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,26 +10,17 @@
 
     <meta name="description"
         content="Service matching rendez-vous de Klendyx, les utilisateurs ont répondu à votre appel, finalisez votre rendez-vous">
-
     <meta name="keywords" content="callendar, agenda, rendez-vous">
     <meta name="author" content="Sheinrei">
 
-    <!-- Robots -->
     <meta name="robots" content="noindex, follow">
     <meta name="googlebot" content="noindex, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-
-    <!-- Canonical -->
     <link rel="canonical" href="https://klendyx/index">
-
-    <!-- Extras utiles -->
     <meta name="theme-color" content="#ffffff">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <!-- Open Graph (pour le partage sur réseaux sociaux) -->
     <meta property="og:title" content="Retrouvez les services proposés par Klendyx">
     <meta property="og:description"
         content="Liste de tous les services proposés par Klendyx, gérez votre emploi du temps en toute facilité.">
@@ -40,26 +29,22 @@
     <meta property="og:image" content="https://www.example.com/image-de-la-page.jpg">
     <meta property="og:site_name" content="Klendyx">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Titre de la page - mot-clé principal">
     <meta name="twitter:description" content="Description de la page pour Twitter.">
     <meta name="twitter:image" content="https://www.example.com/image-de-la-page.jpg">
     <meta name="twitter:site" content="@Sheinrei">
 
-    <!-- css -->
     <link rel="stylesheet" href="./../css/generic.css">
     <link rel="stylesheet" href="./../css/navbar.css">
     <link rel="stylesheet" href="./../css/footer.css">
     <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
     <link rel="stylesheet" href="./../css/calendar/calendar.css">
-    <link rel="stylesheet" href="./../css/calendar/frameRecapDataEventMatching.css">
+    <link rel="stylesheet" href="./../css/matchingEvent/validationMatching.css">
 
-    <!-- script -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="/js/accessibility.js" defer></script>
-
     <script src="./../js/cdnFullCalendar.js" defer></script>
     <script src="./../js/config.js" defer></script>
     <script src="./../js/navbar.js" defer></script>
@@ -67,167 +52,146 @@
     <script src="./../js/sessionExpire.js" defer></script>
     <script src="./../js/deconnectUser.js" defer></script>
     <script src="./../js/modale/classiqueModale.js" defer></script>
+    <script src="./../js/tools.js"></script>
     <script src="./../js/calendarMatchingEvent/validationMatching.js" defer></script>
-
-
-    <style>
-        /* cards des dates choisis par l'algo */
-        .cards-date {
-            background: linear-gradient(145deg, #ffffff, #f7fafc);
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 16px 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .cards-date:hover {
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-        }
-
-        .cards-date>div:first-child {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #2d3748;
-            margin-bottom: 4px;
-        }
-
-        .cards-hours-event {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            background: #edf2f7;
-            border-radius: 12px;
-            padding: 10px 14px;
-            font-size: 0.95rem;
-            gap: 10px;
-            color: #4a5568;
-            width: 250px
-        }
-
-        .cards-hours-event:not(:last-child) {
-            margin-bottom: 8px;
-        }
-
-        .btn-submit {
-            background: #805ad5;
-            /* violet sympa, cohérent avec ton thème */
-            color: white;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            padding: 6px 12px;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.1s ease;
-        }
-
-        .btn-submit:hover {
-            background: #6b46c1;
-            transform: scale(1.05);
-        }
-
-        .btn-submit:disabled {
-            background: #cbd5e0;
-            cursor: not-allowed;
-        }
-
-        #calendar {
-            width: 100%;
-            display: block;
-            margin: auto;
-        }
-
-        .frame-main-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #frame-right {
-            display: flex;
-            flex-direction: column;
-            gap: 10px
-        }
-
-        .span-redirect {
-            font-weight: 600;
-            color: #6b46c1;
-            cursor: pointer;
-            text-decoration-line: underline;
-        }
-
-        /* liste des contact dans data event */
-        #contact {
-            white-space: pre-line;
-        }
-
-
-        /* style du input modale "ajouter event à google" */
-        #add-event-google {
-            appearance: none;
-            width: 36px;
-            height: 18px;
-            background: #ccc;
-            border-radius: 9px;
-            position: relative;
-            cursor: pointer;
-            outline: none;
-        }
-
-        #add-event-google::before {
-            content: "";
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: white;
-            transition: 0.3s;
-        }
-
-        #add-event-google:checked::before {
-            transform: translateX(18px);
-            background: white;
-        }
-
-        #add-event-google:checked {
-            background: #4285F4 !important;
-        }
-
-        /* cell de l'event ajouté à la fin de la confirmation */
-        .fc-event.event-added {
-            background-color: #32CD3299 !important;
-            border-color: #32CD3299 !important;
-        }
-    </style>
 </head>
-
-
 
 <body>
     <section class="content" id="content">
-
         <div class="main">
+
             <header>
-                <h1>Validez votre rendez-vous.</h1>
-                <p>Retrouvez les meilleurs horaires disponible selectionnés de façon inteligeante par Klendyx.</p>
+                <h1 class="title">Résultat de votre matching</h1>
                 <p id="message-alert"></p>
             </header>
 
             <div class="frame-main-content">
 
-                <div id="data-event-matching"></div>
-                <div class="calendar" id="calendar"></div>
+                <p class="message-alert-information message-info">
+                    Félicitation ! <br>
+                    Votre demande de matching de rendez-vous est résolue.<br>
+                    Vous pouvez séléctionner une date de votre choix.
+                    Tout les participants recevrons une notfications par email lorseque vous aurez
+                    selectionné une date.
+                </p>
+
+
+
+
+                <div id="data-event-matching">
+
+                    <div class="card-wrapper">
+
+                        <div id="frame-left">
+                            <div class="card-content">
+
+                                <div class="card-content-header">
+                                    <h2 class="title-2">Résumé du matching</h2>
+                                    <span class="badge" id="badge-status">Validation</span>
+                                </div>
+
+                                <div class="info-grid">
+
+                                    <div class="info-box info-box-date">
+                                        <div class="info-label">📅 Créé le</div>
+                                        <div class="info-value" id="created-at"></div>
+                                    </div>
+
+                                    <div class="info-box info-box-title">
+                                        <div class="info-label">📝 Titre</div>
+                                        <div class="info-value info-value-large" id="event-title"></div>
+                                    </div>
+
+                                    <div class="info-box info-box-description">
+                                        <div class="info-label">💬 Description</div>
+                                        <div class="info-value info-value-text" id="description"></div>
+                                    </div>
+
+                                    <div class="info-row">
+                                        <div class="info-box info-box-duration">
+                                            <div class="info-label">⏱ Durée</div>
+                                            <div class="info-value info-value-highlight" id="duration"></div>
+                                        </div>
+                                        <div class="info-box info-box-hours">
+                                            <div class="info-label">🕒 Plage horaire</div>
+                                            <div class="info-value info-value-highlight" id="hours-range"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="info-box info-box-contact">
+                                        <div class="info-label">👥 Invités</div>
+                                        <div class="info-value" id="contact"></div>
+                                    </div>
+
+                                    <div class="info-box info-box-address">
+                                        <div class="info-label">📍 Adresse</div>
+                                        <div class="info-value" id="event-address"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="frame-right">
+
+                            <section class="cards-date" id="cards-date-0" hidden>
+                                <div class="cards-date-title" id="date-label-0"></div>
+
+                                <div class="cards-hours-event" id="slot-AM-0" hidden>
+                                    <span class="slot-period">Matin</span>
+                                    <span class="slot-hours" id="slot-hours-AM-0"></span>
+                                    <button class="btn-submit" id="btn-submit-AM-0">Sélectionner</button>
+                                </div>
+
+                                <div class="cards-hours-event" id="slot-PM-0" hidden>
+                                    <span class="slot-period">Après-midi</span>
+                                    <span class="slot-hours" id="slot-hours-PM-0"></span>
+                                    <button class="btn-submit" id="btn-submit-PM-0">Sélectionner</button>
+                                </div>
+                            </section>
+
+                            <section class="cards-date" id="cards-date-1" hidden>
+                                <div class="cards-date-title" id="date-label-1"></div>
+
+                                <div class="cards-hours-event" id="slot-AM-1" hidden>
+                                    <span class="slot-period">Matin</span>
+                                    <span class="slot-hours" id="slot-hours-AM-1"></span>
+                                    <button class="btn-submit" id="btn-submit-AM-1">Sélectionner</button>
+                                </div>
+
+                                <div class="cards-hours-event" id="slot-PM-1" hidden>
+                                    <span class="slot-period">Après-midi</span>
+                                    <span class="slot-hours" id="slot-hours-PM-1"></span>
+                                    <button class="btn-submit" id="btn-submit-PM-1">Sélectionner</button>
+                                </div>
+                            </section>
+
+                            <section class="cards-date" id="cards-date-2" hidden>
+                                <div class="cards-date-title" id="date-label-2"></div>
+
+                                <div class="cards-hours-event" id="slot-AM-2" hidden>
+                                    <span class="slot-period">Matin</span>
+                                    <span class="slot-hours" id="slot-hours-AM-2"></span>
+                                    <button class="btn-submit" id="btn-submit-AM-2">Sélectionner</button>
+                                </div>
+
+                                <div class="cards-hours-event" id="slot-PM-2" hidden>
+                                    <span class="slot-period">Après-midi</span>
+                                    <span class="slot-hours" id="slot-hours-PM-2"></span>
+                                    <button class="btn-submit" id="btn-submit-PM-2">Sélectionner</button>
+                                </div>
+                            </section>
+
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
 
         </div>
     </section>
-
-
 </body>
 
 </html>

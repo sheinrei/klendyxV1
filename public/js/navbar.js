@@ -225,7 +225,7 @@ $(async function () {
     const STORAGE_KEY = "klendyx_navbar_retracted";
     const TRANSITION_MS = 260;
 
-    const navbar    = $("#navbar");
+    const navbar = $("#navbar");
     const btnRetract = $("#navbar-retract");
 
     let isRetracted = localStorage.getItem(STORAGE_KEY) === "true";

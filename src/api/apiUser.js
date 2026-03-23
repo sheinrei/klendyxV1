@@ -14,21 +14,20 @@ import generateToken from "./../service/token/generateToken.js"
 //instance bdd
 import db from "./../sequelize.js"
 import sendFile from "./../service/sendFile.js";
-import { UserSession } from "../service/userSession/ClassUserSession.js";
 
 
 import { updateUserData } from "../service/user/updateUser.js";
-import { KlendyxMailer } from "./../service/mailer/ClassMailer.js"
 import { deleteAccount } from "../service/user/deleteAccount.js";
+
+import { KlendyxMailer } from "./../service/mailer/ClassMailer.js"
+import { UserSession } from "../service/userSession/ClassUserSession.js";
+import { UserPreference } from "../service/userPreference/ClassUserPreference.js";
 
 
 
 import { getAllEvents } from "../service/calendar/CalendarController.js";
 
-import { UserPreference } from "../service/userPreference/ClassUserPreference.js";
 
-import { getAllContactFav } from "../service/contactFav/getContactFav.js";
-import { getCredit } from "../service/credit/getCredit.js";
 import { getUserRappelRdv } from "../service/rappelRdv/getRappelRdv.js";
 import { getAllMatchingEvent } from "../service/event/getMatchingEvent.js";
 import { getAllPropositionRdv } from "../service/event/getPropositionRdv.js";
@@ -36,6 +35,7 @@ import { create2FA } from "../service/user/create2FA.js";
 import { getToken } from "../service/token/getToken.js";
 
 import jwt from "jsonwebtoken";
+import { ContactFavoris } from "../service/contactFav/ClassContactFavoris.js";
 
 
 
@@ -344,15 +344,16 @@ routerApiUser.get("/api/user/export-data", authMiddleware, async (req, res) => {
 
     const userId = req.userId;
 
-    const dataUser = await getUserData(db, userId);
     const dataPreference = await new UserPreference(userId).getUserPreference();
-    const dataContactFavori = await getAllContactFav(db, req);
+    const dataContactFavori = await new ContactFavoris(userId).getAllContactFav();
+    const dataCredit = await new Credit(userId).getCredit()
+    
     const dataEventKlendyx = await getAllEvents("klendyx", db, userId);
-    const dataCredit = await getCredit(db, userId)
+    const dataUser = await getUserData(db, userId);
     const dataRappelRdv = await getUserRappelRdv(db, userId);
     const dataMatchingEvent = await getAllMatchingEvent(db, userId);
-
     const dataPropositionRdv = await getAllPropositionRdv(db, req);
+
 
     const data = {
         userData: {
@@ -383,9 +384,9 @@ routerApiUser.get("/api/user/export-data", authMiddleware, async (req, res) => {
         klendyxMatchingEvent: dataMatchingEvent,
 
         userCredit: {
-            plan: dataCredit.pan,
-            sms: dataCredit.sms,
-            email: dataCredit.mail,
+            plan: dataCredit.data.plan,
+            sms: dataCredit.data.sms,
+            email: dataCredit.data.email,
             createdAt: dataCredit.createdAt,
             updatedAt: dataCredit.updatedAt,
         }

@@ -79,7 +79,17 @@ a {
     color: black;
 }
 
-
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
 
 /* BODY */
@@ -162,11 +172,42 @@ main,
     align-items: flex-start;
 }
 
+
+
+/* FORMULAIRE */
+label {
+    cursor: pointer;
+}
+
+.form-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    font-size: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    color: #111;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
 }
+
+.form-group-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1 1 100%;
+    gap: 8px
+}
+
+
 
 /* HEADER */
 .header-html {
@@ -199,7 +240,7 @@ main,
 .message-alert {
     border-radius: 8px;
     margin: auto;
-    width: fit-content;
+    width: 80%;
     padding: 5px 16px;
     color: black;
     font-weight: 500;
@@ -387,11 +428,12 @@ COMPOSANT
     gap: 6px;
     font-weight: 600;
     padding: 8px 16px;
-    font-weight: 500;
+    font-weight: 500 !important;
     cursor: pointer;
     transition: background 0.2s;
-    border-radius:12px;
-    border:none;
+    border-radius: 12px;
+    border: none;
+    text-align: center;
 }
 
 .btn-primary:hover {
@@ -467,7 +509,7 @@ COMPOSANT
 
 /* CARDS */
 .card {
-    background-color: white;
+    background-color: var(--card-background);
     border-radius: var(--btn-radius);
     border: 1px solid var(--border-color);
     padding: 24px;
@@ -476,7 +518,7 @@ COMPOSANT
 }
 
 .card-row {
-    background-color: white;
+    background-color: var(--card-background);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -496,6 +538,7 @@ COMPOSANT
 .card-title {
     color: black;
     font-weight: 500;
+    margin: 0;
 }
 
 /* input */

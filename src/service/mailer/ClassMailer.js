@@ -184,10 +184,10 @@ export class KlendyxMailer {
      * @param {string} hoursEnd - Heure de fin 
      * @returns 
      */
-    async sendValidationMatching(id, titleEvent, dateEvent, hoursStart, hoursEnd) {
+    async sendValidationMatching(id, titleEvent, dateEvent, hoursStart, hoursEnd, db) {
         try {
 
-            const dataInitialisateur = await getUserData(null, db, id)
+            const dataInitialisateur = await getUserData(db, id)
             const initialisateur = dataInitialisateur.nom + " " + dataInitialisateur.prenom
 
             const html = this._createFullHtml(templateValidationMatching
@@ -197,7 +197,7 @@ export class KlendyxMailer {
                 .replace(/{hoursStart}/, hoursStart)
                 .replace(/{hoursEnd}/, hoursEnd)
             )
-            const mailOptions = this._createOption(titleEvent, html)
+            const mailOptions = this._createOption(`Confirmation du rendez-vous "${titleEvent}" avec ${initialisateur}`, html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {
@@ -223,7 +223,7 @@ export class KlendyxMailer {
         try {
 
             const html = this._createFullHtml(templateResolvMatching.replace(/{url}/, url))
-            const mailOptions = this._createOption("Votre demande de matching de rendez-vous Klendyx est resolue", html)
+            const mailOptions = this._createOption("Votre demande matching de rendez-vous Klendyx est resolue", html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {
@@ -365,9 +365,19 @@ export class KlendyxMailer {
     }
 
 
-    async sendNewMatchingEvent(req, url) {
+
+    /**
+     * Envoie de l'email de création de matching de rdv au destinataire du matching de rdv avec l'url
+     * avec lequel se diriger pour répondre au matching
+     * @param {*} req - la req de l'api, par le futur changer ça et extraire uniquement les data necessaires
+     * @param {number} userId - l'id de l'utilisateur
+     * @param {string} url - L'url pour que le destinataire puisse répondre au matching
+     * @param {object} db - La connexion vers la bdd
+     * @returns 
+     */
+    async sendNewMatchingEvent(req, userId, url, db) {
         try {
-            const dataInitialisateur = await getUserData(req, db)
+            const dataInitialisateur = await getUserData(db, userId)
             const initialisateur = dataInitialisateur.nom + " " + dataInitialisateur.prenom
             const html = this._createFullHtml(
                 templateNewMatchingEvent
@@ -376,11 +386,11 @@ export class KlendyxMailer {
                     .replace(/{EVENT_TITLE}/, req.body.eventTitle)
                     .replace(/{EVENT_ADRESS}/, req.body.eventAddress ?? "Non renseignée")
                     .replace(/{EVENT_DESCRIPTION}/, req.body.description ?? "Non renseignée")
-                    .replace(/EVENT_DURATION/, req.body.durationEvent)
-                    .replace(/NOMBRE_PARTICIPANT/, req.body.contact.length > 1 ? `-Nombre de participants : ${req.body.contact.length}` : "")
+                    .replace(/{EVENT_DURATION}/, req.body.durationEvent)
+                    .replace(/{NOMBRE_PARTICIPANT}/, req.body.contact.length > 1 ? `-Nombre de participants : ${req.body.contact.length}` : "")
             )
 
-            const mailOptions = this._createOption(`Votre proposition de rendez-vous avec ${recipientFullName} a été répondu`, html)
+            const mailOptions = this._createOption(`Votre proposition de rendez-vous avec ${initialisateur}`, html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {

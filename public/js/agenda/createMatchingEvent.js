@@ -1,5 +1,5 @@
 async function createMatchingEvent(host, contact, rangeMin, rangeMax, undisponibility) {
-    const res = await fetch(`${host}/api/event/matching-event/create`, {
+    const res = await fetch(`${host}/api/matching-event/create`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -20,7 +20,7 @@ async function createMatchingEvent(host, contact, rangeMin, rangeMax, undisponib
     })
 
     const data = await res.json()
-    
+
     if (data.success) {
         createClassiqueModale(`${data.messageHtml}`)
     }
@@ -29,7 +29,7 @@ async function createMatchingEvent(host, contact, rangeMin, rangeMax, undisponib
 
 async function getEventGoogleInterval(host, rangeMin, rangeMax) {
     const resEventGoogle = await fetch(
-        `${host}/api/calendar/google/get?rangeMin=${encodeURIComponent(rangeMin)}&rangeMax=${encodeURIComponent(rangeMax)}`,
+        `${host}/api/calendar/get`,
         {
             method: "GET"
         });
@@ -37,14 +37,25 @@ async function getEventGoogleInterval(host, rangeMin, rangeMax) {
     return dataEventGoogle
 }
 
-function hydrateJsonUndispo(dataEventGoogle) {
+
+
+
+/**
+ * Preparre le json des indispo avec tout les contacts plus origin
+ * @param {*} dataEvent 
+ * @returns 
+ */
+function hydrateJsonUndispo(dataEvent) {
     const contact = ["origin"];
-    const listContact = $("#list-contact-send").children();
+    const listContact = $(".contact-chip-email");
     const undisponibility = {};
 
+
     for (let i = 0; i < listContact.length; i++) {
-        contact.push(escapeHtml($(`#contact-${i + 1}`).text()))
+        contact.push(escapeHtml($(listContact[i]).text()))
     }
+
+
     for (let i = 0; i < contact.length; i++) {
         undisponibility[contact[i]] = {
             validate: contact[i] === "origin" ? true : false,
@@ -54,44 +65,50 @@ function hydrateJsonUndispo(dataEventGoogle) {
         }
     }
 
-    dataEventGoogle?.events?.data?.items.forEach((e) => {
-        const start = e.start.dateTime || e.start.date;
-        const end = e.end.dateTime || e.end.date;
+    dataEvent.forEach((e) => {
+        const start = e._def.extendedProps.data.dateStart;
+        const end = e._def.extendedProps.data.dateEnd;
         undisponibility["origin"].indisponible.push({ start, end });
     })
     contact.shift()
+    console.log(undisponibility)
     return undisponibility
 }
 
+
+
+
+
+
 function setContact() {
-    const listContact = $("#list-contact-send").children();
+    const listContact = $(".contact-chip-email");
     const contact = []
     for (let i = 0; i < listContact.length; i++) {
-        contact.push(escapeHtml($(`#contact-${i + 1}`).text()))
+        contact.push(escapeHtml($(listContact[i]).text()))
     }
     return contact
 }
 
-function controlleInput(){
+function controlleInput() {
     const title = $("#event-title").val()
-    if(title.length < 1){
+    if (title.length < 1) {
         createClassiqueModale("Veuillez renseigner un titre")
         return false
     }
     const listContact = $("#list-contact-send").children();
-    if(listContact.length < 1){
+    if (listContact.length < 1) {
         createClassiqueModale("Veuillez saisir au moin un destinataire")
         return false
     }
     const rangeMax = $("#range-max").val()
-    if(!rangeMax){
+    if (!rangeMax) {
         createClassiqueModale("Veuillez saisir une date de fin dans la période")
         return false
     }
     return true
 }
 
-function resetDomAfterSubmit(today){
+function resetDomAfterSubmit(today) {
     $("#event-title").val("");
     $("#event-adress").val("");
     $("#event-describe").val("");
@@ -105,8 +122,8 @@ function resetDomAfterSubmit(today){
     $("#range-max").val("")
 
     const listContact = $("#list-contact-send").children();
-    for(let i =0 ; i < listContact.length ; i++){
-        $(`#contact-${i+1}`).remove()
+    for (let i = 0; i < listContact.length; i++) {
+        $(`#contact-${i + 1}`).remove()
     }
 }
 
@@ -125,23 +142,44 @@ $(async function () {
         e.preventDefault()
         const email = $("#input-email-contact").val()
         const valide = validateEmail(email)
-        if(!valide){
+        if (!valide) {
             createClassiqueModale("Veuillez saisir un email valide")
             return
         }
         arrayContact.push(email)
-        $("#list-contact-send").append(`<p style="width:100%; margin:0" id="contact-${arrayContact.length}"></p>`)
-        $(`#contact-${arrayContact.length}`).text(email)
+        const htmlContact = `
+        <div class="contact-chip">
+            <span class="contact-chip-email">${email}</span>
+            <button class="contact-chip-delete" type="button"
+            aria-label="Supprimer l'email ${email} de la liste des participants" data-email="${email}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+    `
+        $("#list-contact-send").append(htmlContact)
         $("#input-email-contact").val("")
     })
 
+    //suppression de contact
+    $("body").on("click", ".contact-chip-delete", function () {
+
+        const email = $(this).data("email")
+        const index = arrayContact.indexOf(email)
+        if (index !== -1) arrayContact.splice(index, 1)
+        $(this).closest(".contact-chip").remove()
+    })
 
 
     //lancement de la process
     $("#btn-submit-matching-event").on("click", async (e) => {
         e.preventDefault();
         const validInput = controlleInput()
-        if(!validInput) return
+        if (!validInput) return
 
         const config = await getConfig()
         const host = config.host
@@ -151,11 +189,20 @@ $(async function () {
         const rangeMax = $("#range-max").val()
 
         const contact = setContact()
-        const dataEventGoogle = await getEventGoogleInterval(host, rangeMin, rangeMax)
-        const undisponibility = hydrateJsonUndispo(dataEventGoogle);
+
+
+        //chercher les events dans l'interval de dispo
+        const calendarEvents = window.calendar.getEvents()
+        const eventinterval = calendarEvents.filter((event)=>{
+            return(new Date(event.extendedProps.data.dateStart) > new Date(rangeMin)
+            && new Date(event.extendedProps.data.dateEnd) < new Date(rangeMax))
+        })
+
+        //remplir le json undispo
+        const undisponibility = hydrateJsonUndispo(eventinterval);
         //Lance la machine
         const create = await createMatchingEvent(host, contact, rangeMin, rangeMax, undisponibility)
-        if(create.success){
+        if (create.success) {
             resetDomAfterSubmit(today)
         }
 

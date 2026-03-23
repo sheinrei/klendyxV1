@@ -63,7 +63,6 @@
     <link rel="stylesheet" href="/css/calendar/calendar.css">
     <link rel="stylesheet" href="/css/agenda/fullCalendar.css">
     <link rel="stylesheet" href="/css/agenda/externalEvent.css">
-    <link rel="stylesheet" href="/css/agenda/calendarSync.css">
 
 
     <!-- script -->
@@ -90,8 +89,7 @@
     <script src="/js/agenda/updateEvent.js" defer></script>
     <script src="/js/agenda/createMatchingEvent.js" defer></script>
     <script src="/js/agenda/externalEvent.js" defer></script>
-    <script src="/js/agenda/swapperForm.js" defer></script>
-    <script src="/js/agenda/frameAgendaSync.js" defer></script>
+
 
 
 </head>
@@ -100,7 +98,7 @@
 
 <body>
     <section class="content" id="content">
-        <div>
+        <div id="main-content">
 
             <header role="banner">
                 <div class="header-logo">
@@ -117,369 +115,458 @@
             <p id="message-alert-warning" role="alert" aria-live="assertive" aria-atomic="true"></p>
             <p id="message-alert-success" role="status" aria-live="polite" aria-atomic="true"></p>
 
-            <div class="container-frame-calendar-sync">
-                <div id="frame-calendar-sync" role="region" aria-label="Panneau des agendas synchronisés">
-                    <header>
-                        <p class="title-sync-calendar">Vos Agendas Synchronisés</p>
-                        <img id="retract-frame-calendar-sync" alt="Réduire le panneau des agendas synchronisés"
-                            aria-expanded="true" aria-controls="frame-calendar-sync" role="button" tabindex="0"
-                            src="https://img.icons8.com/color/50/circled-chevron-down.png">
+            <section class="frame-calendar" aria-label="Calendrier et outils">
+
+                <!-- le FC calendar -->
+                <section class="frame-top">
+
+                    <div class="frame-external">
+                        <!-- RACOURCIS D'EVENT DRAG AND DROP-->
+                        <section id="external-events">
+                            <div>
+                                <p class="external-title-small">RACCOURCIS</p>
+                                <p class="subtitle">Glisser un événement dans le calendrier</p>
+                            </div>
+
+                            <!-- RACOURCIE EXTARNAL-->
+                            <div class="frame-external-fc" role="list"
+                                aria-label="Événements favoris à glisser dans le calendrier" style="margin-top:12px">
+
+                                <div class="external-element-fav" role="listitem">
+
+                                    <div class="fc-event" data-title="Réunion" data-describe="" data-start="12:00"
+                                        data-end="13:00"
+                                        data-calendarsave='{"klendyx":true, "google":false, "apple":false, "outlook":false}'
+                                        data-image='{"src":"https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png", "alt":"external-meeting-time-management-xnimrodx-lineal-color-xnimrodx"}'
+                                        role="button" tabindex="0"
+                                        aria-label="Événement favori : Réunion, de 12h00 à 13h00. Glisser dans le calendrier pour l'ajouter.">
+                                        <svg class="grip-vertical" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="12" r="1"></circle>
+                                            <circle cx="9" cy="5" r="1"></circle>
+                                            <circle cx="9" cy="19" r="1"></circle>
+                                            <circle cx="15" cy="12" r="1"></circle>
+                                            <circle cx="15" cy="5" r="1"></circle>
+                                            <circle cx="15" cy="19" r="1"></circle>
+                                        </svg>
+                                        <img width="38" height="38"
+                                            src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png"
+                                            alt="icone d'une poubelle" aria-hidden="true">
+                                        <span class="external-title">Réunion</span>
+                                    </div>
+                                    <span class="external-event-delete" title="Supprimer Réunion des favoris"
+                                        role="button" tabindex="0"
+                                        aria-label="Supprimer l'événement Réunion des favoris">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btn-icon"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" focusable="false" aria-hidden="true">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                    </span>
+                                </div>
+
+
+                                <div class="external-element-fav" role="listitem">
+                                    <div class="fc-event" data-title="Passer un appel" data-describe=""
+                                        data-start="12:00" data-end="13:00"
+                                        data-calendarsave='{"klendyx":true, "google":false, "apple":false, "outlook":false}'
+                                        data-image='{"src":"https://img.icons8.com/doodle/48/apple-phone.png", "alt":"apple-phone"}'
+                                        role="button" tabindex="0"
+                                        aria-label="Événement favori : Passer un appel, de 12h00 à 13h00. Glisser dans le calendrier pour l'ajouter.">
+                                        <svg class="grip-vertical" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="9" cy="12" r="1"></circle>
+                                            <circle cx="9" cy="5" r="1"></circle>
+                                            <circle cx="9" cy="19" r="1"></circle>
+                                            <circle cx="15" cy="12" r="1"></circle>
+                                            <circle cx="15" cy="5" r="1"></circle>
+                                            <circle cx="15" cy="19" r="1"></circle>
+                                        </svg>
+                                        <img width="38" height="38"
+                                            src="https://img.icons8.com/doodle/48/apple-phone.png" alt=""
+                                            aria-hidden="true">
+                                        <span class="external-title">Passer un appel</span>
+                                    </div>
+                                    <span class="external-event-delete" title="Supprimer Passer un appel des favoris"
+                                        role="button" tabindex="0"
+                                        aria-label="Supprimer l'événement Passer un appel des favoris">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="btn-icon"
+                                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" focusable="false" aria-hidden="true">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+
+
+
+
+
+
+
+
+                        <!-- FORMULAIRE DE CREATION RACOURCIS-->
+                        <div class="card" role="tabpanel" aria-labelledby="swapper-title-drag">
+                            <div class="external-content">
+                                <header class="header-form">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="M12 5v14"></path>
+                                    </svg>
+                                    <h2 style="margin:0">Ajouter un raccourci</h2>
+                                </header>
+
+
+                                <span class="subtitle" style="padding-bottom:20px">
+                                    Créer un nouveau raccourci à glisser un événement dans le calendrier
+                                </span>
+
+
+                                <div class="form-group">
+                                    <label class="card-title" for="external-title">Titre</label>
+                                    <input class="form-input" type="text" id="external-title" name="external-title"
+                                        placeholder="Ex: Valider le devis" aria-describedby="external-title-hint">
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label class="card-title" for="external-add-img">Choisir une image</label>
+                                    <div class="external-img-select">
+                                        <button class="btn-add" id="external-add-img" type="button"
+                                            aria-label="Ouvrir le sélecteur d'icône pour le raccourci"
+                                            aria-expanded="false" aria-controls="icons-container">+</button>
+                                        <img src="https://img.icons8.com/color/48/hatchback.png"
+                                            alt="Icône sélectionnée pour le raccourci" id="external-img-choice"
+                                            style="display:none">
+                                    </div>
+                                    <p id="icons-container" role="listbox" aria-label="Galerie d'icônes disponibles">
+                                    </p>
+                                </div>
+
+
+
+                                <!-- External description -->
+                                <div class="form-group">
+                                    <label class="card-title" for="external-description">Description</label>
+                                    <textarea class="form-input" id="external-description" name="external-description"
+                                        rows="3" placeholder="Ex: Prendre le document Ax34br"
+                                        aria-describedby="external-description-hint"></textarea>
+                                </div>
+
+
+
+
+                                <!-- External horaire -->
+                                <div class="form-group">
+                                    <div class="flex-row" style="justify-content: flex-start;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg>
+                                        <span class="card-title">horraire</span>
+                                    </div>
+
+                                    <div class="form-group-row">
+                                        <div class="form-group">
+                                            <label for="external-horaire-start">Début</label>
+                                            <input class="form-input" type="time" value="12:00"
+                                                id="external-horaire-start" name="external-horaire-start"
+                                                aria-label="Heure de début de l'événement raccourci">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="external-horaire-end">Fin</label>
+                                            <input class="form-input" type="time" value="13:00"
+                                                id="external-horaire-end" name="external-horaire-end"
+                                                aria-label="Heure de fin de l'événement raccourci">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- External select calendar -->
+                                <fieldset class="form-group">
+                                    <legend class="card-title">Enregistrer sur le calendrier</legend>
+                                    <div class="external-form-group-calendar" role="group"
+                                        aria-label="Choisir les calendriers sur lesquels enregistrer l'événement">
+
+                                        <div class="external-input-row" id="external-calendar-save-klendyx">
+                                            <input type="checkbox" id="external-klendyx" name="external-klendyx"
+                                                style="display:none" aria-label="Enregistrer sur Klendyx">
+                                            <label class="external-label-calendar" for="external-klendyx"
+                                                title="Klendyx">
+                                                <img width="38" height="38" src="./../images/litleLogo.png"
+                                                    alt="Logo Klendyx">
+                                                <span class="badge" aria-hidden="true">✔️</span>
+                                            </label>
+                                        </div>
+
+
+                                        <div class="external-input-row" id="external-calendar-save-google">
+                                            <input type="checkbox" id="external-google" name="external-google"
+                                                style="display:none" aria-label="Enregistrer sur Google Calendar">
+                                            <label class="external-label-calendar" for="external-google" title="Google">
+                                                <img width="38" height="38"
+                                                    src="https://img.icons8.com/fluency/48/google-logo.png"
+                                                    alt="Logo Google Calendar">
+                                                <span class="badge" aria-hidden="true">✔️</span>
+                                            </label>
+                                        </div>
+
+
+                                        <div class="external-input-row" id="external-calendar-save-apple">
+                                            <input type="checkbox" id="external-apple" name="external-apple"
+                                                style="display:none" aria-label="Enregistrer sur Apple Calendar">
+                                            <label class="external-label-calendar" for="external-apple" title="Apple">
+                                                <img width="38" height="38"
+                                                    src="https://img.icons8.com/fluency/50/mac-os.png"
+                                                    alt="Logo Apple Calendar">
+                                                <span class="badge" aria-hidden="true">✔️</span>
+                                            </label>
+                                        </div>
+
+
+                                        <div class="external-input-row" id="external-calendar-save-outlook">
+                                            <input type="checkbox" id="external-outlook" name="external-outlook"
+                                                style="display:none" aria-label="Enregistrer sur Outlook Calendar">
+                                            <label class="external-label-calendar" for="external-outlook"
+                                                title="Outlook">
+                                                <img width="38" height="38"
+                                                    src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
+                                                    alt="Logo Microsoft Outlook">
+                                                <span class="badge" aria-hidden="true">✔️</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                            <!-- External submit -->
+                            <button style="width:70%; margin:auto; margin-top:15px" class="btn-primary" type="button"
+                                id="submit-add-new-external"
+                                aria-label="Ajouter ce raccourci à la liste des événements favoris">
+                                Ajouter le raccourci
+                            </button>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <!-- FC CALENDAR-->
+                    <div id="calendar" role="application" aria-label="Calendrier interactif Klendyx">
+                    </div>
+
+                </section>
+            </section>
+
+
+            <!-- formulaire pour matching d'event -->
+            <div class="form-matching-container">
+                <div id="match-event" role="region" aria-labelledby="matching-title">
+
+                    <header class="form-header">
+                        <h2 id="matching-title">
+                            <img width="24" height="24"
+                                src="https://img.icons8.com/external-parzival-1997-outline-color-parzival-1997/50/external-partner-digital-globalization-parzival-1997-outline-color-parzival-1997.png"
+                                alt="" aria-hidden="true">
+                            Créer un matching
+                        </h2>
+                        <p>Organisez votre rencontre selon les disponibilités des participants</p>
                     </header>
 
-                    <div class="frame-item-calendar-sync" role="list" aria-label="Liste des agendas connectés">
+                    <form aria-label="Formulaire de création d'un rendez-vous en matching" novalidate>
 
-                        <div class="items-calendar-sync" role="listitem">
-                            <span>Google Calendar</span>
-                            <div id="items-calendar-sync-google">
-                                <span id="sync-google"></span>
+                        <div class="form-columns">
+
+                            <!--Informations générales -->
+                            <div class="form-col">
+                                <h2 class="col-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                                        <line x1="3" y1="9" x2="21" y2="9" />
+                                        <line x1="9" y1="21" x2="9" y2="9" />
+                                    </svg>
+                                    Informations générales
+                                </h2>
+
+                                <div class="form-group">
+                                    <label for="event-title">Titre du rendez-vous</label>
+                                    <input type="text" id="event-title" name="event-title"
+                                        placeholder="Titre court et descriptif" aria-required="true"
+                                        aria-describedby="event-title-error" autocomplete="off">
+                                    <span id="event-title-error" class="field-error" role="alert"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-adress">Lieu</label>
+                                    <input type="text" id="event-adress" name="event-adress"
+                                        placeholder="Adresse ou nom du lieu" autocomplete="street-address">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="event-describe">Description</label>
+                                    <textarea id="event-describe" name="event-describe" rows="3"
+                                        placeholder="Objet et points à aborder"></textarea>
+                                </div>
                             </div>
+
+                            <!-- Participants ── -->
+                            <div class="form-col">
+                                <h3 class="col-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                        <circle cx="9" cy="7" r="4" />
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                    </svg>
+                                    Participants
+                                </h3>
+
+                                <div class="form-group">
+                                    <label for="input-email-contact">Email du destinataire</label>
+                                    <div class="input-with-button">
+                                        <input type="email" id="input-email-contact" name="input-email-contact"
+                                            placeholder="email@exemple.com"
+                                            aria-describedby="input-email-hint input-email-error" autocomplete="email">
+                                        <button type="button" id="btn-add-contact" class="btn-add"
+                                            aria-label="Ajouter ce destinataire à la liste">
+                                            <span aria-hidden="true">+</span>
+                                        </button>
+                                    </div>
+                                    <span id="input-email-hint" class="sr-only">
+                                        Saisissez un email puis cliquez sur + pour l'ajouter
+                                    </span>
+                                    <span id="input-email-error" class="field-error" role="alert"></span>
+                                </div>
+
+                                <div class="contacts-list" role="region" aria-live="polite"
+                                    aria-label="Liste des destinataires ajoutés">
+                                    <p class="list-label" id="contacts-list-label">Destinataires :</p>
+                                    <div id="list-contact-send" role="list" aria-labelledby="contacts-list-label"
+                                        aria-describedby="contacts-empty-hint">
+                                    </div>
+                                    <span id="contacts-empty-hint" class="sr-only">
+                                        Liste vide. Ajoutez des destinataires via le champ email ci-dessus.
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--Disponibilités ── -->
+                            <div class="form-col">
+                                <h3 class="col-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                    Disponibilités
+                                </h3>
+
+                                <div class="dispo-grid">
+
+                                    <!-- Durée -->
+                                    <div class="form-group">
+                                        <label for="event-duration">Durée (heures)</label>
+                                        <input type="number" id="event-duration" name="event-duration" min="0.5"
+                                            step="0.5" value="1" max="24" aria-describedby="event-duration-unit"
+                                            aria-label="Durée du rendez-vous en heures">
+                                        <span id="event-duration-unit" class="sr-only">heures</span>
+                                    </div>
+
+                                    <!-- Plage horaire -->
+                                    <fieldset>
+                                        <legend>Plage horaire</legend>
+                                        <div class="time-range">
+                                            <div class="time-input-group">
+                                                <label class="time-label" for="range-hours-min">Début</label>
+                                                <div class="time-row">
+                                                    <input type="number" id="range-hours-min" name="range-hours-min"
+                                                        min="0" max="23" value="9" aria-label="Heure de début (0 à 23)">
+                                                    <span class="time-unit" aria-hidden="true">h</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="time-input-group">
+                                                <label class="time-label" for="range-hours-max">Fin</label>
+                                                <div class="time-row">
+                                                    <input type="number" id="range-hours-max" name="range-hours-max"
+                                                        min="0" max="23" value="18" aria-label="Heure de fin (0 à 23)">
+                                                    <span class="time-unit" aria-hidden="true">h</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <!-- Période de recherche -->
+                                    <fieldset>
+                                        <legend>Période de recherche</legend>
+                                        <div class="date-range">
+                                            <div class="date-input-group">
+                                                <label class="date-label" for="range-min">Du</label>
+                                                <input type="date" id="range-min" name="range-min"
+                                                    aria-label="Date de début de la période de recherche">
+                                            </div>
+                                            <div class="date-input-group">
+                                                <label class="date-label" for="range-max">Au</label>
+                                                <input type="date" id="range-max" name="range-max"
+                                                    aria-label="Date de fin de la période de recherche">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="items-calendar-sync" role="listitem">
-                            <span>Apple Calendar</span>
-                            <div id="items-calendar-sync-apple">
-                                <span id="sync-apple"></span>
-                            </div>
+                        <!-- Bouton submit -->
+                        <div class="form-footer">
+                            <button type="submit" id="btn-submit-matching-event"
+                                aria-label="Créer le rendez-vous en matching avec les participants ajoutés">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="btn-icone">
+                                    <path
+                                        d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z">
+                                    </path>
+                                    <path d="m21.854 2.147-10.94 10.939"></path>
+                                </svg>
+                                Créer le matching
+                            </button>
                         </div>
 
-                        <div class="items-calendar-sync" role="listitem">
-                            <span>Outlook Calendar</span>
-                            <div id="items-calendar-sync-outlook">
-                                <span id="sync-outlook"></span>
-                            </div>
-                        </div>
-
-                    </div>
+                    </form>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <main id="main-content">
-        <section class="frame-calendar" aria-label="Calendrier et outils">
-
-            <!-- le FC calendar -->
-            <div id="calendar" role="application" aria-label="Calendrier interactif Klendyx">
-            </div>
-
-            <!-- formulaire sur la droite -->
-            <section class="calendar-tools" aria-label="Outils du calendrier">
-                <div class="swapper-calendar-tool" role="tablist" aria-label="Onglets des outils">
-                    <p class="swapper-title swapper-activ" id="swapper-title-drag" role="tab" tabindex="0"
-                        aria-selected="true" aria-controls="external-events">Ajout rapide</p>
-                    <p class="swapper-title" id="swapper-title-matching" role="tab" tabindex="-1" aria-selected="false"
-                        aria-controls="match-event">Matching RDV</p>
-                </div>
-
-                <div id="match-event" role="tabpanel" aria-labelledby="swapper-title-matching">
-                    <header class="form-header">
-                        <h2>
-                            <img width="50" height="50" style="margin-right:6px"
-                                src="https://img.icons8.com/external-parzival-1997-outline-color-parzival-1997/50/external-partner-digital-globalization-parzival-1997-outline-color-parzival-1997.png"
-                                alt="">
-                            <strong>Créer un matching</strong>
-                        </h2>
-                        <p>Organisez votre rencontre selon les disponibilités des participants</p>
-                    </header>
-
-                    <form aria-label="Formulaire de création d'un rendez-vous en matching" novalidate>
-                        <!-- Informations générales -->
-                        <div class="form-section">
-                            <h3 class="section-title">📋 Informations générales</h3>
-
-                            <div class="form-group">
-                                <label for="event-title">Titre du rendez-vous</label>
-                                <input type="text" id="event-title" name="event-title"
-                                    placeholder="Ex: Réunion trimestrielle" aria-required="true"
-                                    aria-describedby="event-title-hint">
-                                <span id="event-title-hint" class="sr-only">Saisissez un titre court et descriptif pour
-                                    votre rendez-vous</span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="event-adress">Lieu du rendez-vous</label>
-                                <input type="text" id="event-adress" name="event-adress"
-                                    placeholder="Ex: Salle de conférence A" aria-describedby="event-adress-hint">
-                                <span id="event-adress-hint" class="sr-only">Indiquez l'adresse ou le nom du lieu</span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="event-describe">Description</label>
-                                <textarea id="event-describe" name="event-describe" rows="3"
-                                    placeholder="Ex: Valider le devis de Mr Jean et discuter du planning"
-                                    aria-describedby="event-describe-hint"></textarea>
-                                <span id="event-describe-hint" class="sr-only">Décrivez l'objet et les points à aborder
-                                    lors du rendez-vous</span>
-                            </div>
-                        </div>
-
-                        <!-- Participants -->
-                        <div class="form-section">
-                            <h3 class="section-title">👥 Participants</h3>
-
-                            <div class="form-group">
-                                <label for="input-email-contact">Email du destinataire</label>
-                                <div class="input-with-button">
-                                    <input type="email" id="input-email-contact" placeholder="exemple@email.com"
-                                        aria-describedby="input-email-hint" required>
-                                    <span id="input-email-hint" class="sr-only">Saisissez l'adresse email d'un
-                                        participant puis cliquez sur le bouton + pour l'ajouter</span>
-                                    <button type="button" id="btn-add-contact" class="btn-add"
-                                        aria-label="Ajouter ce destinataire à la liste">
-                                        <span aria-hidden="true">+</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="contacts-list" role="region" aria-live="polite"
-                                aria-label="Liste des destinataires ajoutés">
-                                <p class="list-label" id="contacts-list-label">Destinataires ajoutés :</p>
-                                <div id="list-contact-send" class="contact-chips" role="list"
-                                    aria-labelledby="contacts-list-label">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Disponibilités -->
-                        <div class="form-section">
-                            <h3 class="section-title">📅 Disponibilités</h3>
-
-                            <div class="form-group">
-                                <label for="event-duration">Durée du rendez-vous</label>
-                                <div class="duration-input">
-                                    <input type="number" id="event-duration" name="event-duration" min="0.5" step="0.5"
-                                        value="1" max="24" aria-describedby="event-duration-unit"
-                                        aria-label="Durée du rendez-vous en heures">
-                                    <span class="duration-unit" id="event-duration-unit">heure(s)</span>
-                                </div>
-                            </div>
-
-                            <fieldset class="form-group">
-                                <legend>Plage horaire</legend>
-                                <div class="time-range">
-                                    <div class="time-input-group">
-                                        <label for="range-hours-min" class="time-label">Début</label>
-                                        <input type="number" id="range-hours-min" name="range-hours-min" min="0"
-                                            max="23" value="9" placeholder="9" aria-label="Heure de début (0 à 23)">
-                                        <span class="time-unit" aria-hidden="true">h</span>
-                                    </div>
-                                    <span class="range-separator" aria-hidden="true">—</span>
-                                    <div class="time-input-group">
-                                        <label for="range-hours-max" class="time-label">Fin</label>
-                                        <input type="number" id="range-hours-max" name="range-hours-max" min="0"
-                                            max="23" value="18" placeholder="18" aria-label="Heure de fin (0 à 23)">
-                                        <span class="time-unit" aria-hidden="true">h</span>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset class="form-group">
-                                <legend>Période de recherche</legend>
-                                <div class="date-range">
-                                    <div class="date-input-group">
-                                        <label for="range-min" class="date-label">Du</label>
-                                        <input type="date" id="range-min" name="range-min"
-                                            aria-label="Date de début de la période de recherche">
-                                    </div>
-                                    <div class="date-input-group">
-                                        <label for="range-max" class="date-label">Au</label>
-                                        <input type="date" id="range-max" name="range-max"
-                                            aria-label="Date de fin de la période de recherche">
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <!-- Bouton de soumission -->
-                        <button type="submit" id="btn-submit-matching-event" class="btn btn-primary"
-                            aria-label="Créer le rendez-vous en matching avec les participants ajoutés">
-                            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                aria-hidden="true" focusable="false">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Créer le rendez-vous
-                        </button>
-                    </form>
-                </div>
-
-                <div id="external-events" role="tabpanel" aria-labelledby="swapper-title-drag">
-                    <h2>
-                        <img width="38" height="38" src="https://img.icons8.com/fluency/48/windows-calendar.png" alt=""
-                            aria-hidden="true">
-                        <strong>Ajouter un événement</strong>
-                    </h2>
-                    <p class="external-events-subtitle">Glisser un événement dans le calendrier</p>
-
-                    <div class="frame-external-fc" role="list"
-                        aria-label="Événements favoris à glisser dans le calendrier">
-
-                        <div class="external-element-fav" role="listitem">
-                            <div class="fc-event" data-title="Réunion" data-describe="" data-start="12:00"
-                                data-end="13:00"
-                                data-calendarsave='{"klendyx":true, "google":false, "apple":false, "outlook":false}'
-                                data-image='{"src":"https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png", "alt":"external-meeting-time-management-xnimrodx-lineal-color-xnimrodx"}'
-                                role="button" tabindex="0"
-                                aria-label="Événement favori : Réunion, de 12h00 à 13h00. Glisser dans le calendrier pour l'ajouter.">
-                                <img width="38" height="38"
-                                    src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/external-meeting-time-management-xnimrodx-lineal-color-xnimrodx.png"
-                                    alt="" aria-hidden="true">
-                                <span>Réunion</span>
-                            </div>
-                            <span class="external-event-delete" title="Supprimer Réunion des favoris" role="button"
-                                tabindex="0" aria-label="Supprimer l'événement Réunion des favoris">
-                                <img src="https://img.icons8.com/?size=100&id=tC7FD0dyIjSg&format=png&color=000000"
-                                    alt="" aria-hidden="true">
-                            </span>
-                        </div>
-
-                        <div class="external-element-fav" role="listitem">
-                            <div class="fc-event" data-title="Passer un appel" data-describe="" data-start="12:00"
-                                data-end="13:00"
-                                data-calendarsave='{"klendyx":true, "google":false, "apple":false, "outlook":false}'
-                                data-image='{"src":"https://img.icons8.com/doodle/48/apple-phone.png", "alt":"apple-phone"}'
-                                role="button" tabindex="0"
-                                aria-label="Événement favori : Passer un appel, de 12h00 à 13h00. Glisser dans le calendrier pour l'ajouter.">
-                                <img width="38" height="38" src="https://img.icons8.com/doodle/48/apple-phone.png"
-                                    alt="" aria-hidden="true">
-                                <span>Passer un appel</span>
-                            </div>
-                            <span class="external-event-delete" title="Supprimer Passer un appel des favoris"
-                                role="button" tabindex="0"
-                                aria-label="Supprimer l'événement Passer un appel des favoris">
-                                <img src="https://img.icons8.com/?size=100&id=tC7FD0dyIjSg&format=png&color=000000"
-                                    alt="" aria-hidden="true">
-                            </span>
-                        </div>
-                    </div>
-
-                    <span class="divider" role="separator" aria-hidden="true"></span>
-
-                    <section aria-label="Créer un raccourci d'événement personnalisé">
-                        <h3>Créer son raccourci</h3>
-                        <div class="external-form-group">
-                            <label for="external-title">Titre</label>
-                            <input type="text" id="external-title" name="external-title"
-                                placeholder="Ex: Valider le devis" aria-describedby="external-title-hint">
-                            <span id="external-title-hint" class="sr-only">Nom qui apparaîtra sur le raccourci dans la
-                                liste des favoris</span>
-                        </div>
-
-                        <div>
-                            <label for="external-add-img">Choisir une image</label>
-                            <div class="external-img-select">
-                                <button class="btn-add" id="external-add-img" type="button"
-                                    aria-label="Ouvrir le sélecteur d'icône pour le raccourci" aria-expanded="false"
-                                    aria-controls="icons-container">+</button>
-                                <img src="https://img.icons8.com/color/48/hatchback.png"
-                                    alt="Icône sélectionnée pour le raccourci" id="external-img-choice"
-                                    style="display:none">
-                            </div>
-                            <p id="icons-container" role="listbox" aria-label="Galerie d'icônes disponibles"></p>
-                        </div>
-                    </section>
-
-                    <!-- External description -->
-                    <div class="external-form-group">
-                        <label for="external-description">Description</label>
-                        <textarea id="external-description" name="external-description" rows="3"
-                            placeholder="Ex: Prendre le document Ax34br"
-                            aria-describedby="external-description-hint"></textarea>
-                        <span id="external-description-hint" class="sr-only">Description optionnelle qui sera associée à
-                            cet événement raccourci</span>
-                    </div>
-
-                    <span class="divider" role="separator" aria-hidden="true"></span>
-
-                    <!-- External horaire -->
-                    <fieldset class="external-form">
-                        <legend>Horaire</legend>
-                        <div class="external-input-row">
-                            <div class="external-horaire-block">
-                                <label for="external-horaire-start">Début</label>
-                                <input type="time" value="12:00" id="external-horaire-start"
-                                    name="external-horaire-start" aria-label="Heure de début de l'événement raccourci">
-                            </div>
-
-                            <div class="external-horaire-block">
-                                <label for="external-horaire-end">Fin</label>
-                                <input type="time" value="13:00" id="external-horaire-end" name="external-horaire-end"
-                                    aria-label="Heure de fin de l'événement raccourci">
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <span class="divider" role="separator" aria-hidden="true"></span>
-
-                    <!-- External select calendar -->
-                    <fieldset class="external-form-group">
-                        <legend>Enregistrer sur le calendrier</legend>
-                        <div class="external-form-group-calendar" role="group"
-                            aria-label="Choisir les calendriers sur lesquels enregistrer l'événement">
-
-                            <div class="external-input-row" id="external-calendar-save-klendyx">
-                                <input type="checkbox" id="external-klendyx" name="external-klendyx"
-                                    style="display:none" aria-label="Enregistrer sur Klendyx">
-                                <label class="external-label-calendar" for="external-klendyx" title="Klendyx">
-                                    <img width="38" height="38" src="./../images/litleLogo.png" alt="Logo Klendyx">
-                                    <span class="badge" aria-hidden="true">✔️</span>
-                                </label>
-                            </div>
-
-                            <div class="external-input-row" id="external-calendar-save-google">
-                                <input type="checkbox" id="external-google" name="external-google" style="display:none"
-                                    aria-label="Enregistrer sur Google Calendar">
-                                <label class="external-label-calendar" for="external-google" title="Google">
-                                    <img width="38" height="38" src="https://img.icons8.com/fluency/48/google-logo.png"
-                                        alt="Logo Google Calendar">
-                                    <span class="badge" aria-hidden="true">✔️</span>
-                                </label>
-                            </div>
-
-                            <div class="external-input-row" id="external-calendar-save-apple">
-                                <input type="checkbox" id="external-apple" name="external-apple" style="display:none"
-                                    aria-label="Enregistrer sur Apple Calendar">
-                                <label class="external-label-calendar" for="external-apple" title="Apple">
-                                    <img width="38" height="38" src="https://img.icons8.com/fluency/50/mac-os.png"
-                                        alt="Logo Apple Calendar">
-                                    <span class="badge" aria-hidden="true">✔️</span>
-                                </label>
-                            </div>
-
-                            <div class="external-input-row" id="external-calendar-save-outlook">
-                                <input type="checkbox" id="external-outlook" name="external-outlook"
-                                    style="display:none" aria-label="Enregistrer sur Outlook Calendar">
-                                <label class="external-label-calendar" for="external-outlook" title="Outlook">
-                                    <img width="38" height="38"
-                                        src="https://img.icons8.com/fluency/48/microsoft-outlook-2019.png"
-                                        alt="Logo Microsoft Outlook">
-                                    <span class="badge" aria-hidden="true">✔️</span>
-                                </label>
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <!-- External submit -->
-                    <button style="width:70%; margin:auto; margin-top:15px" class="btn-primary" type="button"
-                        id="submit-add-new-external"
-                        aria-label="Ajouter ce raccourci à la liste des événements favoris">
-                        Ajouter le raccourci
-                    </button>
-                </div>
-
-            </section>
-        </section>
-    </main>
-
-    <script>
-        (function () {
-            const redirect = window.localStorage.getItem("redirect")
-            if (redirect) {
-                window.location.href = redirect
-            }
-        })
-    </script>
 </body>
 
 </html>

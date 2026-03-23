@@ -265,7 +265,7 @@ header p:first-child {
     outline: none;
 }
 
-@media(max-width:800px) {
+@media(max-width:768px) {
     .frame-contact {
         padding: 20px
     }

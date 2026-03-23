@@ -129,11 +129,6 @@
     color: var(--primary-color)
 }
 
-.card-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0
-}
 
 .card-rdv {
     background-color: white;

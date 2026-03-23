@@ -50,16 +50,17 @@ export const templatePropositionRdv = `<tr>
 
             <p style="margin-bottom:15px;">Merci de renseigner votre réponse en cliquant sur le bouton ci-dessous :</p>
 
-            <a href="{URL}" style="
-                display:inline-block;
-                padding: 10px 20px;
-                background: linear-gradient(to right, rgba(113,106,249,1) 0%, rgba(91,9,121,1) 100%);
-                border-radius: 7px;
-                color: white;
-                text-decoration:none;
-                font-weight:bold;
-                margin:auto;
-            ">Répondre</a>
+            <div style="display:flex; align-items:center; justify-content:center">
+                <a href="{URL}" style="
+                    display:inline-block;
+                    padding: 10px 20px;
+                    background: linear-gradient(to right, rgba(113,106,249,1) 0%, rgba(91,9,121,1) 100%);
+                    border-radius: 7px;
+                    color: white;
+                    text-decoration:none;
+                    font-weight:bold;
+                ">Répondre</a>
+            </div>
 
             <div style="margin-top:25px;">
                 <p>A bientôt,</p>
