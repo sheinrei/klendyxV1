@@ -9,7 +9,8 @@ export const templateValidationMatching = `
 
             <!-- TEXTE PRINCIPAL -->
             <p style="font-size:16px; line-height:1.6; margin:0 0 20px 0;">
-                Votre rendez-vous avec <strong>{initialisateur}</strong> a été confirmé.
+                Suite à la validation du matching de rendez-vous, le rendez-vous avec <strong>{initialisateur}</strong> 
+                a été confirmé pour la date suivante :
             </p>
 
             <!-- INFOS RDV -->
@@ -23,24 +24,6 @@ export const templateValidationMatching = `
                     </td>
                 </tr>
             </table>
-
-            <!-- DIVIDER (email safe) -->
-            <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
-                <tr>
-                    <td style="border-top:1px solid #e5e7eb;"></td>
-                </tr>
-            </table>
-
-            <!-- TEXTE DE CLÔTURE -->
-            <p style="font-size:14px; line-height:1.6; margin:0 0 20px 0;">
-                Klendyx - "Gérez votre emploi du temps, gagnez du temps."
-            </p>
-
-            <p style="font-size:14px; line-height:1.6; margin:0;">
-                Cordialement,<br>
-                <strong>Votre équipe Klendyx</strong>
-            </p>
-
         </td>
     </tr>
 `

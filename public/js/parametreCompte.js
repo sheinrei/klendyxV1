@@ -96,7 +96,6 @@ async function setAbonnement(host) {
     const textDataRefresh = `${dateToFr(data.data.refreshAt.split(" ")[0])} à ${data.data.refreshAt.split(" ")[1].replace(":", "h").slice(0, 3)}00`
 
     $("#user-plan").text(`Votre abbonnement : ${data.data.plan}`)
-    console.log(data.data)
     $("#user-credit-sms").text(data.data.sms)
     $("#user-credit-email").text(data.data.email)
     $("#user-date-refresh-credit").text(textDataRefresh)
@@ -262,7 +261,6 @@ $(async () => {
             })
         })
         const res = await reset.json();
-        console.log(res)
         MessageAlert.create(res.success ? "success" : "warning", "#input-message-alert-password", res.message)
         if (res.success) {
             $("#last-password").val("")
@@ -310,7 +308,6 @@ $(async () => {
             })
         })
         const data = await res.json();
-        console.log(data)
     })
 
     //Préférence activer la police d'aide à la dyslexie
@@ -358,7 +355,6 @@ $(async () => {
             })
         })
         const resJson = await res.json();
-        console.log(resJson)
     })
 
     $("#btn-export-data-user").on("click", function (e) {
@@ -442,7 +438,6 @@ $(async () => {
     //Déclanche l'envoie du mail début de delete complet
     $(document).on("click", "#btn-confirm-delete", async function (e) {
         e.preventDefault();
-        console.log("delete")
         const sendDelete = await fetch(`${host}/api/user/send-delete`, {
             method: "POST",
             headers: {

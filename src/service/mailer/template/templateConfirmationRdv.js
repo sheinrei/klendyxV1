@@ -11,7 +11,7 @@ export const templateConfirmationRdv =`
 
                 <tr>
                     <td>
-                        <table style="width:fit-content;margin-left:50px; background-color: #F7FAFF;border-radius: 8px;padding: 20px 10px;margin:auto" cellpadding="0" cellspacing="0" border="0">
+                        <table style="width:fit-content;background-color: #F7FAFF;border-radius: 8px;padding: 20px 10px;margin:auto" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td style="padding-bottom:10px;">
 
@@ -67,7 +67,7 @@ export const templateConfirmationRdv =`
                     </td>
                 </tr>
 
-                <tr>
+                <tr style="margin-top:10px">
                     <td>
                         {COMMENTAIRE}
                     </td>

@@ -25,7 +25,7 @@ export const templateResolvMatching = `
 
             <!-- TEXTE -->
             <p style="font-size:16px; line-height:1.6; margin:0 0 25px 0;">
-                Pour finaliser cet événement et notifier tous les participants, veuillez valider votre choix :
+                Pour finaliser cet événement et notifier tous les participants, veuillez valider la date votre choix :
             </p>
 
             <!-- CTA BUTTON -->
@@ -39,24 +39,6 @@ export const templateResolvMatching = `
                     </td>
                 </tr>
             </table>
-
-            <!-- DIVIDER -->
-            <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
-                <tr>
-                    <td style="border-top:1px solid #e5e7eb;"></td>
-                </tr>
-            </table>
-
-            <!-- FOOT TEXT -->
-            <p style="font-size:14px; line-height:1.6; margin:0 0 20px 0;">
-                Klendyx - "Gérez votre emploi du temps, gagnez du temps."
-            </p>
-
-            <p style="font-size:14px; line-height:1.6; margin:0;">
-                Cordialement,<br>
-                <strong>Votre équipe Klendyx</strong>
-            </p>
-
         </td>
     </tr>
 `

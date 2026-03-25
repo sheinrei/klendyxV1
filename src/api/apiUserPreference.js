@@ -39,7 +39,7 @@ routerApiUserPreference.post("/delete", authMiddleware, async (req, res) => {
     try {
         const userId = req.userId;
         const deleted = await new UserPreference(userId).deleteUserPreference()
-        return res.json({ success: deleted.success, message: updated.message })
+        return res.json({ success: deleted.success, message: deleted.message })
     } catch (err) {
         console.log(err);
         return res.json({ success: false, message: "Une erreur est survenue, rééssayer plus tard si le problème persiste veuillez contacter notre support" })

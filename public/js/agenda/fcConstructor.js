@@ -29,12 +29,10 @@ async function getCalendarEvents(host, calendarSync) {
 
 function combineDateAndTimeLocal(date, timeString) {
     const [h, m] = timeString.split(":").map(Number);
-
     const year = date.getFullYear();
-    const month = date.getMonth(); // 0-based
+    const month = date.getMonth(); 
     const day = date.getDate();
 
-    // ⚠️ Date locale explicite
     return new Date(year, month, day, h, m, 0, 0);
 }
 
@@ -243,11 +241,10 @@ $(document).ready(async () => {
     $(window).on("resize", function () {
         console.log("resize du fc")
         const currentWidth = window.innerWidth
-        
         window.calendar.changeView(currentWidth < 768 ?  "dayGridWeek" : 'dayGridMonth')
-        
         window.calendar.updateSize();
     })
+
 
     const navbar = document.querySelector('.navbar');
     navbar.addEventListener('transitionend', () => {

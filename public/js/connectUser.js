@@ -4,19 +4,16 @@ $(document).ready(async function () {
     const config = await getConfig()
     const host = config.host
 
+
+
     $("#loginForm").on("submit", async (e) => {
         e.preventDefault();
 
-
         //reset du message d'alerte
-        MessageAlert.removeMessage()
-
+        MessageAlert.removeMessage(0)
 
         const email = $("#emailConnect").val();
         const mdp = $("#mdpConnect").val();
-
-
-
 
         $.ajax({
             url: `${host}/api/user/connect`,
@@ -33,7 +30,8 @@ $(document).ready(async function () {
                     const html = `<div class="frame-2FA">
                     <div class="header-2FA">
                         <p style="font-size:18px"><strong>Vérification en deux étapes</strong></p>
-                        <p>Entrez le code à 6 chiffres que nous venons de vous envoyer par email</p>
+                        <p>Vous avez reçu un code d'authentification sur votre adresse email</p>
+                        <p>Veuillez saisir le code à 6 chiffres</p>
                     </div>
                         <form class="form-2FA">
                             <input type="hidden" value="${data.id}" id="input-id" />
@@ -49,14 +47,13 @@ $(document).ready(async function () {
                     </div>`
 
                     $("#loginForm").remove();
-                    $("#login-tab").append(html)
+                    $("#login-tab").prepend(html)
 
                     return
                 }
 
 
                 if (data.success == true) {
-
                     const redirect = window.localStorage.getItem("redirect")
                     if (redirect) {
                         window.location.href = redirect
@@ -78,6 +75,7 @@ $(document).ready(async function () {
     });
 
 
+    //Submit du code 2FA
     $("body").on("click", "#btn-submit-2FA", async function (e) {
         e.preventDefault()
 
@@ -88,8 +86,6 @@ $(document).ready(async function () {
         for (let i = 1; i < 7; i++) {
             code += $(`#input-2FA-${i}`).val()
         }
-
-        console.log(code);
         const submit = await fetch(`${host}/api/user/auth-2FA`, {
             method: "POST",
             headers: {
@@ -102,10 +98,11 @@ $(document).ready(async function () {
         })
 
         const resSubmit = await submit.json();
-        if (resSubmit.success) {
-            window.location.href = "/dashboard"
-        }
-        console.log(resSubmit)
+        
+        resSubmit.success 
+        ? window.location.href = "/dashboard" 
+        : MessageAlert.create("error", "#input-message-alert", "Le code que vous avez saisis est incorrect.").removeMessage(3000)
+
     })
 
     //gestion UX des input 2FA pour C/C

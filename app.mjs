@@ -3,7 +3,6 @@ import cookieParser from "cookie-parser"
 import cors from "cors"
 
 
-
 //router
 import routerHtml from "./src/route/routerHtml.js";
 import routerApiUser from "./src/api/apiUser.js";
@@ -28,6 +27,10 @@ import { initDb } from "./src/sequelize.js"
 //webhook
 import { uploadGitToProd } from "./src/service/webhookGit.js"
 import { startCronTask } from "./src/service/cronTask/cronStart.js";
+
+
+import { KlendyxMailer } from "./src/service/mailer/ClassMailer.js";
+
 
 
 
@@ -78,11 +81,11 @@ app.post(`/webhook/:token`, (req, res) => {
 
 app.listen(port, async () => {
     try {
-        console.log(`Application Node lancé sur : http://localhost:${port}/index`)
         //Lancement des tâches cron
         startCronTask(true)
         //Connexion de la base de donnée
         await initDb()
+        console.log(`Application Node lancé sur : http://localhost:${port}/index`)
     } catch (err) {
         console.warn(err)
     }

@@ -414,6 +414,7 @@ $(async () => {
         if (updated.success) {
             MessageAlert.create("success","#message-alert", "Merci pour votre réponse, vos disponibilitées on bien été prise en compte. Vous recevrez un message de notification par email lorsequ'une date définitive aura été établie.")
             MessageAlert.removeMessage("12000")
+            $("#btn-submit-matching").remove()
         }
     });
 

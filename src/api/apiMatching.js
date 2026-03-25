@@ -29,10 +29,10 @@ routerApiMatching.post("/create", authMiddleware, async (req, res) => {
             const url = `${process.env.HOST}/matching-rdv/${create.token}/${contact}`
             const mailer = new KlendyxMailer(contact)
             const send = await mailer.sendNewMatchingEvent(req, req.userId, url, db)
-            if(!send.success){
+            if (!send.success) {
                 return res.status(400).json({
-                    success:false,
-                    message : send.message
+                    success: false,
+                    message: send.message
                 })
             }
         }
@@ -89,7 +89,7 @@ routerApiMatching.post("/update", async (req, res) => {
 
 
 routerApiMatching.post("/final", async (req, res) => {
-    const { token,  titleEvent, dateEventString, hoursStartString, hoursEndString } = req.body
+    const { token, titleEvent, dateEventString, hoursStartString, hoursEndString } = req.body
     const dataEvent = await getMatchingEvent(db, token)
     if (!dataEvent) {
         return res.json({ success: false, message: "Cet evenement est déjà cloturé ou n'existe pas." })
@@ -99,8 +99,8 @@ routerApiMatching.post("/final", async (req, res) => {
 
 
     //delete l'event qui est fini
-    const deletedEvent = deleteMatchingEvent(db, token)
-    if (!deletedEvent.successs) {
+    const deletedEvent = await deleteMatchingEvent(db, token)
+    if (!deletedEvent.success) {
         console.log("erreur dans la suppression de l'eventMatching")
     }
 
@@ -112,10 +112,12 @@ routerApiMatching.post("/final", async (req, res) => {
             .then(() => contactSendSuccess.push(send.success))
     })
     console.log("email envoyé aux participants du matching etat envoyé : ", contactSendSuccess)
-    return res.json({
-        success: true,
-        contactSending: contactSendSuccess
-    })
+    return res
+        .status(deletedEvent.success ? 200 : 400)
+        .json({
+            success: deletedEvent.success,
+            contactSending: contactSendSuccess 
+        })
 })
 
 

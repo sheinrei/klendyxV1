@@ -131,6 +131,7 @@ function selectBestDayScoring(structure, numberReturn, arrayDaysValid) {
             bestDays.push({ date: day, data: structure[day] });
         }
     });
+    console.log(bestDays)
     return bestDays;
 }
 
@@ -146,12 +147,12 @@ function findAvailableSlots(events, timeRdv, hoursStart, hoursEnd, date) {
     for (let hour = hoursStart; hour < hoursEnd; hour++) {
         for (let minute = 0; minute < 60; minute += 15) {
 
-            // Création locale (corrige le décalage UTC)
+            // Création locale 
             const slotStart = new Date(date);
             slotStart.setHours(hour, minute, 0, 0);
 
             const slotEnd = new Date(slotStart.getTime() + timeRdv * 60 * 60 * 1000);
-            //console.log("Créneau :", slotStart.toLocaleString(), "→", slotEnd.toLocaleString());
+            //console.log("Créneau :", slotStart.toLocaleString(), "->", slotEnd.toLocaleString());
 
             if (slotEnd.getHours() < hoursEnd || (slotEnd.getHours() === hoursEnd && slotEnd.getMinutes() === 0)) {
                 allPossibleSlots.push({
@@ -177,16 +178,6 @@ function findAvailableSlots(events, timeRdv, hoursStart, hoursEnd, date) {
 
     return slots;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -228,6 +219,8 @@ function calculateOverlap(slot, preference) {
     if (overlapStart >= overlapEnd) return 0;
     return (overlapEnd - overlapStart) / (1000 * 60 * 60);
 }
+
+
 
 function scoreAndSelectBest(slots, preferences) {
     if (!slots || slots.length === 0) return null;
@@ -331,6 +324,7 @@ export function resolveMatchingEvent(
 
     // 3. Retirer les jours indisponibles (allDay)
     const arrayDaysValide = dropIndispoDays(allContacts, dayInInterval, data);
+
     // 4. Créer la structure pour chaque jour valide
     let structureDays = {};
     arrayDaysValide.forEach((day) => {

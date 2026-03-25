@@ -38,19 +38,6 @@ export const templateNewMatchingEvent = `
                     {NOMBRE_PARTICIPANT}
                 </p>
             </div>
-            
-            <!-- SEPARATEUR -->
-            <hr style="border:none; border-top:1px solid #e5e7eb; margin:30px 0;">
-            
-            <!-- SIGNATURE -->
-            <p style="font-size:14px; margin:0 0 10px 0;">
-                Klendyx — "Gérez votre emploi du temps, gagnez du temps."
-            </p>
-            
-            <p style="font-size:14px; margin:0;">
-                Cordialement,<br>
-                <strong>Votre équipe</strong>
-            </p>
 
         </td>
     </tr>

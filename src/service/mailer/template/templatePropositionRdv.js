@@ -44,7 +44,7 @@ export const templatePropositionRdv = `<tr>
 
             </div>
 
-            <div style="margin-bottom:20px;">
+            <div style="margin-bottom:20px;margin-top:20px;">
                 {COMMENTAIRE}
             </div>
 
@@ -60,11 +60,6 @@ export const templatePropositionRdv = `<tr>
                     text-decoration:none;
                     font-weight:bold;
                 ">Répondre</a>
-            </div>
-
-            <div style="margin-top:25px;">
-                <p>A bientôt,</p>
-                <p>Votre équipe</p>
             </div>
         </div>
     </td>

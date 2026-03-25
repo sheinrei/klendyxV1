@@ -69,11 +69,19 @@ export class KlendyxMailer {
         const date = new Date()
         const year = date.getFullYear()
         return `
-            <tr>
-            <td style="background-color:#f4f4f4; padding:20px; text-align:center; font-size:12px; color:#777777;">
-                &copy; ${year} Klendyx. Tous droits réservés.
+        <tr>
+            <td style="padding: 20px 30px; font-family: Arial, sans-serif; font-size:14px; color:#1f2937;">
+                Cordialement,<br>
+                <strong>L'équipe Klendyx</strong>
             </td>
-            </tr>
+        </tr>
+        <tr>
+            <td style="background-color:#f4f4f4; padding:20px; text-align:center; font-family: Arial, sans-serif; font-size:12px; color:#777777;">
+                &copy; ${year} Klendyx. Tous droits réservés.<br>
+                Klendyx - "Gérez votre emploi du temps, gagnez du temps."
+            </p>
+            </td>
+        </tr>
     `
     }
 
@@ -176,7 +184,8 @@ export class KlendyxMailer {
 
 
     /**
-     * Envoie un email pour notifier la résolution d'un matching de rendez-vous
+     * Envoie un email aux participants à un matching de rendez-vous
+     * pour notifier la résolution du matching et indiquer la date confirmé
      * @param {number} id - userId de l'initialisateur
      * @param {string} titleEvent - Le titre de l'événement du matching
      * @param {string} dateEvent - La date de l'événement
@@ -197,7 +206,7 @@ export class KlendyxMailer {
                 .replace(/{hoursStart}/, hoursStart)
                 .replace(/{hoursEnd}/, hoursEnd)
             )
-            const mailOptions = this._createOption(`Confirmation du rendez-vous "${titleEvent}" avec ${initialisateur}`, html)
+            const mailOptions = this._createOption(`Votre rendez-vous "${titleEvent}" est confirmé`, html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {
@@ -325,7 +334,7 @@ export class KlendyxMailer {
     }
 
 
-    async sendPropositionRdv(url,nom, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd) {
+    async sendPropositionRdv(url, nom, prenom, nameInitialisateur, title, commentaire, dayStart, hourStart, hourEnd) {
         try {
 
             let day = new Date(dayStart.replace(":", "-"))
@@ -369,11 +378,11 @@ export class KlendyxMailer {
     /**
      * Envoie de l'email de création de matching de rdv au destinataire du matching de rdv avec l'url
      * avec lequel se diriger pour répondre au matching
-     * @param {*} req - la req de l'api, par le futur changer ça et extraire uniquement les data necessaires
+     * @param {Object} req - la req de l'api, par le futur changer ça et extraire uniquement les data necessaires
      * @param {number} userId - l'id de l'utilisateur
      * @param {string} url - L'url pour que le destinataire puisse répondre au matching
      * @param {object} db - La connexion vers la bdd
-     * @returns 
+     * @returns {Promise<Object>}
      */
     async sendNewMatchingEvent(req, userId, url, db) {
         try {
@@ -415,7 +424,7 @@ export class KlendyxMailer {
     async sendVerifyAccount(url) {
         try {
             const html = this._createFullHtml(templateVerifyAccount.replace(/{URL}/, url))
-            const mailOptions = this._createOption(`Confirmation création de votre compte Klendyx`, html)
+            const mailOptions = this._createOption(`Confirmez votre compte Klendyx pour commencer`, html)
             const sending = await this.transporter.sendMail(mailOptions);
 
             if (!sending.messageId) {
@@ -456,7 +465,7 @@ export class KlendyxMailer {
         }
     }
 
-    
+
     /**
      * Envoie un email pour notifier à l'utilisateur que son mot de passe Klendyx a été modifié
      * @param {*} User 

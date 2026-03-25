@@ -7,12 +7,12 @@ export const templateVerifyAccount = `
         </p>
 
         <p style="font-size:16px;line-height:1.6;margin:0 0 20px 0;">
-            Merci de vous être inscrit sur notre application <strong>Klendyx</strong>. 
-            Nous sommes ravis de vous compter parmi nous 🎉
+            Merci de vous être inscrit sur notre application <strong>Klendyx</strong>. <br>
+            Nous sommes ravis de vous compter parmi nous.
         </p>
 
-        <p style="font-size:16px;line-height:1.6;margin:0 0 20px 0;">
-            Pour activer votre compte, cliquez sur le bouton ci-dessous :
+        <p style="font-size:16px;line-height:1.6;margin:0;">
+            Afin d'activer votre compte de manière permanante veuillez cliquez sur le bouton ci-dessous :
         </p>
 
         <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -37,17 +37,8 @@ export const templateVerifyAccount = `
             Si vous n’êtes pas à l’origine de cette inscription, vous pouvez simplement ignorer cet e-mail.
         </p>
 
-        <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td style="padding:30px 0;">
-                    <div style="height:1px;background-color:#e5e7eb;"></div>
-                </td>
-            </tr>
-        </table>
-
         <p style="font-size:16px;line-height:1.6;margin:0;">
             Bienvenue encore une fois,<br>
-            <strong>L’équipe Klendyx</strong>
         </p>
 
     </td>
