@@ -178,6 +178,10 @@ routerApiUser.get("/user/verify/:token/:id", async (req, res) => {
     return res.json({ success: true, message: "Succes los de la verification du compte" })
 })
 
+
+
+
+
 //Auth utilisateur
 routerApiUser.post("/api/user/connect", async (req, res) => {
 
@@ -193,14 +197,12 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
         }
 
         const userId = auth.userId
-        const Session = new UserSession(userId).createUserSession()
+        const session = await new UserSession(userId).createUserSession()
         
 
         const userPreference = await new UserPreference(userId).getUserPreference()
 
         const user2FA = userPreference.data.doubleAuth
-
-
         if (user2FA) {
             const sending = await create2FA(db, userId);
 
@@ -210,8 +212,6 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
                 "2FA": true,
                 id: userId
             })
-
-
         }
 
 
@@ -236,7 +236,6 @@ routerApiUser.post("/api/user/connect", async (req, res) => {
             error: err.message
         })
     }
-
 })
 
 
