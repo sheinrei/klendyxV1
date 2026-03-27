@@ -6,7 +6,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Klendyx - Tableau de bord</title>
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="./../images/litleLogo.png">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <meta name="description"
+        content="Tableau de bord, retrouvez tout vos rappels de rendez-vous, propositions de rendez-vous, visualisez l'état de vos crédits et la synchronisation de vos agendas.">
+
+    <meta name="keywords" content="callendar, agenda, rendez-vous, tableau de bord">
+    <meta name="author" content="Sheinrei">
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://klendyx/dashboard">
+
+    <!-- Extras utiles -->
+    <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+    <!-- Open Graph (pour le partage sur réseaux sociaux) -->
+    <meta property="og:title" content="Klendyx – Gérez vos rendez-vous et votre emploi du temps facilement">
+    <meta property="og:description"
+        content="Klendyx vous permet de gérer facilement votre emploi du temps : synchronisez vos agendas Google, Apple ou Outlook, planifiez des rendez-vous, envoyez des notifications à vos clients et suivez l'avancement de vos événements en quelques clics.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://klendyx/">
+    <meta property="og:image" content="https://www.example.com/image-de-la-page.jpg">
+    <meta property="og:site_name" content="Klendyx">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Titre de la page - mot-clé principal">
+    <meta name="twitter:description" content="Description de la page pour Twitter.">
+    <meta name="twitter:image" content="https://www.example.com/image-de-la-page.jpg">
+    <meta name="twitter:site" content="@Sheinrei">
+
+
+
 
     <!-- css -->
     <link rel="stylesheet" href="./../css/modale/classiqueModale.css">
@@ -47,9 +87,9 @@
                 <nav role="tablist" aria-label="Navigation du tableau de bord">
                     <button id="btn-link-rappel-rdv" class="btn-link btn-link-activ" role="tab" aria-selected="true">
                         <div class="nav-svg-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true" focusable="false">
                                 <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
                                 <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                             </svg>
@@ -59,9 +99,9 @@
 
                     <button id="btn-link-proposition-rdv" class="btn-link" role="tab">
                         <div class="nav-svg-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true" focusable="false">
                                 <path
                                     d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z">
                                 </path>
@@ -73,9 +113,9 @@
 
                     <button id="btn-link-abonnement" class="btn-link" role="tab">
                         <div class="nav-svg-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true" focusable="false">
                                 <rect width="20" height="14" x="2" y="5" rx="2"></rect>
                                 <line x1="2" x2="22" y1="10" y2="10"></line>
                             </svg>
@@ -85,9 +125,9 @@
 
                     <button id="btn-link-agenda" class="btn-link" role="tab">
                         <div class="nav-svg-container">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true" focusable="false">
                                 <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
                                 <path d="M18 17V9"></path>
                                 <path d="M13 17V5"></path>

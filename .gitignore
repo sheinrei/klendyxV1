@@ -13,3 +13,4 @@ cronLog.jsonl
 # Dépendances
 node_modules/
 radicaleUSer.txt
+.vscode

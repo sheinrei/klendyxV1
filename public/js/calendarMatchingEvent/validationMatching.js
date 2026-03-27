@@ -30,24 +30,25 @@ function hydrateDomTextDataEvent(data) {
 
 //Hydratation des resultats du matching
 function hydrateDateCards(dates) {
-    dates.sort((a, b) => b.dayScore - a.dayScore);
 
-    // Cas : aucun créneau disponible sur tous les jours
-    if (dates.every(day => day.slots.length === 0)) {
-        const bestDay = parseDateToFrench(new Date(dates[0].date));
-        // Injection JS conservée uniquement pour ce cas exceptionnel
+    // Si aucun créneau disponible 
+    if (dates.length === 0) {
+        console.log("aucun crénaux")
         const html = `
-            <section class="cards-date">
-                <p>Aucun créneau disponible pour ce matching.<br>
-                Le jour le plus proche est : <strong>${firstToUpper(bestDay)}</strong><br>
+            <section class="card">
+                <p>Aucun créneau disponible entre les participants pour ce matching.<br>
                 Vous pouvez relancer un matching en cliquant
                 <span class="span-redirect">ici</span></p>
-            </section>`;
+                </section>`;
         $("#frame-right").append(html);
+        $(".cards-date").remove()
         return;
     }
 
-    for (let i = 0; i < 3; i++) {
+    dates.sort((a, b) => b.dayScore - a.dayScore);
+    console.log(dates)
+
+    for (let i = 0; i < dates.length; i++) {
         const day = dates[i];
         if (!day || !day.slots.length) continue;
 
@@ -72,6 +73,11 @@ function hydrateDateCards(dates) {
             $slot.removeAttr("hidden");
             $(`#slot-hours-${period}-${i}`).text(`De ${hourStart} à ${hourEnd}`);
         });
+    }
+
+    //fallback si date < 3 afficher uniquement le nombre de date
+    for(let j = 2; j > dates.length - 1; j--){
+        $(`#cards-date-${j}`).remove()
     }
 }
 
@@ -143,6 +149,8 @@ $(async function () {
     // Hydratation
     hydrateDomTextDataEvent(data);
     hydrateDateCards(dates);
+
+
 
 
 

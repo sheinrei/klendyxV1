@@ -140,7 +140,7 @@
 
 
     <script>
-    
+
         $("#contact-form").on("submit", async function (e) {
             e.preventDefault()
             const config = await getConfig()
@@ -190,6 +190,29 @@
 
         })
 
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                    "name": "Klendyx",
+                        "operatingSystem": "Web",
+                            "applicationCategory": "BusinessApplication",
+                                "offers": {
+                "@type": "Offer",
+                    "price": "0",
+                        "priceCurrency": "EUR",
+                            "url": "https://klendyx.com//connexion"
+            },
+            "url": "https://klendyx.com",
+                "description": "Application de gestion d'emplois du temps et de rendez-vous.",
+                    "logo" : "https://klendyx.com/images/litleLogo.png",
+                        "image": "https://klendyx.com/images/screenAgenda.png",
+                            "author": {
+                "@type": "Person",
+                    "name": "Beaute Laurent"
+            },
+        }
     </script>
 </body>
 

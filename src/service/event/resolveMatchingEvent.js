@@ -1,4 +1,5 @@
 function parseUTCDate(dateStr) {
+    console.log("date en stirng pour parse en utc",dateStr)
     const [datePart, timePart] = dateStr.split(" ");
     const [y, m, d] = datePart.split("-");
     const [h, min, s] = timePart.split(":");
@@ -35,7 +36,10 @@ function dropIndispoDays(contacts, dayInInterval, data) {
         });
     });
 
-    return dayInInterval.filter(current => ![...arrayIndisponibleAllDay].includes(current));
+    return dayInInterval.filter(current => {
+        const dateStr = current.toISOString().split("T")[0];
+        return !arrayIndisponibleAllDay.has(dateStr);
+    });
 }
 
 
@@ -53,11 +57,18 @@ function calculeTimeDiff(start, end) {
 
 function hydraterStructureDays(structureDays, contact, data, plageHoraire) {
     const structure = structureDays;
+    console.log("fonction hydrateStructure :", {
+        structureDays,
+        contact,
+        data
+    })
+
     contact.forEach((contact) => {
         const indispo = data[contact].indisponible;
         indispo.forEach((e) => {
             if (!e.allDay) {
-                const date = e.start.split("T")[0];
+                const date = new Date(e.start).toISOString().split("T")[0];
+                console.log("date pour la clef de structureDays :", date)
                 if (structureDays[date]) {
                     structureDays[date].events.push({
                         start: e.start,
@@ -70,7 +81,7 @@ function hydraterStructureDays(structureDays, contact, data, plageHoraire) {
 
         const preference = data[contact].preference;
         preference.forEach((e) => {
-            const date = e.start.split("T")[0];
+            const date = new Date(e.start).toISOString().split("T")[0];
             if (structureDays[date] && !e.allDay) {
                 structureDays[date].preference.push({
                     start: e.start,
@@ -84,6 +95,8 @@ function hydraterStructureDays(structureDays, contact, data, plageHoraire) {
             }
         });
     });
+
+    console.log("structure de sortie hydraté :")
     return structure;
 }
 
@@ -103,16 +116,20 @@ function dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHoraire) {
 
 function calculeScoring(structure, arrayDaysValid, plageHoraire) {
     const structureScored = structure;
+    console.log("Caclule du scoring, data input :", structureScored)
+
     arrayDaysValid.forEach((day) => {
         let totalTimePref = 0;
         let totalTimeEvent = 0;
-
         structureScored[day].events.forEach((event) => { totalTimeEvent += event.time; });
         structureScored[day].preference.forEach((pref) => { totalTimePref += pref.time; });
 
         const { coefBonus, coefSurcharge } = dynamicCoefScoring(totalTimePref, totalTimeEvent, plageHoraire);
         const score = (totalTimePref * coefBonus - totalTimeEvent * coefSurcharge);
-        structureScored[day].score = ((score / plageHoraire) * 100).toFixed(1);
+
+
+        structureScored[day].score = parseFloat(((score / plageHoraire) * 100).toFixed(1));
+
     });
     return structureScored;
 }
@@ -122,16 +139,23 @@ function calculeScoring(structure, arrayDaysValid, plageHoraire) {
 
 
 function selectBestDayScoring(structure, numberReturn, arrayDaysValid) {
-    const arrayScore = [];
     const bestDays = [];
-    arrayDaysValid.forEach(day => arrayScore.push(structure[day].score));
-    arrayScore.sort((a, b) => b - a).splice(numberReturn);
+
+    const topScores = arrayDaysValid
+        .map(day => structure[day].score)
+        .sort((a, b) => b - a)
+        .slice(0, numberReturn);
+
+    const arrayScores = [...topScores]
+
     arrayDaysValid.forEach(day => {
-        if (arrayScore.includes(structure[day].score)) {
+        const index = arrayScores.indexOf(structure[day].score);
+        if (index !== -1) {
             bestDays.push({ date: day, data: structure[day] });
+            arrayScores.splice(index, 1)
         }
     });
-    console.log(bestDays)
+
     return bestDays;
 }
 
@@ -149,12 +173,12 @@ function findAvailableSlots(events, timeRdv, hoursStart, hoursEnd, date) {
 
             // Création locale 
             const slotStart = new Date(date);
-            slotStart.setHours(hour, minute, 0, 0);
+            slotStart.setUTCHours(hour, minute, 0, 0)
 
             const slotEnd = new Date(slotStart.getTime() + timeRdv * 60 * 60 * 1000);
             //console.log("Créneau :", slotStart.toLocaleString(), "->", slotEnd.toLocaleString());
 
-            if (slotEnd.getHours() < hoursEnd || (slotEnd.getHours() === hoursEnd && slotEnd.getMinutes() === 0)) {
+            if (slotEnd.getUTCHours() < hoursEnd || (slotEnd.getUTCHours() === hoursEnd && slotEnd.getUTCMinutes() === 0)) {
                 allPossibleSlots.push({
                     start: slotStart.toISOString(),
                     end: slotEnd.toISOString(),
@@ -317,13 +341,20 @@ export function resolveMatchingEvent(
 
 
     // 1. Récupérer tous les jours de l'intervalle
+    console.log(
+        parseUTCDate(rangeStart),
+        parseUTCDate(rangeEnd)
+    )
     const dayInInterval = searchAllDaysInterval(parseUTCDate(rangeStart), parseUTCDate(rangeEnd));
-    console.log(dayInInterval)
+    console.log("interval de date :", dayInInterval)
+
     // 2. Ajouter "origin" aux contacts
     const allContacts = [...contacts, "origin"];
+    console.log("tout les contacts", allContacts)
 
     // 3. Retirer les jours indisponibles (allDay)
-    const arrayDaysValide = dropIndispoDays(allContacts, dayInInterval, data);
+    const arrayDaysValide = dropIndispoDays(allContacts, dayInInterval, data).map(d => d.toISOString().split("T")[0]);
+    console.log("uniquement les jours disponibles :", arrayDaysValide)
 
     // 4. Créer la structure pour chaque jour valide
     let structureDays = {};
@@ -337,6 +368,7 @@ export function resolveMatchingEvent(
 
     //5. Hydrater la structure des jours dispos
     const plageHoraire = hoursEnd - hoursStart
+    console.log("plage horaraire : ", plageHoraire)
     structureDays = hydraterStructureDays(structureDays, allContacts, data, plageHoraire)
 
     //6. Faire le scoring des jours et conserver les x meilleurs jours

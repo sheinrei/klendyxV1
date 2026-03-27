@@ -67,7 +67,7 @@
 - Code source accessible sur la plateforme GitHub.
 - Documentation de l'application dans un fichier README.md.
 - Liens vers les maquettes Figma.
-- Liens vers le gestionnaire d'emplois du temps.
+- Liens vers l'application en production'.
 - Diagramme de séquence.
 - Dossier professionnel détaillant la conception de l'application.
 - Schéma conceptuel de la base de données.

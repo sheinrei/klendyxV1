@@ -91,7 +91,10 @@ async function updateJsonUndisponibility(host, undisponibility, urlToken) {
 function setFcCalendar(dayStart, dayEnd) {
     const calendarEl = document.getElementById('calendar');
     const sameMonth = parseLocalDate(dayStart).getMonth() === parseLocalDate(dayEnd).getMonth();
-
+    console.log(dayStart),
+    console.log(dayEnd)
+    const end = new Date(dayEnd)
+    end.setDate(end.getDate() + 1)
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         dayMaxEvents: 3,
@@ -107,7 +110,7 @@ function setFcCalendar(dayStart, dayEnd) {
         },
         validRange: {
             start: dayStart,
-            end: dayEnd
+            end
         },
         eventClick: (info) => {
             const title = info.event.title;
