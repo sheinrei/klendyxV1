@@ -28,7 +28,7 @@ export function uploadGitToProd(req, res) {
         log("=== Déclenchement du déploiement ===");
 
         const commands = [
-            "cd /home/buyu3307/klendyx.beaute-laurent.fr/production",
+            "cd /home/buyu3307/klendyx.com/production",
             "git fetch origin",
             "git reset --hard origin/production",
             "mkdir -p tmp",
