@@ -19,8 +19,9 @@ export function uploadGitToProd(req, res) {
     };
     log("*===== Ping de la route =====*")
     if (secret === params) {
+        
         //verif si c'est bien la branch production
-        const branch = req.body.ref.replace('refs/heads/', '')
+        const branch = req.body?.ref?.replace('refs/heads/', '')
         if (branch !== 'production') {
             log("=== Pas la branch production on return");
             return
